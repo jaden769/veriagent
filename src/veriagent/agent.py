@@ -1,0 +1,140 @@
+"""Explicit execution / observation / verification / bounded recovery loop."""
+
+import time
+from uuid import uuid4
+
+from veriagent.executor import Executor
+from veriagent.models import Budget, Failure, Mode, Observation, Plan, RunReport, Task
+from veriagent.planner import PlanningProvider
+from veriagent.recovery import RecoveryPolicy
+from veriagent.trace import TraceStore
+from veriagent.verification import StateVerifier
+
+
+class Agent:
+    def __init__(
+        self,
+        provider: PlanningProvider,
+        executor: Executor,
+        verifier: StateVerifier,
+        traces: TraceStore,
+        budget: Budget | None = None,
+    ):
+        self.provider = provider
+        self.executor = executor
+        self.verifier = verifier
+        self.traces = traces
+        self.budget = budget or Budget()
+
+    @staticmethod
+    def validate_plan(task: Task, plan: Plan) -> None:
+        targets = {(r.issue_id, r.status) for r in task.requirements}
+        writes = set()
+        for step in plan.steps:
+            action = step.action
+            if (step.expected.issue_id, step.expected.status) not in targets:
+                raise ValueError("Plan expectation is outside the authorized task")
+            if action.issue_id != step.expected.issue_id:
+                raise ValueError("Action and expected outcome disagree")
+            if action.tool == "set_status":
+                if action.status != step.expected.status:
+                    raise ValueError("Plan attempts an unauthorized state change")
+                writes.add((action.issue_id, action.status))
+        if writes != targets:
+            raise ValueError("Plan does not cover all task requirements")
+
+    def run(self, task: Task, mode: Mode = Mode.RECOVER) -> RunReport:
+        start = time.monotonic()
+        deadline = start + self.budget.timeout_seconds
+        run_id = uuid4().hex
+        self.traces.append(run_id, "task", task)
+        self.traces.append(
+            run_id, "configuration", {"mode": mode.value, "budget": self.budget.model_dump()}
+        )
+        plan = self.provider.plan(task)
+        self.validate_plan(task, plan)
+        self.traces.append(run_id, "plan", plan)
+        actions = retries = 0
+        verification = None
+        failure = None
+        observations: dict[str, Observation] = {}
+        claimed = False
+        while True:
+            completed: set[str] = set()
+            for step in plan.steps:
+                if actions >= self.budget.max_actions or time.monotonic() >= deadline:
+                    failure = Failure.BUDGET
+                    break
+                if not set(step.depends_on) <= completed:
+                    failure = Failure.DEPENDENCY
+                    self.traces.append(run_id, "step_skipped", {"step_id": step.id})
+                    continue
+                self.traces.append(
+                    run_id,
+                    "action",
+                    {"step_id": step.id, "action": step.action.model_dump(mode="json")},
+                )
+                observation = self.executor.execute(
+                    step.action,
+                    min(self.budget.action_timeout_seconds, deadline - time.monotonic()),
+                )
+                actions += 1
+                observations[step.id] = observation
+                self.traces.append(run_id, "observation", observation)
+                if observation.reported_success:
+                    completed.add(step.id)
+                else:
+                    failure = observation.failure
+            claimed = failure is None and len(completed) == len(plan.steps)
+            if mode == Mode.BASELINE:
+                break
+            try:
+                verification = self.verifier.verify(task)
+                self.traces.append(run_id, "verification", verification)
+            except Exception:
+                # Missing/unreadable evidence must never become a success claim.
+                failure = Failure.INTERNAL
+                claimed = False
+                self.traces.append(run_id, "verification_error", {"failure": failure.value})
+                break
+            if verification.passed:
+                claimed = True
+                failure = None
+                break
+            claimed = False
+            failure = failure or verification.failure
+            if mode == Mode.VERIFY:
+                break
+            if retries >= self.budget.max_retries:
+                self.traces.append(run_id, "recovery_stopped", {"reason": "retry_limit"})
+                break
+            if actions >= self.budget.max_actions or time.monotonic() >= deadline:
+                failure = Failure.BUDGET
+                self.traces.append(run_id, "recovery_stopped", {"reason": "execution_budget"})
+                break
+            revised = RecoveryPolicy().revise(plan, verification, observations, self.executor)
+            if revised is None:
+                self.traces.append(run_id, "recovery_stopped", {"reason": "unsafe_or_persistent"})
+                break
+            retries += 1
+            self.traces.append(
+                run_id,
+                "recovery",
+                {"attempt": retries, "reason": failure.value if failure else None},
+            )
+            plan = revised
+            self.traces.append(run_id, "plan", plan)
+            failure = None
+        report = RunReport(
+            run_id=run_id,
+            mode=mode,
+            claimed_success=claimed,
+            verified_success=verification.passed if verification else None,
+            actions=actions,
+            recovery_attempts=retries,
+            elapsed_ms=(time.monotonic() - start) * 1000,
+            failure=failure,
+            verification=verification,
+        )
+        self.traces.append(run_id, "report", report)
+        return report

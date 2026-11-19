@@ -402,3 +402,29 @@ trace events and final rows to
 `artifacts/reviewed-validation/b9621815b9254b53b797b205022082ca/evidence.json`.
 No additional live requests were issued. One successful explicit task and one conservative
 clarification do not establish broad interpretation accuracy or general agent reliability.
+
+### Repeated-trial benchmark infrastructure — 2026-11-19
+
+Added offline-default `benchmark` CLI: fresh state per mode/repetition, fixed four-scenario
+matrix, rotated mode order, per-run bounds, direct read-only SQL oracle, source hashes,
+model configuration without credentials, durable per-run evidence and atomic partial
+summaries. Nominal Wilson intervals are reported per scenario/mode with independence
+assumptions and explicit deterministic-mock limitations. Fixed requirements mean zero
+interpretation calls; unknown execution usage remains null. Live batches require an
+explicit provider and cumulative per-run output allowance. Provider diagnostics stop a
+batch without submitting remaining runs.
+
+Full regression suite passed **290 tests in 64.35 seconds**, one existing Starlette/httpx
+warning. After the final batch-stop change, **13 benchmark tests passed in 10.73 seconds**,
+including the added provider-error stop/close test. Ruff lint/format and whitespace checks
+passed. The sandbox's long temporary paths caused initial SQLite test-open failures;
+verification outside the sandbox resolved those. A test fixture also initially omitted
+required verification evidence; corrected that fixture before the reported passing runs.
+
+Ran default 36-run offline dynamic matrix at
+`artifacts/benchmarks/98a521df48214861a8529cae29c340c7/benchmark.json`. All clean groups
+succeeded 3/3. Recovery succeeded 3/3 for single drops and transient faults; persistent
+drops remained unsuccessful. Baseline falsely claimed success 3/3 for each drop scenario;
+verify/recover had zero false successes in this matrix. No untargeted status/version
+changes occurred. These repeated deterministic outcomes check implementation, not live
+model reliability. No paid benchmark or additional live request was made.

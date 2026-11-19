@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 
 from veriagent.agent import Agent
+from veriagent.benchmark import SCENARIOS, repeated_trials
 from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
@@ -108,6 +109,16 @@ def add_engine_options(command: argparse.ArgumentParser) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(prog="veriagent")
     commands = parser.add_subparsers(dest="command", required=True)
+    benchmark = commands.add_parser(
+        "benchmark", help="Run bounded repeated trials with independent audits"
+    )
+    benchmark.add_argument("--output", type=Path, default=Path("artifacts/benchmarks"))
+    benchmark.add_argument("--repeats", type=int, default=3)
+    benchmark.add_argument("--scenario", action="append", choices=SCENARIOS)
+    benchmark.add_argument("--engine", choices=("static", "dynamic"), default="static")
+    benchmark.add_argument("--max-actions", type=int, default=8)
+    benchmark.add_argument("--max-decisions", type=int, default=8)
+    add_provider_options(benchmark, timeout=60)
     demo = commands.add_parser("demo", help="Compare three modes using fresh paired sandboxes")
     demo.add_argument("--output", type=Path, default=Path("artifacts"))
     demo.add_argument("--engine", choices=("static", "dynamic"), default="static")
@@ -162,6 +173,53 @@ def main() -> None:
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
+    if args.command == "benchmark":
+        try:
+            scenarios = tuple(args.scenario) if args.scenario else SCENARIOS
+            if not 1 <= args.repeats <= 20 or args.repeats * len(scenarios) * len(Mode) > 120:
+                raise ValueError("Select 1 to 20 repeats and at most 120 total runs")
+            if len(set(scenarios)) != len(scenarios):
+                raise ValueError("Select unique scenarios")
+            if args.provider == "openai" and args.max_model_output_tokens is None:
+                raise ValueError("Live benchmarks require --max-model-output-tokens (per run)")
+            budget = Budget(
+                max_actions=args.max_actions,
+                max_decisions=args.max_decisions,
+                timeout_seconds=args.timeout,
+            )
+            # Validate configuration before creating artifact directories or starting trials.
+            provider = configured_provider(args)
+            if isinstance(provider, OpenAIProvider):
+                provider.close()
+            result = repeated_trials(
+                args.output,
+                repeats=args.repeats,
+                scenarios=scenarios,
+                engine=args.engine,
+                budget=budget,
+                provider_factory=lambda: configured_provider(args),
+                provider_name=args.provider,
+            )
+        except (ValueError, ProviderError, OSError) as exc:
+            parser.error(str(exc))
+        print(
+            json.dumps(
+                {
+                    key: result[key]
+                    for key in (
+                        "directory",
+                        "complete",
+                        "planned_runs",
+                        "completed_runs",
+                        "summary",
+                    )
+                },
+                indent=2,
+            )
+        )
+        if not result["complete"]:
+            raise SystemExit(1)
+        return
     if args.command == "check-provider":
         try:
             model = args.model or os.environ.get("OPENAI_MODEL", "").strip()

@@ -58,9 +58,14 @@ digest, dynamic execution with injected dropped-write recovery, and a separate r
 final-state audit. The synonym-based objective requested clarification; broad language
 accuracy remains unestablished. See VALIDATION.md for artifacts and separate usage totals.
 
-Next milestone: a reproducible repeated-trial benchmark with fixed scenarios, explicit
-per-run limits, separate interpretation/execution accounting, and uncertainty reporting.
-Keep live requests opt-in; do not infer reliability from the three successful live trials.
+Completed benchmark infrastructure: fixed scenarios, fresh repeated trials, explicit
+per-run limits, execution-only accounting, independent SQL audits and nominal Wilson
+intervals. Defaults to deterministic mock; live execution requires explicit provider and
+output allowance. Partial evidence survives interruption; provider diagnostics stop a batch.
+See BENCHMARK.md. No live repeated-trial batch has been run.
+
+Next milestone: independently specified varied tasks and broader fault schedules before
+optional stochastic comparisons. Do not infer reliability from the three successful live trials.
 Broader generated attacks, independent live task corpora and
 stochastic reliability comparisons remain future work before research claims. No live model
 quality or general injection resistance is established. No browser agent, dashboard,

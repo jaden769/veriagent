@@ -160,5 +160,6 @@ flowchart LR
   been validated; SDK integration tests use an in-memory HTTP transport.
 
 See [the roadmap](docs/ROADMAP.md), [architecture decisions](docs/ARCHITECTURE.md),
-and [evaluation protocol](docs/EVALUATION.md). Recorded local validation lives in
+the [evaluation protocol](docs/EVALUATION.md), and the
+[bounded repeated-trial benchmark](docs/BENCHMARK.md). Recorded local validation lives in
 [VALIDATION.md](docs/VALIDATION.md).

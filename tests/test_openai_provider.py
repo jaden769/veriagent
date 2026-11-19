@@ -12,6 +12,7 @@ from veriagent.models import Budget, Failure, Status
 from veriagent.openai_provider import OpenAIConfig, OpenAIProvider, ProviderError, plan_schema
 from veriagent.planner import MockProvider
 from veriagent.sandbox import Faults, Sandbox
+from veriagent.smoke import smoke_test
 from veriagent.trace import TraceStore
 from veriagent.verification import StateVerifier
 
@@ -287,3 +288,15 @@ def test_environment_configuration_disables_retries_and_pins_endpoint(monkeypatc
     OpenAIProvider.from_env(OpenAIConfig(model="test"))
     assert captured["max_retries"] == 0
     assert captured["base_url"] == "https://api.openai.com/v1"
+
+
+def test_openai_smoke_records_one_request_and_actual_usage(tmp_path, payload):
+    client = FakeClient(payload)
+    provider = OpenAIProvider(OpenAIConfig(model="test-model"), client=client)
+    result = smoke_test(tmp_path, provider)
+    assert result["smoke_passed"]
+    assert len(client.requests) == 1
+    assert result["report"]["model_calls"] == 1
+    assert result["report"]["model_tokens"] == 150
+    assert result["report"]["model_usage"]["model"] == "test-model-snapshot"
+    assert result["report"]["estimated_cost_usd"] is None

@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 from pathlib import Path
 
 from veriagent.agent import Agent
@@ -11,8 +12,43 @@ from veriagent.models import Budget, Mode
 from veriagent.openai_provider import OpenAIConfig, OpenAIProvider, ProviderError
 from veriagent.planner import MockProvider
 from veriagent.sandbox import Faults, Sandbox
+from veriagent.smoke import smoke_test
 from veriagent.trace import TraceStore
 from veriagent.verification import StateVerifier
+
+
+def add_provider_options(command: argparse.ArgumentParser, *, timeout: float) -> None:
+    command.add_argument("--provider", choices=("mock", "openai"), default="mock")
+    command.add_argument("--model", help="OpenAI model ID; defaults to OPENAI_MODEL")
+    command.add_argument(
+        "--timeout", type=float, default=timeout, help="Cooperative run deadline in seconds"
+    )
+    command.add_argument("--model-timeout", type=float, default=15)
+    command.add_argument("--max-output-tokens", type=int, default=2048)
+    command.add_argument(
+        "--input-price", type=float, help="Caller-supplied USD per million input tokens"
+    )
+    command.add_argument(
+        "--output-price", type=float, help="Caller-supplied USD per million output tokens"
+    )
+
+
+def configured_provider(args: argparse.Namespace) -> MockProvider | OpenAIProvider:
+    if args.provider == "mock":
+        if any(value is not None for value in (args.model, args.input_price, args.output_price)):
+            raise ValueError("--model and token prices require --provider openai")
+        return MockProvider()
+    model = args.model or os.environ.get("OPENAI_MODEL", "").strip()
+    if not model:
+        raise ProviderError("Specify --model or set OPENAI_MODEL")
+    config = OpenAIConfig(
+        model=model,
+        request_timeout_seconds=args.model_timeout,
+        max_output_tokens=args.max_output_tokens,
+        input_usd_per_million=args.input_price,
+        output_usd_per_million=args.output_price,
+    )
+    return OpenAIProvider.from_env(config)
 
 
 def main() -> None:
@@ -32,19 +68,10 @@ def main() -> None:
     run.add_argument("--traces", type=Path, default=Path("artifacts/traces.sqlite"))
     run.add_argument("--silent-drops", type=int, default=0)
     run.add_argument("--max-retries", type=int, default=2)
-    run.add_argument("--provider", choices=("mock", "openai"), default="mock")
-    run.add_argument("--model", help="OpenAI model ID; defaults to OPENAI_MODEL")
-    run.add_argument(
-        "--timeout", type=float, default=10, help="Cooperative run deadline in seconds"
-    )
-    run.add_argument("--model-timeout", type=float, default=15)
-    run.add_argument("--max-output-tokens", type=int, default=2048)
-    run.add_argument(
-        "--input-price", type=float, help="Caller-supplied USD per million input tokens"
-    )
-    run.add_argument(
-        "--output-price", type=float, help="Caller-supplied USD per million output tokens"
-    )
+    add_provider_options(run, timeout=10)
+    smoke = commands.add_parser("smoke", help="Save an isolated dropped-write recovery check")
+    smoke.add_argument("--output", type=Path, default=Path("artifacts/smoke"))
+    add_provider_options(smoke, timeout=60)
     serve = commands.add_parser("serve", help="Serve a local sandbox on 127.0.0.1")
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
@@ -69,6 +96,21 @@ def main() -> None:
         sandbox.seed()
         uvicorn.run(create_app(sandbox), host="127.0.0.1", port=args.port)
         return
+    if args.command == "smoke":
+        try:
+            budget = Budget(timeout_seconds=args.timeout)
+            provider = configured_provider(args)
+        except (ValueError, ProviderError) as exc:
+            parser.error(str(exc))
+        try:
+            result = smoke_test(args.output, provider, budget)
+        finally:
+            if isinstance(provider, OpenAIProvider):
+                provider.close()
+        print(json.dumps(result, indent=2))
+        if not result["smoke_passed"]:
+            raise SystemExit(1)
+        return
     try:
         # Validate objective and local configuration before constructing any API client.
         task = MockProvider().parse(args.objective)
@@ -76,23 +118,7 @@ def main() -> None:
         faults = Faults(silent_drops=args.silent_drops)
         if args.db.resolve() == args.traces.resolve():
             raise ValueError("State and trace databases must use separate paths")
-        provider = MockProvider()
-        if args.provider == "openai":
-            import os
-
-            model = args.model or os.environ.get("OPENAI_MODEL", "").strip()
-            if not model:
-                raise ProviderError("Specify --model or set OPENAI_MODEL")
-            config = OpenAIConfig(
-                model=model,
-                request_timeout_seconds=args.model_timeout,
-                max_output_tokens=args.max_output_tokens,
-                input_usd_per_million=args.input_price,
-                output_usd_per_million=args.output_price,
-            )
-            provider = OpenAIProvider.from_env(config)
-        elif any(value is not None for value in (args.model, args.input_price, args.output_price)):
-            raise ValueError("--model and token prices require --provider openai")
+        provider = configured_provider(args)
     except (ValueError, ProviderError) as exc:
         parser.error(str(exc))
     try:

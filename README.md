@@ -23,6 +23,7 @@ uv run pytest
 uv run ruff check .
 uv run ruff format --check .
 uv run veriagent demo
+uv run veriagent smoke
 ```
 
 In this Windows checkout, setup placed uv at `.tools/uv.exe` and Python inside
@@ -109,6 +110,7 @@ flowchart LR
 | `agent.py` | Execution loop, action / time / retry budgets and evidence-backed termination |
 | `trace.py` | Durable events, JSON export and readable trace rendering |
 | `evaluation.py` | Paired scenario runner and post-run audit |
+| `smoke.py` | Fresh dropped-write smoke checks and evidence bundles for either provider |
 | `api.py`, `cli.py` | Optional local HTTP application and reproducible commands |
 
 ## Safety and limitations

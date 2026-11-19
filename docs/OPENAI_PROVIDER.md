@@ -9,8 +9,8 @@ first Phase 2 increment, not a completed general LLM agent.
 
 ```powershell
 .\.tools\uv.exe sync --extra dev --extra openai --locked
-$env:OPENAI_API_KEY = "your-api-key"
-$env:OPENAI_MODEL = "a-model-available-to-your-account"
+$env:OPENAI_API_KEY = Read-Host "OpenAI API key" -MaskInput
+$env:OPENAI_MODEL = Read-Host "Model ID available to your account"
 ```
 
 Use a model that supports Responses API Structured Outputs. Do not commit your key or
@@ -21,13 +21,41 @@ The following command makes one potentially billable API request. Run it only wh
 intend to use your account's API quota:
 
 ```powershell
-.\.tools\uv.exe run veriagent run "Set ISSUE-1 to done" --provider openai --timeout 60 --db artifacts/openai-smoke.sqlite
+.\.tools\uv.exe run --extra openai veriagent smoke --provider openai
 ```
 
 `--model` overrides `OPENAI_MODEL`. The model receives the objective and authorized
 requirements; it does not receive database contents, observations, credentials or traces.
 The endpoint is explicitly `https://api.openai.com/v1`, `store=False` is sent, and the SDK
 client is closed after execution. This storage flag is not a general retention guarantee.
+
+## Reproducible smoke evidence
+
+`veriagent smoke` uses the offline mock by default, even if API credentials are present.
+Only `--provider openai` selects a potentially billable request. Each invocation creates
+a new UUID directory under `artifacts/smoke/`; it never reuses a previous database.
+
+The fixed task is `Set ISSUE-1 to done`, with one injected silent dropped write. Passing
+requires all of these: a recorded state mismatch, at least one recovery attempt, a verified
+final status of done, a passing post-run audit, and unchanged ISSUE-2 and ISSUE-3. Merely
+completing the task without detecting and repairing the fault does not pass the smoke check.
+
+The command prints JSON and saves `result.json`, `trace.json`, `trace.txt`, `traces.sqlite`
+and `state.sqlite` in the reported directory. Results include the task, budget, initial and
+final state, model usage, audit evidence, Python version and relevant package versions.
+No credentials are recorded. Exit codes: 0 for a passing smoke check, 1 for a completed
+check that failed, and 2 for invalid or missing configuration. Planning errors and refusals
+still save a failed result; missing model/key configuration stops before artifact creation.
+
+All files stay local under the Git-ignored `artifacts/` directory. To share a result,
+review its JSON/text contents first. The bundle aids reproduction but is not a statistical
+benchmark. A model can generate redundant writes that satisfy the task before verification;
+the smoke check correctly rejects that as a demonstration of recovery.
+
+Environment variables set in one terminal apply to that terminal and child processes.
+Setting them there does not update an already-running Codex process. Run the smoke command
+in the same terminal where you configured the variables. Remove the session key afterward
+with `Remove-Item Env:OPENAI_API_KEY` if desired.
 
 ## Limits and accounting
 

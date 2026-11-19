@@ -90,3 +90,25 @@ dependencies, refusal, incomplete and malformed output, rate limits with no auto
 retry, token usage on rejected plans, unknown usage/cost, caller-provided pricing,
 per-run accounting, request deadlines and endpoint pinning. This does not establish
 model-specific schema acceptance, live model quality, or general injection resistance.
+
+## Isolated smoke-test command — 2026-11-19
+
+The next live milestone could not be executed: checks of configuration presence found
+neither `OPENAI_API_KEY` nor `OPENAI_MODEL` set. No credential values were printed, and
+no paid request was attempted. The reproducible command and its evidence capture were
+implemented and validated offline instead.
+
+| Command | Observed result |
+|---|---|
+| `.\.venv\Scripts\python.exe -m pytest -q -o faulthandler_timeout=20` | **66 passed**, 1 existing dependency deprecation warning, 18.00 seconds |
+| `.\.venv\Scripts\ruff.exe check .` | All checks passed |
+| `.\.venv\Scripts\ruff.exe format --check .` | 23 files already formatted |
+| `.\.venv\Scripts\veriagent.exe smoke --output artifacts/smoke` | `smoke_passed=true`, mismatch detected, unrelated issues unchanged, 2 actions, 1 retry, 0 model calls |
+
+Actual offline evidence is in `artifacts/smoke/122e1fb6fbbc45b897afab0123522569/`.
+Tests cover fresh-state isolation, persisted trace/audit bundles, planning failures,
+recovery exhaustion, collateral state changes, and completion without detected recovery.
+CLI tests confirm offline defaults even with environment credentials, exit status 1 on
+a failed check, and exit status 2 before creating artifacts when live configuration is
+missing. The OpenAI adapter is also exercised with a simulated response to confirm one
+planning request and retained token usage through the complete smoke path.

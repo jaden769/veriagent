@@ -112,3 +112,34 @@ CLI tests confirm offline defaults even with environment credentials, exit statu
 a failed check, and exit status 2 before creating artifacts when live configuration is
 missing. The OpenAI adapter is also exercised with a simulated response to confirm one
 planning request and retained token usage through the complete smoke path.
+
+## Reviewed interpretation milestone — 2026-11-19
+
+Added no-tool requirement proposals, a normalized review command and content-bound
+execution approval. The offline interpreter supports a limited set of natural-language
+verbs and mixed-status clauses. Optional OpenAI interpretation uses the same bounded
+request and usage-accounting path as planning. Credentials are still absent; no live
+model interpretation or paid API request was attempted.
+
+| Command | Observed result |
+|---|---|
+| `.\.venv\Scripts\python.exe -m pytest -q -o faulthandler_timeout=20` | **115 passed**, 1 existing dependency warning, 18.20 seconds |
+| `.\.venv\Scripts\ruff.exe check .` | All checks passed |
+| `.\.venv\Scripts\ruff.exe format --check .` | Formatting check passed |
+| `.\.venv\Scripts\veriagent.exe propose 'Close ISSUE-1 and start ISSUE-2' --output artifacts/reviewed-demo` | Saved an offline proposal for ISSUE-1 done and ISSUE-2 in_progress |
+| `.\.venv\Scripts\veriagent.exe review <proposal-file>` | Printed both requirements and their canonical approval digest |
+| `.\.venv\Scripts\veriagent.exe execute <proposal-file> --approve <reviewed-digest> --db <fresh-state-path> --traces <fresh-trace-path> --silent-drops 1` | Verified both target statuses, 3 write attempts, 1 recovery retry, no model calls |
+| `.\.tools\uv.exe sync --extra dev --extra openai --locked --offline` | Checked all 30 packages successfully |
+| `.\.tools\uv.exe build --offline` | Built source distribution and wheel; harmless hardlink-to-copy warning |
+
+The three CLI commands were executed sequentially in PowerShell; their actual proposal
+and SQLite evidence are in `artifacts/reviewed-demo/a407de820e904d6c8f17173c2967e034/`.
+Execution run ID: `d976d1487f3144f586c9d29df8221775`. The observed final state was
+ISSUE-1 done/version 1 and ISSUE-2 in_progress/version 1, with ISSUE-3 unchanged.
+
+The suite includes 24 hand-authored varied-instruction cases (12 accepted and 12 requiring
+clarification), changed-content approvals, unknown fields, unauthorized targets, oversized
+files, no-state/no-provider behavior on wrong approval, interpretation usage on rejected
+outputs, and actual SDK interpretation serialization using an in-memory HTTP transport.
+These tests establish fixture behavior, not live language accuracy or general injection
+resistance. The digest detects changed content; it does not authenticate a reviewer.

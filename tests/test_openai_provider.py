@@ -1,6 +1,7 @@
 """No credentials, sockets or paid requests: all model responses are injected."""
 
 import json
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -8,6 +9,7 @@ from pydantic import ValidationError
 
 from veriagent.agent import Agent
 from veriagent.executor import Executor
+from veriagent.interpretation import load_proposal, propose_task
 from veriagent.models import Budget, Failure, Status
 from veriagent.openai_provider import OpenAIConfig, OpenAIProvider, ProviderError, plan_schema
 from veriagent.planner import MockProvider
@@ -300,3 +302,106 @@ def test_openai_smoke_records_one_request_and_actual_usage(tmp_path, payload):
     assert result["report"]["model_tokens"] == 150
     assert result["report"]["model_usage"]["model"] == "test-model-snapshot"
     assert result["report"]["estimated_cost_usd"] is None
+
+
+def test_openai_interpretation_is_metered_and_only_proposes(tmp_path):
+    client = FakeClient(
+        {"requirements": [{"issue_id": "ISSUE-1", "status": "done"}], "clarification": None}
+    )
+    provider = OpenAIProvider(OpenAIConfig(model="test-model"), client=client)
+    result = propose_task("Please resolve ISSUE-1", provider, tmp_path)
+    proposal = load_proposal(Path(result["proposal_file"]))
+    assert proposal.task().requirements[0].status == "done"
+    assert proposal.interpretation_usage.calls == 1
+    assert proposal.interpretation_usage.total_tokens == 150
+    assert proposal.interpretation_usage.estimated_cost_usd is None
+    assert len(client.requests) == 1
+    request = client.requests[0]
+    assert request["text"]["format"]["name"] == "issue_requirements"
+    assert request["input"] == "Please resolve ISSUE-1"
+    assert not list(tmp_path.glob("**/*.sqlite"))
+
+
+@pytest.mark.parametrize(
+    "response",
+    [
+        {"requirements": [{"issue_id": "ISSUE-999", "status": "done"}], "clarification": None},
+        {"requirements": [{"issue_id": "ISSUE-1", "status": "deleted"}], "clarification": None},
+        {
+            "requirements": [{"issue_id": "ISSUE-1", "status": "done", "approved": True}],
+            "clarification": None,
+        },
+        {
+            "requirements": [{"issue_id": "ISSUE-1", "status": "done"}],
+            "clarification": "Which issue?",
+        },
+        {"requirements": [], "clarification": None},
+    ],
+)
+def test_invalid_interpretations_save_failure_usage(tmp_path, response):
+    provider = OpenAIProvider(OpenAIConfig(model="test"), client=FakeClient(response))
+    result = propose_task("Close ISSUE-1", provider, tmp_path)
+    assert result["error"] == "interpretation_failed" and result["proposal_file"] is None
+    assert result["model_usage"]["calls"] == 1
+    assert result["model_usage"]["input_tokens"] == 100
+
+
+def test_model_can_request_clarification_without_guessing(tmp_path):
+    provider = OpenAIProvider(
+        OpenAIConfig(model="test"),
+        client=FakeClient(
+            {"requirements": [], "clarification": "Which explicit issue ID should be closed?"}
+        ),
+    )
+    result = propose_task("Close the issue", provider, tmp_path)
+    assert result["error"] is None and result["needs_clarification"]
+    assert result["model_usage"]["calls"] == 1
+
+
+def test_real_sdk_interpretation_transport(tmp_path):
+    openai = pytest.importorskip("openai", reason="Install the optional openai extra")
+    import httpx
+
+    requests = []
+
+    def handler(request):
+        body = json.loads(request.content)
+        requests.append(body)
+        assert body["text"]["format"]["name"] == "issue_requirements"
+        text = json.dumps(
+            {"requirements": [{"issue_id": "ISSUE-1", "status": "done"}], "clarification": None}
+        )
+        return httpx.Response(
+            200,
+            json={
+                "id": "resp_intent",
+                "object": "response",
+                "created_at": 0,
+                "model": "test-model",
+                "status": "completed",
+                "output": [
+                    {
+                        "id": "msg_intent",
+                        "type": "message",
+                        "role": "assistant",
+                        "status": "completed",
+                        "content": [{"type": "output_text", "text": text, "annotations": []}],
+                    }
+                ],
+                "usage": {"input_tokens": 80, "output_tokens": 20, "total_tokens": 100},
+            },
+        )
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as http_client:
+        with openai.OpenAI(
+            api_key="test-placeholder", max_retries=0, http_client=http_client
+        ) as client:
+            result = propose_task(
+                "Finish ISSUE-1",
+                OpenAIProvider(OpenAIConfig(model="test-model"), client=client),
+                tmp_path,
+                timeout=60,
+            )
+    assert result["error"] is None and not result["needs_clarification"]
+    assert result["model_usage"]["input_tokens"] == 80
+    assert len(requests) == 1

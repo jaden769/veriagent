@@ -7,8 +7,9 @@ implements a small, complete experiment: a tool claims it updated an issue, but 
 drops the write. A baseline accepts the claim, a verifier detects the mismatch, and a
 recovery agent selectively retries the idempotent update and checks the result.
 
-The default demo is deterministic. An optional OpenAI planner is now available as the
-first Phase 2 milestone; see [the provider guide](docs/OPENAI_PROVIDER.md).
+The default demo is deterministic. Optional OpenAI interpretation and planning are
+available, with a proposal/review/execution flow for broader objectives; see
+[the provider guide](docs/OPENAI_PROVIDER.md) and [reviewed interpretation](docs/INTERPRETATION.md).
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.
@@ -46,9 +47,10 @@ The API binds to `127.0.0.1:8000`; explore its schema at
 [local API docs](http://127.0.0.1:8000/docs). It is an unauthenticated local test application.
 Do not expose it to a network. Tests use in-process FastAPI clients and temporary databases.
 
-The mock planner deliberately accepts only `Set/Mark ISSUE-N[, ISSUE-N] to/as
+The direct `run` interface deliberately accepts only `Set/Mark ISSUE-N[, ISSUE-N] to/as
 open|in_progress|done`. Unsupported text is rejected in full. This is a constrained
-natural-language interface; broad language understanding belongs to Phase 2.
+interface. For phrases such as `Close ISSUE-1 and start ISSUE-2`, use `propose`, then
+`review`, then `execute --approve <digest>`. Every provider defaults to the offline mock.
 
 ## Understanding the demo
 
@@ -102,7 +104,8 @@ flowchart LR
 |---|---|
 | `models.py` | Pydantic task, plan, dependency, action, observation, evidence, budget and report contracts |
 | `planner.py` | Provider protocol and deterministic objective parsing / planning |
-| `openai_provider.py` | Optional structured OpenAI planner, request limits and token accounting |
+| `interpretation.py` | Conservative offline intent parsing, proposals and content-bound review |
+| `openai_provider.py` | Optional structured interpretation/planning, request limits and accounting |
 | `sandbox.py` | Local application state, idempotent writes, controlled tool faults |
 | `executor.py` | Tool allowlist, trusted idempotency policy, exception classification, deadlines |
 | `verification.py` | Separate read-only database connection and consistent snapshot |

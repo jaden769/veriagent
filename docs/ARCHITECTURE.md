@@ -46,9 +46,11 @@ per run with SDK retries disabled. The planner receives a bounded timeout and ou
 limit; execution checks the remaining run deadline before any tool action. The CLI closes
 the client even if local sandbox initialization or execution fails.
 
-The constrained parser establishes original requirements before any paid call. Only those
-targets and statuses can enter a valid plan. The model never receives observations or issue
-titles, reducing the injection surface; full prompt-injection resistance is not claimed.
+The constrained parser establishes original requirements for direct runs before a paid
+planning call. Broader objectives instead use a separate proposal and explicit content-bound
+review; see decision 006. Only the resulting authorized targets and statuses can enter a
+valid plan. The model never receives observations or issue titles, reducing the injection
+surface; full prompt-injection resistance is not claimed.
 Invalid plans terminate with zero tool actions, a planning-failure event and a terminal report.
 
 Credentials come only from the environment; the production endpoint is pinned. API errors
@@ -58,3 +60,21 @@ invented zero. Cost is approximate: cache discounts and service-tier effects are
 
 References: [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
 and [SDK retry/timeout configuration](https://github.com/openai/openai-python#retries).
+
+## 006: Interpretation proposes; review authorizes
+
+Natural-language interpretation is an independent step that never calls application tools.
+The offline interpreter uses a conservative full-match grammar; the optional OpenAI
+interpreter returns structured requirements or a clarification. Both require explicit
+issue IDs. Requirements may not add or omit an explicitly mentioned target, and ambiguity
+must be resolved before execution. Model output is untrusted even when its schema is valid.
+
+A proposal stores original text, interpreted requirements and interpretation usage. Review
+displays normalized content and its canonical SHA-256 digest. The execute command requires
+that digest, validates a single bounded file read, and retains the parsed immutable proposal.
+This prevents accidental execution of content changed since review, not a malicious local
+actor or a mistaken human approval. No signature, identity or secret capability is implied.
+
+Execution traces bind the reviewed digest to the task before planning. The ordinary planner
+validation and tool policy remain in force. Interpretation and planning usage are separate
+stages so a reused proposal does not silently add historical model calls to a new run.

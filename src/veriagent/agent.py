@@ -4,7 +4,8 @@ import time
 from uuid import uuid4
 
 from veriagent.executor import Executor
-from veriagent.models import Budget, Failure, Mode, Observation, Plan, RunReport, Task
+from veriagent.interpretation import proposal_digest
+from veriagent.models import Budget, Failure, Mode, Observation, Plan, RunReport, Task, TaskProposal
 from veriagent.planner import PlanningProvider
 from veriagent.recovery import RecoveryPolicy
 from veriagent.trace import TraceStore
@@ -43,11 +44,30 @@ class Agent:
         if writes != targets:
             raise ValueError("Plan does not cover all task requirements")
 
-    def run(self, task: Task, mode: Mode = Mode.RECOVER) -> RunReport:
+    def run(
+        self,
+        task: Task,
+        mode: Mode = Mode.RECOVER,
+        *,
+        reviewed_proposal: TaskProposal | None = None,
+    ) -> RunReport:
+        if reviewed_proposal is not None and reviewed_proposal.task() != task:
+            raise ValueError("Reviewed proposal does not match the execution task")
         start = time.monotonic()
         deadline = start + self.budget.timeout_seconds
         run_id = uuid4().hex
         self.traces.append(run_id, "task", task)
+        if reviewed_proposal is not None:
+            self.traces.append(
+                run_id,
+                "requirements_review",
+                {
+                    "proposal_digest": proposal_digest(reviewed_proposal),
+                    "interpretation_usage": reviewed_proposal.interpretation_usage.model_dump(
+                        mode="json"
+                    ),
+                },
+            )
         self.traces.append(
             run_id, "configuration", {"mode": mode.value, "budget": self.budget.model_dump()}
         )

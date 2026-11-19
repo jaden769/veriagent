@@ -1,9 +1,10 @@
 # Optional OpenAI planning milestone
 
-The adapter proposes a static plan using the OpenAI Responses API. Requirements are still
-parsed using the original constrained objective grammar. Execution, verification and
-recovery remain local and use the same trusted policies as the offline demo. This is the
-first Phase 2 increment, not a completed general LLM agent.
+The adapter supports static planning and proposed requirements using the OpenAI Responses
+API. Direct `run` keeps the original constrained objective grammar; broader objectives use
+the [proposal/review/execution workflow](INTERPRETATION.md). Execution, verification and
+recovery remain local and use the same trusted policies as the offline demo. This is an
+incremental Phase 2 implementation, not a completed general LLM agent.
 
 ## Install and configure
 
@@ -61,6 +62,7 @@ with `Remove-Item Env:OPENAI_API_KEY` if desired.
 
 - Exactly one planning request is attempted per run, with SDK automatic retries disabled.
   Recovery revises the plan deterministically and makes no further model requests.
+  OpenAI `propose` separately attempts one interpretation request; see its saved usage.
 - `--model-timeout` defaults to 15 seconds, capped by the remaining `--timeout` run budget.
   `--max-output-tokens` defaults to 2048. The output limit bounds generated tokens, not
   total spending. There is no dollar budget guarantee. SDK timeouts are transport limits,
@@ -87,13 +89,13 @@ produce honest failure reports; there is no automatic fallback to a mock success
 
 Tests inject both provider-level responses and actual SDK HTTP responses with
 `httpx.MockTransport`; no request leaves the process and no real key is used. If the OpenAI
-extra is absent, five SDK-specific cases are skipped while all other tests remain offline.
+extra is absent, SDK-specific cases are skipped while all other tests remain offline.
 Install the extra to exercise the complete boundary. In the Codex Windows sandbox, asyncio
 and SDK imports may block; the recorded complete suite runs outside that sandbox.
 
 No live API call has been made as part of implementation. Model-specific schema acceptance,
 real latency, service errors and output quality require a separately authorized smoke test.
-Broad natural-language interpretation, interactive tool calling, model-driven recovery,
+Broad live-model interpretation quality, interactive tool calling, model-driven recovery,
 provider comparisons and general injection resistance remain future work.
 
 Implementation references: [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs),

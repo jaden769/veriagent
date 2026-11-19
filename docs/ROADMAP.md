@@ -17,16 +17,21 @@
 Completed Phase 2 milestone: an optional metered OpenAI planning adapter, strict response
 schemas, request/output limits, sanitized planning failures and adversarial-plan tests.
 The actual SDK is exercised against an in-memory HTTP transport. No paid request has
-been made or validated. Task interpretation remains constrained and deterministic;
-this is not completion of all Phase 2 objectives.
+been made or validated. This is not completion of all Phase 2 objectives.
 
 The isolated `smoke` command is ready for that live check and has passed offline. It
 captures fresh state, injected-fault detection, recovery, an audit and package metadata.
 API credentials and a model are not configured in the implementation environment, so no
 live result is claimed.
 
-Next milestone: an explicitly authorized live smoke test, followed by broader task
-interpretation with caller-reviewed requirements and varied-instruction evaluation.
+Completed next increment: offline and optional OpenAI requirement proposals, explicit
+content-bound review, execution against the reviewed requirements, interpretation usage
+capture and a 24-case varied-instruction fixture. The offline grammar is intentionally
+limited; ambiguity produces clarification. Live interpretation quality is untested.
+
+Next milestones: the still-pending authorized live smoke test and reviewed-interpretation
+trial when credentials are configured, followed by dynamic tool selection against the
+same approved requirements and budgets.
 Dynamic model-driven tool selection, model-driven replanning and full injection defenses
 remain open. Do not expand tools until authorization and timeout behavior are independently
 tested. No browser agent, dashboard, learned verifier, or broad reliability claim is included.

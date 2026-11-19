@@ -135,6 +135,31 @@ class ModelUsage(Schema):
         return self.input_tokens + self.output_tokens
 
 
+class Interpretation(Schema):
+    requirements: tuple[Requirement, ...] = Field(max_length=100)
+    clarification: str | None = Field(default=None, min_length=1, max_length=1000)
+
+    @model_validator(mode="after")
+    def decision(self) -> "Interpretation":
+        if bool(self.requirements) == (self.clarification is not None):
+            raise ValueError("Return requirements or a clarification, never both or neither")
+        if self.requirements:
+            Task(objective="Validate interpreted requirements", requirements=self.requirements)
+        return self
+
+
+class TaskProposal(Schema):
+    schema_version: Literal[1] = 1
+    objective: str = Field(min_length=1, max_length=2000)
+    interpretation: Interpretation
+    interpretation_usage: ModelUsage = Field(default_factory=ModelUsage)
+
+    def task(self) -> Task:
+        if self.interpretation.clarification is not None:
+            raise ValueError("This proposal needs clarification and cannot be executed")
+        return Task(objective=self.objective, requirements=self.interpretation.requirements)
+
+
 class RunReport(Schema):
     run_id: str
     mode: Mode

@@ -3,7 +3,17 @@
 import re
 from typing import Protocol
 
-from veriagent.models import Action, ModelUsage, Plan, Requirement, Status, Step, Task
+from veriagent.interpretation import interpret_offline
+from veriagent.models import (
+    Action,
+    Interpretation,
+    ModelUsage,
+    Plan,
+    Requirement,
+    Status,
+    Step,
+    Task,
+)
 
 
 class PlanningProvider(Protocol):
@@ -25,6 +35,9 @@ class MockProvider:
     @property
     def usage(self) -> ModelUsage:
         return ModelUsage()
+
+    def interpret(self, objective: str, *, timeout: float | None = None) -> Interpretation:
+        return interpret_offline(objective)
 
     def parse(self, objective: str) -> Task:
         # Full-match prevents ignored trailing instructions or partial interpretations.

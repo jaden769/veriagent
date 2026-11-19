@@ -8,6 +8,7 @@ from pathlib import Path
 from veriagent.agent import Agent
 from veriagent.evaluation import compare
 from veriagent.executor import Executor
+from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
 from veriagent.models import Budget, Mode
 from veriagent.openai_provider import OpenAIConfig, OpenAIProvider, ProviderError
 from veriagent.planner import MockProvider
@@ -69,6 +70,21 @@ def main() -> None:
     run.add_argument("--silent-drops", type=int, default=0)
     run.add_argument("--max-retries", type=int, default=2)
     add_provider_options(run, timeout=10)
+    propose = commands.add_parser("propose", help="Interpret an objective without executing tools")
+    propose.add_argument("objective")
+    propose.add_argument("--output", type=Path, default=Path("artifacts/proposals"))
+    add_provider_options(propose, timeout=60)
+    review = commands.add_parser("review", help="Display a proposal and its approval digest")
+    review.add_argument("proposal", type=Path)
+    execute = commands.add_parser("execute", help="Execute the exact proposal you reviewed")
+    execute.add_argument("proposal", type=Path)
+    execute.add_argument("--approve", required=True, help="Digest printed by review")
+    execute.add_argument("--mode", choices=[m.value for m in Mode], default="recover")
+    execute.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
+    execute.add_argument("--traces", type=Path, default=Path("artifacts/traces.sqlite"))
+    execute.add_argument("--silent-drops", type=int, default=0)
+    execute.add_argument("--max-retries", type=int, default=2)
+    add_provider_options(execute, timeout=60)
     smoke = commands.add_parser("smoke", help="Save an isolated dropped-write recovery check")
     smoke.add_argument("--output", type=Path, default=Path("artifacts/smoke"))
     add_provider_options(smoke, timeout=60)
@@ -76,6 +92,44 @@ def main() -> None:
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
+    if args.command == "review":
+        try:
+            proposal = load_proposal(args.proposal)
+        except (ValueError, OSError) as exc:
+            parser.error(str(exc))
+        print(
+            json.dumps(
+                {
+                    **proposal.model_dump(mode="json"),
+                    "approval_digest": proposal_digest(proposal)
+                    if proposal.interpretation.clarification is None
+                    else None,
+                },
+                indent=2,
+            )
+        )
+        if proposal.interpretation.clarification is not None:
+            raise SystemExit(1)
+        return
+    if args.command == "propose":
+        try:
+            if not 1 <= len(args.objective) <= 2000:
+                raise ValueError("Objective must contain 1 to 2000 characters")
+            budget = Budget(timeout_seconds=args.timeout)
+            provider = configured_provider(args)
+        except (ValueError, ProviderError) as exc:
+            parser.error(str(exc))
+        try:
+            result = propose_task(
+                args.objective, provider, args.output, timeout=budget.timeout_seconds
+            )
+        finally:
+            if isinstance(provider, OpenAIProvider):
+                provider.close()
+        print(json.dumps(result, indent=2))
+        if result["error"] is not None:
+            raise SystemExit(1)
+        return
     if args.command == "demo":
         result = compare(args.output, args.scenario)
         print("mode       claim  audit  false-success  actions  retries")
@@ -113,13 +167,17 @@ def main() -> None:
         return
     try:
         # Validate objective and local configuration before constructing any API client.
-        task = MockProvider().parse(args.objective)
+        reviewed = None
+        if args.command == "execute":
+            task, reviewed = approved_task(args.proposal, args.approve)
+        else:
+            task = MockProvider().parse(args.objective)
         budget = Budget(max_retries=args.max_retries, timeout_seconds=args.timeout)
         faults = Faults(silent_drops=args.silent_drops)
         if args.db.resolve() == args.traces.resolve():
             raise ValueError("State and trace databases must use separate paths")
         provider = configured_provider(args)
-    except (ValueError, ProviderError) as exc:
+    except (ValueError, ProviderError, OSError) as exc:
         parser.error(str(exc))
     try:
         sandbox = Sandbox(args.db, faults)
@@ -127,7 +185,7 @@ def main() -> None:
         traces = TraceStore(args.traces)
         report = Agent(
             provider, Executor(sandbox), StateVerifier(sandbox.path), traces, budget
-        ).run(task, Mode(args.mode))
+        ).run(task, Mode(args.mode), reviewed_proposal=reviewed)
     finally:
         if isinstance(provider, OpenAIProvider):
             provider.close()

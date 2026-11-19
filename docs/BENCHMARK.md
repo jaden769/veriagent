@@ -129,3 +129,33 @@ a single-target task can finish after one write, never reaching a second-write f
 An already-satisfied dynamic task may perform no writes. Such successes are not evidence
 of recovery, and unused events are not counted as injections. The fixed schedules test
 selected positions only; they are not an exhaustive or randomized fault distribution.
+
+## Denominators and review notes
+
+The original `false_success` and `recovered` fields retain their denominator of all
+trials in a task/scenario/mode group. Two conditional measures make their meaning explicit:
+
+- `false_success_given_claim`: audited false successes divided by agent success claims.
+- `recovery_given_fault_mismatch`: successful runs with at least one recovery attempt,
+  divided by runs where a delivered pre-commit fault affected an authorized write whose
+  required status was still unmet immediately before injection.
+
+Both expose count, denominator (`trials`), rate and nominal Wilson interval. A zero
+denominator has null rate and interval, never 0% or 100%. The recovery subset is measured
+from delivered faults and a local status checkpoint, not inferred solely from a scenario
+name or the agent's verifier. It excludes undelivered schedules, no-op writes to already
+satisfied targets, and failures unrelated to injected writes. It is not a general
+recovery rate over every possible initial failure or a causal estimate.
+
+`fault_recovery_eligible` records that subset at run level. `status_before_fault` records
+the pre-commit status for delivered counter/indexed faults. Capturing it adds a local
+read to some write attempts; this instrumentation overhead is included in agent-loop
+latency. Both injected fault types leave the status unchanged before returning/raising,
+so an unmet pre-fault status identifies an unmet post-fault write in this adapter.
+This assumption does not apply automatically to ambiguous commits or external systems.
+
+A local implementation review checked fixture goals against initial states, all-target
+and untargeted-row audit behavior, indexed/counter fault delivery, unused events, and
+metric denominators. Regression checks cover these mechanisms. This review was performed
+by the implementing assistant; it is not an independent external review or corpus
+validation. External corpus review and a preregistered live comparison remain pending.

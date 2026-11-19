@@ -45,7 +45,8 @@ verifies after a plan pass. These are different policies and have different cost
 Do not pool engine results without accounting for verification timing, decision budgets
 and action counts. The deterministic mock has no paid model calls. SDK transport fixtures
 provide synthetic usage solely to test accounting; they are not measured LLM reliability
-or cost results. Live model experiments remain pending credentials and authorization.
+or cost results. Individual live static, dynamic and reviewed-workflow checks have now
+passed (see VALIDATION.md); no repeated stochastic live benchmark has been run.
 
 ## Offline boundary corpus
 
@@ -59,3 +60,14 @@ Cases are heterogeneous: an honest refusal can be the expected result. Do not tr
 number of matched expectations as verified task completion or live-model reliability.
 No real model or API quota is used. Guard-regression tests deliberately introduce unsafe
 behavior in temporary fixtures to verify that the evaluator reports violations.
+
+## Repeated-trial metric definitions
+
+See [the benchmark guide](BENCHMARK.md) for fixed task and fault profiles. Its summaries
+retain all-trial rates and separately report false success among success claims.
+Recovery conditional on a delivered fault affecting an unmet authorized write uses that
+observed subset as denominator. It excludes unused/no-op fault events and is narrower
+than the general initially-failed-recoverable population described above. Zero-denominator
+rates and intervals are undefined (null). Per-fault status instrumentation is included
+in measured loop latency. The implementation review is local, not independent external
+corpus review; no stochastic or causal reliability conclusion follows from mock trials.

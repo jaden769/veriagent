@@ -483,3 +483,30 @@ No live generation request was issued. Ruff lint/format and whitespace checks pa
 
 Full regression suite after indexed scheduling: **309 passed in 99.25 seconds**, with
 one existing Starlette/httpx deprecation warning. No additional API usage occurred.
+
+### Local benchmark metric review — 2026-11-19
+
+Reviewed fixed task initial states/targets, independent final-state audits, no-op/unused
+fault exposure, and summary definitions against EVALUATION.md. Found that the reported
+false-success and recovery rates used all trials only. Preserved those fields and added
+false_success_given_claim and recovery_given_fault_mismatch with explicit denominators.
+The latter conditions on delivered pre-commit faults affecting an unmet authorized
+write, not every failure type. Zero denominators return null rates/intervals. Instrumented
+pre-fault local status separately from agent verification; documented its latency overhead
+and adapter-specific unchanged-state assumption. Updated stale protocol wording about
+individual live checks while retaining that no stochastic live benchmark has run.
+
+Focused benchmark/metric/fault tests: **36 passed in 28.38 seconds**. They cover differing
+all-run/conditional denominators, no-claim undefined rates, fault-mismatch eligibility,
+no-op injections without recovery opportunity, and measured second-target recovery.
+
+Ran six offline static trials (already_satisfied and pair_done, single-drop profile,
+three modes) at `artifacts/benchmarks/4a332ae285e6412f812ce26bcfa695ac/benchmark.json`.
+All already-satisfied trials had zero eligible fault mismatches and null conditional
+recovery. pair_done baseline falsely claimed success; verify made no claim and its
+conditional false-success rate was null; recover succeeded with one eligible opportunity.
+No paid request was issued. This was an implementation review by the implementing
+assistant, not independent external review or external corpus validation.
+
+Full regression suite after metric corrections: **314 passed in 80.28 seconds**, one
+existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks passed.

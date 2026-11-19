@@ -54,6 +54,7 @@ class ScheduledSandbox(Sandbox):
             "status": status.value,
             "scheduled_fault": scheduled,
             "injected_fault": None,
+            "status_before_fault": None,
         }
         self.write_attempts.append(record)
         if scheduled:
@@ -62,20 +63,29 @@ class ScheduledSandbox(Sandbox):
             if self.faults.delay_seconds >= timeout:
                 raise TimeoutError("Simulated tool delay exceeds remaining deadline")
             time.sleep(self.faults.delay_seconds)
-            self.read_issue(issue_id)
+            before = self.read_issue(issue_id)
+            record["status_before_fault"] = before.status.value
             record["injected_fault"] = scheduled
             if scheduled == "transient":
                 raise TransientError("Indexed pre-commit transport failure")
             return {"message": "Status updated", "status": status.value}
         drops = self.faults.silent_drops
         transient = self.faults.transient_errors
+        before_status = None
+        if (drops or transient) and self.faults.delay_seconds < timeout:
+            try:
+                before_status = self.read_issue(issue_id).status.value
+            except KeyError:
+                pass  # Preserve the ordinary adapter's failure and fault-consumption behavior.
         try:
             return super().set_status(issue_id, status, timeout=timeout)
         finally:
             if self.faults.transient_errors < transient:
                 record["injected_fault"] = "transient"
+                record["status_before_fault"] = before_status
             elif self.faults.silent_drops < drops:
                 record["injected_fault"] = "silent_drop"
+                record["status_before_fault"] = before_status
 
     def unused_schedule(self) -> list[dict]:
         injected = {r["attempt"] for r in self.write_attempts if r["injected_fault"] is not None}

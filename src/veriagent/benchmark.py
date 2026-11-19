@@ -55,6 +55,8 @@ def summarize(rows: list[dict]) -> list[dict]:
     result = []
     for (task_id, scenario, mode), group in sorted(groups.items()):
         usage_known = all(r["model_tokens"] is not None for r in group)
+        claims = sum(r["claimed_success"] for r in group)
+        eligible = [r for r in group if r.get("fault_recovery_eligible", False)]
         result.append(
             {
                 "task_id": task_id,
@@ -64,7 +66,13 @@ def summarize(rows: list[dict]) -> list[dict]:
                     sum(r["ground_truth_success"] for r in group), len(group)
                 ),
                 "false_success": proportion(sum(r["false_success"] for r in group), len(group)),
+                "false_success_given_claim": conditional_proportion(
+                    sum(r["false_success"] for r in group), claims
+                ),
                 "recovered": proportion(sum(r["recovered"] for r in group), len(group)),
+                "recovery_given_fault_mismatch": conditional_proportion(
+                    sum(r["recovered"] for r in eligible), len(eligible)
+                ),
                 "untargeted_changes": sum(r["untargeted_changed"] for r in group),
                 "runs_with_injected_fault": sum(
                     any(a["injected_fault"] for a in r.get("write_attempts", [])) for r in group
@@ -84,6 +92,25 @@ def summarize(rows: list[dict]) -> list[dict]:
             }
         )
     return result
+
+
+def conditional_proportion(successes: int, count: int) -> dict:
+    if count == 0 and successes == 0:
+        return {"count": 0, "trials": 0, "rate": None, "wilson_95": None}
+    return proportion(successes, count)
+
+
+def fault_recovery_eligible(task: Task, attempts: list[dict]) -> bool:
+    """A delivered pre-commit fault on a write whose authorized target was unmet."""
+    targets = {r.issue_id: r.status.value for r in task.requirements}
+    return any(
+        attempt.get("injected_fault") is not None
+        and attempt.get("issue_id") in targets
+        and attempt.get("status") == targets[attempt["issue_id"]]
+        and attempt.get("status_before_fault") is not None
+        and attempt["status_before_fault"] != targets[attempt["issue_id"]]
+        for attempt in attempts
+    )
 
 
 def _write(path: Path, value: dict) -> None:
@@ -213,6 +240,9 @@ def repeated_trials(
                     "ground_truth_success": passed,
                     "false_success": report.claimed_success and not passed,
                     "recovered": report.recovery_attempts > 0 and passed,
+                    "fault_recovery_eligible": fault_recovery_eligible(
+                        task, sandbox.write_attempts
+                    ),
                     "untargeted_changed": changed,
                     "final_state": state,
                     "artifact": trial.name,

@@ -116,6 +116,7 @@ def test_unknown_usage_is_not_summed_as_zero():
             scenario="clean",
             mode="recover",
             ground_truth_success=True,
+            claimed_success=True,
             false_success=False,
             recovered=False,
             untargeted_changed=False,

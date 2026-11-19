@@ -73,7 +73,9 @@ profile, with explicit planned events, realized write positions/targets and unus
 Legacy defaults remain unchanged; unreached events are not counted as injections.
 
 Next milestone: independent review of the task corpus and fault definitions before
-optional stochastic comparisons. Do not infer reliability from the three successful live trials.
+optional stochastic comparisons. A local implementation review added conditional metric
+denominators and fault-mismatch eligibility checks; external review remains pending.
+Do not infer reliability from the three successful live trials.
 Broader generated attacks, independent live task corpora and
 stochastic reliability comparisons remain future work before research claims. No live model
 quality or general injection resistance is established. No browser agent, dashboard,

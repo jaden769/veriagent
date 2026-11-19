@@ -58,3 +58,35 @@ The resolved Starlette version warns that its httpx TestClient support is deprec
 in favor of httpx2. The existing httpx path remains functional and all API assertions
 passed. The warning is recorded, not suppressed. No live HTTP listener, real-model
 provider, browser automation, statistical benchmark or external side effect was tested.
+
+## Optional OpenAI planner milestone — 2026-11-19
+
+The optional OpenAI SDK is now installed (`openai==2.54.0` in `uv.lock`). No live API
+request was made. Tests use fake provider responses and an actual SDK client with an
+in-memory HTTP transport. The baseline demo remains independent of the optional SDK.
+
+| Command | Observed result |
+|---|---|
+| `.\.tools\uv.exe sync --extra dev --extra openai --link-mode copy` | Installed optional SDK and repaired editable package after an initial Windows access-denied error |
+| `.\.venv\Scripts\python.exe -m pytest -q -o faulthandler_timeout=20` | **56 passed**, 1 existing Starlette deprecation warning, 16.30 seconds |
+| `.\.venv\Scripts\ruff.exe check .` | All checks passed |
+| `.\.venv\Scripts\ruff.exe format --check .` | 21 files already formatted |
+| `.\.venv\Scripts\veriagent.exe demo` | Baseline false success, verification detects mismatch, recovery completes with 2 actions / 1 retry |
+| `.\.tools\uv.exe sync --extra dev --extra openai --locked --offline` | Resolved and checked all 30 packages successfully |
+| `.\.tools\uv.exe build --offline` | Built source distribution and wheel; harmless hardlink-to-copy warning |
+
+Raw demo traces are in `artifacts/c7d7567bc4684ab4b65f584a9d815780/`.
+
+The first dependency update was interrupted by Windows denying replacement of editable
+package metadata. This temporarily caused test-collection import errors. Retrying the
+sync restored the installation. In the first SDK-boundary test run, a cold SDK start
+exhausted the default ten-second agent budget. The boundary test now explicitly supplies
+60 seconds; a separate test confirms that expired planning time prevents any writes.
+The complete rerun passed. SDK imports, like the existing FastAPI tests, required execution
+outside the restricted sandbox on this machine.
+
+New coverage includes unauthorized target/status/tool/permission changes, invalid
+dependencies, refusal, incomplete and malformed output, rate limits with no automatic
+retry, token usage on rejected plans, unknown usage/cost, caller-provided pricing,
+per-run accounting, request deadlines and endpoint pinning. This does not establish
+model-specific schema acceptance, live model quality, or general injection resistance.

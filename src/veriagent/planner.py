@@ -3,7 +3,7 @@
 import re
 from typing import Protocol
 
-from veriagent.models import Action, Plan, Requirement, Status, Step, Task
+from veriagent.models import Action, ModelUsage, Plan, Requirement, Status, Step, Task
 
 
 class PlanningProvider(Protocol):
@@ -15,10 +15,17 @@ class PlanningProvider(Protocol):
 
     def parse(self, objective: str) -> Task: ...
 
-    def plan(self, task: Task) -> Plan: ...
+    @property
+    def usage(self) -> ModelUsage: ...
+
+    def plan(self, task: Task, *, timeout: float | None = None) -> Plan: ...
 
 
 class MockProvider:
+    @property
+    def usage(self) -> ModelUsage:
+        return ModelUsage()
+
     def parse(self, objective: str) -> Task:
         # Full-match prevents ignored trailing instructions or partial interpretations.
         match = re.fullmatch(
@@ -38,7 +45,7 @@ class MockProvider:
             ),
         )
 
-    def plan(self, task: Task) -> Plan:
+    def plan(self, task: Task, *, timeout: float | None = None) -> Plan:
         return Plan(
             steps=tuple(
                 Step(

@@ -14,7 +14,14 @@
 5. **Phase 5 — release:** ablations, failure analysis, dashboard, reproducible technical
    report, architecture documentation and portfolio demonstration.
 
-Next milestone: a small, metered real-provider planning adapter tested against the same
-fixed task contracts, including adversarial output. Do not expand tools until authorization
-and timeout behavior are independently tested. No browser agent, dashboard, learned
-verifier, or broad reliability claim belongs in Phase 1.
+Completed Phase 2 milestone: an optional metered OpenAI planning adapter, strict response
+schemas, request/output limits, sanitized planning failures and adversarial-plan tests.
+The actual SDK is exercised against an in-memory HTTP transport. No paid request has
+been made or validated. Task interpretation remains constrained and deterministic;
+this is not completion of all Phase 2 objectives.
+
+Next milestone: an explicitly authorized live smoke test, followed by broader task
+interpretation with caller-reviewed requirements and varied-instruction evaluation.
+Dynamic model-driven tool selection, model-driven replanning and full injection defenses
+remain open. Do not expand tools until authorization and timeout behavior are independently
+tested. No browser agent, dashboard, learned verifier, or broad reliability claim is included.

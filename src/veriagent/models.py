@@ -31,6 +31,7 @@ class Failure(StrEnum):
     BUDGET = "budget"
     DEPENDENCY = "dependency"
     INTERNAL = "internal"
+    PLANNING = "planning"
 
 
 class Issue(Schema):
@@ -119,6 +120,21 @@ class Budget(Schema):
     action_timeout_seconds: float = Field(default=1, gt=0, le=60)
 
 
+class ModelUsage(Schema):
+    provider: str = "mock"
+    model: str | None = None
+    calls: int = Field(default=0, ge=0)
+    input_tokens: int | None = Field(default=0, ge=0)
+    output_tokens: int | None = Field(default=0, ge=0)
+    estimated_cost_usd: float | None = Field(default=0.0, ge=0, allow_inf_nan=False)
+
+    @property
+    def total_tokens(self) -> int | None:
+        if self.input_tokens is None or self.output_tokens is None:
+            return None
+        return self.input_tokens + self.output_tokens
+
+
 class RunReport(Schema):
     run_id: str
     mode: Mode
@@ -130,5 +146,6 @@ class RunReport(Schema):
     failure: Failure | None = None
     verification: Verification | None = None
     model_calls: int = 0
-    model_tokens: int = 0
+    model_tokens: int | None = 0
     estimated_cost_usd: float | None = 0.0
+    model_usage: ModelUsage = Field(default_factory=ModelUsage)

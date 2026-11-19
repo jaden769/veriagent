@@ -7,7 +7,9 @@ implements a small, complete experiment: a tool claims it updated an issue, but 
 drops the write. A baseline accepts the claim, a verifier detects the mismatch, and a
 recovery agent selectively retries the idempotent update and checks the result.
 
-This is a deterministic research prototype, not a general autonomous agent. The hypothesis
+The default demo is deterministic. An optional OpenAI planner is now available as the
+first Phase 2 milestone; see [the provider guide](docs/OPENAI_PROVIDER.md).
+This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.
 
@@ -99,6 +101,7 @@ flowchart LR
 |---|---|
 | `models.py` | Pydantic task, plan, dependency, action, observation, evidence, budget and report contracts |
 | `planner.py` | Provider protocol and deterministic objective parsing / planning |
+| `openai_provider.py` | Optional structured OpenAI planner, request limits and token accounting |
 | `sandbox.py` | Local application state, idempotent writes, controlled tool faults |
 | `executor.py` | Tool allowlist, trusted idempotency policy, exception classification, deadlines |
 | `verification.py` | Separate read-only database connection and consistent snapshot |
@@ -131,9 +134,10 @@ flowchart LR
   Verification checks final statuses, not causal attribution or intermediate correctness.
 - Traces are local plaintext, append-only by application convention; they are not
   tamper-proof. Do not store secrets in objectives or sandbox issue contents.
-- The optional real-model integration is an interface and documented design only.
-  `.env.example` reserves `OPENAI_API_KEY` / `OPENAI_MODEL`; Phase 1 does not load `.env`
-  or invoke the API. Unsupported paid integrations never silently fall back to mocks.
+- OpenAI planning requires explicit `--provider openai`, an installed optional SDK and
+  environment credentials. The demo always uses the offline mock. `.env` is not auto-loaded.
+  Unsupported paid integrations never silently fall back to mocks. No live paid call has
+  been validated; SDK integration tests use an in-memory HTTP transport.
 
 See [the roadmap](docs/ROADMAP.md), [architecture decisions](docs/ARCHITECTURE.md),
 and [evaluation protocol](docs/EVALUATION.md). Recorded local validation lives in

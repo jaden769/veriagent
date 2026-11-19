@@ -51,8 +51,31 @@ class Agent:
         self.traces.append(
             run_id, "configuration", {"mode": mode.value, "budget": self.budget.model_dump()}
         )
-        plan = self.provider.plan(task)
-        self.validate_plan(task, plan)
+        try:
+            plan = self.provider.plan(task, timeout=deadline - time.monotonic())
+            self.validate_plan(task, plan)
+        except Exception:
+            failure = Failure.BUDGET if time.monotonic() >= deadline else Failure.PLANNING
+            self.traces.append(run_id, "planning_error", {"failure": failure.value})
+            usage = self.provider.usage
+            self.traces.append(run_id, "model_usage", usage)
+            report = RunReport(
+                run_id=run_id,
+                mode=mode,
+                claimed_success=False,
+                verified_success=None,
+                actions=0,
+                recovery_attempts=0,
+                elapsed_ms=(time.monotonic() - start) * 1000,
+                failure=failure,
+                model_calls=usage.calls,
+                model_tokens=usage.total_tokens,
+                estimated_cost_usd=usage.estimated_cost_usd,
+                model_usage=usage,
+            )
+            self.traces.append(run_id, "report", report)
+            return report
+        self.traces.append(run_id, "model_usage", self.provider.usage)
         self.traces.append(run_id, "plan", plan)
         actions = retries = 0
         verification = None
@@ -135,6 +158,10 @@ class Agent:
             elapsed_ms=(time.monotonic() - start) * 1000,
             failure=failure,
             verification=verification,
+            model_calls=self.provider.usage.calls,
+            model_tokens=self.provider.usage.total_tokens,
+            estimated_cost_usd=self.provider.usage.estimated_cost_usd,
+            model_usage=self.provider.usage,
         )
         self.traces.append(run_id, "report", report)
         return report

@@ -8,6 +8,7 @@ from veriagent.agent import Agent
 from veriagent.evaluation import compare
 from veriagent.executor import Executor
 from veriagent.models import Budget, Mode
+from veriagent.openai_provider import OpenAIConfig, OpenAIProvider, ProviderError
 from veriagent.planner import MockProvider
 from veriagent.sandbox import Faults, Sandbox
 from veriagent.trace import TraceStore
@@ -31,6 +32,19 @@ def main() -> None:
     run.add_argument("--traces", type=Path, default=Path("artifacts/traces.sqlite"))
     run.add_argument("--silent-drops", type=int, default=0)
     run.add_argument("--max-retries", type=int, default=2)
+    run.add_argument("--provider", choices=("mock", "openai"), default="mock")
+    run.add_argument("--model", help="OpenAI model ID; defaults to OPENAI_MODEL")
+    run.add_argument(
+        "--timeout", type=float, default=10, help="Cooperative run deadline in seconds"
+    )
+    run.add_argument("--model-timeout", type=float, default=15)
+    run.add_argument("--max-output-tokens", type=int, default=2048)
+    run.add_argument(
+        "--input-price", type=float, help="Caller-supplied USD per million input tokens"
+    )
+    run.add_argument(
+        "--output-price", type=float, help="Caller-supplied USD per million output tokens"
+    )
     serve = commands.add_parser("serve", help="Serve a local sandbox on 127.0.0.1")
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
@@ -56,20 +70,41 @@ def main() -> None:
         uvicorn.run(create_app(sandbox), host="127.0.0.1", port=args.port)
         return
     try:
-        provider = MockProvider()
-        task = provider.parse(args.objective)
-        budget = Budget(max_retries=args.max_retries)
+        # Validate objective and local configuration before constructing any API client.
+        task = MockProvider().parse(args.objective)
+        budget = Budget(max_retries=args.max_retries, timeout_seconds=args.timeout)
         faults = Faults(silent_drops=args.silent_drops)
         if args.db.resolve() == args.traces.resolve():
             raise ValueError("State and trace databases must use separate paths")
-    except ValueError as exc:
+        provider = MockProvider()
+        if args.provider == "openai":
+            import os
+
+            model = args.model or os.environ.get("OPENAI_MODEL", "").strip()
+            if not model:
+                raise ProviderError("Specify --model or set OPENAI_MODEL")
+            config = OpenAIConfig(
+                model=model,
+                request_timeout_seconds=args.model_timeout,
+                max_output_tokens=args.max_output_tokens,
+                input_usd_per_million=args.input_price,
+                output_usd_per_million=args.output_price,
+            )
+            provider = OpenAIProvider.from_env(config)
+        elif any(value is not None for value in (args.model, args.input_price, args.output_price)):
+            raise ValueError("--model and token prices require --provider openai")
+    except (ValueError, ProviderError) as exc:
         parser.error(str(exc))
-    sandbox = Sandbox(args.db, faults)
-    sandbox.seed()
-    traces = TraceStore(args.traces)
-    report = Agent(provider, Executor(sandbox), StateVerifier(sandbox.path), traces, budget).run(
-        task, Mode(args.mode)
-    )
+    try:
+        sandbox = Sandbox(args.db, faults)
+        sandbox.seed()
+        traces = TraceStore(args.traces)
+        report = Agent(
+            provider, Executor(sandbox), StateVerifier(sandbox.path), traces, budget
+        ).run(task, Mode(args.mode))
+    finally:
+        if isinstance(provider, OpenAIProvider):
+            provider.close()
     print(json.dumps(report.model_dump(mode="json"), indent=2))
     if not report.claimed_success:
         raise SystemExit(1)

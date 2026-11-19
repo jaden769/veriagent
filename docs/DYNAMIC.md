@@ -107,7 +107,9 @@ Usage does not carry over from prior runs. A decision limit is not a dollar spen
 Optional [model usage limits](MODEL_BUDGETS.md) additionally cap cumulative output allowance
 and stop on observed total-token/cost thresholds. The latter can overshoot in the current
 request and do not guarantee exact billed spend.
-All tool and model timeouts remain cooperative, not hard process cancellation.
+The default executor and model timeouts are cooperative. Optional
+[process-isolated sandbox tools](PROCESS_EXECUTION.md) add worker termination at the tool
+wait deadline; they do not provide a whole-agent hard deadline.
 
 This increment implements dynamic selection and observation-driven repair of approved
 status tasks. It does not add browser automation, external tools, learned recovery policy,

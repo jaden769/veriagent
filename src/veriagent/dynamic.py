@@ -126,6 +126,7 @@ class DynamicAgent:
                 "engine": "dynamic",
                 "mode": mode.value,
                 "budget": self.budget.model_dump(mode="json"),
+                "tool_execution": self.executor.execution_mode,
             },
         )
         metadata = self.provider.usage
@@ -240,6 +241,13 @@ class DynamicAgent:
                 actions += 1
                 feedback.append(normalized_feedback(observation))
                 self.traces.append(run_id, "observation", observation)
+                if not observation.safe_to_continue:
+                    failure = Failure.INTERNAL
+                    verification = None
+                    self.traces.append(
+                        run_id, "execution_stopped", {"reason": "worker_cleanup_unconfirmed"}
+                    )
+                    break
                 if mode == Mode.BASELINE:
                     if not observation.reported_success:
                         failure = observation.failure or Failure.INTERNAL
@@ -303,6 +311,7 @@ class DynamicAgent:
             estimated_cost_usd=usage.estimated_cost_usd,
             model_usage=usage,
             model_budget=self.provider.budget_state,
+            tool_execution=self.executor.execution_mode,
         )
         self.traces.append(run_id, "report", report)
         return report

@@ -21,6 +21,8 @@ class ToolPolicy:
 
 
 class Executor:
+    execution_mode = "in_process"
+
     @staticmethod
     def authorize(task: Task, action: Action) -> None:
         targets = {r.issue_id: r.status for r in task.requirements}

@@ -40,8 +40,18 @@ observed total-token and estimated-cost thresholds, unknown-usage rejection and 
 budget evidence in reports/traces. Token/cost observations may overshoot in the current
 request; no exact billed-dollar guarantee is claimed. Tests use synthetic usage only.
 
-Next milestones: the still-pending authorized live smoke and reviewed dynamic trial when
-credentials are configured; broader prompt-injection/fault evaluation; and isolated hard
-tool deadlines before browser work. No live model
+Completed process-execution increment: an optional fixed-tool worker, parent-side deadline
+termination/reaping, before/after-commit fault injection, authoritative ambiguity checks
+and terminal failure on unconfirmed cleanup. Actual worker tests cover both agent engines
+on Windows. This is deadline isolation, not a whole-agent real-time or OS security guarantee.
+
+Completed boundary-evaluation increment: a packaged 24-case offline adversarial/fault
+corpus, independent final-state oracle, explicit expected labels, separate baseline
+controls, context-canary checks, artifacts/provenance and tests that deliberately weaken
+guards to prove violations are reported. It measures finite local boundaries only.
+
+Next milestone: the still-pending authorized live smoke and reviewed dynamic trial when
+credentials are configured. Broader generated attacks, independent live task corpora and
+stochastic reliability comparisons remain future work before research claims. No live model
 quality or general injection resistance is established. No browser agent, dashboard,
 learned verifier, or broad reliability claim is included.

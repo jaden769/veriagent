@@ -9,8 +9,8 @@ from uuid import uuid4
 
 from veriagent.agent import Agent
 from veriagent.dynamic import DynamicAgent
-from veriagent.executor import Executor
-from veriagent.models import Budget, Mode
+from veriagent.isolated import sandbox_executor
+from veriagent.models import Budget, Mode, ToolExecutionConfig
 from veriagent.planner import MockProvider, PlanningProvider
 from veriagent.sandbox import Faults, Sandbox
 from veriagent.trace import TraceStore
@@ -23,6 +23,7 @@ def smoke_test(
     budget: Budget | None = None,
     *,
     engine: Literal["static", "dynamic"] = "static",
+    tool_config: ToolExecutionConfig | None = None,
 ) -> dict:
     """Save an honest result even when the model refuses or returns an invalid plan.
 
@@ -43,9 +44,9 @@ def smoke_test(
     task = MockProvider().parse("Set ISSUE-1 to done")
     initial = [sandbox.read_issue(f"ISSUE-{i}") for i in range(1, 4)]
     agent_class = DynamicAgent if engine == "dynamic" else Agent
-    report = agent_class(provider, Executor(sandbox), verifier, traces, budget).run(
-        task, Mode.RECOVER
-    )
+    report = agent_class(
+        provider, sandbox_executor(sandbox, tool_config), verifier, traces, budget
+    ).run(task, Mode.RECOVER)
     audit = verifier.verify(task)
     traces.append(report.run_id, "evaluation_audit", audit)
     events = traces.events(report.run_id)

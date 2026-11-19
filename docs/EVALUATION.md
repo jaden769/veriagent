@@ -46,3 +46,16 @@ Do not pool engine results without accounting for verification timing, decision 
 and action counts. The deterministic mock has no paid model calls. SDK transport fixtures
 provide synthetic usage solely to test accounting; they are not measured LLM reliability
 or cost results. Live model experiments remain pending credentials and authorization.
+
+## Offline boundary corpus
+
+`evaluate-safety` separately runs 24 fixed adversarial/fault cases. It records explicit
+expected outcomes and an independent final SQLite state oracle, retaining baseline
+false-success controls separately from protected-mode failures. It also checks unrelated
+status/version changes and whether configured payload markers cross the feedback boundary.
+See [the boundary-suite guide](SAFETY_EVALUATION.md) for metric definitions and limits.
+
+Cases are heterogeneous: an honest refusal can be the expected result. Do not treat the
+number of matched expectations as verified task completion or live-model reliability.
+No real model or API quota is used. Guard-regression tests deliberately introduce unsafe
+behavior in temporary fixtures to verify that the evaluator reports violations.

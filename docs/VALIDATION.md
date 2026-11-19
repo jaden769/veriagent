@@ -214,3 +214,81 @@ values validate control flow and arithmetic only; they are not actual billing re
 The existing Windows sandbox execution restriction and Starlette deprecation warning
 remain unchanged. Budgets are per-run and local, not persistent account quotas or hard
 guarantees of billed dollars. No live-model schema acceptance or quality was validated.
+
+## Process-isolated tool milestone — 2026-11-19
+
+Added an optional per-action worker for the fixed local sandbox tools, with parent-side
+wait deadlines and termination/reaping. The default executor remains in-process. This
+is deadline isolation rather than an OS security boundary or a whole-agent real-time
+guarantee. No model API calls or external state-changing operations were used.
+
+| Command | Observed result |
+|---|---|
+| `.\.venv\Scripts\python.exe -m pytest -q -o faulthandler_timeout=20` | **213 passed**, 1 existing dependency warning, 58.03 seconds |
+| `.\.venv\Scripts\ruff.exe check .` | All checks passed |
+| `.\.venv\Scripts\ruff.exe format --check .` | Formatting check passed |
+| `.\.venv\Scripts\veriagent.exe run 'Set ISSUE-1 to done' --isolate-tools --action-timeout 3 --timeout 30 --db artifacts/isolation-first/state.sqlite --traces artifacts/isolation-first/traces.sqlite` | Verified success, 1 worker action, no retry |
+| `veriagent run 'Set ISSUE-1 to done' --isolate-tools --action-timeout 2 --timeout 30 --hang-before-commit 1 --db <fresh-before-db> --traces <trace-db>` | Actual hung worker terminated; verified completion after 2 writes / 1 retry |
+| `veriagent run 'Set ISSUE-1 to done' --isolate-tools --action-timeout 2 --timeout 30 --hang-after-commit 1 --db <fresh-after-db> --traces <trace-db>` | Actual hung worker terminated after its write; verified completion with 1 write / 0 retries |
+| `.\.venv\Scripts\veriagent.exe smoke --engine dynamic --isolate-tools --action-timeout 3` | Passing smoke, 4 worker actions / 1 retry / 0 model calls; unrelated issues unchanged |
+| `.\.tools\uv.exe sync --extra dev --extra openai --locked --offline` | Checked all 30 packages successfully |
+| `.\.tools\uv.exe build --offline` | Built source distribution and wheel; harmless hardlink-to-copy warning |
+
+The two hang demos used the installed `.venv\Scripts\veriagent.exe` and fresh databases;
+their actual stdout reports (`before.json`, `after.json`) and shared trace store are in
+`artifacts/isolated-deadlines/685cd4802ad24fb8b929c6fd27240720/`. Final dynamic process-smoke
+evidence is in `artifacts/smoke/bddcdf9ab4774ee08fb8ab137c6c1aab/`.
+
+Tests independently poll the actual launched processes to confirm exit. They cover real
+60-second injected hangs cut short by a 2-second parent deadline, before/after-commit
+ambiguity in both engines, retry exhaustion, reserved fault counters, denied actions
+before launch, worker errors, environment filtering, UTF-8 titles and interrupted-parent
+cleanup. Simulated unreapable-worker cases confirm a terminal internal failure with no
+success or retry, including when persisted status already matches the task.
+
+During implementation that unconfirmed-cleanup case exposed a false-success possibility:
+matching state could otherwise override the cleanup failure. A trusted observation safety
+flag and early termination checks in both engines fixed it; the final complete suite
+includes the regression. No actual unreaped process was left by the worker tests.
+
+The complete suite still runs outside the restricted Windows execution sandbox. Process
+creation, OS scheduling and cleanup can exceed the nominal wait deadline; model calls,
+verification and trace persistence are not forcibly cancelled by this adapter. Only
+Windows was validated, and no arbitrary process-tree containment claim is made.
+
+## Offline adversarial evaluation milestone — 2026-11-19
+
+Added the packaged `phase2-boundaries-v1` corpus and `evaluate-safety` command. All responses
+are scripted, application faults are controlled, and the final SQLite oracle bypasses
+the injected tool/verifier behavior. No model provider, credential or external operation
+was used. Prior process-execution changes remained local and were preserved.
+
+| Command | Observed result |
+|---|---|
+| `.\.venv\Scripts\python.exe -m pytest tests/test_safety_evaluation.py -q -o faulthandler_timeout=20` | 41 focused tests passed in 11.08 seconds |
+| `.\.venv\Scripts\python.exe -m pytest -q -o faulthandler_timeout=20` | **254 passed**, 1 existing dependency warning, 62.63 seconds |
+| `.\.venv\Scripts\ruff.exe check .` | All checks passed |
+| `.\.venv\Scripts\ruff.exe format --check .` | Formatting check passed |
+| `.\.venv\Scripts\veriagent.exe evaluate-safety` | **24/24 expected outcomes matched**, 0 protected false-success claims, 0 unauthorized dispatches, 0 unrelated status/version changes, 0 context canary leaks, 0 model calls |
+| `.\.tools\uv.exe sync --extra dev --extra openai --locked --offline` | Checked all 30 packages successfully |
+| `.\.tools\uv.exe build --offline` | Built source distribution and wheel; harmless hardlink-to-copy warning |
+| Wheel archive inspection with Python `zipfile` | Confirmed `veriagent/scenarios/safety.json` is packaged with all 24 cases |
+
+The final default run is saved in
+`artifacts/safety/84197aa78c2c4aaab376c0b2c2d46414/`. Canonical suite SHA-256:
+`50ae908afef917652391acba042b2221d353474c6afea4932350e05d3d1c487c`.
+Each case retains normalized fixtures, initial/final status snapshots, traces, captured
+provider contexts and the declared-versus-actual comparison. The root result includes
+source fingerprint, runtime/dependency metadata and selected case IDs.
+
+Two baseline controls are separately labeled; one intentionally produces a false-success
+claim. Reproducing that expected failure is not counted as protected-mode reliability.
+Tests deliberately disable authorization, lie through the verifier, leak a marker, skip
+attack observation and alter a fixture label. Each manipulation makes the evaluator
+report failure. No such regression remains enabled in the production code.
+
+These observations establish behavior only for the finite scripted corpus. They are not
+real-model attack resistance, language accuracy, a general safety guarantee, statistical
+reliability evidence or actual billing measurements. Existing worker and SDK tests also
+passed in the complete run; live-provider acceptance remains pending credentials and
+explicit use of the API.

@@ -154,6 +154,31 @@ def decision_tools() -> list[dict]:
     ]
 
 
+def function_decision(output: list[Any]) -> Decision:
+    """Shared local validation for SDK outputs and explicitly scripted evaluation fixtures."""
+    try:
+        calls = [item for item in output if item.type == "function_call"]
+        if len(calls) != 1:
+            raise ValueError("Exactly one function call is required")
+        call = calls[0]
+        if not isinstance(call.call_id, str) or not call.call_id or call.status != "completed":
+            raise ValueError("Function call must be completed and have a nonempty call ID")
+        if call.name == "finish_task":
+            FinishArguments.model_validate_json(call.arguments)
+            return Decision(kind="finish", call_id=call.call_id)
+        if call.name == "read_issue":
+            args = ReadArguments.model_validate_json(call.arguments)
+            action = Action(tool="read_issue", issue_id=args.issue_id)
+        elif call.name == "set_status":
+            args = SetArguments.model_validate_json(call.arguments)
+            action = Action(tool="set_status", issue_id=args.issue_id, status=args.status)
+        else:
+            raise ValueError("Unknown function")
+        return Decision(kind="action", action=action, call_id=call.call_id)
+    except Exception:
+        raise ProviderError("Model returned an invalid function-call decision") from None
+
+
 class OpenAIProvider:
     def __init__(self, config: OpenAIConfig, *, client: Any):
         self.config = config
@@ -278,27 +303,7 @@ class OpenAIProvider:
             tool_choice="required",
             parallel_tool_calls=False,
         )
-        try:
-            calls = [item for item in response.output if item.type == "function_call"]
-            if len(calls) != 1:
-                raise ValueError("Exactly one function call is required")
-            call = calls[0]
-            if not isinstance(call.call_id, str) or not call.call_id or call.status != "completed":
-                raise ValueError("Function call must be completed and have a nonempty call ID")
-            if call.name == "finish_task":
-                FinishArguments.model_validate_json(call.arguments)
-                return Decision(kind="finish", call_id=call.call_id)
-            if call.name == "read_issue":
-                args = ReadArguments.model_validate_json(call.arguments)
-                action = Action(tool="read_issue", issue_id=args.issue_id)
-            elif call.name == "set_status":
-                args = SetArguments.model_validate_json(call.arguments)
-                action = Action(tool="set_status", issue_id=args.issue_id, status=args.status)
-            else:
-                raise ValueError("Unknown function")
-            return Decision(kind="action", action=action, call_id=call.call_id)
-        except Exception:
-            raise ProviderError("Model returned an invalid function-call decision") from None
+        return function_decision(response.output)
 
     def interpret(self, objective: str, *, timeout: float | None = None) -> Interpretation:
         text = self._structured_text(

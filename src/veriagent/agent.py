@@ -71,7 +71,13 @@ class Agent:
                 },
             )
         self.traces.append(
-            run_id, "configuration", {"mode": mode.value, "budget": self.budget.model_dump()}
+            run_id,
+            "configuration",
+            {
+                "mode": mode.value,
+                "budget": self.budget.model_dump(),
+                "tool_execution": self.executor.execution_mode,
+            },
         )
         try:
             plan = self.provider.plan(task, timeout=deadline - time.monotonic())
@@ -101,6 +107,7 @@ class Agent:
                 estimated_cost_usd=usage.estimated_cost_usd,
                 model_usage=usage,
                 model_budget=self.provider.budget_state,
+                tool_execution=self.executor.execution_mode,
             )
             self.traces.append(run_id, "report", report)
             return report
@@ -113,6 +120,7 @@ class Agent:
         failure = None
         observations: dict[str, Observation] = {}
         claimed = False
+        unsafe_execution = False
         while True:
             completed: set[str] = set()
             for step in plan.steps:
@@ -135,11 +143,21 @@ class Agent:
                 actions += 1
                 observations[step.id] = observation
                 self.traces.append(run_id, "observation", observation)
+                if not observation.safe_to_continue:
+                    failure = Failure.INTERNAL
+                    verification = None
+                    unsafe_execution = True
+                    self.traces.append(
+                        run_id, "execution_stopped", {"reason": "worker_cleanup_unconfirmed"}
+                    )
+                    break
                 if observation.reported_success:
                     completed.add(step.id)
                 else:
                     failure = observation.failure
             claimed = failure is None and len(completed) == len(plan.steps)
+            if unsafe_execution:
+                break
             if mode == Mode.BASELINE:
                 break
             try:
@@ -194,6 +212,7 @@ class Agent:
             estimated_cost_usd=self.provider.usage.estimated_cost_usd,
             model_usage=self.provider.usage,
             model_budget=self.provider.budget_state,
+            tool_execution=self.executor.execution_mode,
         )
         self.traces.append(run_id, "report", report)
         return report

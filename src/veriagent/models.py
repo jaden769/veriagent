@@ -97,6 +97,7 @@ class Observation(Schema):
     data: dict[str, Any] = Field(default_factory=dict)
     failure: Failure | None = None
     elapsed_ms: float = 0
+    safe_to_continue: bool = True
 
 
 class Evidence(Schema):
@@ -119,6 +120,18 @@ class Budget(Schema):
     timeout_seconds: float = Field(default=10, gt=0, le=3600)
     action_timeout_seconds: float = Field(default=1, gt=0, le=60)
     max_decisions: int = Field(default=20, ge=1, le=1000)
+
+
+class ToolExecutionConfig(Schema):
+    mode: Literal["in_process", "process"] = "in_process"
+    hangs_before_commit: int = Field(default=0, ge=0, le=100)
+    hangs_after_commit: int = Field(default=0, ge=0, le=100)
+
+    @model_validator(mode="after")
+    def process_faults(self) -> "ToolExecutionConfig":
+        if self.mode != "process" and (self.hangs_before_commit or self.hangs_after_commit):
+            raise ValueError("Worker hang injection requires --isolate-tools")
+        return self
 
 
 class ActionFeedback(Schema):
@@ -218,3 +231,4 @@ class RunReport(Schema):
     engine: Literal["static", "dynamic"] = "static"
     decisions: int = 0
     model_budget: ModelBudgetState | None = None
+    tool_execution: Literal["in_process", "process"] = "in_process"

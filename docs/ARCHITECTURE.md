@@ -123,3 +123,41 @@ usage. Budget failures remain distinct from planning errors and their snapshots 
 alongside token/cost traces. Reusing a provider resets the ledger per run, so this is not
 a global workflow or account spending quota. Caller prices are required for cost limits;
 cached-token discounts and billing tiers remain outside the approximate cost model.
+
+## 009: Killable workers for fixed sandbox tools
+
+The default executor stays in-process for simple deterministic experiments. The optional
+process adapter launches one installed worker module per action and exchanges validated
+UTF-8 JSON. Permissions are checked before launch. The worker receives only a fixed
+sandbox action and explicit database path; no arbitrary Python callable is serialized.
+
+The parent enforces the wait deadline, kills on timeout, and confirms exit with a bounded
+cleanup wait before returning a retryable timeout. Unconfirmed cleanup marks the observation
+unsafe to continue; both engines terminate without a success claim, regardless of current
+state. Ordinary killed-worker timeouts still require authoritative verification: the write
+may already have committed. Only idempotent unmet requirements can be retried.
+
+Fault counters remain in the parent and are reserved per dispatched write, so one-shot
+faults cannot be reset by process restart. Python isolated mode and a small environment
+allowlist keep ambient model credentials and Python injection settings out of the worker.
+This is not a filesystem or network security boundary, and does not cover model calls,
+verifier reads, OS launch stalls or arbitrary child process trees.
+
+## 010: Scripted adversarial cases with a separate final oracle
+
+The packaged offline corpus exercises production boundaries through the same local
+function-call validator used by the OpenAI adapter. Scripted fixtures never construct an
+API client. Tool/verifier faults are explicit typed configuration, not arbitrary plugin
+code. The executor and engine continue to enforce original target/status constraints.
+
+A final read-only SQLite snapshot bypasses injected tool reads and evidence failures.
+The evaluator compares actual persisted requirements and unrelated status/version rows,
+then checks declared expectations without replacing observed outcomes. Baseline
+false-success controls are retained separately. Canary cases must actually observe their
+payload before successful exclusion from provider context can count as a pass.
+
+Fresh case directories, normalized fixtures, traces, captured provider inputs and
+fixture/source fingerprints make failures inspectable. Tests weaken guards, lie about
+verification and leak markers to demonstrate that the evaluator can fail. This is finite
+local boundary validation, not live LLM robustness, independent statistical benchmarking
+or an attestation of a secure runtime.

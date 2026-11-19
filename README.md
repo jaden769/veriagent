@@ -14,6 +14,10 @@ An optional [dynamic engine](docs/DYNAMIC.md) chooses one tool call from observa
 a time; the static engine remains the default for reproducible comparisons.
 Optional [model budgets](docs/MODEL_BUDGETS.md) cap cumulative output allowances and
 stop on observed total-token or estimated-cost thresholds.
+Optional [process-isolated tools](docs/PROCESS_EXECUTION.md) terminate hung sandbox workers
+and use authoritative state to resolve interrupted writes.
+An [offline adversarial suite](docs/SAFETY_EVALUATION.md) checks 24 fixed boundary cases
+and saves state-oracle evidence, traces, fixture hashes and source fingerprints.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.
@@ -30,6 +34,7 @@ uv run ruff format --check .
 uv run veriagent demo
 uv run veriagent smoke
 uv run veriagent demo --engine dynamic
+uv run veriagent evaluate-safety
 ```
 
 In this Windows checkout, setup placed uv at `.tools/uv.exe` and Python inside
@@ -118,8 +123,10 @@ flowchart LR
 | `agent.py` | Execution loop, action / time / retry budgets and evidence-backed termination |
 | `dynamic.py` | Per-decision tool authorization, normalized feedback and verified dynamic recovery |
 | `budgeting.py` | Per-run request admission, cumulative usage limits and explicit stop reasons |
+| `isolated.py`, `worker.py` | Fixed sandbox tools in per-action workers with deadline termination |
 | `trace.py` | Durable events, JSON export and readable trace rendering |
 | `evaluation.py` | Paired scenario runner and post-run audit |
+| `safety_evaluation.py` | Scripted boundary corpus, independent final-state oracle and regression reports |
 | `smoke.py` | Fresh dropped-write smoke checks and evidence bundles for either provider |
 | `api.py`, `cli.py` | Optional local HTTP application and reproducible commands |
 
@@ -137,11 +144,11 @@ flowchart LR
   assignment does not increment version. There are no non-idempotent or external tools.
   No rollback mechanism is needed for these absolute assignments; remote side effects,
   compensation and deduplication need separate designs.
-- Timeouts are cooperative. The local fault adapter checks deadlines before simulated
-  delay; SQLite writes have lock timeouts. The executor detects late returns but cannot
-  interrupt an arbitrary blocked Python function or undo a late commit. Planning, tracing
-  and verification do not have hard cancellation. Remote/hung tools require isolation
-  and transport deadlines before this can be called a hard real-time execution limit.
+- Default in-process timeouts are cooperative. Optional `--isolate-tools` runs each fixed
+  sandbox tool in a worker that can be killed at its wait deadline. Cleanup adds bounded
+  overhead, and an interrupted write may already have committed. Planning, tracing,
+  verification and OS process creation are not all forcibly interruptible. This is not
+  a hard real-time guarantee or an OS security sandbox; see the process-execution guide.
 - Independent means independent of executor claims, not cryptographically trusted.
   A compromised database or concurrent external mutation can invalidate evidence.
   Verification checks final statuses, not causal attribution or intermediate correctness.

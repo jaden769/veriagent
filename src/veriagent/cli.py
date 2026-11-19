@@ -8,11 +8,12 @@ from pathlib import Path
 from veriagent.agent import Agent
 from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
-from veriagent.executor import Executor
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
-from veriagent.models import Budget, Mode, ModelLimits
+from veriagent.isolated import sandbox_executor
+from veriagent.models import Budget, Mode, ModelLimits, ToolExecutionConfig
 from veriagent.openai_provider import OpenAIConfig, OpenAIProvider, ProviderError
 from veriagent.planner import MockProvider
+from veriagent.safety_evaluation import evaluate_safety, load_suite
 from veriagent.sandbox import Faults, Sandbox
 from veriagent.smoke import smoke_test
 from veriagent.trace import TraceStore
@@ -76,6 +77,27 @@ def add_engine_options(command: argparse.ArgumentParser) -> None:
     command.add_argument("--engine", choices=("static", "dynamic"), default="static")
     command.add_argument("--max-actions", type=int, default=20)
     command.add_argument(
+        "--action-timeout",
+        type=float,
+        default=1,
+        help="Tool deadline including worker startup when isolated",
+    )
+    command.add_argument(
+        "--isolate-tools", action="store_true", help="Use one worker per tool action"
+    )
+    command.add_argument(
+        "--hang-before-commit",
+        type=int,
+        default=0,
+        help="Inject worker hangs before this many writes (isolated tools only)",
+    )
+    command.add_argument(
+        "--hang-after-commit",
+        type=int,
+        default=0,
+        help="Inject worker hangs after this many writes (isolated tools only)",
+    )
+    command.add_argument(
         "--max-decisions",
         type=int,
         default=20,
@@ -89,6 +111,14 @@ def main() -> None:
     demo = commands.add_parser("demo", help="Compare three modes using fresh paired sandboxes")
     demo.add_argument("--output", type=Path, default=Path("artifacts"))
     demo.add_argument("--engine", choices=("static", "dynamic"), default="static")
+    safety = commands.add_parser(
+        "evaluate-safety", help="Run scripted offline boundary cases; no LLM calls"
+    )
+    safety.add_argument("--output", type=Path, default=Path("artifacts/safety"))
+    safety.add_argument("--suite", type=Path, help="Optional bounded JSON fixture suite")
+    safety.add_argument(
+        "--case", action="append", default=[], help="Select a case ID; repeat to select several"
+    )
     demo.add_argument(
         "--scenario",
         choices=("clean", "silent_drop", "persistent_drop", "transient"),
@@ -127,6 +157,25 @@ def main() -> None:
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
+    if args.command == "evaluate-safety":
+        try:
+            result = evaluate_safety(args.output, load_suite(args.suite), case_ids=tuple(args.case))
+        except (ValueError, OSError) as exc:
+            parser.error(str(exc))
+        print(
+            json.dumps(
+                {
+                    "passed": result["passed"],
+                    "directory": result["directory"],
+                    "suite_sha256": result["suite_sha256"],
+                    "summary": result["summary"],
+                },
+                indent=2,
+            )
+        )
+        if not result["passed"]:
+            raise SystemExit(1)
+        return
     if args.command == "review":
         try:
             proposal = load_proposal(args.proposal)
@@ -187,16 +236,24 @@ def main() -> None:
         return
     if args.command == "smoke":
         try:
+            tool_config = ToolExecutionConfig(
+                mode="process" if args.isolate_tools else "in_process",
+                hangs_before_commit=args.hang_before_commit,
+                hangs_after_commit=args.hang_after_commit,
+            )
             budget = Budget(
                 timeout_seconds=args.timeout,
                 max_actions=args.max_actions,
                 max_decisions=args.max_decisions,
+                action_timeout_seconds=args.action_timeout,
             )
             provider = configured_provider(args)
         except (ValueError, ProviderError) as exc:
             parser.error(str(exc))
         try:
-            result = smoke_test(args.output, provider, budget, engine=args.engine)
+            result = smoke_test(
+                args.output, provider, budget, engine=args.engine, tool_config=tool_config
+            )
         finally:
             if isinstance(provider, OpenAIProvider):
                 provider.close()
@@ -216,6 +273,12 @@ def main() -> None:
             timeout_seconds=args.timeout,
             max_actions=args.max_actions,
             max_decisions=args.max_decisions,
+            action_timeout_seconds=args.action_timeout,
+        )
+        tool_config = ToolExecutionConfig(
+            mode="process" if args.isolate_tools else "in_process",
+            hangs_before_commit=args.hang_before_commit,
+            hangs_after_commit=args.hang_after_commit,
         )
         faults = Faults(silent_drops=args.silent_drops)
         if args.db.resolve() == args.traces.resolve():
@@ -229,7 +292,11 @@ def main() -> None:
         traces = TraceStore(args.traces)
         agent_class = DynamicAgent if args.engine == "dynamic" else Agent
         report = agent_class(
-            provider, Executor(sandbox), StateVerifier(sandbox.path), traces, budget
+            provider,
+            sandbox_executor(sandbox, tool_config),
+            StateVerifier(sandbox.path),
+            traces,
+            budget,
         ).run(task, Mode(args.mode), reviewed_proposal=reviewed)
     finally:
         if isinstance(provider, OpenAIProvider):

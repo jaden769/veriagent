@@ -12,6 +12,8 @@ available, with a proposal/review/execution flow for broader objectives; see
 [the provider guide](docs/OPENAI_PROVIDER.md) and [reviewed interpretation](docs/INTERPRETATION.md).
 An optional [dynamic engine](docs/DYNAMIC.md) chooses one tool call from observations at
 a time; the static engine remains the default for reproducible comparisons.
+Optional [model budgets](docs/MODEL_BUDGETS.md) cap cumulative output allowances and
+stop on observed total-token or estimated-cost thresholds.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.
@@ -115,6 +117,7 @@ flowchart LR
 | `recovery.py` | Failure policy and selective revision for unmet requirements |
 | `agent.py` | Execution loop, action / time / retry budgets and evidence-backed termination |
 | `dynamic.py` | Per-decision tool authorization, normalized feedback and verified dynamic recovery |
+| `budgeting.py` | Per-run request admission, cumulative usage limits and explicit stop reasons |
 | `trace.py` | Durable events, JSON export and readable trace rendering |
 | `evaluation.py` | Paired scenario runner and post-run audit |
 | `smoke.py` | Fresh dropped-write smoke checks and evidence bundles for either provider |

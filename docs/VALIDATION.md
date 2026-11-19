@@ -181,3 +181,36 @@ aggregation arithmetic; they are not actual model cost or reliability results.
 The known Windows sandbox restriction still requires running the complete suite outside
 the sandbox. Static tests continue to pass. No browser tools, hard process timeouts,
 live-model quality results or general injection-resistance claims were added.
+
+## Cumulative model-budget milestone — 2026-11-19
+
+Added optional per-run OpenAI usage limits shared by static planning, dynamic decisions
+and requirement interpretation. Output allowance is applied to the next request's token
+ceiling; total tokens and estimated cost are observed thresholds that can overshoot in
+the current request. No live requests or actual model-spend measurements were made.
+
+| Command | Observed result |
+|---|---|
+| `.\.venv\Scripts\python.exe -m pytest -q -o faulthandler_timeout=20` | **194 passed**, 1 existing dependency warning, 33.30 seconds |
+| `.\.venv\Scripts\ruff.exe check .` | All checks passed |
+| `.\.venv\Scripts\ruff.exe format --check .` | Formatting check passed |
+| `.\.venv\Scripts\veriagent.exe demo --engine dynamic` | Same expected three-mode results: baseline false success, verification failure, recovery success with 4 actions / 1 retry |
+| `.\.venv\Scripts\veriagent.exe run --help` | Displays total-token, cumulative-output and estimated-cost limit options |
+| `.\.tools\uv.exe sync --extra dev --extra openai --locked --offline` | Checked all 30 packages successfully |
+| `.\.tools\uv.exe build --offline` | Built source distribution and wheel; harmless hardlink-to-copy warning |
+
+Actual default-mock comparison evidence is in
+`artifacts/26b7ef8080a042c9a326670fae727067/`.
+
+New tests cover zero-request rejection, a capped next-request output allowance, unusable
+remainders, exact-threshold completion, observed-threshold overshoot, unknown usage,
+rejected interpretation evidence, provider reuse/reset and price validation before client
+construction. Real SDK transport fixtures confirm that the second request is not made
+after a reached threshold. They also confirm that a synthetic over-cost response is
+metered but cannot execute its proposed write. No-call rejections preserve the previously
+returned model identifier and do not increment aggregate model calls. Synthetic token/cost
+values validate control flow and arithmetic only; they are not actual billing results.
+
+The existing Windows sandbox execution restriction and Starlette deprecation warning
+remain unchanged. Budgets are per-run and local, not persistent account quotas or hard
+guarantees of billed dollars. No live-model schema acceptance or quality was validated.

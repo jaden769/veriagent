@@ -104,6 +104,9 @@ calls/tokens/cost and final evidence. Each decision's usage and returned model a
 in traces. A missing usage/cost value makes that aggregate unknown; known values remain
 available per call. Mixed response model identifiers produce a null aggregate model ID.
 Usage does not carry over from prior runs. A decision limit is not a dollar spending cap.
+Optional [model usage limits](MODEL_BUDGETS.md) additionally cap cumulative output allowance
+and stop on observed total-token/cost thresholds. The latter can overshoot in the current
+request and do not guarantee exact billed spend.
 All tool and model timeouts remain cooperative, not hard process cancellation.
 
 This increment implements dynamic selection and observation-driven repair of approved

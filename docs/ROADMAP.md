@@ -35,8 +35,13 @@ normalized feedback and aggregate model usage. The offline mock and SDK transpor
 exercise controlled failures, malicious decisions, premature finish claims and ambiguous
 commit acknowledgments. The static engine remains the default.
 
+Completed model-budget increment: a per-run admission ledger, cumulative output allowance,
+observed total-token and estimated-cost thresholds, unknown-usage rejection and explicit
+budget evidence in reports/traces. Token/cost observations may overshoot in the current
+request; no exact billed-dollar guarantee is claimed. Tests use synthetic usage only.
+
 Next milestones: the still-pending authorized live smoke and reviewed dynamic trial when
-credentials are configured; broader prompt-injection/fault evaluation; cumulative token
-or dollar budgets; and isolated hard tool deadlines before browser work. No live model
+credentials are configured; broader prompt-injection/fault evaluation; and isolated hard
+tool deadlines before browser work. No live model
 quality or general injection resistance is established. No browser agent, dashboard,
 learned verifier, or broad reliability claim is included.

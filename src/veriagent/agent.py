@@ -3,6 +3,7 @@
 import time
 from uuid import uuid4
 
+from veriagent.budgeting import ModelBudgetExceeded
 from veriagent.executor import Executor
 from veriagent.interpretation import proposal_digest
 from veriagent.models import Budget, Failure, Mode, Observation, Plan, RunReport, Task, TaskProposal
@@ -53,6 +54,7 @@ class Agent:
     ) -> RunReport:
         if reviewed_proposal is not None and reviewed_proposal.task() != task:
             raise ValueError("Reviewed proposal does not match the execution task")
+        self.provider.begin_run()
         start = time.monotonic()
         deadline = start + self.budget.timeout_seconds
         run_id = uuid4().hex
@@ -74,11 +76,17 @@ class Agent:
         try:
             plan = self.provider.plan(task, timeout=deadline - time.monotonic())
             self.validate_plan(task, plan)
-        except Exception:
-            failure = Failure.BUDGET if time.monotonic() >= deadline else Failure.PLANNING
+        except Exception as exc:
+            failure = (
+                Failure.BUDGET
+                if isinstance(exc, ModelBudgetExceeded) or (time.monotonic() >= deadline)
+                else Failure.PLANNING
+            )
             self.traces.append(run_id, "planning_error", {"failure": failure.value})
             usage = self.provider.usage
             self.traces.append(run_id, "model_usage", usage)
+            if self.provider.budget_state is not None:
+                self.traces.append(run_id, "model_budget", self.provider.budget_state)
             report = RunReport(
                 run_id=run_id,
                 mode=mode,
@@ -92,10 +100,13 @@ class Agent:
                 model_tokens=usage.total_tokens,
                 estimated_cost_usd=usage.estimated_cost_usd,
                 model_usage=usage,
+                model_budget=self.provider.budget_state,
             )
             self.traces.append(run_id, "report", report)
             return report
         self.traces.append(run_id, "model_usage", self.provider.usage)
+        if self.provider.budget_state is not None:
+            self.traces.append(run_id, "model_budget", self.provider.budget_state)
         self.traces.append(run_id, "plan", plan)
         actions = retries = 0
         verification = None
@@ -182,6 +193,7 @@ class Agent:
             model_tokens=self.provider.usage.total_tokens,
             estimated_cost_usd=self.provider.usage.estimated_cost_usd,
             model_usage=self.provider.usage,
+            model_budget=self.provider.budget_state,
         )
         self.traces.append(run_id, "report", report)
         return report

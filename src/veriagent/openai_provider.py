@@ -5,12 +5,15 @@ from typing import Any
 
 from pydantic import Field, model_validator
 
+from veriagent.budgeting import ModelBudgetLedger
 from veriagent.interpretation import validate_targets
 from veriagent.models import (
     Action,
     Decision,
     DecisionState,
     Interpretation,
+    ModelBudgetState,
+    ModelLimits,
     ModelUsage,
     Plan,
     Requirement,
@@ -32,11 +35,14 @@ class OpenAIConfig(Schema):
     max_output_tokens: int = Field(default=2048, ge=128, le=16384)
     input_usd_per_million: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     output_usd_per_million: float | None = Field(default=None, ge=0, allow_inf_nan=False)
+    limits: ModelLimits = Field(default_factory=ModelLimits)
 
     @model_validator(mode="after")
     def price_pair(self) -> "OpenAIConfig":
         if (self.input_usd_per_million is None) != (self.output_usd_per_million is None):
             raise ValueError("Provide both input and output prices, or neither")
+        if self.limits.max_cost_usd is not None and self.input_usd_per_million is None:
+            raise ValueError("A cost threshold requires both caller-supplied token prices")
         return self
 
 
@@ -152,7 +158,16 @@ class OpenAIProvider:
     def __init__(self, config: OpenAIConfig, *, client: Any):
         self.config = config
         self.client = client
+        self.ledger = ModelBudgetLedger(config.limits, config.model)
         self.usage = self._empty_usage()
+
+    def begin_run(self) -> None:
+        self.ledger.reset()
+        self.usage = ModelUsage(provider="openai", model=self.config.model)
+
+    @property
+    def budget_state(self) -> ModelBudgetState:
+        return self.ledger.state
 
     @classmethod
     def from_env(cls, config: OpenAIConfig) -> "OpenAIProvider":
@@ -192,19 +207,20 @@ class OpenAIProvider:
         self.client.close()
 
     def _request(self, *, timeout: float | None, **payload: Any) -> Any:
-        self.usage = self._empty_usage()
+        self.usage = ModelUsage(provider="openai", model=self.config.model)
         request_timeout = min(
             self.config.request_timeout_seconds,
             timeout if timeout is not None else self.config.request_timeout_seconds,
         )
         if request_timeout <= 0:
             raise ProviderError("No model request time remaining")
-        self.usage = self.usage.model_copy(update={"calls": 1})
+        output_allowance = self.ledger.allowance(self.config.max_output_tokens)
+        self.usage = self._empty_usage().model_copy(update={"calls": 1})
         try:
             response = self.client.responses.create(
                 model=self.config.model,
                 store=False,
-                max_output_tokens=self.config.max_output_tokens,
+                max_output_tokens=output_allowance,
                 timeout=request_timeout,
                 **payload,
             )
@@ -223,13 +239,15 @@ class OpenAIProvider:
                     output_tokens=usage.output_tokens,
                     estimated_cost_usd=cost,
                 )
-            if response.status != "completed":
-                raise ProviderError("Model did not complete its response")
-            return response
-        except ProviderError:
-            raise
         except Exception:
+            self.ledger.record(self.usage)
+            self.ledger.check_response()
             raise ProviderError("OpenAI request or structured output validation failed") from None
+        self.ledger.record(self.usage)
+        self.ledger.check_response()
+        if response.status != "completed":
+            raise ProviderError("Model did not complete its response")
+        return response
 
     def _structured_text(
         self, *, input_text: str, instructions: str, schema: dict, name: str, timeout: float | None

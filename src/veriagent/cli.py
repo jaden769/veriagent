@@ -10,7 +10,7 @@ from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.executor import Executor
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
-from veriagent.models import Budget, Mode
+from veriagent.models import Budget, Mode, ModelLimits
 from veriagent.openai_provider import OpenAIConfig, OpenAIProvider, ProviderError
 from veriagent.planner import MockProvider
 from veriagent.sandbox import Faults, Sandbox
@@ -33,10 +33,24 @@ def add_provider_options(command: argparse.ArgumentParser, *, timeout: float) ->
     command.add_argument(
         "--output-price", type=float, help="Caller-supplied USD per million output tokens"
     )
+    command.add_argument(
+        "--max-model-tokens", type=int, help="Observed total-token threshold per run"
+    )
+    command.add_argument(
+        "--max-model-output-tokens", type=int, help="Cumulative output-token allowance"
+    )
+    command.add_argument(
+        "--max-model-cost", type=float, help="Observed USD threshold; requires prices"
+    )
 
 
 def configured_provider(args: argparse.Namespace) -> MockProvider | OpenAIProvider:
     if args.provider == "mock":
+        if any(
+            value is not None
+            for value in (args.max_model_tokens, args.max_model_output_tokens, args.max_model_cost)
+        ):
+            raise ValueError("Model usage limits require --provider openai")
         if any(value is not None for value in (args.model, args.input_price, args.output_price)):
             raise ValueError("--model and token prices require --provider openai")
         return MockProvider()
@@ -49,6 +63,11 @@ def configured_provider(args: argparse.Namespace) -> MockProvider | OpenAIProvid
         max_output_tokens=args.max_output_tokens,
         input_usd_per_million=args.input_price,
         output_usd_per_million=args.output_price,
+        limits=ModelLimits(
+            max_total_tokens=args.max_model_tokens,
+            max_output_tokens=args.max_model_output_tokens,
+            max_cost_usd=args.max_model_cost,
+        ),
     )
     return OpenAIProvider.from_env(config)
 

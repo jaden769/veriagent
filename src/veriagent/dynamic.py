@@ -4,6 +4,7 @@ import time
 from typing import Protocol
 from uuid import uuid4
 
+from veriagent.budgeting import ModelBudgetExceeded
 from veriagent.executor import Executor
 from veriagent.interpretation import proposal_digest
 from veriagent.models import (
@@ -13,6 +14,7 @@ from veriagent.models import (
     DecisionState,
     Failure,
     Mode,
+    ModelBudgetState,
     ModelUsage,
     Observation,
     RunReport,
@@ -25,6 +27,11 @@ from veriagent.verification import StateVerifier
 
 
 class DecisionProvider(Protocol):
+    def begin_run(self) -> None: ...
+
+    @property
+    def budget_state(self) -> ModelBudgetState | None: ...
+
     @property
     def usage(self) -> ModelUsage: ...
 
@@ -34,6 +41,9 @@ class DecisionProvider(Protocol):
 
 
 def add_usage(total: ModelUsage, current: ModelUsage) -> ModelUsage:
+    if current.calls == 0:
+        return total
+
     def add(a, b):
         return None if a is None or b is None else a + b
 
@@ -93,6 +103,7 @@ class DynamicAgent:
     ) -> RunReport:
         if reviewed_proposal is not None and reviewed_proposal.task() != task:
             raise ValueError("Reviewed proposal does not match the execution task")
+        self.provider.begin_run()
         start = time.monotonic()
         deadline = start + self.budget.timeout_seconds
         run_id = uuid4().hex
@@ -167,14 +178,22 @@ class DynamicAgent:
             decisions += 1
             try:
                 decision = self.provider.decide(task, state, timeout=deadline - time.monotonic())
-            except Exception:
+            except Exception as exc:
                 usage = add_usage(usage, self.provider.usage)
                 self.traces.append(run_id, "model_usage", self.provider.usage)
-                failure = Failure.BUDGET if time.monotonic() >= deadline else Failure.PLANNING
+                if self.provider.budget_state is not None:
+                    self.traces.append(run_id, "model_budget", self.provider.budget_state)
+                failure = (
+                    Failure.BUDGET
+                    if isinstance(exc, ModelBudgetExceeded) or (time.monotonic() >= deadline)
+                    else Failure.PLANNING
+                )
                 self.traces.append(run_id, "decision_error", {"failure": failure.value})
                 break
             usage = add_usage(usage, self.provider.usage)
             self.traces.append(run_id, "model_usage", self.provider.usage)
+            if self.provider.budget_state is not None:
+                self.traces.append(run_id, "model_budget", self.provider.budget_state)
             self.traces.append(run_id, "decision", decision)
             if time.monotonic() >= deadline:
                 failure = Failure.BUDGET
@@ -283,6 +302,7 @@ class DynamicAgent:
             model_tokens=usage.total_tokens,
             estimated_cost_usd=usage.estimated_cost_usd,
             model_usage=usage,
+            model_budget=self.provider.budget_state,
         )
         self.traces.append(run_id, "report", report)
         return report

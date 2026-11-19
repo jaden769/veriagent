@@ -64,12 +64,15 @@ with `Remove-Item Env:OPENAI_API_KEY` if desired.
 
 ## Limits and accounting
 
-- Static execution attempts exactly one planning request, with SDK retries disabled.
+- Static execution attempts at most one planning request, with SDK retries disabled.
   Static recovery revises the plan deterministically and makes no further model requests.
   OpenAI `propose` separately attempts one interpretation request; see its saved usage.
 - Dynamic execution can make multiple billable requests, one per decision, up to
   `--max-decisions`. It aggregates returned usage across them. An already completed task
   can terminate after initial verification with no model request.
+- Optional [cumulative model limits](MODEL_BUDGETS.md) add output allowances and observed
+  total-token/cost thresholds. Admission can reject a request before any API call.
+  Exceeding a threshold or missing required usage prevents acting on that response.
 - `--model-timeout` defaults to 15 seconds, capped by the remaining `--timeout` run budget.
   `--max-output-tokens` defaults to 2048 per request. The output limit bounds generated tokens, not
   total spending. There is no dollar budget guarantee. SDK timeouts are transport limits,
@@ -77,7 +80,8 @@ with `Remove-Item Env:OPENAI_API_KEY` if desired.
 - `--input-price` and `--output-price` take USD per million tokens and must be supplied
   together. No prices are hardcoded. Without prices, estimated cost is null. Without
   returned usage (for example after a transport failure), token count and cost are null.
-- `model_calls` counts attempted planning requests, not proven billed calls. A transport
+- `model_calls` counts admitted API attempts, not proven billed calls. Rejected budget
+  admissions do not increment it. A transport
   error may occur before or after server processing; billing can be unknown.
 - Reports and traces include input/output usage and the actual returned model identifier.
   The simple price calculation omits cached-input discounts and service-tier pricing.

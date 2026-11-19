@@ -105,3 +105,21 @@ verifier evidence. Arbitrary issue titles, messages and exception text remain ou
 that projection. This is a tested boundary for this adapter, not a general proof against
 prompt injection. Per-decision traces retain usage and call IDs; aggregate usage preserves
 unknown values and is reset for each run.
+
+## 008: Admission ledger at the model transport boundary
+
+All OpenAI operations share a per-run ledger. Engines and the proposal workflow invoke
+`begin_run()` before their first operation; custom provider protocols expose that lifecycle
+and optional budget state. The mock implements it without paid-model accounting.
+
+The adapter checks limits before transport, reserves the next output allowance by capping
+the API request, and records returned usage before parsing output. Total-token and cost
+thresholds are observed after a response, so they can overshoot within that request. Such
+a response cannot authorize an action. Equality can finish a task; only a subsequent
+request is rejected. Missing usage needed by an active limit stops execution closed.
+
+Admission failures record zero attempts. Transport errors record an attempt with unknown
+usage. Budget failures remain distinct from planning errors and their snapshots persist
+alongside token/cost traces. Reusing a provider resets the ledger per run, so this is not
+a global workflow or account spending quota. Caller prices are required for cost limits;
+cached-token discounts and billing tiers remain outside the approximate cost model.

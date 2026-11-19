@@ -9,6 +9,7 @@ from veriagent.models import (
     Decision,
     DecisionState,
     Interpretation,
+    ModelBudgetState,
     ModelUsage,
     Plan,
     Requirement,
@@ -27,6 +28,11 @@ class PlanningProvider(Protocol):
 
     def parse(self, objective: str) -> Task: ...
 
+    def begin_run(self) -> None: ...
+
+    @property
+    def budget_state(self) -> ModelBudgetState | None: ...
+
     @property
     def usage(self) -> ModelUsage: ...
 
@@ -34,6 +40,13 @@ class PlanningProvider(Protocol):
 
 
 class MockProvider:
+    def begin_run(self) -> None:
+        pass
+
+    @property
+    def budget_state(self) -> ModelBudgetState | None:
+        return None
+
     @property
     def usage(self) -> ModelUsage:
         return ModelUsage()

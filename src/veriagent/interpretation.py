@@ -9,10 +9,24 @@ from pathlib import Path
 from typing import Protocol
 from uuid import uuid4
 
-from veriagent.models import Interpretation, ModelUsage, Requirement, Status, Task, TaskProposal
+from veriagent.budgeting import ModelBudgetExceeded
+from veriagent.models import (
+    Interpretation,
+    ModelBudgetState,
+    ModelUsage,
+    Requirement,
+    Status,
+    Task,
+    TaskProposal,
+)
 
 
 class InterpretationProvider(Protocol):
+    def begin_run(self) -> None: ...
+
+    @property
+    def budget_state(self) -> ModelBudgetState | None: ...
+
     @property
     def usage(self) -> ModelUsage: ...
 
@@ -130,6 +144,7 @@ def propose_task(
         raise ValueError("Interpretation timeout must be between 0 and 3600 seconds")
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
+    provider.begin_run()
     start = time.monotonic()
     proposal = None
     error = None
@@ -141,8 +156,12 @@ def propose_task(
         proposal = TaskProposal(
             objective=objective, interpretation=interpretation, interpretation_usage=provider.usage
         )
-    except Exception:
-        error = "interpretation_failed"
+    except Exception as exc:
+        error = (
+            "model_budget_exhausted"
+            if isinstance(exc, ModelBudgetExceeded)
+            else "interpretation_failed"
+        )
     result = {
         "schema_version": 1,
         "objective": objective,
@@ -154,6 +173,9 @@ def propose_task(
         else None,
         "elapsed_ms": (time.monotonic() - start) * 1000,
         "model_usage": provider.usage.model_dump(mode="json"),
+        "model_budget": provider.budget_state.model_dump(mode="json")
+        if provider.budget_state
+        else None,
     }
     if proposal:
         (directory / "proposal.json").write_text(

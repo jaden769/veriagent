@@ -164,6 +164,18 @@ class ModelUsage(Schema):
         return self.input_tokens + self.output_tokens
 
 
+class ModelLimits(Schema):
+    max_total_tokens: int | None = Field(default=None, ge=0)
+    max_output_tokens: int | None = Field(default=None, ge=0)
+    max_cost_usd: float | None = Field(default=None, ge=0, allow_inf_nan=False)
+
+
+class ModelBudgetState(Schema):
+    limits: ModelLimits
+    usage: ModelUsage
+    stop_reason: str | None = None
+
+
 class Interpretation(Schema):
     requirements: tuple[Requirement, ...] = Field(max_length=100)
     clarification: str | None = Field(default=None, min_length=1, max_length=1000)
@@ -205,3 +217,4 @@ class RunReport(Schema):
     model_usage: ModelUsage = Field(default_factory=ModelUsage)
     engine: Literal["static", "dynamic"] = "static"
     decisions: int = 0
+    model_budget: ModelBudgetState | None = None

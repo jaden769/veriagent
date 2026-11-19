@@ -13,15 +13,20 @@ from uuid import uuid4
 
 from veriagent.agent import Agent
 from veriagent.benchmark_cases import select_cases
+from veriagent.benchmark_faults import (
+    ALL_SCENARIOS,
+    DEFAULT_SCENARIOS,
+    ScheduledSandbox,
+    scenario_faults,
+)
 from veriagent.dynamic import DynamicAgent
 from veriagent.executor import Executor
 from veriagent.models import Budget, Mode, Task
 from veriagent.planner import MockProvider
-from veriagent.sandbox import Faults, Sandbox
 from veriagent.trace import TraceStore
 from veriagent.verification import StateVerifier
 
-SCENARIOS = ("clean", "silent_drop", "persistent_drop", "transient")
+SCENARIOS = DEFAULT_SCENARIOS
 
 
 def proportion(successes: int, count: int) -> dict:
@@ -61,6 +66,16 @@ def summarize(rows: list[dict]) -> list[dict]:
                 "false_success": proportion(sum(r["false_success"] for r in group), len(group)),
                 "recovered": proportion(sum(r["recovered"] for r in group), len(group)),
                 "untargeted_changes": sum(r["untargeted_changed"] for r in group),
+                "runs_with_injected_fault": sum(
+                    any(a["injected_fault"] for a in r.get("write_attempts", [])) for r in group
+                ),
+                "injected_faults": sum(
+                    sum(a["injected_fault"] is not None for a in r.get("write_attempts", []))
+                    for r in group
+                ),
+                "unused_indexed_events": sum(
+                    len(r.get("unused_write_schedule", [])) for r in group
+                ),
                 "model_calls": sum(r["model_calls"] for r in group),
                 "model_tokens": sum(r["model_tokens"] for r in group) if usage_known else None,
                 "unknown_usage_runs": sum(r["model_tokens"] is None for r in group),
@@ -106,7 +121,7 @@ def repeated_trials(
     if (
         not scenarios
         or len(set(scenarios)) != len(scenarios)
-        or any(s not in SCENARIOS for s in scenarios)
+        or any(s not in ALL_SCENARIOS for s in scenarios)
     ):
         raise ValueError("Select unique known scenarios")
     if engine not in {"static", "dynamic"}:
@@ -153,13 +168,8 @@ def repeated_trials(
             for mode in order:
                 trial = directory / f"{case.id}-{scenario}-{repetition + 1:02d}-{mode.value}"
                 trial.mkdir()
-                faults = Faults(
-                    silent_drops={"silent_drop": 1, "persistent_drop": budget.max_actions + 1}.get(
-                        scenario, 0
-                    ),
-                    transient_errors=int(scenario == "transient"),
-                )
-                sandbox = Sandbox(trial / "state.sqlite", faults)
+                faults, schedule = scenario_faults(scenario, budget.max_actions)
+                sandbox = ScheduledSandbox(trial / "state.sqlite", faults, schedule)
                 sandbox.seed()
                 with sqlite3.connect(sandbox.path) as db:
                     db.executemany(
@@ -196,6 +206,9 @@ def repeated_trials(
                     "initial_state": initial,
                     "faults_configured": configured_faults,
                     "faults_remaining": asdict(faults),
+                    "write_schedule": [event.model_dump(mode="json") for event in schedule],
+                    "write_attempts": sandbox.write_attempts,
+                    "unused_write_schedule": sandbox.unused_schedule(),
                     "repetition": repetition + 1,
                     "ground_truth_success": passed,
                     "false_success": report.claimed_success and not passed,

@@ -91,3 +91,41 @@ it does not prove a mismatch occurred. Dynamic execution can finish an already-s
 goal without writing, leaving the entire fault schedule unused. Such success is not
 recovery. Static and dynamic engines can expose different numbers of writes to the same
 counter schedule; do not treat fault labels as proof of equal realized faults.
+
+## Indexed write-fault schedules
+
+Three additional scenarios are available explicitly through `--scenario`:
+
+| Scenario | Schedule |
+| --- | --- |
+| `second_drop` | Report success without committing write attempt 2 |
+| `second_transient` | Raise a pre-commit transient error on write attempt 2 |
+| `two_drops` | Drop write attempts 1 and 2 |
+
+```powershell
+.\.venv\Scripts\veriagent.exe benchmark --task pair_done --scenario second_drop --scenario second_transient --scenario two_drops --repeats 2 --engine dynamic
+```
+
+This offline command schedules 18 trials. The original four default scenarios and the
+36-run default remain unchanged. Indexed injection is a benchmark-only sandbox adapter;
+it does not add new production tools, change the agent policy, or alter process workers.
+
+Indices are one-based across calls that reach the sandbox's `set_status`, including
+retries and idempotent/no-op assignments. Reads and actions rejected by the engine's
+policy do not count. Every fresh trial starts at attempt 1. Deadlines and issue existence
+are checked before a scheduled fault is delivered. If a call fails these preconditions,
+its index is consumed, the fault is recorded as unused, and it is not moved to a later
+attempt. Indexed events and legacy counter faults cannot be combined in one trial.
+
+Per-run `write_schedule`, `write_attempts` and `unused_write_schedule` record planned
+faults and actual exposure. Attempts include the target, requested status and injected
+fault, if any. Summaries report trials with an injected fault, total injections, and
+unused indexed events. These fields are benchmark evidence; they are not supplied to
+the planning provider as hidden fault labels.
+
+An index identifies a write position, not an issue: a model can choose a different target
+or action order. Use the recorded attempts to compare realized exposure. For example,
+a single-target task can finish after one write, never reaching a second-write fault.
+An already-satisfied dynamic task may perform no writes. Such successes are not evidence
+of recovery, and unused events are not counted as injections. The fixed schedules test
+selected positions only; they are not an exhaustive or randomized fault distribution.

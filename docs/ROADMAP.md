@@ -68,7 +68,11 @@ Completed varied-task increment: six manually specified task/initial-state cases
 multi-target audits, per-task summaries, corpus provenance, and configured/remaining
 fault counters. Already-satisfied success is distinguished from actual recovery.
 
-Next milestone: action-indexed fault schedules and independent task-corpus review before
+Completed indexed-fault increment: second-write drop/transient profiles and a two-drop
+profile, with explicit planned events, realized write positions/targets and unused events.
+Legacy defaults remain unchanged; unreached events are not counted as injections.
+
+Next milestone: independent review of the task corpus and fault definitions before
 optional stochastic comparisons. Do not infer reliability from the three successful live trials.
 Broader generated attacks, independent live task corpora and
 stochastic reliability comparisons remain future work before research claims. No live model

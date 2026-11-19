@@ -8,6 +8,7 @@ from pathlib import Path
 from veriagent.agent import Agent
 from veriagent.benchmark import SCENARIOS, repeated_trials
 from veriagent.benchmark_cases import load_corpus, select_cases
+from veriagent.benchmark_faults import ALL_SCENARIOS
 from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
@@ -115,7 +116,7 @@ def main() -> None:
     )
     benchmark.add_argument("--output", type=Path, default=Path("artifacts/benchmarks"))
     benchmark.add_argument("--repeats", type=int, default=3)
-    benchmark.add_argument("--scenario", action="append", choices=SCENARIOS)
+    benchmark.add_argument("--scenario", action="append", choices=ALL_SCENARIOS)
     tasks = benchmark.add_mutually_exclusive_group()
     tasks.add_argument("--task", action="append", help="Fixed task ID; repeat to select several")
     tasks.add_argument("--all-tasks", action="store_true", help="Select all six fixed task cases")

@@ -455,3 +455,31 @@ goals from completing; already-satisfied goals succeeded without consuming fault
 claiming recovery. These are deterministic regression outcomes, not stochastic model
 reliability estimates or proof of equal realized fault exposure across engines. No live
 request or paid batch was made.
+
+### Indexed write-fault schedules — 2026-11-19
+
+Added benchmark-only `ScheduledSandbox` and explicit second-write silent drop,
+second-write transient error, and first-two-write drop profiles. Original default
+scenarios remain unchanged. Indexed writes include retries and no-op assignments;
+reads do not advance the schedule. Preconditions precede injection; a timed-out or
+missing-target attempt keeps its event undelivered without moving it to a later index.
+Counter and indexed faults cannot be mixed. Agents receive ordinary tool observations,
+not the hidden fault schedule. Result artifacts record planned events, every reached
+write position/target, actual injections and unused events; summaries include exposure
+counts instead of assuming equal faults from scenario labels.
+
+Focused indexed-fault and benchmark tests: **31 passed in 25.29 seconds**. Tests verify
+second-target partial commits, transient non-commit, no-op indexing, retry persistence,
+precondition failure without shifted delivery, invalid schedules, recovery under both
+engines and unused second-write events on single-target goals.
+
+Ran 18 offline dynamic pair_done trials (three indexed scenarios, two repetitions,
+three modes) at `artifacts/benchmarks/e878e09041de4423a9b6acc923eeafc0/benchmark.json`.
+Recovery succeeded 2/2 for each scenario. Verify/recover had zero false successes.
+For two_drops, baseline and recover each delivered both indexed events per trial;
+verify stopped after the first mismatch, leaving event 2 unused. This observed difference
+confirms that matching profile labels alone does not establish equal fault exposure.
+No live generation request was issued. Ruff lint/format and whitespace checks passed.
+
+Full regression suite after indexed scheduling: **309 passed in 99.25 seconds**, with
+one existing Starlette/httpx deprecation warning. No additional API usage occurred.

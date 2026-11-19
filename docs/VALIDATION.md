@@ -377,3 +377,28 @@ unchanged and the provider diagnostic was null. This is one controlled live dyna
 scenario, not a statistical reliability comparison. The visible PowerShell error came
 from concatenating `Format-List` and the next pasted command; saved evidence confirms
 the dynamic run itself passed. No additional generation request was needed.
+
+### Live reviewed multi-target dynamic trial — 2026-11-19
+
+The first live interpretation of 'Please resolve ISSUE-1 and begin work on ISSUE-2'
+requested clarification ('Should ISSUE-1 be marked done?'); review emitted no approval
+digest. This is a conservative clarification outcome, not a successful interpretation
+of that wording. The subsequent explicit objective 'Set ISSUE-1 to done and set ISSUE-2
+to in_progress' produced the exact expected requirements, no clarification, and digest
+`c390f06e8ca806cfad9c3f2d2d0e4ac28eddce57c568ade0a52462cb0087f31a`.
+
+Inspected proposal `artifacts/proposals/8b8a7d19f03e4d9ba0551d90c1d51a87/proposal.json`
+and run `b9621815b9254b53b797b205022082ca` in `artifacts/traces.sqlite`. The trace's
+requirements_review digest matches the reviewed proposal. Dynamic execution reported
+verified success, five actions, one recovery attempt, five generation calls, 3,601 tokens
+(3,373 input / 228 output), and approximately 12.219 seconds. Interpretation separately
+used one call and 341 tokens; the successful proposal/execution workflow used six calls
+and 3,942 tokens total, excluding the earlier clarification attempt. Cost was not estimated.
+
+A separate read-only SQLite query against
+`artifacts/reviewed-36a05e72610b4bfd9261bb0852919415.sqlite` confirmed ISSUE-1 done/version 1,
+ISSUE-2 in_progress/version 1, and ISSUE-3 open/version 0. Exported proposal, digest, ordered
+trace events and final rows to
+`artifacts/reviewed-validation/b9621815b9254b53b797b205022082ca/evidence.json`.
+No additional live requests were issued. One successful explicit task and one conservative
+clarification do not establish broad interpretation accuracy or general agent reliability.

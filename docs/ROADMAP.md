@@ -53,7 +53,14 @@ guards to prove violations are reported. It measures finite local boundaries onl
 The bounded live dynamic smoke also passed on 2026-11-19, including injected-fault
 detection, recovery and independent audit (see VALIDATION.md).
 
-Next milestone: a reviewed dynamic trial in the user's configured terminal.
+Completed live reviewed trial: explicit two-target interpretation, matching approval
+digest, dynamic execution with injected dropped-write recovery, and a separate read-only
+final-state audit. The synonym-based objective requested clarification; broad language
+accuracy remains unestablished. See VALIDATION.md for artifacts and separate usage totals.
+
+Next milestone: a reproducible repeated-trial benchmark with fixed scenarios, explicit
+per-run limits, separate interpretation/execution accounting, and uncertainty reporting.
+Keep live requests opt-in; do not infer reliability from the three successful live trials.
 Broader generated attacks, independent live task corpora and
 stochastic reliability comparisons remain future work before research claims. No live model
 quality or general injection resistance is established. No browser agent, dashboard,

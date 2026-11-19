@@ -33,3 +33,16 @@ trials, paired confidence intervals, verifier false positives / negatives, broad
 and ablations controlling for extra action and token budgets. Do not infer verifier
 accuracy from comparing this verifier against itself. Published claims must include
 raw traces, dependency lock, task definitions, fault schedules and actual measurements.
+
+## Optional dynamic engine
+
+`demo --engine dynamic` uses the same paired initial states and fault schedules, with
+the deterministic observation-driven provider. Every run records its engine and decision
+count. Actions include reads and writes; verifier reads are separate evidence operations.
+The dynamic engine verifies initially and after writes/failed tools, while static execution
+verifies after a plan pass. These are different policies and have different costs.
+
+Do not pool engine results without accounting for verification timing, decision budgets
+and action counts. The deterministic mock has no paid model calls. SDK transport fixtures
+provide synthetic usage solely to test accounting; they are not measured LLM reliability
+or cost results. Live model experiments remain pending credentials and authorization.

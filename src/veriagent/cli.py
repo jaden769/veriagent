@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 
 from veriagent.agent import Agent
+from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.executor import Executor
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
@@ -52,11 +53,23 @@ def configured_provider(args: argparse.Namespace) -> MockProvider | OpenAIProvid
     return OpenAIProvider.from_env(config)
 
 
+def add_engine_options(command: argparse.ArgumentParser) -> None:
+    command.add_argument("--engine", choices=("static", "dynamic"), default="static")
+    command.add_argument("--max-actions", type=int, default=20)
+    command.add_argument(
+        "--max-decisions",
+        type=int,
+        default=20,
+        help="Dynamic decision limit; each OpenAI decision can be billable",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="veriagent")
     commands = parser.add_subparsers(dest="command", required=True)
     demo = commands.add_parser("demo", help="Compare three modes using fresh paired sandboxes")
     demo.add_argument("--output", type=Path, default=Path("artifacts"))
+    demo.add_argument("--engine", choices=("static", "dynamic"), default="static")
     demo.add_argument(
         "--scenario",
         choices=("clean", "silent_drop", "persistent_drop", "transient"),
@@ -70,6 +83,7 @@ def main() -> None:
     run.add_argument("--silent-drops", type=int, default=0)
     run.add_argument("--max-retries", type=int, default=2)
     add_provider_options(run, timeout=10)
+    add_engine_options(run)
     propose = commands.add_parser("propose", help="Interpret an objective without executing tools")
     propose.add_argument("objective")
     propose.add_argument("--output", type=Path, default=Path("artifacts/proposals"))
@@ -85,9 +99,11 @@ def main() -> None:
     execute.add_argument("--silent-drops", type=int, default=0)
     execute.add_argument("--max-retries", type=int, default=2)
     add_provider_options(execute, timeout=60)
+    add_engine_options(execute)
     smoke = commands.add_parser("smoke", help="Save an isolated dropped-write recovery check")
     smoke.add_argument("--output", type=Path, default=Path("artifacts/smoke"))
     add_provider_options(smoke, timeout=60)
+    add_engine_options(smoke)
     serve = commands.add_parser("serve", help="Serve a local sandbox on 127.0.0.1")
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
@@ -131,7 +147,7 @@ def main() -> None:
             raise SystemExit(1)
         return
     if args.command == "demo":
-        result = compare(args.output, args.scenario)
+        result = compare(args.output, args.scenario, engine=args.engine)
         print("mode       claim  audit  false-success  actions  retries")
         for row in result["runs"]:
             print(
@@ -152,12 +168,16 @@ def main() -> None:
         return
     if args.command == "smoke":
         try:
-            budget = Budget(timeout_seconds=args.timeout)
+            budget = Budget(
+                timeout_seconds=args.timeout,
+                max_actions=args.max_actions,
+                max_decisions=args.max_decisions,
+            )
             provider = configured_provider(args)
         except (ValueError, ProviderError) as exc:
             parser.error(str(exc))
         try:
-            result = smoke_test(args.output, provider, budget)
+            result = smoke_test(args.output, provider, budget, engine=args.engine)
         finally:
             if isinstance(provider, OpenAIProvider):
                 provider.close()
@@ -172,7 +192,12 @@ def main() -> None:
             task, reviewed = approved_task(args.proposal, args.approve)
         else:
             task = MockProvider().parse(args.objective)
-        budget = Budget(max_retries=args.max_retries, timeout_seconds=args.timeout)
+        budget = Budget(
+            max_retries=args.max_retries,
+            timeout_seconds=args.timeout,
+            max_actions=args.max_actions,
+            max_decisions=args.max_decisions,
+        )
         faults = Faults(silent_drops=args.silent_drops)
         if args.db.resolve() == args.traces.resolve():
             raise ValueError("State and trace databases must use separate paths")
@@ -183,7 +208,8 @@ def main() -> None:
         sandbox = Sandbox(args.db, faults)
         sandbox.seed()
         traces = TraceStore(args.traces)
-        report = Agent(
+        agent_class = DynamicAgent if args.engine == "dynamic" else Agent
+        report = agent_class(
             provider, Executor(sandbox), StateVerifier(sandbox.path), traces, budget
         ).run(task, Mode(args.mode), reviewed_proposal=reviewed)
     finally:

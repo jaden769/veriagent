@@ -109,7 +109,7 @@ def test_cli_missing_configuration_exits_before_artifacts(tmp_path, monkeypatch,
 
 def test_cli_reports_failed_smoke_with_exit_one(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr("sys.argv", ["veriagent", "smoke", "--output", str(tmp_path)])
-    monkeypatch.setattr("veriagent.cli.smoke_test", lambda *args: {"smoke_passed": False})
+    monkeypatch.setattr("veriagent.cli.smoke_test", lambda *args, **kwargs: {"smoke_passed": False})
     with pytest.raises(SystemExit) as error:
         main()
     assert error.value.code == 1

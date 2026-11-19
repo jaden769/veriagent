@@ -29,9 +29,14 @@ content-bound review, execution against the reviewed requirements, interpretatio
 capture and a 24-case varied-instruction fixture. The offline grammar is intentionally
 limited; ambiguity produces clarification. Live interpretation quality is untested.
 
-Next milestones: the still-pending authorized live smoke test and reviewed-interpretation
-trial when credentials are configured, followed by dynamic tool selection against the
-same approved requirements and budgets.
-Dynamic model-driven tool selection, model-driven replanning and full injection defenses
-remain open. Do not expand tools until authorization and timeout behavior are independently
-tested. No browser agent, dashboard, learned verifier, or broad reliability claim is included.
+Completed dynamic increment: an optional observation-driven engine, strict single-function
+decisions, per-action authorization, verified repair, action/decision/recovery limits,
+normalized feedback and aggregate model usage. The offline mock and SDK transport tests
+exercise controlled failures, malicious decisions, premature finish claims and ambiguous
+commit acknowledgments. The static engine remains the default.
+
+Next milestones: the still-pending authorized live smoke and reviewed dynamic trial when
+credentials are configured; broader prompt-injection/fault evaluation; cumulative token
+or dollar budgets; and isolated hard tool deadlines before browser work. No live model
+quality or general injection resistance is established. No browser agent, dashboard,
+learned verifier, or broad reliability claim is included.

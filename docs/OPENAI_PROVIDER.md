@@ -3,7 +3,9 @@
 The adapter supports static planning and proposed requirements using the OpenAI Responses
 API. Direct `run` keeps the original constrained objective grammar; broader objectives use
 the [proposal/review/execution workflow](INTERPRETATION.md). Execution, verification and
-recovery remain local and use the same trusted policies as the offline demo. This is an
+recovery remain local and use the same trusted policies as the offline demo. Optional
+[dynamic function calling](DYNAMIC.md) chooses an action from observations on each turn.
+This is an
 incremental Phase 2 implementation, not a completed general LLM agent.
 
 ## Install and configure
@@ -25,8 +27,10 @@ intend to use your account's API quota:
 .\.tools\uv.exe run --extra openai veriagent smoke --provider openai
 ```
 
-`--model` overrides `OPENAI_MODEL`. The model receives the objective and authorized
-requirements; it does not receive database contents, observations, credentials or traces.
+`--model` overrides `OPENAI_MODEL`. Static planning receives the objective and authorized
+requirements, without database contents or observations. Dynamic selection additionally
+receives normalized status feedback, verification evidence and budgets. Neither path
+includes credentials, raw issue titles, raw tool messages or full traces.
 The endpoint is explicitly `https://api.openai.com/v1`, `store=False` is sent, and the SDK
 client is closed after execution. This storage flag is not a general retention guarantee.
 
@@ -60,11 +64,14 @@ with `Remove-Item Env:OPENAI_API_KEY` if desired.
 
 ## Limits and accounting
 
-- Exactly one planning request is attempted per run, with SDK automatic retries disabled.
-  Recovery revises the plan deterministically and makes no further model requests.
+- Static execution attempts exactly one planning request, with SDK retries disabled.
+  Static recovery revises the plan deterministically and makes no further model requests.
   OpenAI `propose` separately attempts one interpretation request; see its saved usage.
+- Dynamic execution can make multiple billable requests, one per decision, up to
+  `--max-decisions`. It aggregates returned usage across them. An already completed task
+  can terminate after initial verification with no model request.
 - `--model-timeout` defaults to 15 seconds, capped by the remaining `--timeout` run budget.
-  `--max-output-tokens` defaults to 2048. The output limit bounds generated tokens, not
+  `--max-output-tokens` defaults to 2048 per request. The output limit bounds generated tokens, not
   total spending. There is no dollar budget guarantee. SDK timeouts are transport limits,
   not a hard wall-clock cancellation guarantee; cold imports can also consume run time.
 - `--input-price` and `--output-price` take USD per million tokens and must be supplied
@@ -75,10 +82,11 @@ with `Remove-Item Env:OPENAI_API_KEY` if desired.
 - Reports and traces include input/output usage and the actual returned model identifier.
   The simple price calculation omits cached-input discounts and service-tier pricing.
 
-The agent validates every plan against original task requirements before executing it.
+The static agent validates every plan against original task requirements before executing it.
 Wrong targets, wrong statuses, invented tools, extra permission fields, missing coverage,
 and invalid dependencies fail with zero actions. Refusals, incomplete output and API errors
-produce honest failure reports; there is no automatic fallback to a mock success.
+produce honest failure reports; there is no automatic fallback to a mock success. Dynamic
+execution applies equivalent target/status checks to every selected function call.
 
 ## Offline verification of the integration
 
@@ -95,8 +103,8 @@ and SDK imports may block; the recorded complete suite runs outside that sandbox
 
 No live API call has been made as part of implementation. Model-specific schema acceptance,
 real latency, service errors and output quality require a separately authorized smoke test.
-Broad live-model interpretation quality, interactive tool calling, model-driven recovery,
-provider comparisons and general injection resistance remain future work.
+Broad live-model interpretation/tool-selection quality, provider comparisons, learned
+recovery policies and general injection resistance remain future work.
 
 Implementation references: [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs),
 [SDK retry and timeout behavior](https://github.com/openai/openai-python#retries).

@@ -2,9 +2,11 @@
 
 import json
 from pathlib import Path
+from typing import Literal
 from uuid import uuid4
 
 from veriagent.agent import Agent
+from veriagent.dynamic import DynamicAgent
 from veriagent.executor import Executor
 from veriagent.models import Mode
 from veriagent.planner import MockProvider
@@ -13,9 +15,13 @@ from veriagent.trace import TraceStore
 from veriagent.verification import StateVerifier
 
 
-def compare(output: Path, scenario: str = "silent_drop") -> dict:
+def compare(
+    output: Path, scenario: str = "silent_drop", *, engine: Literal["static", "dynamic"] = "static"
+) -> dict:
     if scenario not in {"clean", "silent_drop", "persistent_drop", "transient"}:
         raise ValueError("Unknown scenario")
+    if engine not in {"static", "dynamic"}:
+        raise ValueError("Unknown engine")
     directory = output / uuid4().hex
     directory.mkdir(parents=True)
     traces = TraceStore(directory / "traces.sqlite")
@@ -30,7 +36,8 @@ def compare(output: Path, scenario: str = "silent_drop") -> dict:
         sandbox = Sandbox(directory / f"{mode.value}.sqlite", faults)
         sandbox.seed()
         verifier = StateVerifier(sandbox.path)
-        report = Agent(provider, Executor(sandbox), verifier, traces).run(task, mode)
+        agent_class = DynamicAgent if engine == "dynamic" else Agent
+        report = agent_class(provider, Executor(sandbox), verifier, traces).run(task, mode)
         audit = verifier.verify(task)
         traces.append(report.run_id, "evaluation_audit", audit)
         traces.export(report.run_id, directory / f"{mode.value}.json")
@@ -48,6 +55,7 @@ def compare(output: Path, scenario: str = "silent_drop") -> dict:
         )
     result = {
         "scenario": scenario,
+        "engine": engine,
         "task": task.model_dump(mode="json"),
         "directory": str(directory.resolve()),
         "runs": rows,

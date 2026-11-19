@@ -61,8 +61,10 @@ statuses yourself. No application state or tool output is included in the interp
 request. The existing `run` command keeps its original narrow deterministic parser.
 
 Interpretation and planning are separate provider choices. After reviewing an OpenAI
-proposal, `execute` defaults to offline planning. Explicit `execute --provider openai`
-attempts a second paid request for a plan; recovery remains deterministic and local.
+proposal, `execute` defaults to offline static planning. Explicit static
+`execute --provider openai` attempts a second paid request for a plan. Selecting
+`--engine dynamic` instead allows multiple observation-driven decisions, each potentially
+billable when OpenAI is selected. See [dynamic execution](DYNAMIC.md) for its limits.
 The execution planner cannot change the reviewed requirements. Refusals, invalid schema,
 unmentioned/omitted targets and expired interpretation budgets produce a failed result
 without a usable proposal or any tool operation.
@@ -107,5 +109,5 @@ against an in-memory HTTP transport. All tests run without real credentials or p
 
 These hand-authored grammar cases establish behavior only on this fixture. They are not
 an unbiased language benchmark or a live-model accuracy result. Live schema acceptance,
-real latency/cost, multilingual interpretation, interactive tool selection and model-driven
-replanning remain unvalidated or unimplemented.
+real latency/cost, multilingual interpretation and live dynamic-selection quality remain
+unvalidated. General model-driven workflow replanning remains unimplemented.

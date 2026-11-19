@@ -4,9 +4,11 @@ import json
 import platform
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
+from typing import Literal
 from uuid import uuid4
 
 from veriagent.agent import Agent
+from veriagent.dynamic import DynamicAgent
 from veriagent.executor import Executor
 from veriagent.models import Budget, Mode
 from veriagent.planner import MockProvider, PlanningProvider
@@ -15,13 +17,21 @@ from veriagent.trace import TraceStore
 from veriagent.verification import StateVerifier
 
 
-def smoke_test(output: Path, provider: PlanningProvider, budget: Budget | None = None) -> dict:
+def smoke_test(
+    output: Path,
+    provider: PlanningProvider,
+    budget: Budget | None = None,
+    *,
+    engine: Literal["static", "dynamic"] = "static",
+) -> dict:
     """Save an honest result even when the model refuses or returns an invalid plan.
 
     A completed task alone is insufficient: the trace must show the injected mismatch
     being detected, a recovery attempt, and a successful final audit. The caller owns
-    the provider and closes its resources. This function never repeats a model call.
+    the provider and closes its resources. Dynamic selection can make multiple model calls.
     """
+    if engine not in {"static", "dynamic"}:
+        raise ValueError("Unknown engine")
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
     budget = budget or Budget(timeout_seconds=60)
@@ -32,7 +42,10 @@ def smoke_test(output: Path, provider: PlanningProvider, budget: Budget | None =
     verifier = StateVerifier(sandbox.path)
     task = MockProvider().parse("Set ISSUE-1 to done")
     initial = [sandbox.read_issue(f"ISSUE-{i}") for i in range(1, 4)]
-    report = Agent(provider, Executor(sandbox), verifier, traces, budget).run(task, Mode.RECOVER)
+    agent_class = DynamicAgent if engine == "dynamic" else Agent
+    report = agent_class(provider, Executor(sandbox), verifier, traces, budget).run(
+        task, Mode.RECOVER
+    )
     audit = verifier.verify(task)
     traces.append(report.run_id, "evaluation_audit", audit)
     events = traces.events(report.run_id)
@@ -59,6 +72,7 @@ def smoke_test(output: Path, provider: PlanningProvider, budget: Budget | None =
     result = {
         "schema_version": 1,
         "scenario": "silent_drop",
+        "engine": engine,
         "directory": str(directory),
         "smoke_passed": passed,
         "fault_detected": detected,

@@ -6,6 +6,8 @@ from typing import Protocol
 from veriagent.interpretation import interpret_offline
 from veriagent.models import (
     Action,
+    Decision,
+    DecisionState,
     Interpretation,
     ModelUsage,
     Plan,
@@ -38,6 +40,32 @@ class MockProvider:
 
     def interpret(self, objective: str, *, timeout: float | None = None) -> Interpretation:
         return interpret_offline(objective)
+
+    def decide(self, task: Task, state: DecisionState, *, timeout: float | None = None) -> Decision:
+        verified = (
+            {e.issue_id: e.actual for e in state.verification.evidence}
+            if state.verification
+            else {}
+        )
+        for req in task.requirements:
+            if verified.get(req.issue_id) == req.status:
+                continue
+            latest = next(
+                (f for f in reversed(state.feedback) if f.action.issue_id == req.issue_id), None
+            )
+            if latest and latest.reported_success:
+                if latest.action.tool == "read_issue":
+                    if latest.observed_status == req.status:
+                        continue
+                    return Decision(
+                        kind="action",
+                        action=Action(tool="set_status", issue_id=req.issue_id, status=req.status),
+                    )
+                if state.verification is None:
+                    # Baseline deliberately accepts successful mutation acknowledgments.
+                    continue
+            return Decision(kind="action", action=Action(tool="read_issue", issue_id=req.issue_id))
+        return Decision(kind="finish")
 
     def parse(self, objective: str) -> Task:
         # Full-match prevents ignored trailing instructions or partial interpretations.

@@ -143,3 +143,41 @@ files, no-state/no-provider behavior on wrong approval, interpretation usage on 
 outputs, and actual SDK interpretation serialization using an in-memory HTTP transport.
 These tests establish fixture behavior, not live language accuracy or general injection
 resistance. The digest detects changed content; it does not authenticate a reviewer.
+
+## Dynamic tool-selection milestone — 2026-11-19
+
+Added an optional dynamic engine while preserving the static default. OpenAI decisions
+use strict function-call schemas; each action is independently checked against authorized
+targets, statuses, tool permissions and repeat-write policy. The same paths are available
+through the offline mock. No live API calls or actual model billing were used in validation.
+
+| Command | Observed result |
+|---|---|
+| `.\.venv\Scripts\python.exe -m pytest -q -o faulthandler_timeout=20` | **158 passed**, 1 existing dependency warning, 30.57 seconds |
+| `.\.venv\Scripts\ruff.exe check .` | All checks passed |
+| `.\.venv\Scripts\ruff.exe format --check .` | Formatting check passed |
+| `.\.venv\Scripts\veriagent.exe demo --engine dynamic` | Baseline false success with 2 actions; verification-only detects mismatch with 2 actions; recovery completes with 4 actions / 1 retry |
+| `.\.venv\Scripts\veriagent.exe demo --engine dynamic --scenario persistent_drop` | Recovery terminates honestly after 6 actions / 2 retries |
+| `.\.venv\Scripts\veriagent.exe smoke --engine dynamic` | Passing smoke, fault detected, unrelated issues unchanged, 4 actions / 4 decisions / 1 retry / 0 model calls |
+| `.\.tools\uv.exe sync --extra dev --extra openai --locked --offline` | Checked all 30 packages successfully |
+| `.\.tools\uv.exe build --offline` | Built source distribution and wheel; harmless hardlink-to-copy warning |
+
+Actual evidence is retained under:
+
+- `artifacts/204f61e4ead74e49958d127f317899a8/` — dynamic three-mode dropped-write comparison.
+- `artifacts/018b6b1fb28847abbe6636cc573afec6/` — dynamic persistent-fault comparison.
+- `artifacts/smoke/88261319bfb34ec49836823fdda94d2e/` — final dynamic smoke result and traces.
+
+New tests exercise paired dynamic scenarios, reviewed multi-status requirements, wrong
+targets/statuses, repeated writes, denied/non-idempotent tools, decision/action/retry limits,
+premature finish claims, late decisions, unreadable evidence and model-usage aggregation.
+A simulated post-commit timeout completes through authoritative verification without
+repeating the write. When evidence fails after a write, old verification is cleared and
+the task is not claimed successful. Raw issue-title instructions do not enter provider
+feedback. Actual SDK tests reject unknown/multiple/incomplete calls, extra permission
+fields, missing call IDs and text-only success claims. Synthetic usage values test the
+aggregation arithmetic; they are not actual model cost or reliability results.
+
+The known Windows sandbox restriction still requires running the complete suite outside
+the sandbox. Static tests continue to pass. No browser tools, hard process timeouts,
+live-model quality results or general injection-resistance claims were added.

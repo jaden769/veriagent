@@ -118,6 +118,35 @@ class Budget(Schema):
     max_retries: int = Field(default=2, ge=0, le=100)
     timeout_seconds: float = Field(default=10, gt=0, le=3600)
     action_timeout_seconds: float = Field(default=1, gt=0, le=60)
+    max_decisions: int = Field(default=20, ge=1, le=1000)
+
+
+class ActionFeedback(Schema):
+    action: Action
+    reported_success: bool
+    failure: Failure | None
+    observed_status: Status | None
+
+
+class DecisionState(Schema):
+    budget: Budget = Field(default_factory=Budget)
+    feedback: tuple[ActionFeedback, ...] = ()
+    verification: Verification | None = None
+    actions: int = 0
+    recovery_attempts: int = 0
+    decisions: int = 0
+
+
+class Decision(Schema):
+    kind: Literal["action", "finish"]
+    action: Action | None = None
+    call_id: str | None = Field(default=None, min_length=1, max_length=200)
+
+    @model_validator(mode="after")
+    def valid_choice(self) -> "Decision":
+        if (self.kind == "action") != (self.action is not None):
+            raise ValueError("An action decision needs an action; finish must not include one")
+        return self
 
 
 class ModelUsage(Schema):
@@ -174,3 +203,5 @@ class RunReport(Schema):
     model_tokens: int | None = 0
     estimated_cost_usd: float | None = 0.0
     model_usage: ModelUsage = Field(default_factory=ModelUsage)
+    engine: Literal["static", "dynamic"] = "static"
+    decisions: int = 0

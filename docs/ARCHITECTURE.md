@@ -50,7 +50,8 @@ The constrained parser establishes original requirements for direct runs before 
 planning call. Broader objectives instead use a separate proposal and explicit content-bound
 review; see decision 006. Only the resulting authorized targets and statuses can enter a
 valid plan. The model never receives observations or issue titles, reducing the injection
-surface; full prompt-injection resistance is not claimed.
+surface; full prompt-injection resistance is not claimed. Dynamic selection receives
+normalized status feedback and verifier evidence, as described in decision 007.
 Invalid plans terminate with zero tool actions, a planning-failure event and a terminal report.
 
 Credentials come only from the environment; the production endpoint is pinned. API errors
@@ -78,3 +79,29 @@ actor or a mistaken human approval. No signature, identity or secret capability 
 Execution traces bind the reviewed digest to the task before planning. The ordinary planner
 validation and tool policy remain in force. Interpretation and planning usage are separate
 stages so a reused proposal does not silently add historical model calls to a new run.
+
+## 007: Separate dynamic engine with per-decision authorization
+
+The static engine remains unchanged as the default experimental configuration. The
+optional dynamic engine requests one typed action or a finish claim at a time. The
+OpenAI adapter uses strict Responses function tools and fresh requests with a bounded
+projection of recent feedback; it does not maintain a remote conversation. All function
+calls are parsed and validated locally before the engine checks task authorization.
+
+Only approved targets and final statuses can be selected. The executor's trusted policy
+determines tool permission and idempotency, and the engine separately authorizes retries
+for an unmet target after a recoverable failure. Completed targets cannot be rewritten.
+No model argument can weaken these checks. Independent verification, not model finish
+text or a tool acknowledgment, establishes success in verified modes.
+
+Initial verification avoids requests for already completed tasks. Verification after a
+write also resolves ambiguous acknowledgments. Failed evidence reads clear the prior
+verification instead of treating it as current. Action, decision, retry and cooperative
+time limits bound reads, invalid decisions and false finish claims. A decision limit
+bounds possible model requests, not exact dollar expenditure.
+
+Model input includes task requirements, counters/budgets, status-only feedback and typed
+verifier evidence. Arbitrary issue titles, messages and exception text remain outside
+that projection. This is a tested boundary for this adapter, not a general proof against
+prompt injection. Per-decision traces retain usage and call IDs; aggregate usage preserves
+unknown values and is reset for each run.

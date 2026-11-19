@@ -4,7 +4,7 @@ import time
 from dataclasses import dataclass
 from typing import Protocol
 
-from veriagent.models import Action, Failure, Issue, Observation, Status
+from veriagent.models import Action, Failure, Issue, Observation, Status, Task
 from veriagent.sandbox import TransientError
 
 
@@ -21,6 +21,14 @@ class ToolPolicy:
 
 
 class Executor:
+    @staticmethod
+    def authorize(task: Task, action: Action) -> None:
+        targets = {r.issue_id: r.status for r in task.requirements}
+        if action.issue_id not in targets:
+            raise PermissionError("Action targets an issue outside the authorized task")
+        if action.tool == "set_status" and action.status != targets[action.issue_id]:
+            raise PermissionError("Action changes the authorized target status")
+
     def __init__(self, tools: IssueTools, allowed_tools: frozenset[str] | None = None):
         self.tools = tools
         allowed = (

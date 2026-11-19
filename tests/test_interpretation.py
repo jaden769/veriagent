@@ -94,7 +94,10 @@ def test_invalid_proposals_rejected(proposal_file, mutation):
         load_proposal(proposal_file)
 
 
-def test_cli_review_and_execute_with_fault_recovery(proposal_file, tmp_path, monkeypatch, capsys):
+@pytest.mark.parametrize("engine,expected_actions", [("static", 3), ("dynamic", 6)])
+def test_cli_review_and_execute_with_fault_recovery(
+    proposal_file, tmp_path, monkeypatch, capsys, engine, expected_actions
+):
     monkeypatch.setattr("sys.argv", ["veriagent", "review", str(proposal_file)])
     main()
     reviewed = json.loads(capsys.readouterr().out)
@@ -106,6 +109,8 @@ def test_cli_review_and_execute_with_fault_recovery(proposal_file, tmp_path, mon
             "veriagent",
             "execute",
             str(proposal_file),
+            "--engine",
+            engine,
             "--approve",
             reviewed["approval_digest"],
             "--db",
@@ -118,7 +123,8 @@ def test_cli_review_and_execute_with_fault_recovery(proposal_file, tmp_path, mon
     )
     main()
     report = json.loads(capsys.readouterr().out)
-    assert report["verified_success"] and report["actions"] == 3
+    assert report["verified_success"] and report["actions"] == expected_actions
+    assert report["engine"] == engine
     assert report["recovery_attempts"] == 1
     sandbox = Sandbox(db)
     assert sandbox.read_issue("ISSUE-1").status == "done"

@@ -10,6 +10,8 @@ recovery agent selectively retries the idempotent update and checks the result.
 The default demo is deterministic. Optional OpenAI interpretation and planning are
 available, with a proposal/review/execution flow for broader objectives; see
 [the provider guide](docs/OPENAI_PROVIDER.md) and [reviewed interpretation](docs/INTERPRETATION.md).
+An optional [dynamic engine](docs/DYNAMIC.md) chooses one tool call from observations at
+a time; the static engine remains the default for reproducible comparisons.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.
@@ -25,6 +27,7 @@ uv run ruff check .
 uv run ruff format --check .
 uv run veriagent demo
 uv run veriagent smoke
+uv run veriagent demo --engine dynamic
 ```
 
 In this Windows checkout, setup placed uv at `.tools/uv.exe` and Python inside
@@ -56,7 +59,7 @@ interface. For phrases such as `Close ISSUE-1 and start ISSUE-2`, use `propose`,
 
 Every demo invocation creates a new UUID directory under `artifacts/`. Each mode gets an
 independent, freshly seeded database and the same fault configuration. In `silent_drop`,
-the first write reports success without persisting. The expected deterministic behavior is:
+the first write reports success without persisting. For the default static engine:
 
 | Mode | Agent claims success | Independent final audit | Writes attempted | Retries |
 |---|---|---|---|---|
@@ -111,6 +114,7 @@ flowchart LR
 | `verification.py` | Separate read-only database connection and consistent snapshot |
 | `recovery.py` | Failure policy and selective revision for unmet requirements |
 | `agent.py` | Execution loop, action / time / retry budgets and evidence-backed termination |
+| `dynamic.py` | Per-decision tool authorization, normalized feedback and verified dynamic recovery |
 | `trace.py` | Durable events, JSON export and readable trace rendering |
 | `evaluation.py` | Paired scenario runner and post-run audit |
 | `smoke.py` | Fresh dropped-write smoke checks and evidence bundles for either provider |
@@ -124,7 +128,8 @@ flowchart LR
 - Only unmet requirements are retried. Missing issues, permission errors, internal errors,
   and unsafe retries terminate. Transient failures, state mismatches, and timeouts may be
   retried within the configured budget. Default limits: 20 actions, 2 recovery attempts,
-  10 seconds per run and 1 second per action.
+  10 seconds per agent run and 1 second per action. Dynamic execution also limits decisions
+  to 20. CLI `execute` and `smoke` use a 60-second run budget by default.
 - Status assignment is idempotent, including its version counter: an already satisfied
   assignment does not increment version. There are no non-idempotent or external tools.
   No rollback mechanism is needed for these absolute assignments; remote side effects,

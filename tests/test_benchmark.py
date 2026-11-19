@@ -4,7 +4,8 @@ import sys
 
 import pytest
 
-from veriagent.benchmark import proportion, repeated_trials, summarize
+from veriagent.benchmark import audit_rows, proportion, repeated_trials, summarize
+from veriagent.benchmark_cases import load_corpus
 from veriagent.models import ProviderDiagnostic, Verification
 from veriagent.openai_provider import ProviderError
 from veriagent.planner import MockProvider
@@ -151,3 +152,85 @@ def test_provider_failure_stops_batch_and_closes_client(tmp_path):
     assert result["stop_reason"] == "provider_diagnostic"
     assert result["completed_runs"] == 1
     assert closed == [True]
+
+
+def test_multi_target_oracle_checks_each_target_and_original_untargeted_state():
+    case = next(c for c in load_corpus()[0].cases if c.id == "mixed_status")
+    initial = [("ISSUE-1", "open", 0), ("ISSUE-2", "open", 0), ("ISSUE-3", "in_progress", 0)]
+    partial = [("ISSUE-1", "done", 1), ("ISSUE-2", "open", 0), ("ISSUE-3", "in_progress", 0)]
+    assert audit_rows(case.task, initial, partial) == (False, False)
+    complete = [
+        ("ISSUE-1", "done", 1),
+        ("ISSUE-2", "in_progress", 1),
+        ("ISSUE-3", "in_progress", 0),
+    ]
+    assert audit_rows(case.task, initial, complete) == (True, False)
+    assert audit_rows(case.task, initial, complete[:2]) == (True, True)
+    assert audit_rows(case.task, initial, complete + [("ISSUE-4", "open", 0)]) == (True, True)
+    assert audit_rows(case.task, initial, [complete[0], complete[2]]) == (False, False)
+
+
+@pytest.mark.parametrize("engine", ["static", "dynamic"])
+def test_varied_corpus_keeps_task_groups_and_initial_states(tmp_path, engine):
+    cases, digest = load_corpus()
+    result = repeated_trials(
+        tmp_path,
+        repeats=1,
+        scenarios=("clean", "silent_drop"),
+        task_ids=tuple(c.id for c in cases.cases),
+        engine=engine,
+    )
+    assert result["schema_version"] == 2
+    assert result["complete"] and result["completed_runs"] == 36
+    assert result["corpus_sha256"] == digest
+    assert len(result["summary"]) == 36  # Never pool distinct tasks.
+    assert all(r["ground_truth_success"] for r in result["runs"] if r["scenario"] == "clean")
+    assert all(r["ground_truth_success"] for r in result["runs"] if r["mode"] == "recover")
+    assert all(not r["untargeted_changed"] for r in result["runs"])
+    satisfied = next(
+        r
+        for r in result["runs"]
+        if r["task_id"] == "already_satisfied"
+        and r["mode"] == "recover"
+        and r["scenario"] == "silent_drop"
+    )
+    assert satisfied["recovery_attempts"] == 0
+    if engine == "dynamic":
+        assert satisfied["actions"] == 0
+        assert satisfied["faults_remaining"]["silent_drops"] == 1
+    reopen = next(
+        r
+        for r in result["runs"]
+        if r["task_id"] == "reopen" and r["mode"] == "recover" and r["scenario"] == "clean"
+    )
+    assert reopen["initial_state"] == [
+        ("ISSUE-1", "done", 0),
+        ("ISSUE-2", "done", 0),
+        ("ISSUE-3", "in_progress", 0),
+    ]
+    assert reopen["final_state"][1] == ("ISSUE-2", "open", 1)
+
+
+@pytest.mark.parametrize("ids", [("missing",), ("reopen", "reopen"), ()])
+def test_bad_task_selection_rejected_before_output(tmp_path, ids):
+    with pytest.raises(ValueError):
+        repeated_trials(tmp_path, task_ids=ids)
+    assert not list(tmp_path.iterdir())
+
+
+def test_task_multiplier_counts_toward_run_limit(tmp_path, monkeypatch):
+    from veriagent.cli import main
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["veriagent", "benchmark", "--all-tasks", "--repeats", "2", "--output", str(tmp_path)],
+    )
+    monkeypatch.setattr(
+        "veriagent.cli.configured_provider",
+        lambda args: pytest.fail("over-limit must not construct provider"),
+    )
+    with pytest.raises(SystemExit) as exc:
+        main()
+    assert exc.value.code == 2
+    assert not list(tmp_path.iterdir())

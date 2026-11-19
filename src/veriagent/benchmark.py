@@ -6,13 +6,16 @@ import math
 import platform
 import sqlite3
 from collections.abc import Callable
+from dataclasses import asdict
+from itertools import product
 from pathlib import Path
 from uuid import uuid4
 
 from veriagent.agent import Agent
+from veriagent.benchmark_cases import select_cases
 from veriagent.dynamic import DynamicAgent
 from veriagent.executor import Executor
-from veriagent.models import Budget, Mode
+from veriagent.models import Budget, Mode, Task
 from veriagent.planner import MockProvider
 from veriagent.sandbox import Faults, Sandbox
 from veriagent.trace import TraceStore
@@ -41,12 +44,15 @@ def proportion(successes: int, count: int) -> dict:
 def summarize(rows: list[dict]) -> list[dict]:
     groups = {}
     for row in rows:
-        groups.setdefault((row["scenario"], row["mode"]), []).append(row)
+        groups.setdefault(
+            (row.get("task_id", "single_done"), row["scenario"], row["mode"]), []
+        ).append(row)
     result = []
-    for (scenario, mode), group in sorted(groups.items()):
+    for (task_id, scenario, mode), group in sorted(groups.items()):
         usage_known = all(r["model_tokens"] is not None for r in group)
         result.append(
             {
+                "task_id": task_id,
                 "scenario": scenario,
                 "mode": mode,
                 "ground_truth_success": proportion(
@@ -71,11 +77,25 @@ def _write(path: Path, value: dict) -> None:
     temporary.replace(path)
 
 
+def audit_rows(task: Task, initial: list, final: list) -> tuple[bool, bool]:
+    """Check every target and compare all untargeted rows against their starting values."""
+    before = {row[0]: tuple(row[1:]) for row in initial}
+    after = {row[0]: tuple(row[1:]) for row in final}
+    targets = {r.issue_id: r.status.value for r in task.requirements}
+    passed = all(after.get(issue, (None,))[0] == status for issue, status in targets.items())
+    changed = any(
+        before.get(issue) != after.get(issue)
+        for issue in (before.keys() | after.keys()) - targets.keys()
+    )
+    return passed, changed
+
+
 def repeated_trials(
     output: Path,
     *,
     repeats: int = 3,
     scenarios: tuple[str, ...] = SCENARIOS,
+    task_ids: tuple[str, ...] = ("single_done",),
     engine: str = "static",
     budget: Budget | None = None,
     provider_factory: Callable = MockProvider,
@@ -91,15 +111,15 @@ def repeated_trials(
         raise ValueError("Select unique known scenarios")
     if engine not in {"static", "dynamic"}:
         raise ValueError("Unknown engine")
-    count = repeats * len(scenarios) * len(Mode)
+    cases, corpus_digest = select_cases(task_ids)
+    count = repeats * len(scenarios) * len(cases) * len(Mode)
     if count > 120:
         raise ValueError("Benchmark is limited to 120 runs; reduce repeats or scenarios")
     budget = budget or Budget(max_actions=8, max_decisions=8, timeout_seconds=60)
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
-    task = MockProvider().parse("Set ISSUE-1 to done")
     manifest = {
-        "schema_version": 1,
+        "schema_version": 2,
         "directory": str(directory),
         "engine": engine,
         "provider": provider_name,
@@ -108,10 +128,11 @@ def repeated_trials(
         "planned_runs": count,
         "completed_runs": 0,
         "complete": False,
-        "task": task.model_dump(mode="json"),
+        "tasks": [case.model_dump(mode="json") for case in cases],
+        "corpus_sha256": corpus_digest,
         "budget_per_run": budget.model_dump(mode="json"),
         "interpretation_calls": 0,
-        "order": "scenario, repetition, modes rotated by repetition",
+        "order": "task, scenario, repetition, modes rotated by repetition",
         "python": platform.python_version(),
         "source_sha256": {
             p.name: hashlib.sha256(p.read_bytes()).hexdigest()
@@ -125,11 +146,12 @@ def repeated_trials(
     }
     _write(directory / "benchmark.json", manifest)
     modes = list(Mode)
-    for scenario in scenarios:
+    for case, scenario in product(cases, scenarios):
+        task = case.task
         for repetition in range(repeats):
             order = modes[repetition % len(modes) :] + modes[: repetition % len(modes)]
             for mode in order:
-                trial = directory / f"{scenario}-{repetition + 1:02d}-{mode.value}"
+                trial = directory / f"{case.id}-{scenario}-{repetition + 1:02d}-{mode.value}"
                 trial.mkdir()
                 faults = Faults(
                     silent_drops={"silent_drop": 1, "persistent_drop": budget.max_actions + 1}.get(
@@ -139,6 +161,15 @@ def repeated_trials(
                 )
                 sandbox = Sandbox(trial / "state.sqlite", faults)
                 sandbox.seed()
+                with sqlite3.connect(sandbox.path) as db:
+                    db.executemany(
+                        "UPDATE issues SET status=? WHERE id=?",
+                        [(status.value, issue) for issue, status in case.initial_statuses.items()],
+                    )
+                    initial = db.execute(
+                        "SELECT id,status,version FROM issues ORDER BY id"
+                    ).fetchall()
+                configured_faults = asdict(faults)
                 traces = TraceStore(trial / "traces.sqlite")
                 provider = provider_factory()
                 config = getattr(provider, "config", None)
@@ -156,15 +187,15 @@ def repeated_trials(
                     state = db.execute(
                         "SELECT id,status,version FROM issues ORDER BY id"
                     ).fetchall()
-                passed = next(r for r in state if r[0] == "ISSUE-1")[1] == "done"
-                changed = any(
-                    status != "open" or version != 0
-                    for issue, status, version in state
-                    if issue != "ISSUE-1"
-                )
+                passed, changed = audit_rows(task, initial, state)
                 row = {
                     **report.model_dump(mode="json"),
                     "scenario": scenario,
+                    "task_id": case.id,
+                    "task": task.model_dump(mode="json"),
+                    "initial_state": initial,
+                    "faults_configured": configured_faults,
+                    "faults_remaining": asdict(faults),
                     "repetition": repetition + 1,
                     "ground_truth_success": passed,
                     "false_success": report.claimed_success and not passed,

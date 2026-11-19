@@ -7,6 +7,7 @@ from pathlib import Path
 
 from veriagent.agent import Agent
 from veriagent.benchmark import SCENARIOS, repeated_trials
+from veriagent.benchmark_cases import load_corpus, select_cases
 from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
@@ -115,6 +116,9 @@ def main() -> None:
     benchmark.add_argument("--output", type=Path, default=Path("artifacts/benchmarks"))
     benchmark.add_argument("--repeats", type=int, default=3)
     benchmark.add_argument("--scenario", action="append", choices=SCENARIOS)
+    tasks = benchmark.add_mutually_exclusive_group()
+    tasks.add_argument("--task", action="append", help="Fixed task ID; repeat to select several")
+    tasks.add_argument("--all-tasks", action="store_true", help="Select all six fixed task cases")
     benchmark.add_argument("--engine", choices=("static", "dynamic"), default="static")
     benchmark.add_argument("--max-actions", type=int, default=8)
     benchmark.add_argument("--max-decisions", type=int, default=8)
@@ -176,7 +180,16 @@ def main() -> None:
     if args.command == "benchmark":
         try:
             scenarios = tuple(args.scenario) if args.scenario else SCENARIOS
-            if not 1 <= args.repeats <= 20 or args.repeats * len(scenarios) * len(Mode) > 120:
+            task_ids = (
+                tuple(case.id for case in load_corpus()[0].cases)
+                if args.all_tasks
+                else tuple(args.task or ("single_done",))
+            )
+            cases, _ = select_cases(task_ids)
+            if (
+                not 1 <= args.repeats <= 20
+                or args.repeats * len(scenarios) * len(cases) * len(Mode) > 120
+            ):
                 raise ValueError("Select 1 to 20 repeats and at most 120 total runs")
             if len(set(scenarios)) != len(scenarios):
                 raise ValueError("Select unique scenarios")
@@ -195,6 +208,7 @@ def main() -> None:
                 args.output,
                 repeats=args.repeats,
                 scenarios=scenarios,
+                task_ids=task_ids,
                 engine=args.engine,
                 budget=budget,
                 provider_factory=lambda: configured_provider(args),

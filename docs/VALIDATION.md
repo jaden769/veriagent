@@ -428,3 +428,30 @@ drops remained unsuccessful. Baseline falsely claimed success 3/3 for each drop 
 verify/recover had zero false successes in this matrix. No untargeted status/version
 changes occurred. These repeated deterministic outcomes check implementation, not live
 model reliability. No paid benchmark or additional live request was made.
+
+### Varied fixed-task corpus — 2026-11-19
+
+Added six packaged task/initial-state cases: single completion, paired completion, mixed
+statuses, reopening, already-satisfied and partially-satisfied goals. Requirements are
+specified directly in the fixture, separate from provider parsing. Validated known/unique
+IDs and full seeded initial statuses. `benchmark --task` selects cases; `--all-tasks`
+selects the corpus. Task count is included in preflight's 120-run ceiling, before provider
+construction or artifact writes. Manifest schema 2 records selected cases and corpus hash;
+summaries group by task/scenario/mode. Each run records initial rows and configured and
+remaining fault counters. Direct SQL audits check every target and compare untargeted
+rows with their starting values, including added/deleted IDs.
+
+Focused benchmark suite: **20 passed in 21.11 seconds**. Full regression suite:
+**298 passed in 86.26 seconds**, one existing Starlette/httpx deprecation warning.
+Ruff lint/format and whitespace checks passed. Tests cover missing/unsatisfied second
+targets, unrelated row additions/deletions, reopening from nondefault initial states,
+unused faults on already-satisfied dynamic goals, and preflight task-count limits.
+
+Ran 72 offline dynamic trials (6 cases × 4 scenarios × 3 modes) at
+`artifacts/benchmarks/e621f94eb9574dd0a38ef12403a553ec/benchmark.json`. No untargeted
+changes and no false successes outside baseline. Recover mode achieved goals in all
+clean, single-drop and transient cases. Persistent drops prevented initially-unsatisfied
+goals from completing; already-satisfied goals succeeded without consuming faults or
+claiming recovery. These are deterministic regression outcomes, not stochastic model
+reliability estimates or proof of equal realized fault exposure across engines. No live
+request or paid batch was made.

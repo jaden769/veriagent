@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "single_done",
+      "task": {"objective": "Set ISSUE-1 to done", "requirements": [{"issue_id": "ISSUE-1", "status": "done"}]},
+      "initial_statuses": {"ISSUE-1": "open", "ISSUE-2": "open", "ISSUE-3": "open"}
+    },
+    {
+      "id": "pair_done",
+      "task": {"objective": "Set ISSUE-1 and ISSUE-2 to done", "requirements": [{"issue_id": "ISSUE-1", "status": "done"}, {"issue_id": "ISSUE-2", "status": "done"}]},
+      "initial_statuses": {"ISSUE-1": "open", "ISSUE-2": "open", "ISSUE-3": "open"}
+    },
+    {
+      "id": "mixed_status",
+      "task": {"objective": "Set ISSUE-1 to done and ISSUE-2 to in_progress", "requirements": [{"issue_id": "ISSUE-1", "status": "done"}, {"issue_id": "ISSUE-2", "status": "in_progress"}]},
+      "initial_statuses": {"ISSUE-1": "open", "ISSUE-2": "open", "ISSUE-3": "in_progress"}
+    },
+    {
+      "id": "reopen",
+      "task": {"objective": "Set ISSUE-2 to open", "requirements": [{"issue_id": "ISSUE-2", "status": "open"}]},
+      "initial_statuses": {"ISSUE-1": "done", "ISSUE-2": "done", "ISSUE-3": "in_progress"}
+    },
+    {
+      "id": "already_satisfied",
+      "task": {"objective": "Set ISSUE-1 to done", "requirements": [{"issue_id": "ISSUE-1", "status": "done"}]},
+      "initial_statuses": {"ISSUE-1": "done", "ISSUE-2": "in_progress", "ISSUE-3": "open"}
+    },
+    {
+      "id": "partial_satisfied",
+      "task": {"objective": "Set ISSUE-1 and ISSUE-2 to done", "requirements": [{"issue_id": "ISSUE-1", "status": "done"}, {"issue_id": "ISSUE-2", "status": "done"}]},
+      "initial_statuses": {"ISSUE-1": "done", "ISSUE-2": "open", "ISSUE-3": "in_progress"}
+    }
+  ]
+}

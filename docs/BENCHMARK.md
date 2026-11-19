@@ -1,10 +1,11 @@
 # Repeated-trial benchmark
 
-`veriagent benchmark` runs a fixed task (ISSUE-1 to done) on fresh SQLite sandboxes,
+`veriagent benchmark` runs fixed requirements on fresh SQLite sandboxes,
 comparing baseline, verify and recover modes. Offline mock is the default even when API
 credentials exist. Default: 3 repetitions × 4 scenarios × 3 modes = 36 runs. Scenarios
 are clean, one silent drop, persistent silent drops, and one transient write error.
 Mode order rotates across repetitions; the fault counters reset for every run.
+The default task remains `single_done` (ISSUE-1 to done), preserving the 36-run default.
 
 ```powershell
 .\.venv\Scripts\veriagent.exe benchmark --engine dynamic --repeats 3
@@ -12,18 +13,19 @@ Mode order rotates across repetitions; the fault counters reset for every run.
 
 Each UUID artifact directory contains `benchmark.json` plus per-run state, result,
 SQLite trace and JSON trace. The manifest records source hashes, Python version, exact
-budgets, task, order and completed runs. Each live run records model configuration
+budgets, selected task cases, corpus SHA-256, order and completed runs. Each live run records model configuration
 (including caller prices and model limits, without credentials). Summaries update
 atomically after each completed run; interruption leaves `complete: false`. There is no
 resume or automatic retry of an interrupted batch.
 
-A separate read-only SQL query measures the requested final status and changes to
-untargeted status/version fields. The execution verifier is not the benchmark oracle.
+A separate read-only SQL query checks every requested final status and compares
+untargeted status/version fields against their recorded starting values, including
+missing or added rows. The execution verifier is not the benchmark oracle.
 False success means an agent claim with an unsatisfied final target. A failed agent run
 is retained as an outcome; command exit 0 means the batch completed, not all modes won.
 A provider diagnostic stops the batch with exit 1, preserving partial evidence.
 
-Results are grouped by scenario and mode, not pooled across conditions. Each group
+Results are grouped by task, scenario and mode, not pooled across conditions. Each group
 reports audited success, false success and recovery counts/rates, nominal Wilson 95%
 intervals, untargeted changes, mean actions/latency, model calls and tokens. Unknown token
 usage stays null and is counted explicitly. Interpretation calls are zero: this benchmark
@@ -54,3 +56,38 @@ This schedules 6 runs, at most 36 dynamic generation decisions and a summed outp
 allowance of 6,144 tokens. Input tokens also cost credits. Total-token/cost thresholds
 remain observed guards that can overshoot on the current request; see MODEL_BUDGETS.md.
 Use mock for repeatable regression checks before selecting live execution.
+
+## Fixed varied-task corpus
+
+`src/veriagent/scenarios/benchmark_tasks.json` contains six manually specified tasks
+and complete initial statuses, validated before provider construction or artifact writes:
+
+| Task ID | Goal | Starting conditions |
+| --- | --- | --- |
+| `single_done` | ISSUE-1 done | All open |
+| `pair_done` | ISSUE-1 and ISSUE-2 done | All open |
+| `mixed_status` | ISSUE-1 done, ISSUE-2 in_progress | Targets open, ISSUE-3 in_progress |
+| `reopen` | ISSUE-2 open | ISSUE-1/2 done, ISSUE-3 in_progress |
+| `already_satisfied` | ISSUE-1 done | ISSUE-1 done, ISSUE-2 in_progress |
+| `partial_satisfied` | ISSUE-1 and ISSUE-2 done | ISSUE-1 done, ISSUE-2 open, ISSUE-3 in_progress |
+
+Initial versions are zero. Trial setup uses trusted fixture data before execution and
+records initial rows. Expected requirements are loaded directly, not derived from a
+provider parser. This measures execution against fixed goals, not language interpretation.
+Task IDs must be unique and known; `--task` can be repeated or use `--all-tasks`.
+
+```powershell
+.\.venv\Scripts\veriagent.exe benchmark --all-tasks --repeats 1 --engine dynamic
+```
+
+This offline matrix has 6 tasks × 4 scenarios × 3 modes = 72 runs. Task count contributes
+to the 120-run ceiling; `--all-tasks` with default 3 repetitions is rejected before any
+provider is created. Select fewer tasks/scenarios to repeat each group more often.
+
+Schema version 2 replaces the old singular manifest `task` with `tasks` and adds task IDs
+to summaries. Each run includes its requirements, initial state, and configured/remaining
+fault counters. A counter is consumed by a write attempt, including a no-op assignment;
+it does not prove a mismatch occurred. Dynamic execution can finish an already-satisfied
+goal without writing, leaving the entire fault schedule unused. Such success is not
+recovery. Static and dynamic engines can expose different numbers of writes to the same
+counter schedule; do not treat fault labels as proof of equal realized faults.

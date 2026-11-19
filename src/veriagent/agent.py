@@ -91,6 +91,8 @@ class Agent:
             self.traces.append(run_id, "planning_error", {"failure": failure.value})
             usage = self.provider.usage
             self.traces.append(run_id, "model_usage", usage)
+            if self.provider.diagnostic is not None:
+                self.traces.append(run_id, "provider_diagnostic", self.provider.diagnostic)
             if self.provider.budget_state is not None:
                 self.traces.append(run_id, "model_budget", self.provider.budget_state)
             report = RunReport(
@@ -108,10 +110,13 @@ class Agent:
                 model_usage=usage,
                 model_budget=self.provider.budget_state,
                 tool_execution=self.executor.execution_mode,
+                provider_diagnostic=self.provider.diagnostic,
             )
             self.traces.append(run_id, "report", report)
             return report
         self.traces.append(run_id, "model_usage", self.provider.usage)
+        if self.provider.diagnostic is not None:
+            self.traces.append(run_id, "provider_diagnostic", self.provider.diagnostic)
         if self.provider.budget_state is not None:
             self.traces.append(run_id, "model_budget", self.provider.budget_state)
         self.traces.append(run_id, "plan", plan)
@@ -213,6 +218,7 @@ class Agent:
             model_usage=self.provider.usage,
             model_budget=self.provider.budget_state,
             tool_execution=self.executor.execution_mode,
+            provider_diagnostic=self.provider.diagnostic,
         )
         self.traces.append(run_id, "report", report)
         return report

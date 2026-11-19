@@ -16,13 +16,13 @@
 
 Completed Phase 2 milestone: an optional metered OpenAI planning adapter, strict response
 schemas, request/output limits, sanitized planning failures and adversarial-plan tests.
-The actual SDK is exercised against an in-memory HTTP transport. No paid request has
-been made or validated. This is not completion of all Phase 2 objectives.
+The actual SDK is exercised against an in-memory HTTP transport. A user-run live static
+smoke passed on 2026-11-19 (see VALIDATION.md). This is not completion of all Phase 2 objectives.
 
 The isolated `smoke` command is ready for that live check and has passed offline. It
 captures fresh state, injected-fault detection, recovery, an audit and package metadata.
-API credentials and a model are not configured in the implementation environment, so no
-live result is claimed.
+Credentials remain confined to the user's terminal. Its saved live result has now been
+inspected and confirms fault detection, recovery and the independent final-state audit.
 
 Completed next increment: offline and optional OpenAI requirement proposals, explicit
 content-bound review, execution against the reviewed requirements, interpretation usage
@@ -50,8 +50,11 @@ corpus, independent final-state oracle, explicit expected labels, separate basel
 controls, context-canary checks, artifacts/provenance and tests that deliberately weaken
 guards to prove violations are reported. It measures finite local boundaries only.
 
-Next milestone: the still-pending authorized live smoke and reviewed dynamic trial when
-credentials are configured. Broader generated attacks, independent live task corpora and
+The bounded live dynamic smoke also passed on 2026-11-19, including injected-fault
+detection, recovery and independent audit (see VALIDATION.md).
+
+Next milestone: a reviewed dynamic trial in the user's configured terminal.
+Broader generated attacks, independent live task corpora and
 stochastic reliability comparisons remain future work before research claims. No live model
 quality or general injection resistance is established. No browser agent, dashboard,
 learned verifier, or broad reliability claim is included.

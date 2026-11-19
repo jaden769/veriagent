@@ -87,6 +87,11 @@ classified as `failure=budget`, or `error=model_budget_exhausted` for a proposal
 than an ordinary planning failure. Already completed tasks in verified dynamic mode can
 finish with zero model requests.
 
+If an actual API/transport error also leaves usage unknown, the underlying request error
+is preserved as the primary planning failure. The ledger remains stopped, and a sanitized
+`provider_diagnostic` records the safe category/status/code. Missing-usage fallout does not
+replace the original failure. No additional model request or tool action is authorized.
+
 Examples of stop reasons: `total_tokens_exhausted`, `total_tokens_exceeded`,
 `output_allowance_insufficient`, `output_tokens_exceeded`, `cost_threshold_reached`,
 `cost_threshold_exceeded`, `token_usage_unknown`, `output_usage_unknown`, and

@@ -17,6 +17,7 @@ from veriagent.models import (
     ModelBudgetState,
     ModelUsage,
     Observation,
+    ProviderDiagnostic,
     RunReport,
     Status,
     Task,
@@ -27,6 +28,9 @@ from veriagent.verification import StateVerifier
 
 
 class DecisionProvider(Protocol):
+    @property
+    def diagnostic(self) -> ProviderDiagnostic | None: ...
+
     def begin_run(self) -> None: ...
 
     @property
@@ -182,6 +186,8 @@ class DynamicAgent:
             except Exception as exc:
                 usage = add_usage(usage, self.provider.usage)
                 self.traces.append(run_id, "model_usage", self.provider.usage)
+                if self.provider.diagnostic is not None:
+                    self.traces.append(run_id, "provider_diagnostic", self.provider.diagnostic)
                 if self.provider.budget_state is not None:
                     self.traces.append(run_id, "model_budget", self.provider.budget_state)
                 failure = (
@@ -193,6 +199,8 @@ class DynamicAgent:
                 break
             usage = add_usage(usage, self.provider.usage)
             self.traces.append(run_id, "model_usage", self.provider.usage)
+            if self.provider.diagnostic is not None:
+                self.traces.append(run_id, "provider_diagnostic", self.provider.diagnostic)
             if self.provider.budget_state is not None:
                 self.traces.append(run_id, "model_budget", self.provider.budget_state)
             self.traces.append(run_id, "decision", decision)
@@ -312,6 +320,7 @@ class DynamicAgent:
             model_usage=usage,
             model_budget=self.provider.budget_state,
             tool_execution=self.executor.execution_mode,
+            provider_diagnostic=self.provider.diagnostic,
         )
         self.traces.append(run_id, "report", report)
         return report

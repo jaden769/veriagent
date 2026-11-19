@@ -241,6 +241,6 @@ def test_cost_threshold_can_overshoot_but_over_limit_decision_cannot_execute(tmp
 def test_transport_error_with_active_limit_marks_usage_unknown_and_stops(tmp_path):
     with sdk_transport(["rate_limit"]) as (client, requests):
         report, _, traces = run_agent(tmp_path, client, limits=ModelLimits(max_total_tokens=1000))
-    assert report.failure == Failure.BUDGET and report.model_calls == len(requests) == 1
+    assert report.failure == Failure.PLANNING and report.model_calls == len(requests) == 1
     assert report.model_tokens is None and report.model_budget.stop_reason == "token_usage_unknown"
     assert "SECRET-API-ERROR" not in traces.render(report.run_id)

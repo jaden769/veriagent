@@ -14,6 +14,7 @@ from veriagent.models import (
     Interpretation,
     ModelBudgetState,
     ModelUsage,
+    ProviderDiagnostic,
     Requirement,
     Status,
     Task,
@@ -22,6 +23,9 @@ from veriagent.models import (
 
 
 class InterpretationProvider(Protocol):
+    @property
+    def diagnostic(self) -> ProviderDiagnostic | None: ...
+
     def begin_run(self) -> None: ...
 
     @property
@@ -173,6 +177,9 @@ def propose_task(
         else None,
         "elapsed_ms": (time.monotonic() - start) * 1000,
         "model_usage": provider.usage.model_dump(mode="json"),
+        "provider_diagnostic": provider.diagnostic.model_dump(mode="json")
+        if provider.diagnostic
+        else None,
         "model_budget": provider.budget_state.model_dump(mode="json")
         if provider.budget_state
         else None,

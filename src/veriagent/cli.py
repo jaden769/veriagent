@@ -153,10 +153,33 @@ def main() -> None:
     smoke.add_argument("--output", type=Path, default=Path("artifacts/smoke"))
     add_provider_options(smoke, timeout=60)
     add_engine_options(smoke)
+    check = commands.add_parser(
+        "check-provider", help="Check OpenAI model metadata without generation"
+    )
+    check.add_argument("--model", help="OpenAI model ID; defaults to OPENAI_MODEL")
+    check.add_argument("--timeout", type=float, default=15)
     serve = commands.add_parser("serve", help="Serve a local sandbox on 127.0.0.1")
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
+    if args.command == "check-provider":
+        try:
+            model = args.model or os.environ.get("OPENAI_MODEL", "").strip()
+            if not model:
+                raise ValueError("Specify --model or set OPENAI_MODEL")
+            provider = OpenAIProvider.from_env(
+                OpenAIConfig(model=model, request_timeout_seconds=args.timeout)
+            )
+        except (ValueError, ProviderError) as exc:
+            parser.error(str(exc))
+        try:
+            result = provider.check_model()
+        finally:
+            provider.close()
+        print(json.dumps(result, indent=2))
+        if not result["ok"]:
+            raise SystemExit(1)
+        return
     if args.command == "evaluate-safety":
         try:
             result = evaluate_safety(args.output, load_suite(args.suite), case_ids=tuple(args.case))

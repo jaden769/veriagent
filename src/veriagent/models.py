@@ -189,6 +189,36 @@ class ModelBudgetState(Schema):
     stop_reason: str | None = None
 
 
+class ProviderDiagnostic(Schema):
+    category: Literal[
+        "authentication",
+        "permission",
+        "rate_limit",
+        "api_status",
+        "timeout",
+        "connection",
+        "response_validation",
+        "usage_unavailable",
+        "incomplete_response",
+    ]
+    http_status: int | None = Field(default=None, ge=100, le=599)
+    api_code: (
+        Literal[
+            "invalid_api_key",
+            "insufficient_quota",
+            "invalid_json_schema",
+            "unsupported_parameter",
+            "model_not_found",
+            "rate_limit_exceeded",
+            "context_length_exceeded",
+        ]
+        | None
+    ) = None
+    api_parameter: str | None = Field(default=None, max_length=100)
+    detail: str | None = Field(default=None, max_length=400)
+    body_format: Literal["json", "text", "empty", "other"] | None = None
+
+
 class Interpretation(Schema):
     requirements: tuple[Requirement, ...] = Field(max_length=100)
     clarification: str | None = Field(default=None, min_length=1, max_length=1000)
@@ -232,3 +262,4 @@ class RunReport(Schema):
     decisions: int = 0
     model_budget: ModelBudgetState | None = None
     tool_execution: Literal["in_process", "process"] = "in_process"
+    provider_diagnostic: ProviderDiagnostic | None = None

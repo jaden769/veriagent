@@ -12,6 +12,7 @@ from veriagent.models import (
     ModelBudgetState,
     ModelUsage,
     Plan,
+    ProviderDiagnostic,
     Requirement,
     Status,
     Step,
@@ -20,6 +21,9 @@ from veriagent.models import (
 
 
 class PlanningProvider(Protocol):
+    @property
+    def diagnostic(self) -> ProviderDiagnostic | None: ...
+
     """Phase 2 providers can implement this without changing execution or verification.
 
     A real provider must validate structured output, meter usage, use bounded API
@@ -40,6 +44,10 @@ class PlanningProvider(Protocol):
 
 
 class MockProvider:
+    @property
+    def diagnostic(self) -> ProviderDiagnostic | None:
+        return None
+
     def begin_run(self) -> None:
         pass
 

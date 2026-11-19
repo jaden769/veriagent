@@ -292,3 +292,88 @@ real-model attack resistance, language accuracy, a general safety guarantee, sta
 reliability evidence or actual billing measurements. Existing worker and SDK tests also
 passed in the complete run; live-provider acceptance remains pending credentials and
 explicit use of the API.
+
+## Request-diagnostic correction — 2026-11-19
+
+Inspected the user's saved smoke result at
+`artifacts/smoke/fa4d01715ac945ab973f215fc0692190/result.json`. It reported failure before
+any tool action: one OpenAI attempt, unknown usage and `output_usage_unknown` in the
+budget ledger. Its model was `gpt-6.1-terra`; elapsed agent time was approximately 1547 ms.
+This does not identify the original API cause or establish successful live integration.
+The old sanitized trace did not retain a diagnostic, so none is inferred or fabricated.
+
+Corrected error precedence so a real request failure remains the primary planning error
+while its budget ledger stays stopped. Added safe diagnostic category, HTTP status and
+an allowlisted API error code to reports/traces and interpretation results. Messages,
+response bodies, headers, keys and unknown error codes are excluded.
+
+Executed:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/test_provider_diagnostics.py tests/test_openai_provider.py tests/test_budgeting.py tests/test_dynamic_openai.py tests/test_interpretation.py -q -o faulthandler_timeout=20
+```
+
+Result: **141 focused tests passed in 12.49 seconds**. Ruff lint, formatting and Git
+whitespace checks also passed. In-memory SDK tests cover authentication, permission,
+rate/quota, schema and missing-model errors in both engines, with a relevant usage limit
+enabled; they verify the original category survives and secret-bearing error messages
+never reach traces. No paid retry was made. The user must run a fresh request in the
+terminal holding their credentials to obtain an actual diagnostic.
+
+The next user-run result (`artifacts/smoke/12f1d02fcefc4feca7d7156abf4196b3/result.json`)
+reported HTTP 400 with no recognized code, zero tool actions and a planning failure.
+Its original message had not been stored, so its precise cause remains unconfirmed.
+Added HTTP-400-only redacted message detail and an allowlisted parameter field, keeping
+schema context while removing configured credentials, credential-like tokens, quoted
+values and control characters. The request schema was inspected locally and compared
+with the official Structured Outputs format; no live schema-acceptance claim is made.
+
+The same focused command then passed **143 tests in 12.58 seconds**, including detail
+redaction and non-400 message suppression. Ruff and whitespace checks passed. No new
+live request was issued by the assistant; a fresh user-run request is needed to obtain
+the new detail field.
+
+A subsequent screenshot still had an empty detail because extraction had assumed the
+standard JSON message shape. Expanded extraction to plain text, alternate JSON fields
+and the SDK fallback message, retaining the same credential/value redaction. Added
+`body_format` for the SDK-normalized body shape. The original message from that request
+was not stored and cannot be reconstructed; its precise 400 cause remains unknown.
+
+Real SDK transport tests now exercise plain text, JSON `detail`, JSON string `error`,
+and empty responses. They confirm that SDK normalization can unwrap a JSON string error
+to a text body. The focused provider/budget/interpretation suite passed **147 tests**;
+lint and whitespace checks passed. No live request was issued by the assistant.
+
+Metadata check follow-up: added `check-provider` for one model metadata GET without generation. Actual SDK with mocked HTTP transport verifies success and empty 400/401/404 responses, a single GET, and no secret in output. Provider diagnostic tests: 24 passed; Ruff checks passed. Live metadata access remains unverified pending the user's terminal run.
+
+### First successful live static smoke — 2026-11-19
+
+Inspected the user-run artifact `artifacts/smoke/95d7f7b2a9484c5bb90b94a3909c94b9/result.json`.
+The OpenAI static engine with `gpt-6.1-terra` passed the silent-drop smoke: fault detected,
+one recovery attempt, two tool actions, verified final state and independent audit passed.
+ISSUE-1 changed from open/version 0 to done/version 1; ISSUE-2 and ISSUE-3 stayed unchanged.
+One generation request reported 386 input and 107 output tokens (493 total), elapsed
+5.5 seconds. No caller prices were configured, so no dollar cost is inferred. Provider
+diagnostic and model-budget stop reason were null. This validates one static scenario,
+not dynamic model behavior or statistical reliability. The assistant read saved artifacts
+and did not retrieve credentials or issue further generation requests.
+
+The user also demonstrated a successful metadata check. Earlier malformed credential,
+401 and 429 attempts are historical failures; subsequent success does not establish each
+earlier response's precise cause.
+
+Post-live regression check: full suite outside the Windows sandbox passed **278 tests in
+57.38 seconds**, with one existing Starlette/httpx deprecation warning. The sandboxed run
+was interrupted after stalling near completion; its output is not counted as a pass.
+Ruff checks and git whitespace checks passed. No further live generation was run.
+
+### First successful live dynamic smoke — 2026-11-19
+
+Inspected `artifacts/smoke/1167005c35bc4e29a139cffc7f8575f3/result.json` after the user's
+terminal run. Dynamic smoke passed with fault detection, one recovery attempt, three
+tool actions, three model calls and 1,834 reported total tokens in approximately 7.219
+seconds. Final verification and independent audit passed; untargeted issues stayed
+unchanged and the provider diagnostic was null. This is one controlled live dynamic
+scenario, not a statistical reliability comparison. The visible PowerShell error came
+from concatenating `Format-List` and the next pasted command; saved evidence confirms
+the dynamic run itself passed. No additional generation request was needed.

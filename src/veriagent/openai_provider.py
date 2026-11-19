@@ -1,11 +1,12 @@
 """Optional single-request structured planner; no implicit fallback or API retries."""
 
 import os
+import re
 from typing import Any
 
 from pydantic import Field, model_validator
 
-from veriagent.budgeting import ModelBudgetLedger
+from veriagent.budgeting import ModelBudgetExceeded, ModelBudgetLedger
 from veriagent.interpretation import validate_targets
 from veriagent.models import (
     Action,
@@ -16,6 +17,7 @@ from veriagent.models import (
     ModelLimits,
     ModelUsage,
     Plan,
+    ProviderDiagnostic,
     Requirement,
     Schema,
     Status,
@@ -27,6 +29,129 @@ from veriagent.planner import MockProvider
 
 class ProviderError(Exception):
     """Sanitized configuration or planning error, safe for user-visible output."""
+
+
+def request_diagnostic(exc: Exception, secret: str | None = None) -> ProviderDiagnostic:
+    # Never copy str(exc), headers or full response bodies. Only HTTP 400 gets a
+    # bounded, redacted message excerpt because its code is often absent.
+    status = getattr(exc, "status_code", None)
+    if type(status) is not int or not 100 <= status <= 599:
+        status = None
+    codes = {
+        "invalid_api_key",
+        "insufficient_quota",
+        "invalid_json_schema",
+        "unsupported_parameter",
+        "model_not_found",
+        "rate_limit_exceeded",
+        "context_length_exceeded",
+    }
+    code = getattr(exc, "code", None)
+    code = code if isinstance(code, str) and code in codes else None
+    names = {cls.__name__ for cls in type(exc).__mro__}
+    if status is not None:
+        category = {401: "authentication", 403: "permission", 429: "rate_limit"}.get(
+            status, "api_status"
+        )
+    elif isinstance(exc, TimeoutError) or "APITimeoutError" in names:
+        category = "timeout"
+    elif isinstance(exc, ConnectionError) or "APIConnectionError" in names:
+        category = "connection"
+    else:
+        category = "response_validation"
+    parameters = {
+        "model",
+        "text.format",
+        "text.format.schema",
+        "max_output_tokens",
+        "input",
+        "store",
+        "reasoning.effort",
+        "tools",
+        "tool_choice",
+        "parallel_tool_calls",
+    }
+    parameter = getattr(exc, "param", None)
+    parameter = parameter if isinstance(parameter, str) and parameter in parameters else None
+    detail = None
+    body_format = None
+    if status == 400:
+        body = getattr(exc, "body", None)
+        body_format = (
+            "json"
+            if isinstance(body, (dict, list))
+            else "text"
+            if isinstance(body, str) and body.strip()
+            else "empty"
+            if body is None or body == ""
+            else "other"
+        )
+        if isinstance(body, dict) and isinstance(body.get("error"), dict):
+            body = body["error"]
+        message = None
+        if isinstance(body, dict):
+            message = next(
+                (
+                    body.get(name)
+                    for name in ("message", "detail", "error")
+                    if isinstance(body.get(name), str) and body.get(name)
+                ),
+                None,
+            )
+        elif isinstance(body, str) and body.strip():
+            message = body
+        if not isinstance(message, str) or not message.strip():
+            message = getattr(exc, "message", None)
+        if isinstance(message, str):
+            if isinstance(secret, str) and secret:
+                message = message.replace(secret, "[redacted]")
+            message = re.sub(r"(?i)\b(?:sk-|key_|ghp_|gho_)[A-Za-z0-9_.-]+", "[redacted]", message)
+            message = re.sub(r"(?i)bearer\s+\S+|https?://\S+|\b\S+@\S+\b", "[redacted]", message)
+            message = re.sub(r"<[^>]{1,1000}>", " ", message)
+            safe_words = parameters | {
+                "required",
+                "additionalProperties",
+                "properties",
+                "type",
+                "object",
+                "array",
+                "items",
+                "$defs",
+                "status",
+                "issue_id",
+                "steps",
+                "action",
+                "expected",
+                "depends_on",
+                "minItems",
+                "maxItems",
+                "minLength",
+                "maxLength",
+                "pattern",
+                "enum",
+                "read_issue",
+                "set_status",
+                "finish_task",
+            }
+            message = re.sub(
+                r"(['\"])(.*?)\1",
+                lambda m: m.group(0) if m.group(2) in safe_words else "'[redacted]'",
+                message,
+            )
+            message = re.sub(
+                r"\b[A-Za-z0-9_.-]{20,}\b",
+                lambda m: m.group(0) if m.group(0) in safe_words else "[redacted]",
+                message,
+            )
+            detail = re.sub(r"[\x00-\x1f\x7f]", " ", message).strip()[:400]
+    return ProviderDiagnostic(
+        category=category,
+        http_status=status,
+        api_code=code,
+        api_parameter=parameter,
+        detail=detail,
+        body_format=body_format,
+    )
 
 
 class OpenAIConfig(Schema):
@@ -185,10 +310,12 @@ class OpenAIProvider:
         self.client = client
         self.ledger = ModelBudgetLedger(config.limits, config.model)
         self.usage = self._empty_usage()
+        self.diagnostic: ProviderDiagnostic | None = None
 
     def begin_run(self) -> None:
         self.ledger.reset()
         self.usage = ModelUsage(provider="openai", model=self.config.model)
+        self.diagnostic = None
 
     @property
     def budget_state(self) -> ModelBudgetState:
@@ -231,8 +358,31 @@ class OpenAIProvider:
     def close(self) -> None:
         self.client.close()
 
+    def check_model(self) -> dict[str, Any]:
+        """Make one metadata GET, without generating output or executing tools."""
+        self.diagnostic = None
+        result: dict[str, Any] = {
+            "operation": "models.retrieve",
+            "model": self.config.model,
+            "ok": False,
+            "metadata_requests": 1,
+            "generation_requests": 0,
+            "diagnostic": None,
+        }
+        try:
+            self.client.models.retrieve(
+                self.config.model, timeout=self.config.request_timeout_seconds
+            )
+        except Exception as exc:
+            self.diagnostic = request_diagnostic(exc, getattr(self.client, "api_key", None))
+            result["diagnostic"] = self.diagnostic.model_dump(mode="json")
+        else:
+            result["ok"] = True
+        return result
+
     def _request(self, *, timeout: float | None, **payload: Any) -> Any:
         self.usage = ModelUsage(provider="openai", model=self.config.model)
+        self.diagnostic = None
         request_timeout = min(
             self.config.request_timeout_seconds,
             timeout if timeout is not None else self.config.request_timeout_seconds,
@@ -250,6 +400,8 @@ class OpenAIProvider:
                 **payload,
             )
             usage = response.usage
+            if usage is None:
+                self.diagnostic = ProviderDiagnostic(category="usage_unavailable")
             if usage is not None:
                 price_in = self.config.input_usd_per_million
                 price_out = self.config.output_usd_per_million
@@ -264,13 +416,20 @@ class OpenAIProvider:
                     output_tokens=usage.output_tokens,
                     estimated_cost_usd=cost,
                 )
-        except Exception:
+        except Exception as exc:
+            self.diagnostic = request_diagnostic(exc, getattr(self.client, "api_key", None))
             self.ledger.record(self.usage)
-            self.ledger.check_response()
+            try:
+                self.ledger.check_response()
+            except ModelBudgetExceeded:
+                # Keep the ledger stopped, but preserve the request failure as the
+                # primary cause instead of replacing it with missing-usage fallout.
+                pass
             raise ProviderError("OpenAI request or structured output validation failed") from None
         self.ledger.record(self.usage)
         self.ledger.check_response()
         if response.status != "completed":
+            self.diagnostic = ProviderDiagnostic(category="incomplete_response")
             raise ProviderError("Model did not complete its response")
         return response
 

@@ -208,5 +208,10 @@ for that target, and the existing completed-target guard prevents replay. This c
 follows the unsafe-cleanup stop boundary and does not override it. Recoverable unmet
 targets still require the existing mode, idempotency, retry/action/decision/time budgets.
 Tests exercise zero-retry multi-target progress for transient and timeout observations.
-The controlled lost-ack profile returns HTTP 503 after commit; actual delayed/uncertain
-transport outcomes remain a separate future experiment.
+The controlled lost-ack profile returns HTTP 503 after commit. Pending-response profiles
+now hold an actual HTTP handler across the browser action deadline, on either side of
+commit. Timeout and cleanup callbacks release the handler without taking its write lock;
+a ten-second safety release bounds abandoned waits. Pre-commit held requests reject
+without a late write; post-commit held requests retain the committed state. Event evidence
+distinguishes action-timeout releases from cleanup/safety releases. This is a controlled
+browser action deadline, not a general remote-cancellation or TCP-timeout model.

@@ -7,7 +7,14 @@ from fastapi.responses import JSONResponse
 from veriagent.models import Status
 from veriagent.sandbox import Sandbox, TransientError
 
-BROWSER_SCENARIOS = ("clean", "silent_drop", "stale_dom", "lost_ack")
+TIMEOUT_SCENARIOS = ("timeout_before_commit", "timeout_after_commit")
+BROWSER_SCENARIOS = ("clean", "silent_drop", "stale_dom", "lost_ack") + TIMEOUT_SCENARIOS
+ACK_HOLD_SECONDS = 10
+
+
+def validate_browser_deadline(scenario: str, action_timeout: float) -> None:
+    if scenario in TIMEOUT_SCENARIOS and action_timeout >= ACK_HOLD_SECONDS:
+        raise ValueError("Timeout scenarios require --action-timeout below 10 seconds")
 
 
 class BrowserAppFaults:
@@ -15,10 +22,28 @@ class BrowserAppFaults:
         if scenario not in BROWSER_SCENARIOS:
             raise ValueError("Unknown browser scenario")
         self.scenario = scenario
-        self.remaining = int(scenario in {"stale_dom", "lost_ack"})
+        self.remaining = int(scenario in {"stale_dom", "lost_ack", *TIMEOUT_SCENARIOS})
         self.events: list[dict] = []
         self.events_dropped = 0
         self._lock = threading.Lock()
+        self._ack_release = threading.Event()
+        self._held_event = None
+
+    def release_pending(self, reason: str) -> None:
+        # Do not acquire the write lock: the HTTP handler holds it while waiting.
+        event = self._held_event
+        if event is not None:
+            event.setdefault("release_reason", reason)
+            self._ack_release.set()
+
+    def _hold_ack(self, event: dict) -> None:
+        self._ack_release.clear()
+        self._held_event = event
+        event["response_state"] = "held"
+        if not self._ack_release.wait(timeout=ACK_HOLD_SECONDS):
+            event.setdefault("release_reason", "safety_deadline")
+        event["response_state"] = "released"
+        self._held_event = None
 
     def _record(self, event: dict):
         if len(self.events) < 2048:
@@ -30,6 +55,27 @@ class BrowserAppFaults:
         # Serialize fixture writes so before/after event evidence identifies this call.
         with self._lock:
             before = sandbox.read_issue(issue_id)
+            if (
+                self.scenario == "timeout_before_commit"
+                and self.remaining
+                and before.status != status
+            ):
+                self.remaining -= 1
+                event = {
+                    "issue_id": issue_id,
+                    "requested_status": status.value,
+                    "before_status": before.status.value,
+                    "after_status": before.status.value,
+                    "before_version": before.version,
+                    "after_version": before.version,
+                    "http_status": 503,
+                    "committed": False,
+                    "injected": self.scenario,
+                }
+                self._record(event)
+                self._hold_ack(event)
+                # This controlled request is rejected, never committed after release.
+                return JSONResponse({"detail": "Status update failed"}, status_code=503)
             try:
                 result = sandbox.set_status(issue_id, status, timeout=1)
             except (TransientError, TimeoutError) as exc:
@@ -69,6 +115,8 @@ class BrowserAppFaults:
             if injected is not None:
                 self.remaining -= 1
             self._record(event)
+            if injected == "timeout_after_commit":
+                self._hold_ack(event)
             if injected == "lost_ack":
                 # Actual commit succeeded, but the caller sees an ordinary service error.
                 return JSONResponse({"detail": "Status update failed"}, status_code=503)

@@ -8,7 +8,7 @@ from uuid import uuid4
 
 from veriagent.agent import Agent
 from veriagent.browser import BrowserExecutor, BrowserSetupError, BrowserTools, local_browser_app
-from veriagent.browser_faults import BrowserAppFaults
+from veriagent.browser_faults import BrowserAppFaults, validate_browser_deadline
 from veriagent.dynamic import DynamicAgent
 from veriagent.interpretation import proposal_digest
 from veriagent.models import Budget, Mode, Task, TaskProposal
@@ -90,6 +90,7 @@ def execute_browser(
     # immutable proposal; never reread its file or reconstruct requirements from the model.
     task = proposal.task()
     app_faults = BrowserAppFaults(browser_scenario)
+    validate_browser_deadline(browser_scenario, budget.action_timeout_seconds)
     if engine not in {"static", "dynamic"}:
         raise ValueError("Unknown engine")
     directory = output.resolve() / uuid4().hex
@@ -101,7 +102,10 @@ def execute_browser(
     blocked_requests = 0
     cleanup_completed = False
     try:
-        with local_browser_app(sandbox, app_faults) as origin, BrowserTools(origin) as tools:
+        with (
+            local_browser_app(sandbox, app_faults) as origin,
+            BrowserTools(origin, release_pending=app_faults.release_pending) as tools,
+        ):
             browser_version = tools.browser.version
             captures.extend(_capture(tools, task, directory, "before"))
             agent_class = DynamicAgent if engine == "dynamic" else Agent

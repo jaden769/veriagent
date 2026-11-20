@@ -198,3 +198,47 @@ completed target. This works in verify/recover modes with zero retry budget. Unc
 worker cleanup still terminates execution before this progress rule; completed writes
 are never authorized for replay. This is state-based progress, not proof that every
 error is harmless, and does not change baseline policy.
+
+## Pending-response action timeouts
+
+Two additional controlled profiles hold the HTTP response until Playwright's action
+wait actually times out:
+
+| Profile | State while response is held | Required smoke behavior |
+| --- | --- | --- |
+| `timeout_before_commit` | Request has not changed SQLite and will be rejected | Detect unmet state, retry once, end with one commit |
+| `timeout_after_commit` | SQLite is already committed | Verify completion with no replay |
+
+```powershell
+.\.venv\Scripts\veriagent.exe browser-smoke --engine dynamic --browser-scenario timeout_before_commit --action-timeout 1
+.\.venv\Scripts\veriagent.exe browser-smoke --engine dynamic --browser-scenario timeout_after_commit --action-timeout 1
+```
+
+The browser waits for the page's pending save result, reaches its real action deadline,
+and produces a timeout observation. A trusted fixture callback then releases the held
+response; the agent gets no commit-state hint from that callback. Independent SQLite
+verification resolves the mutation outcome. The pre-commit profile returns a rejection
+without ever committing that request, even after release; the post-commit profile releases
+a successful acknowledgment for the write that already persisted. These are browser
+**action deadlines while HTTP is pending**, not simulated error observations, OS TCP
+socket timeouts, arbitrary packet loss or guarantees that real remote services cancel work.
+
+A per-fixture ten-second safety release prevents an abandoned handler from waiting
+indefinitely. Action deadlines must be below ten seconds for these profiles; CLI rejects
+incompatible budgets before provider/artifact/state creation. Browser and server cleanup
+also release a pending handler. Application events record response_state and release_reason
+(`action_timeout`, cleanup, or `safety_deadline`). A safety/cleanup release alone cannot pass
+a timeout smoke: actual timeout observation and matching action_timeout evidence are required.
+Low deadlines that expire before the intended request is reached can fail the smoke honestly.
+
+A passing pre-commit smoke requires two application write attempts, only the second
+committed, a detected post-write mismatch, recovery, verified final state and no unrelated
+changes. Passing post-commit smoke requires a single committed attempt and zero recovery.
+Both keep final version 1. With zero retries, the pre-commit case fails and remains open;
+the post-commit case can succeed, including with other approved targets still unfinished.
+
+Reviewed browser execution supports the same profiles. Regression cases use the fixed
+mixed_status, reopen and partial_satisfied corpus initial states with original approved
+requirements. Both timeout boundaries are tested against those cases using the dynamic
+engine, direct final-state/collateral audits and version checks. They are deterministic
+local mechanism tests, not repeated stochastic browser or model reliability measurements.

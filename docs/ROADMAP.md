@@ -94,6 +94,10 @@ Completed browser ambiguity increment: controlled stale rendered status and post
 HTTP-error profiles, bounded DOM/application event evidence, and no-replay checks. Dynamic
 multi-target progress now handles confirmed commits with errors without spending retries.
 
-Next browser increment: transport timeout/uncertain-commit schedules and failure analysis
-across the varied local task corpus. Benchmark external review and optional stochastic
-comparisons remain separate pending work.
+Completed pending-response timeout increment: real browser action deadlines before/after
+commit, bounded handler release, no-late-commit rejection, and replay-versus-progress checks.
+Dynamic reviewed trials cover mixed statuses, reopening and partially satisfied goals.
+
+Next browser increment: reproducible browser corpus batches with explicit fault-exposure
+and outcome summaries. Benchmark external review and optional stochastic comparisons
+remain separate pending work.

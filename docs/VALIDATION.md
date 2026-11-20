@@ -626,3 +626,38 @@ No paid browser/model request was issued.
 Full regression suite with real browser checks enabled: **361 passed in 123.86 seconds**,
 one existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks
 passed. No live-model browser request was made.
+
+### Pending-response browser action timeouts — 2026-11-20
+
+Added timeout_before_commit and timeout_after_commit profiles. The fixture holds an actual
+HTTP response while Playwright waits for the UI save result, so the browser's real action
+deadline produces the timeout observation. A trusted fixture callback releases the handler
+only after that observation; no commit-state hint is given to the planning provider.
+The pre-commit request rejects without writing on release; the post-commit request has
+already committed. Browser/server cleanup also release held handlers without acquiring
+the held write lock. A ten-second safety release bounds abandoned waits, and incompatible
+action deadlines are rejected before provider/artifact/state creation. Event metadata
+records held/released response state and release reason; safety/cleanup release alone is
+insufficient to pass a timeout smoke.
+
+Focused timeout/ambiguity/reviewed-browser suites: **40 passed in 50.62 seconds**. Unit
+checks observe SQLite while responses are held, prove no late pre-commit write, exercise
+cleanup release without deadlock, distinguish safety release and validate early budget
+rejection. Real Chromium tests cover static/dynamic before/after-commit smoke, honest
+failure without retries, and dynamic reviewed mixed_status/reopen/partial_satisfied cases
+using the fixed corpus's starting states. They verify one final version increment per
+changed target and unchanged unrelated data.
+
+Final dynamic mock CLI demonstrations:
+- `artifacts/browser-smoke/25bfc4c19b4b4b5e9e075daf36b6216b/result.json` (before commit):
+  smoke passed, two application attempts, one commit, one recovery, final version 1.
+- `artifacts/browser-smoke/2c8b50c48de04e94be20f8c902e3ebce/result.json` (after commit):
+  smoke passed, one application attempt/commit, zero recovery/replay, final version 1.
+Both recorded release_reason action_timeout and zero model calls. An earlier post-commit
+smoke at `41c233193ca84988ba4ad83952d1ecbf` also passed before the final thread-publication
+ordering cleanup. These are browser action deadlines while HTTP is pending, not a real
+remote-service cancellation guarantee or an OS TCP timeout. No API credits were used.
+
+Full regression suite with real Chromium checks enabled: **378 passed in 182.36 seconds**,
+one existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks
+passed. No paid model/API requests were made.

@@ -9,7 +9,12 @@ from typing import Literal
 from uuid import uuid4
 
 from veriagent.agent import Agent
-from veriagent.browser_faults import BROWSER_SCENARIOS, BrowserAppFaults
+from veriagent.browser_faults import (
+    BROWSER_SCENARIOS,
+    TIMEOUT_SCENARIOS,
+    BrowserAppFaults,
+    validate_browser_deadline,
+)
 from veriagent.dynamic import DynamicAgent
 from veriagent.isolated import sandbox_executor
 from veriagent.models import Budget, Mode, ToolExecutionConfig
@@ -45,9 +50,10 @@ def smoke_test(
         tool_backend != "browser" and browser_scenario != "silent_drop"
     ):
         raise ValueError("Invalid browser scenario for this backend")
+    budget = budget or Budget(timeout_seconds=60)
+    validate_browser_deadline(browser_scenario, budget.action_timeout_seconds)
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
-    budget = budget or Budget(timeout_seconds=60)
     faults = Faults(silent_drops=int(browser_scenario == "silent_drop"))
     sandbox = Sandbox(directory / "state.sqlite", faults)
     sandbox.seed()
@@ -61,7 +67,10 @@ def smoke_test(
         from veriagent.browser import BrowserExecutor, BrowserTools, local_browser_app
 
         app_faults = BrowserAppFaults(browser_scenario)
-        with local_browser_app(sandbox, app_faults) as origin, BrowserTools(origin) as tools:
+        with (
+            local_browser_app(sandbox, app_faults) as origin,
+            BrowserTools(origin, release_pending=app_faults.release_pending) as tools,
+        ):
             tools.deadline = time.monotonic() + 5
             tools.read_issue("ISSUE-1")
             tools.screenshot(directory / "browser-before.png")
@@ -137,12 +146,27 @@ def smoke_test(
             anomaly_observed = anomaly_observed and any(
                 e["kind"] == "action_result" and e["failure"] == "transient" for e in dom
             )
+        elif browser_scenario in TIMEOUT_SCENARIOS:
+            anomaly_observed = (
+                anomaly_observed
+                and any(e["kind"] == "action_result" and e["failure"] == "timeout" for e in dom)
+                and any(e.get("release_reason") == "action_timeout" for e in application)
+            )
         expectations = browser_scenario == "clean" or (
             anomaly_observed
             and len(application) == 1
             and application[0]["committed"]
             and report.recovery_attempts == 0
         )
+        if browser_scenario == "timeout_before_commit":
+            expectations = (
+                anomaly_observed
+                and detected
+                and len(application) == 2
+                and not application[0]["committed"]
+                and application[1]["committed"]
+                and report.recovery_attempts > 0
+            )
     if browser_evidence and browser_evidence["events_dropped"]:
         expectations = False
     passed = base_passed and expectations
@@ -162,7 +186,7 @@ def smoke_test(
         "smoke_passed": passed,
         "fault_detected": detected,
         "anomaly_observed": anomaly_observed,
-        "recovery_required": browser_scenario == "silent_drop",
+        "recovery_required": browser_scenario in {"silent_drop", "timeout_before_commit"},
         "untargeted_issues_unchanged": untouched,
         "task": task.model_dump(mode="json"),
         "budget": budget.model_dump(mode="json"),
@@ -180,7 +204,7 @@ def smoke_test(
             "scenario": browser_scenario,
             "fault_detected": detected,
             "anomaly_observed": anomaly_observed,
-            "recovery_required": browser_scenario == "silent_drop",
+            "recovery_required": browser_scenario in {"silent_drop", "timeout_before_commit"},
             "untargeted_issues_unchanged": untouched,
         },
     )

@@ -9,7 +9,7 @@ from veriagent.agent import Agent
 from veriagent.benchmark import SCENARIOS, repeated_trials
 from veriagent.benchmark_cases import load_corpus, select_cases
 from veriagent.benchmark_faults import ALL_SCENARIOS
-from veriagent.browser_faults import BROWSER_SCENARIOS
+from veriagent.browser_faults import BROWSER_SCENARIOS, validate_browser_deadline
 from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
@@ -367,6 +367,8 @@ def main() -> None:
                 max_decisions=args.max_decisions,
                 action_timeout_seconds=args.action_timeout,
             )
+            if args.command == "browser-smoke":
+                validate_browser_deadline(args.browser_scenario, budget.action_timeout_seconds)
             provider = configured_provider(args)
         except (ValueError, ProviderError) as exc:
             parser.error(str(exc))
@@ -426,6 +428,8 @@ def main() -> None:
             hangs_before_commit=args.hang_before_commit,
             hangs_after_commit=args.hang_after_commit,
         )
+        if browser_backend:
+            validate_browser_deadline(args.browser_scenario, budget.action_timeout_seconds)
         faults = Faults(
             silent_drops=1
             if browser_backend and args.browser_scenario == "silent_drop"

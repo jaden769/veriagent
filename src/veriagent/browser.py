@@ -5,6 +5,7 @@ import re
 import socket
 import threading
 import time
+from collections.abc import Callable
 from contextlib import contextmanager
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -44,6 +45,8 @@ def local_browser_app(sandbox: Sandbox, browser_faults: BrowserAppFaults | None 
             raise BrowserSetupError("Local browser application did not start")
         yield f"http://127.0.0.1:{port}"
     finally:
+        if browser_faults is not None:
+            browser_faults.release_pending("server_cleanup")
         server.should_exit = True
         thread.join(timeout=3)
         if thread.is_alive():
@@ -66,7 +69,7 @@ def permitted_request(origin: str, url: str, method: str) -> bool:
 
 
 class BrowserTools:
-    def __init__(self, origin: str):
+    def __init__(self, origin: str, *, release_pending: Callable[[str], None] | None = None):
         if (
             not re.fullmatch(r"http://127\.0\.0\.1:[1-9]\d{0,4}", origin)
             or int(urlsplit(origin).port) > 65535
@@ -78,6 +81,7 @@ class BrowserTools:
         self.blocked_requests = 0
         self.events: list[dict] = []
         self.events_dropped = 0
+        self.release_pending = release_pending or (lambda reason: None)
 
     def record(self, event: dict):
         if len(self.events) < 2048:
@@ -128,6 +132,7 @@ class BrowserTools:
         self.close()
 
     def close(self):
+        self.release_pending("browser_cleanup")
         failed = False
         try:
             if self.browser is not None:
@@ -259,4 +264,6 @@ class BrowserExecutor(Executor):
                 "failure": result.failure.value if result.failure else None,
             }
         )
+        if result.failure is not None and result.failure.value == "timeout":
+            self.tools.release_pending("action_timeout")
         return result

@@ -129,6 +129,10 @@ Completed browser review increment: compact text/JSON reports derived from full 
 audits, with separate expected/unexpected task failures, expectation mismatches and
 bounded evidence gaps. Invalid evidence withholds aggregate outcomes.
 
-Next browser increment: action/decision-limit controls with explicit partial-progress
-outcomes. Benchmark external review and optional stochastic comparisons remain separate
-pending work.
+Completed browser budget-boundary increment: 12 clean dynamic action/decision-limit
+controls, exact completion boundaries, explicit partial-progress/failure evidence and
+offline audit/review support with prior-evaluation compatibility.
+
+Next browser increment: combine second-write faults with action/decision boundaries to
+check recovery admission and preserved progress. Benchmark external review and optional
+stochastic comparisons remain separate pending work.

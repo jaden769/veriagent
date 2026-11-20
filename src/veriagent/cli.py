@@ -215,6 +215,9 @@ def main() -> None:
     matrix.add_argument(
         "--multi-event", action="store_true", help="Check 12 retry-exhaustion controls"
     )
+    matrix.add_argument(
+        "--budget-boundaries", action="store_true", help="Check 12 action/decision-limit controls"
+    )
     audit_browser = commands.add_parser(
         "audit-browser", help="Re-audit a saved browser trial offline"
     )
@@ -276,7 +279,10 @@ def main() -> None:
 
         try:
             result = evaluate_browser_controls(
-                args.output, indexed=args.indexed, multi_event=args.multi_event
+                args.output,
+                indexed=args.indexed,
+                multi_event=args.multi_event,
+                budget_boundaries=args.budget_boundaries,
             )
         except BrowserSetupError as exc:
             parser.error(str(exc))

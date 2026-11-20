@@ -24,7 +24,51 @@ CHANGED_TARGETS = {
 }
 
 
-def expected_control(task_id: str, scenario: str, mode: str, max_retries: int = 2) -> dict:
+def expected_control(
+    task_id: str,
+    scenario: str,
+    mode: str,
+    max_retries: int = 2,
+    max_actions: int = 8,
+    max_decisions: int = 8,
+) -> dict:
+    if (max_actions, max_decisions) != (8, 8):
+        if (
+            task_id not in {"pair_done", "mixed_status"}
+            or scenario != "clean"
+            or mode != "recover"
+            or max_retries != 2
+            or (max_actions, max_decisions) not in {(2, 8), (3, 8), (4, 8), (8, 2), (8, 3), (8, 4)}
+        ):
+            raise ValueError("Unknown budget-boundary control")
+        steps = min(max_actions, max_decisions)
+        passed = steps == 4
+        return {
+            "claimed_success": passed,
+            "audit_passed": passed,
+            "execution_passed": passed,
+            "failure": None if passed else "budget",
+            "actions": steps,
+            "decisions": steps,
+            "max_actions": max_actions,
+            "max_decisions": max_decisions,
+            "fault_exposed": False,
+            "recovery_attempts": 0,
+            "application_write_attempts": 2 if passed else 1,
+            "commits": 2 if passed else 1,
+            "pending_application_faults": 0,
+            "injected_attempts": [],
+            "events_dropped": 0,
+            "untargeted_issues_unchanged": True,
+            "target_titles_unchanged": True,
+            "target_statuses": {
+                "ISSUE-1": "done",
+                "ISSUE-2": ("done" if task_id == "pair_done" else "in_progress")
+                if passed
+                else "open",
+            },
+            "target_versions": {"ISSUE-1": 1, "ISSUE-2": int(passed)},
+        }
     if scenario in MULTI_BROWSER_SCENARIOS:
         if (
             task_id not in {"pair_done", "mixed_status"}
@@ -101,14 +145,19 @@ def expected_control(task_id: str, scenario: str, mode: str, max_retries: int = 
 
 def compare_control(row: dict) -> dict:
     expected = expected_control(
-        row["task_id"], row["scenario"], row["mode"], row.get("max_retries", 2)
+        row["task_id"],
+        row["scenario"],
+        row["mode"],
+        row.get("max_retries", 2),
+        row.get("max_actions", 8),
+        row.get("max_decisions", 8),
     )
     mismatches = {
         key: {"expected": value, "actual": row.get(key)}
         for key, value in expected.items()
         if row.get(key) != value
     }
-    return {
+    result = {
         "task_id": row["task_id"],
         "scenario": row["scenario"],
         "mode": row["mode"],
@@ -119,11 +168,28 @@ def compare_control(row: dict) -> dict:
         "passed": not mismatches,
         "mismatches": mismatches,
     }
+    if (row.get("max_actions", 8), row.get("max_decisions", 8)) != (8, 8):
+        result.update(max_actions=row["max_actions"], max_decisions=row["max_decisions"])
+    return result
 
 
-def control_batch_specs(*, indexed: bool = False, multi_event: bool = False) -> list[dict]:
-    if indexed and multi_event:
+def control_batch_specs(
+    *, indexed: bool = False, multi_event: bool = False, budget_boundaries: bool = False
+) -> list[dict]:
+    if sum((indexed, multi_event, budget_boundaries)) > 1:
         raise ValueError("Select one browser control matrix")
+    if budget_boundaries:
+        return [
+            {
+                "tasks": ("pair_done", "mixed_status"),
+                "modes": ("recover",),
+                "scenarios": ("clean",),
+                "max_retries": 2,
+                "max_actions": actions,
+                "max_decisions": decisions,
+            }
+            for actions, decisions in ((2, 8), (3, 8), (4, 8), (8, 2), (8, 3), (8, 4))
+        ]
     selections = (
         (((tuple(CHANGED_TARGETS)), ("recover",)),)
         if indexed
@@ -145,11 +211,37 @@ def control_batch_specs(*, indexed: bool = False, multi_event: bool = False) -> 
     ]
 
 
+def control_budget(spec: dict) -> Budget:
+    return Budget(
+        max_actions=spec.get("max_actions", 8),
+        max_decisions=spec.get("max_decisions", 8),
+        timeout_seconds=30,
+        action_timeout_seconds=1,
+        max_retries=spec["max_retries"],
+    )
+
+
+def control_key(row: dict) -> tuple:
+    return (
+        row["task_id"],
+        row["scenario"],
+        row["mode"],
+        row["max_retries"],
+        row.get("max_actions", 8),
+        row.get("max_decisions", 8),
+    )
+
+
 def evaluate_browser_controls(
-    output: Path, *, indexed: bool = False, multi_event: bool = False
+    output: Path,
+    *,
+    indexed: bool = False,
+    multi_event: bool = False,
+    budget_boundaries: bool = False,
 ) -> dict:
-    if indexed and multi_event:
-        raise ValueError("Select one browser control matrix")
+    specs = control_batch_specs(
+        indexed=indexed, multi_event=multi_event, budget_boundaries=budget_boundaries
+    )
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
     result = {
@@ -160,6 +252,7 @@ def evaluate_browser_controls(
         "engine": "dynamic",
         "indexed": indexed,
         "multi_event": multi_event,
+        "budget_boundaries": budget_boundaries,
         "artifacts": str(directory),
         "batches": [],
         "batch_bindings": [],
@@ -174,20 +267,13 @@ def evaluate_browser_controls(
 
     save()
     try:
-        specs = control_batch_specs(indexed=indexed, multi_event=multi_event)
         for spec in specs:
             batch = browser_batch(
                 directory,
                 task_ids=spec["tasks"],
                 scenarios=spec["scenarios"],
                 modes=spec["modes"],
-                budget=Budget(
-                    max_actions=8,
-                    max_decisions=8,
-                    timeout_seconds=30,
-                    action_timeout_seconds=1,
-                    max_retries=spec["max_retries"],
-                ),
+                budget=control_budget(spec),
             )
             path = Path(batch["artifacts"])
             relative = path.relative_to(directory).as_posix()
@@ -210,15 +296,20 @@ def evaluate_browser_controls(
         raise
     result["status"] = "complete"
     required = {
-        (task, scenario, mode, spec["max_retries"])
+        (
+            task,
+            scenario,
+            mode,
+            spec["max_retries"],
+            spec.get("max_actions", 8),
+            spec.get("max_decisions", 8),
+        )
         for spec in specs
         for task in spec["tasks"]
         for mode in spec["modes"]
         for scenario in spec["scenarios"]
     }
-    observed = {
-        (r["task_id"], r["scenario"], r["mode"], r["max_retries"]) for r in result["controls"]
-    }
+    observed = {control_key(row) for row in result["controls"]}
     result["coverage_complete"] = observed == required and len(result["controls"]) == len(required)
     result["passed"] = result["coverage_complete"] and all(
         row["passed"] for row in result["controls"]

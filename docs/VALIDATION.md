@@ -840,3 +840,28 @@ for the report commands.
 Full Chromium-enabled regression suite: **472 passed in 207.71 seconds**, with the
 existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
 passed. Reports remain unsigned deterministic fixture reviews, not reliability estimates.
+## Browser action/decision boundaries — 2026-11-21
+
+Added the separate `evaluate-browser --budget-boundaries` dynamic mock matrix: pair_done
+and mixed_status with action limits 2/3/4 and decision limit 8, plus decision limits 2/3/4
+and action limit 8. All **12/12 controls matched**, with four successful tasks and eight
+expected budget failures. Lower limits retained first-target done/version 1 and
+second-target open/version 0; four steps completed both targets without a budget failure.
+No fault injection, recovery, collateral changes or replay was expected.
+
+The complete evaluation passed offline audit and review at:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-budget-validation/9467a81502be4ba78d3345a89c3bd5fd`.
+CLI JSON/text outputs are retained at `artifacts/browser-budget-validation.json`,
+`artifacts/browser-budget-audit.json` and `artifacts/browser-budget-review.txt`.
+The prior multi-event evaluation at `browser-controls-audit-validation/5bb6db817cc8457ea4470bb85467df7b`
+under the same writable artifact root also still passed its offline audit; output is
+`artifacts/browser-budget-compatibility-audit.json`.
+
+Focused tests: **35 passed in 5.01 seconds**, covering overrun counts, false claims,
+missing terminal budget failure, lost progress, distinct resource identities, exact
+completion, matrix flag conflicts, review limit display and the fourth supported audit
+matrix shape. No paid API/model calls were made.
+
+Full Chromium-enabled suite: **482 passed in 208.30 seconds**, with the existing
+Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
+These exact-step boundaries apply to the fixed local mock flow, not arbitrary model runs.

@@ -6,9 +6,13 @@ import re
 from pathlib import Path
 
 from veriagent.browser_batch_audit import audit_browser_batch
-from veriagent.browser_controls import compare_control, control_batch_specs
+from veriagent.browser_controls import (
+    compare_control,
+    control_batch_specs,
+    control_budget,
+    control_key,
+)
 from veriagent.browser_evidence import _read
-from veriagent.models import Budget
 
 
 def audit_browser_controls(directory: Path) -> dict:
@@ -31,7 +35,13 @@ def audit_browser_controls(directory: Path) -> dict:
             for k in ("indexed", "multi_event", "passed", "coverage_complete")
         ):
             raise ValueError("Invalid matrix flags")
-        specs = control_batch_specs(indexed=saved["indexed"], multi_event=saved["multi_event"])
+        if type(saved.get("budget_boundaries", False)) is not bool:
+            raise ValueError("Invalid budget matrix flag")
+        specs = control_batch_specs(
+            indexed=saved["indexed"],
+            multi_event=saved["multi_event"],
+            budget_boundaries=saved.get("budget_boundaries", False),
+        )
         bindings = saved["batch_bindings"]
         if not isinstance(bindings, list) or len(bindings) != len(specs):
             raise ValueError("Incomplete batch bindings")
@@ -69,14 +79,7 @@ def audit_browser_controls(directory: Path) -> dict:
                     "modes": list(spec["modes"]),
                     "repeats": 1,
                 }
-                and manifest["budget"]
-                == Budget(
-                    max_actions=8,
-                    max_decisions=8,
-                    timeout_seconds=30,
-                    action_timeout_seconds=1,
-                    max_retries=spec["max_retries"],
-                ).model_dump(mode="json")
+                and manifest["budget"] == control_budget(spec).model_dump(mode="json")
                 and manifest["engine"] == "dynamic",
             )
             # Reject wrong selection before reading an unexpected nested matrix.
@@ -87,6 +90,17 @@ def audit_browser_controls(directory: Path) -> dict:
             check(f"batch_evidence:{ordinal}", batch_audit["evidence_passed"])
             if not batch_audit["evidence_passed"]:
                 raise ValueError("Invalid nested evidence")
+            if saved.get("budget_boundaries", False):
+                valid_metadata = all(
+                    row.get("max_actions") == spec["max_actions"]
+                    and row.get("max_decisions") == spec["max_decisions"]
+                    and "decisions" in row
+                    and "failure" in row
+                    for row in manifest["trials"]
+                )
+                check(f"budget_control_metadata:{ordinal}", valid_metadata)
+                if not valid_metadata:
+                    raise ValueError("Missing budget-control metadata")
             for row in manifest["trials"]:
                 # The nested auditor already validated this relative bundle path.
                 bundle = json.loads(_read(path / row["bundle_directory"], "result.json"))
@@ -95,13 +109,20 @@ def audit_browser_controls(directory: Path) -> dict:
                 run_ids.add(run_id)
                 controls.append({**compare_control(row), "batch_directory": relative})
         required = {
-            (task, scenario, mode, spec["max_retries"])
+            (
+                task,
+                scenario,
+                mode,
+                spec["max_retries"],
+                spec.get("max_actions", 8),
+                spec.get("max_decisions", 8),
+            )
             for spec in specs
             for task in spec["tasks"]
             for scenario in spec["scenarios"]
             for mode in spec["modes"]
         }
-        observed = {(r["task_id"], r["scenario"], r["mode"], r["max_retries"]) for r in controls}
+        observed = {control_key(row) for row in controls}
         coverage = required == observed and len(controls) == len(required)
         check("control_coverage", coverage and saved["coverage_complete"] == coverage)
         check("control_results", saved["controls"] == controls)

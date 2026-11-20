@@ -422,7 +422,8 @@ below for the whole evaluation or audit nested browser-batch directories individ
 
 New evaluations bind each relative nested batch directory to its manifest SHA-256 and
 retain each control's relative trial/batch association. The offline audit supports the
-default 42-control matrix, --indexed 24-control matrix and --multi-event 12-control matrix.
+default 42-control matrix, --indexed 24-control matrix, --multi-event 12-control matrix
+and --budget-boundaries 12-control matrix.
 It checks completed status, the selected matrix shape and fixed budgets, nested manifest
 bindings, all nested batch/trial evidence, unique run IDs across batches, exact control
 coverage, expected values, mismatch details and the reported evaluation outcome.
@@ -430,7 +431,7 @@ coverage, expected values, mismatch details and the reported evaluation outcome.
 The command reconstructs comparisons using the current control definitions. It follows
 only confined relative directories, so complete evaluations can be moved. Stored absolute
 paths are not followed. The controls.json input is bounded to 16 MiB and the selected
-matrix permits at most three nested batches and 42 controls; nested batch/file limits
+matrix permits at most six nested batches and 42 controls; nested batch/file limits
 also apply. Older evaluations lacking batch_bindings are unsupported and fail closed.
 
 `evidence_passed` means complete, consistent saved evidence. `controls_passed` independently
@@ -463,3 +464,25 @@ The command prints to stdout, writes no artifacts and starts no browsers/model c
 Exit 0 means evidence is valid, even when controls_passed is false; exit 1 means evidence
 could not support the report. Unsigned inventories and deterministic fixture counts do
 not establish authenticated provenance or stochastic reliability.
+
+## Action and decision boundaries
+
+```powershell
+.\.venv\Scripts\veriagent.exe evaluate-browser --budget-boundaries
+```
+
+This separate dynamic mock matrix crosses pair_done/mixed_status with action limits
+2/3/4 (decision limit 8) and decision limits 2/3/4 (action limit 8), using the clean profile.
+It checks 12 controls with two retries available but no injected faults or recoveries.
+The fixed mock reads then writes each target: limits 2/3 must stop with failure budget,
+first target done/version 1 and second target open/version 0. At exactly four steps,
+both targets must complete and no budget failure may be reported. Unrelated issues and
+target titles must remain unchanged throughout.
+
+Trial rows retain max_actions/max_decisions, observed decisions and terminal failure.
+Control identities and review detail rows distinguish the two budget dimensions. The
+offline control auditor requires this metadata for the boundary matrix and validates
+the exact configured limits; reports show four successes and eight expected task failures
+when all controls match. The existing default, indexed and multi-event matrices keep
+their original identities. Previously generated bound evaluations without the new optional
+budget fields remain auditable; no files are upgraded during audit.

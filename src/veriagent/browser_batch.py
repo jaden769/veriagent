@@ -194,6 +194,10 @@ def browser_batch(
                                     for i, k in browser_schedule(scenario).items()
                                 ],
                                 "max_retries": budget.max_retries,
+                                "max_actions": budget.max_actions,
+                                "max_decisions": budget.max_decisions,
+                                "decisions": result["decisions"],
+                                "failure": result["failure"],
                                 "target_statuses": {
                                     e["issue_id"]: e["actual"]
                                     for e in result["browser_audit"]["evidence"]

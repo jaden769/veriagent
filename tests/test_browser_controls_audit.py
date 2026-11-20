@@ -12,7 +12,7 @@ def write_json(path, value):
     path.write_text(json.dumps(value), encoding="utf-8")
 
 
-def fixture_evaluation(directory, *, indexed=False, multi_event=True):
+def fixture_evaluation(directory, *, indexed=False, multi_event=True, budget_boundaries=False):
     directory.mkdir()
     saved = dict(
         schema_version=1,
@@ -21,13 +21,19 @@ def fixture_evaluation(directory, *, indexed=False, multi_event=True):
         engine="dynamic",
         indexed=indexed,
         multi_event=multi_event,
+        budget_boundaries=budget_boundaries,
         passed=True,
         coverage_complete=True,
         batch_bindings=[],
         controls=[],
     )
     run = 0
-    for index, spec in enumerate(control_batch_specs(indexed=indexed, multi_event=multi_event), 1):
+    for index, spec in enumerate(
+        control_batch_specs(
+            indexed=indexed, multi_event=multi_event, budget_boundaries=budget_boundaries
+        ),
+        1,
+    ):
         relative = f"{index:032x}"
         path = directory / relative
         path.mkdir()
@@ -48,7 +54,14 @@ def fixture_evaluation(directory, *, indexed=False, multi_event=True):
                             max_retries=spec["max_retries"],
                             artifacts=str(bundle),
                             bundle_directory=bundle_relative,
-                            **expected_control(task, scenario, mode, spec["max_retries"]),
+                            **expected_control(
+                                task,
+                                scenario,
+                                mode,
+                                spec["max_retries"],
+                                spec.get("max_actions", 8),
+                                spec.get("max_decisions", 8),
+                            ),
                         )
                     )
         manifest = dict(
@@ -61,8 +74,8 @@ def fixture_evaluation(directory, *, indexed=False, multi_event=True):
             engine="dynamic",
             trials=rows,
             budget=Budget(
-                max_actions=8,
-                max_decisions=8,
+                max_actions=spec.get("max_actions", 8),
+                max_decisions=spec.get("max_decisions", 8),
                 timeout_seconds=30,
                 action_timeout_seconds=1,
                 max_retries=spec["max_retries"],
@@ -93,12 +106,23 @@ def nested_audit(monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "indexed,multi_event,count", [(False, False, 42), (True, False, 24), (False, True, 12)]
+    "indexed,multi_event,budget_boundaries,count",
+    [
+        (False, False, False, 42),
+        (True, False, False, 24),
+        (False, True, False, 12),
+        (False, False, True, 12),
+    ],
 )
 def test_all_matrix_shapes_are_read_only_and_movable(
-    tmp_path, nested_audit, indexed, multi_event, count
+    tmp_path, nested_audit, indexed, multi_event, budget_boundaries, count
 ):
-    directory = fixture_evaluation(tmp_path / "saved", indexed=indexed, multi_event=multi_event)
+    directory = fixture_evaluation(
+        tmp_path / "saved",
+        indexed=indexed,
+        multi_event=multi_event,
+        budget_boundaries=budget_boundaries,
+    )
     moved = tmp_path / "moved"
     directory.rename(moved)
     before = {p.relative_to(moved): p.read_bytes() for p in moved.rglob("*") if p.is_file()}

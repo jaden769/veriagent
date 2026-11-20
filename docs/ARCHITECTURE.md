@@ -256,3 +256,8 @@ The browser review layer consumes only the complete audit result. It maps contro
 nested audited task outcomes, distinguishes expected failures from mismatched expectations
 and withholds all outcome totals on invalid evidence or inconsistent trial mapping.
 Text and JSON views share the same counts and relative references; no evidence is rewritten.
+The budget-boundary control matrix adds action/decision limits to control identities and
+validates clean two-target partial progress at limits 2/3 versus exact completion at 4.
+Trial rows retain observed decisions and terminal failure. Parent audits bind the exact
+budget and require boundary metadata, while preserving compatibility with earlier bound
+evaluations whose default-budget rows lack the new optional fields.

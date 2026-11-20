@@ -166,6 +166,14 @@ def audit_browser_batch(directory: Path) -> dict:
                 ],
                 "target_titles_unchanged": saved["browser_audit"]["target_titles_unchanged"],
             }
+            for name, value in {
+                "max_actions": budget.max_actions,
+                "max_decisions": budget.max_decisions,
+                "decisions": saved["decisions"],
+                "failure": saved["failure"],
+            }.items():
+                if name in row:
+                    actual[name] = value
             check(f"trial_row:{ordinal}", row == actual)
             rebuilt.append(actual)
         recomputed = summarize(rebuilt)

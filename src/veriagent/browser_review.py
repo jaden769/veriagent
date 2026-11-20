@@ -66,6 +66,8 @@ def summarize_control_audit(audit: dict) -> dict:
                 "bundle_directory",
             )
         }
+        if "max_actions" in row:
+            detail.update(max_actions=row["max_actions"], max_decisions=row["max_decisions"])
         if trial["task_passed"]:
             successful += 1
         else:
@@ -123,6 +125,10 @@ def render_control_review(report: dict) -> str:
                     f"- {row['task_id']} / {row['scenario']} / {row['mode']}"
                     f" / retries={row['max_retries']}"
                 )
+                if "max_actions" in row:
+                    lines.append(
+                        f"  Limits: actions={row['max_actions']}, decisions={row['max_decisions']}"
+                    )
                 lines.append(f"  Evidence: {row['batch_directory']}/{row['bundle_directory']}")
                 if key == "expectation_mismatches":
                     lines.append("  Differences: " + json.dumps(row["mismatches"], sort_keys=True))

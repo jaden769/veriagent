@@ -168,4 +168,7 @@ def execute_browser(
         "result": result,
     }
     (directory / "result.json").write_text(json.dumps(bundle, indent=2) + "\n", encoding="utf-8")
+    from veriagent.browser_evidence import seal_browser_evidence
+
+    seal_browser_evidence(directory)
     return result

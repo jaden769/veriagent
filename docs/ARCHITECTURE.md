@@ -236,3 +236,9 @@ Their separate control matrix includes retry limits 0/1/2 and compares independe
 target statuses/versions and collateral checks, rather than treating a bounded partial
 failure as total loss of progress. Scenario labels and schedules remain fixture evidence,
 not provider feedback. Existing default and indexed matrices keep their original scope.
+Reviewed browser execution now seals its local evidence files with a bounded SHA-256
+inventory after writing the result. The offline browser evidence auditor reads leaf
+filenames only, validates reviewed requirements and trace consistency, replays saved
+application events and recomputes the saved-state audit. Evidence validity remains
+separate from successful task execution. This unsigned inventory detects byte changes
+and inconsistencies; it is not authenticated provenance or a new live database query.

@@ -114,6 +114,10 @@ Completed multi-event browser increment: two-event write schedules, exact pendin
 evidence, a 12-control retry-exhaustion matrix and explicit per-target status/version
 audits preserving partial progress.
 
-Next browser increment: offline artifact re-auditing to detect missing or altered browser
-trial evidence. Benchmark external review and optional stochastic comparisons remain
+Completed browser evidence increment: per-trial hash inventories and bounded read-only
+offline audits for missing/altered files, reviewed requirements, trace/event consistency
+and independently recomputed saved-state outcomes. Inventories are unsigned.
+
+Next browser increment: whole-batch offline re-auditing with trial coverage and summary
+reconciliation. Benchmark external review and optional stochastic comparisons remain
 separate pending work.

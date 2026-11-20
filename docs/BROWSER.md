@@ -349,3 +349,33 @@ The default 42-control and optional 24-control indexed selections remain separat
 --indexed and --multi-event are mutually exclusive. Generic browser-batch also accepts
 the two multi-event profile names. Tests additionally exercise both engines with zero
 and sufficient retries. These are fixed local schedules, not arbitrary remote-failure models.
+
+## Re-auditing saved trial evidence
+
+New reviewed-browser executions and browser-batch trials include `evidence.json`, an
+inventory of local filenames, byte lengths and SHA-256 hashes. Audit a trial directory:
+
+```powershell
+.\.venv\Scripts\veriagent.exe audit-browser <trial-bundle-directory>
+```
+
+This command reads local files only. It launches no browser, makes no API requests and
+writes no files. It does not follow embedded artifact paths, so bundles can be moved.
+It checks required files, all inventoried hashes, proposal/task/digest agreement, saved
+state audits, application-event replay, report/trace agreement, readable trace rendering
+and before/after capture availability. It rejects duplicate snapshot IDs, truncated event
+logs, malformed or missing evidence, external filenames and oversized inputs (64 files,
+16 MiB per file, 64 MiB total). Trace text accepts Windows CRLF or LF line endings while
+hash checks still use exact bytes. PNG/HTML hashes check byte integrity, not visual quality.
+
+`evidence_passed` describes evidence consistency/completeness; `task_passed` recomputes the
+saved execution outcome. An honestly recorded exhausted-retry failure can have valid
+evidence and task_passed false. Exit code 0 requires evidence_passed; code 1 reports failed
+checks. Earlier bundles lacking evidence.json fail the inventory check; no inventory is
+silently generated during audit. This first slice audits individual reviewed execution
+bundles, not browser-smoke or a whole batch manifest.
+
+The inventory is unsigned. It detects missing/changed files against that inventory and
+cross-file inconsistencies; someone rewriting the inventory and all matching evidence can
+evade it. Audits use saved snapshots and logs, not a new query of the original live SQLite
+database, and do not establish authenticated provenance or independently reproduced runs.

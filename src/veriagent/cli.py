@@ -215,7 +215,19 @@ def main() -> None:
     matrix.add_argument(
         "--multi-event", action="store_true", help="Check 12 retry-exhaustion controls"
     )
+    audit_browser = commands.add_parser(
+        "audit-browser", help="Re-audit a saved browser trial offline"
+    )
+    audit_browser.add_argument("directory", type=Path)
     args = parser.parse_args()
+    if args.command == "audit-browser":
+        from veriagent.browser_evidence import audit_browser_evidence
+
+        result = audit_browser_evidence(args.directory)
+        print(json.dumps(result, indent=2))
+        if not result["evidence_passed"]:
+            raise SystemExit(1)
+        return
     if args.command == "evaluate-browser":
         from veriagent.browser import BrowserSetupError
         from veriagent.browser_controls import evaluate_browser_controls

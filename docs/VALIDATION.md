@@ -746,3 +746,25 @@ existing Starlette/httpx deprecation warning. Ruff formatting/lint and whitespac
 passed. No paid API/model calls were made. The original matrix scope remains unchanged;
 this increment reran the indexed matrix and browser regressions, not the full original
 42-control CLI matrix. Results remain finite local mechanism checks.
+## Offline browser evidence audits — 2026-11-21
+
+New reviewed browser bundles include unsigned SHA-256 inventories; `audit-browser`
+rechecks files, reviewed requirements, saved state, application replay and trace/report
+consistency without opening a browser, calling a model or modifying the bundle.
+Focused tests: **15 passed in 8.08 seconds**. Cases remove required files/captures, alter
+capture bytes, reseal inconsistent state/digests/reports/events, duplicate snapshot rows,
+attempt external filenames and exceed file limits. Real Chromium runs confirm that both
+successful recovery and honestly reported partial failure can have valid evidence.
+The first focused run found Windows CRLF trace rendering differences; normalization was
+corrected while exact-byte hash checks remain unchanged.
+
+Final CLI bundle:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-evidence-validation/075a99ff72864209bc07078424b94ec1/trial-001/7e4d630b84fe48a9818d1fd6226b38d3`.
+The pair_done second_two_drops dynamic trial passed, and a subsequent offline CLI audit
+reported evidence_passed/task_passed true. CLI JSON summaries are retained at
+`artifacts/browser-evidence-batch.json` and `artifacts/browser-evidence-audit.json`.
+
+Full Chromium-enabled suite: **436 passed in 204.86 seconds**, with the existing
+Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
+No paid API/model calls were made. These audits compare saved evidence, not the current
+live database; an unsigned inventory cannot prevent coordinated rewriting of all files.

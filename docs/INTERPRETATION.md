@@ -69,6 +69,12 @@ The execution planner cannot change the reviewed requirements. Refusals, invalid
 unmentioned/omitted targets and expired interpretation budgets produce a failed result
 without a usable proposal or any tool operation.
 
+Reviewed execution can explicitly select `--tool-backend browser` for the fixed local
+issue UI; sandbox remains the default. The [browser guide](BROWSER.md) documents per-target
+captures, separate final-state/collateral audits and cleanup-aware overall CLI status.
+Browser mode cannot be combined with process-worker flags. Approval checks still precede
+provider, state and browser creation; backend selection does not change the approved goals.
+
 ## Files, accounting and approval semantics
 
 Each `propose` call creates a UUID directory under `artifacts/proposals/` with an

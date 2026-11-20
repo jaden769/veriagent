@@ -86,6 +86,10 @@ DOM tools, independent SQLite verification, browser screenshots/DOM artifacts an
 browser regression checks. Both engines can recover the controlled dropped write using
 the mock provider. See BROWSER.md. No live-model browser trial has been run.
 
-Next browser increment: reviewed multi-target execution through the local UI with
-explicit backend selection and independent collateral-state checks. Benchmark corpus
-external review and optional stochastic comparisons remain separate pending work.
+Completed reviewed-browser increment: explicit execute backend, approved multi-target
+UI actions, direct final-state/collateral audits, original-claim preservation and evidence
+bundles. Tests cover unrelated changes, baseline false claims and unconfirmed cleanup.
+
+Next browser increment: controlled stale-DOM and ambiguous-write scenarios with browser
+event evidence. Benchmark corpus external review and optional stochastic comparisons
+remain separate pending work.

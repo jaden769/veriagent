@@ -68,8 +68,8 @@ Playwright driver itself remains a trusted local subprocess. Request routing is 
 context boundary, not an OS/network security sandbox or a guarantee against every browser
 background connection. The local app/API is unauthenticated and must remain on loopback.
 These checks do not establish general prompt-injection resistance or arbitrary-site safety.
-Only the local fixture and existing SQLite actions are supported; browser execution is not
-yet wired into reviewed `execute`, process workers or the repeated-trial benchmark.
+Only the local fixture and existing SQLite actions are supported. Reviewed `execute`
+supports an explicit browser backend; process workers and repeated-trial benchmarks do not.
 
 Explicit `--provider openai` enables potentially billable planning/decisions, using the
 same provider flags and usage ledger as ordinary smoke. It is not run automatically.
@@ -83,10 +83,59 @@ checks are opt-in:
 
 ```powershell
 $env:VERIAGENT_BROWSER_TESTS = "1"
-.\.venv\Scripts\python.exe -m pytest tests/test_browser.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_browser.py tests/test_browser_execution.py -q
 ```
 
 They exercise static/dynamic recovery, optimistic acknowledgments, title-as-text handling,
 missing issues, transient non-commit, external-navigation blocking, stalled UI timeouts,
 and honest failure when recovery is disabled. The browser tests require Chromium already
 installed; they do not download binaries or issue paid model calls.
+
+## Reviewed multi-target execution
+
+`execute --tool-backend browser` operates the same owned local fixture through Chromium.
+The default remains `--tool-backend sandbox`. Approval is checked before browser startup,
+provider construction and state creation. The exact parsed immutable proposal is retained;
+the execution model cannot substitute requirements. Browser mode rejects `--isolate-tools`
+and worker hang-injection flags before side effects. Its default action deadline is five
+seconds; sandbox execute retains its one-second default. Explicit limits still override.
+
+Create and inspect a proposal first (mock interpretation uses no API credits):
+
+```powershell
+$proposalResult = .\.venv\Scripts\veriagent.exe propose "Close ISSUE-1 and start ISSUE-2" | ConvertFrom-Json
+.\.venv\Scripts\veriagent.exe review $proposalResult.proposal_file
+```
+
+Read the requirements: ISSUE-1 done, ISSUE-2 in_progress. If they match your intent,
+execute using the displayed digest and a fresh trial directory:
+
+```powershell
+$trialDir = Join-Path "artifacts/reviewed-browser-trials" ([guid]::NewGuid().ToString("N"))
+$execution = .\.venv\Scripts\veriagent.exe execute $proposalResult.proposal_file --approve (Read-Host "Reviewed approval digest") --tool-backend browser --engine dynamic --silent-drops 1 --max-actions 8 --max-decisions 8 --db "$trialDir/state.sqlite" --traces "$trialDir/traces.sqlite" --browser-artifacts "$trialDir/evidence" | ConvertFrom-Json
+$execution.browser_execution_passed
+$execution.browser_audit | ConvertTo-Json -Depth 5
+```
+
+This also defaults to mock. Explicit OpenAI provider selection uses API credits; no
+live-model reviewed-browser trial has been validated. Existing database files are preserved
+and seeded without resetting their current statuses; choose a fresh path for independent
+trials. The artifact root must differ from state/trace database files.
+
+The output preserves the agent's original claim, verification result and usage. A separate
+`browser_audit` reads all final SQLite rows, checks every approved target, compares every
+untargeted row (including title/version and added/deleted IDs), and checks that target titles
+were unchanged. It does not judge target version counts beyond retaining them as evidence.
+This audit occurs after browser/server cleanup and never feeds corrections to the agent.
+`browser_execution_passed` requires an agent success claim, passed audit and completed
+cleanup; CLI exit 1 means this overall result failed, even if the agent claimed success.
+A baseline's internal verification remains null; the independent audit is separate.
+
+Each UUID evidence directory saves the full approved proposal/digest, task, budget,
+initial/final state, original report plus audit, ordered traces, and before/after screenshot
+and DOM files for each target. Filenames use ordinal numbers; capture metadata maps them
+to issue IDs. Captures are outside the run budget and their failure is recorded without
+changing agent outcomes. A setup failure before an agent report returns exit 2 and saves
+bounded setup metadata. Unconfirmed cleanup after a report preserves it but fails the
+overall result. Passing cleanup records successful API shutdown, not an OS attestation of
+all possible subprocess descendants. Browser startup/capture/cleanup are not hard real-time.

@@ -117,13 +117,22 @@ class BrowserTools:
         self.close()
 
     def close(self):
+        failed = False
         try:
             if self.browser is not None:
                 self.browser.close()
+        except Exception:
+            failed = True
         finally:
-            if self.playwright is not None:
-                self.playwright.stop()
-            self.playwright = self.browser = self.context = self.page = None
+            try:
+                if self.playwright is not None:
+                    self.playwright.stop()
+            except Exception:
+                failed = True
+            finally:
+                self.playwright = self.browser = self.context = self.page = None
+        if failed:
+            raise BrowserSetupError("Browser cleanup could not be confirmed")
 
     def _route(self, route):
         if permitted_request(self.origin, route.request.url, route.request.method):

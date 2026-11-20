@@ -76,13 +76,15 @@ def configured_provider(args: argparse.Namespace) -> MockProvider | OpenAIProvid
     return OpenAIProvider.from_env(config)
 
 
-def add_engine_options(command: argparse.ArgumentParser) -> None:
+def add_engine_options(
+    command: argparse.ArgumentParser, *, action_timeout: float | None = 1
+) -> None:
     command.add_argument("--engine", choices=("static", "dynamic"), default="static")
     command.add_argument("--max-actions", type=int, default=20)
     command.add_argument(
         "--action-timeout",
         type=float,
-        default=1,
+        default=action_timeout,
         help="Tool deadline including worker startup when isolated",
     )
     command.add_argument(
@@ -164,7 +166,11 @@ def main() -> None:
     execute.add_argument("--silent-drops", type=int, default=0)
     execute.add_argument("--max-retries", type=int, default=2)
     add_provider_options(execute, timeout=60)
-    add_engine_options(execute)
+    add_engine_options(execute, action_timeout=None)
+    execute.add_argument("--tool-backend", choices=("sandbox", "browser"), default="sandbox")
+    execute.add_argument(
+        "--browser-artifacts", type=Path, default=Path("artifacts/browser-executions")
+    )
     smoke = commands.add_parser("smoke", help="Save an isolated dropped-write recovery check")
     smoke.add_argument("--output", type=Path, default=Path("artifacts/smoke"))
     add_provider_options(smoke, timeout=60)
@@ -386,12 +392,24 @@ def main() -> None:
             task, reviewed = approved_task(args.proposal, args.approve)
         else:
             task = MockProvider().parse(args.objective)
+        browser_backend = args.command == "execute" and args.tool_backend == "browser"
+        if browser_backend and (
+            args.isolate_tools or args.hang_before_commit or args.hang_after_commit
+        ):
+            raise ValueError("Browser backend cannot use isolated-worker or worker-hang options")
+        if browser_backend and args.browser_artifacts.resolve() in {
+            args.db.resolve(),
+            args.traces.resolve(),
+        }:
+            raise ValueError("Browser artifact directory must differ from database files")
         budget = Budget(
             max_retries=args.max_retries,
             timeout_seconds=args.timeout,
             max_actions=args.max_actions,
             max_decisions=args.max_decisions,
-            action_timeout_seconds=args.action_timeout,
+            action_timeout_seconds=args.action_timeout
+            if args.action_timeout is not None
+            else (5 if browser_backend else 1),
         )
         tool_config = ToolExecutionConfig(
             mode="process" if args.isolate_tools else "in_process",
@@ -408,19 +426,38 @@ def main() -> None:
         sandbox = Sandbox(args.db, faults)
         sandbox.seed()
         traces = TraceStore(args.traces)
-        agent_class = DynamicAgent if args.engine == "dynamic" else Agent
-        report = agent_class(
-            provider,
-            sandbox_executor(sandbox, tool_config),
-            StateVerifier(sandbox.path),
-            traces,
-            budget,
-        ).run(task, Mode(args.mode), reviewed_proposal=reviewed)
+        if browser_backend:
+            from veriagent.browser import BrowserSetupError
+            from veriagent.browser_execution import execute_browser
+
+            try:
+                result = execute_browser(
+                    reviewed,
+                    provider,
+                    sandbox,
+                    traces,
+                    budget,
+                    output=args.browser_artifacts,
+                    engine=args.engine,
+                    mode=Mode(args.mode),
+                )
+            except BrowserSetupError as exc:
+                parser.error(str(exc))
+        else:
+            agent_class = DynamicAgent if args.engine == "dynamic" else Agent
+            report = agent_class(
+                provider,
+                sandbox_executor(sandbox, tool_config),
+                StateVerifier(sandbox.path),
+                traces,
+                budget,
+            ).run(task, Mode(args.mode), reviewed_proposal=reviewed)
+            result = report.model_dump(mode="json")
     finally:
         if isinstance(provider, OpenAIProvider):
             provider.close()
-    print(json.dumps(report.model_dump(mode="json"), indent=2))
-    if not report.claimed_success:
+    print(json.dumps(result, indent=2))
+    if not result.get("browser_execution_passed", result["claimed_success"]):
         raise SystemExit(1)
 
 

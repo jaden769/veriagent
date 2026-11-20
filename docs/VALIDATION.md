@@ -547,3 +547,37 @@ the refreshed after screenshot: ISSUE-1 done/version 1. The prior initial implem
 smoke at `6356d343820a40189ec1dda3468b5236` also passed. No live-model browser trial or paid
 request was made. This validates a fixed local fixture, not arbitrary-site autonomy or a
 browser/network security sandbox. Benchmark external review remains pending.
+
+### Reviewed multi-target browser backend — 2026-11-20
+
+Added `execute --tool-backend browser`, leaving sandbox execution as default. The parsed
+immutable approved proposal supplies all browser targets; invalid digests and browser/
+worker-isolation combinations are rejected before provider/state/browser creation.
+Browser execute defaults to five-second action deadlines; existing sandbox execute
+retains one second unless explicitly overridden. The new evidence helper captures initial
+and final rows via read-only SQL, per-target DOM/screenshots and the approved proposal,
+digest, budget, original agent result and ordered trace events.
+
+The post-cleanup browser audit separately checks all target statuses, target titles and
+entire untargeted rows, including added/deleted IDs. Original claims are retained; overall
+browser_execution_passed and CLI exit status reject collateral changes or unconfirmed
+cleanup even if internal target verification passed. Baseline verification remains null
+and its independent audit never feeds execution. Bounded setup metadata is retained if
+no agent report was produced. Browser shutdown errors are normalized without raw messages.
+
+Focused reviewed-browser, interpretation and browser suites: **72 passed in 23.08 seconds**.
+Real Chromium checks cover static/dynamic two-target recovery, review-before-action trace
+ordering, zero model calls despite ambient test credentials, default deadline selection,
+collateral changes, baseline false claims and cleanup uncertainty. Unit/preflight checks
+cover all-target/title/add-delete audits and early rejection without provider/state/browser
+side effects.
+
+A fresh offline dynamic CLI demonstration saved
+`artifacts/reviewed-browser-trials/e3823dc771ef419582f041ff08e0a267/evidence/ce98ff4e72c84188be7ff1218cf97da6/result.json`.
+It passed with six browser actions, one recovery and zero model calls. Read-only audit
+confirmed ISSUE-1 done/version 1, ISSUE-2 in_progress/version 1, unchanged untargeted data
+and unchanged target titles. No live-model browser request was issued.
+
+Full regression suite with real Chromium checks enabled: **344 passed in 108.50 seconds**,
+one existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks
+passed. No paid model calls were made.

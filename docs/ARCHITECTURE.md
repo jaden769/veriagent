@@ -184,5 +184,12 @@ Default commands remain mock/offline. Smoke evidence includes before/after scree
 final refreshed DOM, package/browser versions and the original state/audit/traces. A
 capture failure is recorded separately from agent/audit outcomes. Neither screenshot
 appearance nor DOM acknowledgment is accepted as persisted-state proof. The slice does
-not implement arbitrary-site planning, a vision model, personal-profile access or a
-reviewed browser execution backend yet.
+not implement arbitrary-site planning, a vision model or personal-profile access.
+
+Reviewed execution now supports an explicit browser backend. Approval validation precedes
+state/provider/browser creation; the exact immutable proposal supplies the task. A separate
+post-cleanup read-only SQL audit checks target statuses, target titles and entire unrelated
+rows. Original agent reports remain intact even when the evaluator rejects collateral
+effects or cleanup uncertainty. Overall CLI success is distinct from an agent's claim.
+Per-target captures, proposal digest and before/after rows are retained in an evidence
+bundle. Worker isolation cannot be combined with browser mode.

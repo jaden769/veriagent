@@ -231,3 +231,8 @@ second-write profiles inject only at attempt 2 on a changing target; no-ops and 
 targets consume positions without moving the scheduled event. Batch evidence retains
 planned and realized positions plus pending fault counts. A separate 24-control dynamic
 evaluation checks both exposed two-target cases and unused zero/one-target schedules.
+Multi-event browser profiles use the same position map for two faults at attempts 2/3.
+Their separate control matrix includes retry limits 0/1/2 and compares independent final
+target statuses/versions and collateral checks, rather than treating a bounded partial
+failure as total loss of progress. Scenario labels and schedules remain fixture evidence,
+not provider feedback. Existing default and indexed matrices keep their original scope.

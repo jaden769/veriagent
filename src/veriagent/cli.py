@@ -210,14 +210,20 @@ def main() -> None:
         "evaluate-browser", help="Check 42 fixed offline dynamic browser controls"
     )
     controls.add_argument("--output", type=Path, default=Path("artifacts/browser-controls"))
-    controls.add_argument("--indexed", action="store_true", help="Check 24 later-write controls")
+    matrix = controls.add_mutually_exclusive_group()
+    matrix.add_argument("--indexed", action="store_true", help="Check 24 later-write controls")
+    matrix.add_argument(
+        "--multi-event", action="store_true", help="Check 12 retry-exhaustion controls"
+    )
     args = parser.parse_args()
     if args.command == "evaluate-browser":
         from veriagent.browser import BrowserSetupError
         from veriagent.browser_controls import evaluate_browser_controls
 
         try:
-            result = evaluate_browser_controls(args.output, indexed=args.indexed)
+            result = evaluate_browser_controls(
+                args.output, indexed=args.indexed, multi_event=args.multi_event
+            )
         except BrowserSetupError as exc:
             parser.error(str(exc))
         print(json.dumps(result, indent=2))

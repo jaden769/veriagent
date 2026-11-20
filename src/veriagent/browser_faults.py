@@ -15,8 +15,19 @@ INDEXED_BROWSER_SCENARIOS = (
     "second_timeout_before_commit",
     "second_timeout_after_commit",
 )
-ALL_BROWSER_SCENARIOS = BROWSER_SCENARIOS + INDEXED_BROWSER_SCENARIOS
+MULTI_BROWSER_SCENARIOS = ("second_two_drops", "second_drop_then_lost_ack")
+ALL_BROWSER_SCENARIOS = BROWSER_SCENARIOS + INDEXED_BROWSER_SCENARIOS + MULTI_BROWSER_SCENARIOS
 ACK_HOLD_SECONDS = 10
+
+
+def browser_schedule(scenario: str) -> dict[int, str]:
+    if scenario in INDEXED_BROWSER_SCENARIOS:
+        kind = scenario.removeprefix("second_")
+        return {2: "silent_drop" if kind == "drop" else kind}
+    return {
+        "second_two_drops": {2: "silent_drop", 3: "silent_drop"},
+        "second_drop_then_lost_ack": {2: "silent_drop", 3: "lost_ack"},
+    }.get(scenario, {})
 
 
 def validate_browser_deadline(scenario: str, action_timeout: float) -> None:
@@ -31,8 +42,9 @@ class BrowserAppFaults:
         if scenario not in ALL_BROWSER_SCENARIOS:
             raise ValueError("Unknown browser scenario")
         self.scenario = scenario
-        self.remaining = int(
-            scenario in {"stale_dom", "lost_ack", *TIMEOUT_SCENARIOS, *INDEXED_BROWSER_SCENARIOS}
+        self.schedule = browser_schedule(scenario)
+        self.remaining = len(self.schedule) or int(
+            scenario in {"stale_dom", "lost_ack", *TIMEOUT_SCENARIOS}
         )
         self.write_attempt = 0
         self.events: list[dict] = []
@@ -59,10 +71,10 @@ class BrowserAppFaults:
 
     def _record(self, event: dict):
         event["attempt"] = self.write_attempt
-        event["scheduled_fault"] = (
-            self.scenario
-            if (self.scenario in INDEXED_BROWSER_SCENARIOS and self.write_attempt == 2)
-            else None
+        event["scheduled_fault"] = self.scenario if self.write_attempt in self.schedule else None
+        event["scheduled_kind"] = self.schedule.get(self.write_attempt)
+        event["injected_kind"] = (
+            self.schedule.get(self.write_attempt, self.scenario) if event["injected"] else None
         )
         if len(self.events) < 2048:
             self.events.append(event)
@@ -74,11 +86,8 @@ class BrowserAppFaults:
         with self._lock:
             self.write_attempt += 1
             before = sandbox.read_issue(issue_id)
-            indexed = self.scenario in INDEXED_BROWSER_SCENARIOS
-            eligible = self.remaining and (not indexed or self.write_attempt == 2)
-            kind = self.scenario.removeprefix("second_") if indexed else self.scenario
-            if kind == "drop":
-                kind = "silent_drop"
+            eligible = self.remaining and (not self.schedule or self.write_attempt in self.schedule)
+            kind = self.schedule.get(self.write_attempt) if self.schedule else self.scenario
             if (
                 kind in {"timeout_before_commit", "silent_drop"}
                 and eligible

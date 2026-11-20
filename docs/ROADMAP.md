@@ -110,6 +110,10 @@ Completed indexed browser increment: four second-write profiles, explicit planne
 positions and unused faults, a 24-control dynamic matrix and both-engine multi-target
 no-replay regressions.
 
-Next browser increment: multi-event schedules and exhausted-retry controls, with explicit
-partial-progress audits. Benchmark external review and optional stochastic comparisons
-remain separate pending work.
+Completed multi-event browser increment: two-event write schedules, exact pending-event
+evidence, a 12-control retry-exhaustion matrix and explicit per-target status/version
+audits preserving partial progress.
+
+Next browser increment: offline artifact re-auditing to detect missing or altered browser
+trial evidence. Benchmark external review and optional stochastic comparisons remain
+separate pending work.

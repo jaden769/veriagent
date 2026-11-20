@@ -724,3 +724,25 @@ completed evaluation. The successful rerun used the other writable local directo
 Full Chromium-enabled regression suite: **409 passed in 178.24 seconds**, one existing
 Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
 No paid model/API calls were made; results remain finite deterministic fixture checks.
+## Multi-event browser recovery — 2026-11-20
+
+The `evaluate-browser --multi-event` CLI matched **12/12 controls**, covering pair_done
+and mixed_status with second_two_drops/second_drop_then_lost_ack and retry limits 0/1/2.
+Evidence:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-controls/a1b2b999060046dba27fca337e76c004/controls.json`.
+Expected exhausted-retry failures retained first-target done/version 1 and second-target
+open/version 0, with unchanged unrelated data. Two drops required two retries; the
+drop/committed-error schedule required one retry and did not replay the committed write.
+Full event positions/kinds and unused event counts were retained.
+
+Focused tests: **35 passed in 34.00 seconds**, including both engines with zero and
+sufficient retries. Tests deliberately alter partial progress/version/collateral evidence
+and verify that an ineligible earlier event does not shift a later event.
+The existing indexed CLI matrix still matched **24/24 controls** at
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-controls/34dd3fe7a17a425999d9c763c5383d95/controls.json`.
+
+Full Chromium-enabled regression suite: **421 passed in 186.96 seconds**, with the
+existing Starlette/httpx deprecation warning. Ruff formatting/lint and whitespace checks
+passed. No paid API/model calls were made. The original matrix scope remains unchanged;
+this increment reran the indexed matrix and browser regressions, not the full original
+42-control CLI matrix. Results remain finite local mechanism checks.

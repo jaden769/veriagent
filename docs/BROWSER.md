@@ -323,3 +323,29 @@ from the batch implementation and include exact injected positions and remaining
 The batch manifest records planned_fault_attempt, injected_attempts and
 pending_application_faults alongside its ordinary results. Both agent engines also have
 real browser regressions for all four indexed profiles on pair_done.
+
+## Multiple faults and exhausted retries
+
+```powershell
+.\.venv\Scripts\veriagent.exe evaluate-browser --multi-event
+```
+
+This separate 12-control dynamic matrix crosses pair_done/mixed_status, two schedules,
+and retry allowances 0/1/2. second_two_drops drops attempts 2 and 3;
+second_drop_then_lost_ack drops attempt 2 and commits attempt 3 while returning an error.
+Each scheduled event retains its original position and kind. Ineligible events do not
+shift; pending_application_faults counts unused events. The batch manifest includes the
+full planned_faults list and application logs include scheduled_kind/injected_kind.
+
+Controls explicitly require first-target done/version 1, correct second-target state and
+version, unchanged unrelated issues/titles, exact attempts/commits/retries, and honest
+failure on retry exhaustion. With no retries, one fault remains unused and the second
+target stays open. Two drops still fail with one retry; with two retries both targets
+complete. A drop followed by a committed error succeeds with one retry and no replay of
+the committed request. An expected partial failure can pass the evaluation control while
+the task audit fails. Recovery never rolls back the first completed target.
+
+The default 42-control and optional 24-control indexed selections remain separate;
+--indexed and --multi-event are mutually exclusive. Generic browser-batch also accepts
+the two multi-event profile names. Tests additionally exercise both engines with zero
+and sufficient retries. These are fixed local schedules, not arbitrary remote-failure models.

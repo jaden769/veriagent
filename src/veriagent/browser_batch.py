@@ -11,6 +11,7 @@ from veriagent.browser_execution import execute_browser
 from veriagent.browser_faults import (
     ALL_BROWSER_SCENARIOS,
     INDEXED_BROWSER_SCENARIOS,
+    browser_schedule,
     validate_browser_deadline,
 )
 from veriagent.interpretation import proposal_digest
@@ -183,6 +184,25 @@ def browser_batch(
                                 ],
                                 "pending_application_faults": result["browser"][
                                     "pending_application_faults"
+                                ],
+                                "planned_faults": [
+                                    {"attempt": i, "kind": k}
+                                    for i, k in browser_schedule(scenario).items()
+                                ],
+                                "max_retries": budget.max_retries,
+                                "target_statuses": {
+                                    e["issue_id"]: e["actual"]
+                                    for e in result["browser_audit"]["evidence"]
+                                },
+                                "target_versions": {
+                                    e["issue_id"]: e["version"]
+                                    for e in result["browser_audit"]["evidence"]
+                                },
+                                "untargeted_issues_unchanged": result["browser_audit"][
+                                    "untargeted_issues_unchanged"
+                                ],
+                                "target_titles_unchanged": result["browser_audit"][
+                                    "target_titles_unchanged"
                                 ],
                             }
                         )

@@ -816,3 +816,27 @@ Both evidence_passed and controls_passed were true. CLI JSON is retained at
 Full Chromium-enabled suite: **462 passed in 213.68 seconds**, with the existing
 Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
 Audits remain unsigned saved-evidence consistency checks, not authenticated provenance.
+## Compact browser control review — 2026-11-21
+
+Added `review-browser-controls` with shared text/JSON views derived from a complete
+offline control audit. It distinguishes expected and unexpected task failures from
+expectation mismatches, retains relative evidence references and withholds outcome
+totals for invalid evidence or inconsistent trial mapping. Compact evidence-gap display
+is bounded to 100 entries with an explicit truncation marker.
+
+Focused tests: **10 passed in 1.06 seconds**. They cover expected/unexpected failures,
+unexpected success, an expected failure with another mismatch, partial evidence,
+bounded gaps, missing/duplicate/unknown trial outcomes, both CLI formats, read-only audit
+input handling and missing evidence exit behavior without constructing a provider.
+
+Both CLI formats were run against the saved evaluation at
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-controls-audit-validation/5bb6db817cc8457ea4470bb85467df7b`.
+The report showed valid evidence, 12/12 matched controls, six successful tasks, six
+expected task failures and zero unexpected failures/expectation mismatches. Outputs:
+`artifacts/browser-control-review.txt` and `artifacts/browser-control-review.json`.
+This reused saved evidence; no browser launches or paid API/model calls were needed
+for the report commands.
+
+Full Chromium-enabled regression suite: **472 passed in 207.71 seconds**, with the
+existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
+passed. Reports remain unsigned deterministic fixture reviews, not reliability estimates.

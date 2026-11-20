@@ -440,3 +440,26 @@ baseline or retry-exhaustion task failures can pass their controls. Exit 0 requi
 evidence, while exit 1 reports incomplete or inconsistent evidence. Auditing reads files
 only: it launches no browsers, makes no API calls and does not rewrite artifacts. The
 unsigned manifests/hashes do not authenticate provenance or prevent coordinated rewriting.
+
+## Compact offline review
+
+```powershell
+.\.venv\Scripts\veriagent.exe review-browser-controls <evaluation-directory>
+.\.venv\Scripts\veriagent.exe review-browser-controls <evaluation-directory> --format json
+```
+
+The review command runs the complete control audit, then prints a compact text report
+(default) or JSON. It separates successful tasks, expected task failures, unexpected task
+failures and expectation mismatches, with relative evidence paths for the detailed rows.
+Task outcomes use the saved execution outcome (claim, state audit and cleanup), not the
+SQL goal state alone. A task failure is expected when the control explicitly expected
+execution_passed false; another mismatch on that same row remains separately visible.
+Unexpected successes also appear in the expectation-mismatch list.
+
+When evidence is invalid or incomplete, outcome counts are withheld rather than computed
+from partial results. Evidence gaps include nested batch/trial locations; the compact
+display caps them at 100 and notes truncation. Use audit-browser-controls for full details.
+The command prints to stdout, writes no artifacts and starts no browsers/model calls.
+Exit 0 means evidence is valid, even when controls_passed is false; exit 1 means evidence
+could not support the report. Unsigned inventories and deterministic fixture counts do
+not establish authenticated provenance or stochastic reliability.

@@ -227,7 +227,25 @@ def main() -> None:
         "audit-browser-controls", help="Re-audit a browser control evaluation offline"
     )
     audit_controls.add_argument("directory", type=Path)
+    review_controls = commands.add_parser(
+        "review-browser-controls", help="Show a compact audited browser control report"
+    )
+    review_controls.add_argument("directory", type=Path)
+    review_controls.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args()
+    if args.command == "review-browser-controls":
+        from veriagent.browser_review import render_control_review, review_browser_controls
+
+        result = review_browser_controls(args.directory)
+        print(
+            json.dumps(result, indent=2)
+            if args.format == "json"
+            else render_control_review(result),
+            end="\n" if args.format == "json" else "",
+        )
+        if not result["evidence_passed"]:
+            raise SystemExit(1)
+        return
     if args.command == "audit-browser-controls":
         from veriagent.browser_controls_audit import audit_browser_controls
 

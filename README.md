@@ -28,6 +28,7 @@ Use `--multi-event` for 12 controls covering repeated faults and exhausted retri
 `audit-browser <trial-directory>` checks saved trial evidence offline without browser/API calls.
 `audit-browser-batch <batch-directory>` checks trial coverage and reconciles saved summaries.
 `audit-browser-controls <evaluation-directory>` rechecks complete control evaluations offline.
+`review-browser-controls <evaluation-directory>` prints a compact audited text/JSON report.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

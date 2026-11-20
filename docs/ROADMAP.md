@@ -125,6 +125,10 @@ Completed control-evaluation evidence increment: relative nested-manifest bindin
 offline reconciliation of all supported matrices, expected outcomes, mismatch details
 and nested batch/trial evidence.
 
-Next browser increment: a compact offline review report for audited control evidence,
-with distinct task failures, expectation mismatches and evidence gaps. Benchmark external
-review and optional stochastic comparisons remain separate pending work.
+Completed browser review increment: compact text/JSON reports derived from full offline
+audits, with separate expected/unexpected task failures, expectation mismatches and
+bounded evidence gaps. Invalid evidence withholds aggregate outcomes.
+
+Next browser increment: action/decision-limit controls with explicit partial-progress
+outcomes. Benchmark external review and optional stochastic comparisons remain separate
+pending work.

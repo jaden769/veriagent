@@ -252,3 +252,7 @@ matrix/budget validation, cross-batch run uniqueness and regenerated expected-ou
 comparisons. They call the existing batch/trial auditors and keep evidence validity
 separate from expectation matches. This preserves honestly recorded mismatches without
 trusting a top-level passed flag or following stored absolute paths.
+The browser review layer consumes only the complete audit result. It maps controls to
+nested audited task outcomes, distinguishes expected failures from mismatched expectations
+and withholds all outcome totals on invalid evidence or inconsistent trial mapping.
+Text and JSON views share the same counts and relative references; no evidence is rewritten.

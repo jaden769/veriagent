@@ -2,14 +2,14 @@
 
 from pathlib import Path
 
-from veriagent.browser_controls import CONTROL_MATRICES
+from veriagent.browser_catalog import CONTROL_MATRICES
 from veriagent.browser_controls_audit import audit_browser_controls
 from veriagent.browser_review import summarize_control_audit
 
 
 def review_browser_suite(directories: list[Path], *, require_all: bool = False) -> dict:
     if not 1 <= len(directories) <= len(CONTROL_MATRICES):
-        raise ValueError("Select one to six saved evaluations")
+        raise ValueError(f"Select one to {len(CONTROL_MATRICES)} saved evaluations")
     paths = [directory.resolve() for directory in directories]
     if len(set(paths)) != len(paths):
         raise ValueError("Select distinct evaluation directories")

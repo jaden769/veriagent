@@ -6,21 +6,14 @@ from pathlib import Path
 from uuid import uuid4
 
 from veriagent.browser_batch import browser_batch
+from veriagent.browser_catalog import CONTROL_MATRICES as CONTROL_MATRICES
+from veriagent.browser_catalog import CONTROL_MATRIX_FLAGS, select_control_matrix
 from veriagent.browser_faults import (
     BROWSER_SCENARIOS,
     INDEXED_BROWSER_SCENARIOS,
     MULTI_BROWSER_SCENARIOS,
 )
 from veriagent.models import Budget
-
-CONTROL_MATRIX_FLAGS = (
-    "indexed",
-    "multi_event",
-    "budget_boundaries",
-    "fault_budget_boundaries",
-    "satisfied_budget_boundaries",
-)
-CONTROL_MATRICES = ("default",) + CONTROL_MATRIX_FLAGS
 
 # Independently specified changed-target counts for the packaged initial states.
 CHANGED_TARGETS = {
@@ -230,74 +223,8 @@ def compare_control(row: dict) -> dict:
     return result
 
 
-def control_batch_specs(
-    *,
-    indexed: bool = False,
-    multi_event: bool = False,
-    budget_boundaries: bool = False,
-    fault_budget_boundaries: bool = False,
-    satisfied_budget_boundaries: bool = False,
-) -> list[dict]:
-    if (
-        sum(
-            (
-                indexed,
-                multi_event,
-                budget_boundaries,
-                fault_budget_boundaries,
-                satisfied_budget_boundaries,
-            )
-        )
-        > 1
-    ):
-        raise ValueError("Select one browser control matrix")
-    if satisfied_budget_boundaries:
-        return [
-            {
-                "tasks": ("already_satisfied", "partial_satisfied"),
-                "modes": ("recover",),
-                "scenarios": ("clean", "second_drop"),
-                "max_retries": 2,
-                "max_actions": actions,
-                "max_decisions": decisions,
-            }
-            for actions, decisions in ((1, 8), (2, 8), (8, 1), (8, 2))
-        ]
-    if budget_boundaries or fault_budget_boundaries:
-        levels = (4, 5, 6) if fault_budget_boundaries else (2, 3, 4)
-        return [
-            {
-                "tasks": ("pair_done", "mixed_status"),
-                "modes": ("recover",),
-                "scenarios": ("second_drop", "second_lost_ack")
-                if fault_budget_boundaries
-                else ("clean",),
-                "max_retries": 2,
-                "max_actions": actions,
-                "max_decisions": decisions,
-            }
-            for actions, decisions in tuple((level, 8) for level in levels)
-            + tuple((8, level) for level in levels)
-        ]
-    selections = (
-        (((tuple(CHANGED_TARGETS)), ("recover",)),)
-        if indexed
-        else ((tuple(CHANGED_TARGETS), ("recover",)), (("single_done",), ("baseline",)))
-    )
-    if multi_event:
-        selections = ((("pair_done", "mixed_status"), ("recover",)),)
-    scenarios = (
-        MULTI_BROWSER_SCENARIOS
-        if multi_event
-        else INDEXED_BROWSER_SCENARIOS
-        if indexed
-        else BROWSER_SCENARIOS
-    )
-    return [
-        {"tasks": tasks, "modes": modes, "scenarios": scenarios, "max_retries": retries}
-        for retries in ((0, 1, 2) if multi_event else (2,))
-        for tasks, modes in selections
-    ]
+def control_batch_specs(**matrix_flags: bool) -> list[dict]:
+    return select_control_matrix(matrix_flags).specs()
 
 
 def control_budget(spec: dict) -> Budget:
@@ -321,22 +248,9 @@ def control_key(row: dict) -> tuple:
     )
 
 
-def evaluate_browser_controls(
-    output: Path,
-    *,
-    indexed: bool = False,
-    multi_event: bool = False,
-    budget_boundaries: bool = False,
-    fault_budget_boundaries: bool = False,
-    satisfied_budget_boundaries: bool = False,
-) -> dict:
-    specs = control_batch_specs(
-        indexed=indexed,
-        multi_event=multi_event,
-        budget_boundaries=budget_boundaries,
-        fault_budget_boundaries=fault_budget_boundaries,
-        satisfied_budget_boundaries=satisfied_budget_boundaries,
-    )
+def evaluate_browser_controls(output: Path, **matrix_flags: bool) -> dict:
+    definition = select_control_matrix(matrix_flags)
+    specs = definition.specs()
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
     result = {
@@ -345,11 +259,7 @@ def evaluate_browser_controls(
         "passed": False,
         "provider": "mock",
         "engine": "dynamic",
-        "indexed": indexed,
-        "multi_event": multi_event,
-        "budget_boundaries": budget_boundaries,
-        "fault_budget_boundaries": fault_budget_boundaries,
-        "satisfied_budget_boundaries": satisfied_budget_boundaries,
+        **{flag: flag == definition.flag for flag in CONTROL_MATRIX_FLAGS},
         "artifacts": str(directory),
         "batches": [],
         "batch_bindings": [],

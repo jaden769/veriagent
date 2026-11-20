@@ -145,6 +145,10 @@ Completed browser suite-review increment: bounded offline review of distinct sav
 matrices, explicit partial/full selection coverage, duplicate matrix/run rejection and
 separate aggregate outcomes. Complete coverage can be required without rerunning trials.
 
-Next browser increment: a declarative matrix catalog and cross-layer selection consistency
-checks to keep CLI, execution, auditing and suite coverage aligned. Benchmark external
-review and optional stochastic comparisons remain separate pending work.
+Completed browser catalog increment: immutable declarative selections shared by CLI,
+execution, auditing and suite coverage, with pinned prior batch-order fingerprints and
+cross-layer consistency checks. Existing matrix behavior and saved evidence remain supported.
+
+Next browser increment: persist matrix-contract identity in saved evaluations and report
+catalog mismatches explicitly. Benchmark external review and optional stochastic
+comparisons remain separate pending work.

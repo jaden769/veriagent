@@ -952,3 +952,30 @@ for these review commands; full six-matrix empirical CLI validation is not claim
 Full Chromium-enabled regression suite: **520 passed in 215.81 seconds**, with the
 existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
 passed. Aggregates remain unsigned deterministic fixture totals, not reliability estimates.
+## Declarative browser matrix catalog — 2026-11-21
+
+Consolidated matrix names/flags, ordered batches, resource limits, CLI descriptions/counts,
+legacy flag requirements and budget-metadata requirements in immutable catalog definitions.
+CLI parsing/dispatch, execution, auditing and suite coverage now consume that catalog;
+expected task/fault outcomes remain separately specified.
+
+All six normalized ordered-batch definitions were compared with the preceding committed
+implementation and matched exactly. Their fingerprints are pinned in regression fixtures.
+Focused checks: **61 passed in 4.95 seconds**, including catalog fingerprints, independent
+task/count checks, frozen definitions/spec isolation, invalid/conflicting flags, legacy
+defaults, CLI dispatch/help, existing control generation, all audit shapes and suite checks.
+After deriving remaining suite help/limit text from catalog size, the catalog/suite checks
+also passed **33 tests in 1.33 seconds**. Ruff format/lint and whitespace checks passed.
+
+A fresh catalog-driven 16-control pre-satisfied evaluation passed, as did offline review:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-catalog-validation/378f366e8d9d4b878d86abffd372f69c`.
+It retained 12 successful tasks, four expected failures and zero mismatches. Outputs:
+`artifacts/browser-catalog-validation.json` and `artifacts/browser-catalog-review.txt`.
+The two previously saved fault-budget/pre-satisfied matrices still reviewed as a valid
+40-control partial suite with unchanged outcomes; compatibility JSON is
+`artifacts/browser-catalog-compatibility-suite.json`. No paid API/model calls were made.
+
+Full Chromium-enabled regression suite: **540 passed in 212.54 seconds**, with the
+existing Starlette/httpx deprecation warning. The final catalog-derived help/limit text
+was additionally checked by the focused catalog/suite run above. This refactor preserves
+the finite local matrix contract; it does not establish stochastic reliability.

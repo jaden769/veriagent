@@ -6,10 +6,9 @@ import re
 from pathlib import Path
 
 from veriagent.browser_batch_audit import audit_browser_batch
+from veriagent.browser_catalog import saved_control_matrix
 from veriagent.browser_controls import (
-    CONTROL_MATRIX_FLAGS,
     compare_control,
-    control_batch_specs,
     control_budget,
     control_key,
 )
@@ -32,30 +31,11 @@ def audit_browser_controls(directory: Path) -> dict:
 
     try:
         saved = json.loads(_read(directory, "controls.json"))
-        if any(
-            type(saved[k]) is not bool
-            for k in ("indexed", "multi_event", "passed", "coverage_complete")
-        ):
+        if any(type(saved[key]) is not bool for key in ("passed", "coverage_complete")):
             raise ValueError("Invalid matrix flags")
-        if any(
-            type(saved.get(key, False)) is not bool
-            for key in (
-                "budget_boundaries",
-                "fault_budget_boundaries",
-                "satisfied_budget_boundaries",
-            )
-        ):
-            raise ValueError("Invalid budget matrix flag")
-        specs = control_batch_specs(
-            indexed=saved["indexed"],
-            multi_event=saved["multi_event"],
-            budget_boundaries=saved.get("budget_boundaries", False),
-            fault_budget_boundaries=saved.get("fault_budget_boundaries", False),
-            satisfied_budget_boundaries=saved.get("satisfied_budget_boundaries", False),
-        )
-        result["matrix"] = next(
-            (key for key in CONTROL_MATRIX_FLAGS if saved.get(key, False)), "default"
-        )
+        definition = saved_control_matrix(saved)
+        specs = definition.specs()
+        result["matrix"] = definition.name
         bindings = saved["batch_bindings"]
         if not isinstance(bindings, list) or len(bindings) != len(specs):
             raise ValueError("Incomplete batch bindings")
@@ -104,14 +84,7 @@ def audit_browser_controls(directory: Path) -> dict:
             check(f"batch_evidence:{ordinal}", batch_audit["evidence_passed"])
             if not batch_audit["evidence_passed"]:
                 raise ValueError("Invalid nested evidence")
-            if any(
-                saved.get(key, False)
-                for key in (
-                    "budget_boundaries",
-                    "fault_budget_boundaries",
-                    "satisfied_budget_boundaries",
-                )
-            ):
+            if definition.requires_budget_metadata:
                 valid_metadata = all(
                     row.get("max_actions") == spec["max_actions"]
                     and row.get("max_decisions") == spec["max_decisions"]

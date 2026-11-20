@@ -274,3 +274,8 @@ It rejects repeated matrix types and cross-evaluation run reuse, reports missing
 types explicitly, and withholds aggregate counts on evidence or required-selection
 failure. A partial selection can be reviewed without pretending it covers all six
 matrices; --require-all validates coverage without generating missing evidence.
+The immutable browser matrix catalog centralizes names, CLI flags/help counts, ordered
+batches, resource limits and saved-flag/budget-metadata rules. Execution and audit consume
+the same selections; suite coverage consumes the same names. Expected outcomes stay in
+their independent control definitions. Prior ordered-batch fingerprints guard this
+refactor against silently changing the finite evaluation contract.

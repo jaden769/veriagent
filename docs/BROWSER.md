@@ -565,3 +565,19 @@ recorded expectation mismatch makes controls_passed false. Exit 1 reports eviden
 selection failure; invalid argument counts or duplicate canonical directories exit 2.
 --require-all does not run missing matrices. These are unsigned saved-fixture totals,
 not independent stochastic samples, paired model comparisons or a reliability estimate.
+
+## Matrix catalog and compatibility
+
+`browser_catalog.py` is the immutable source for matrix names, flags, ordered task/
+scenario/mode batches, resource limits, legacy flag requirements and budget-metadata
+requirements. CLI options/help counts, execution selections, audit selections and suite
+coverage derive from that catalog. Common run deadlines remain in the shared budget helper.
+Existing CLI flags and saved matrix identities retain their behavior.
+
+Catalog checks pin normalized ordered-batch fingerprints from the preceding implementation
+for all six matrices, independently check the six task IDs and 130-control total, and
+verify CLI dispatch/help and immutable definitions. Expected task/fault outcomes remain
+separately specified in browser_controls.py rather than being inferred from the catalog.
+Saved legacy evaluations still require their original indexed/multi_event flags while
+later optional flags default to false. Unknown, non-boolean or conflicting runtime
+selection flags fail before execution artifacts are created.

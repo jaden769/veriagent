@@ -9,6 +9,7 @@ from veriagent.agent import Agent
 from veriagent.benchmark import SCENARIOS, repeated_trials
 from veriagent.benchmark_cases import load_corpus, select_cases
 from veriagent.benchmark_faults import ALL_SCENARIOS
+from veriagent.browser_catalog import CONTROL_CATALOG, CONTROL_MATRIX_FLAGS
 from veriagent.browser_faults import (
     ALL_BROWSER_SCENARIOS,
     BROWSER_SCENARIOS,
@@ -206,28 +207,14 @@ def main() -> None:
     batch.add_argument("--mode", action="append", choices=[m.value for m in Mode])
     batch.add_argument("--engine", choices=("static", "dynamic"), default="dynamic")
     batch.add_argument("--repeats", type=int, default=1)
-    controls = commands.add_parser(
-        "evaluate-browser", help="Check 42 fixed offline dynamic browser controls"
-    )
+    controls = commands.add_parser("evaluate-browser", help=CONTROL_CATALOG[0].cli_help)
     controls.add_argument("--output", type=Path, default=Path("artifacts/browser-controls"))
     matrix = controls.add_mutually_exclusive_group()
-    matrix.add_argument("--indexed", action="store_true", help="Check 24 later-write controls")
-    matrix.add_argument(
-        "--multi-event", action="store_true", help="Check 12 retry-exhaustion controls"
-    )
-    matrix.add_argument(
-        "--budget-boundaries", action="store_true", help="Check 12 action/decision-limit controls"
-    )
-    matrix.add_argument(
-        "--fault-budget-boundaries",
-        action="store_true",
-        help="Check 24 fault/recovery budget controls",
-    )
-    matrix.add_argument(
-        "--satisfied-budget-boundaries",
-        action="store_true",
-        help="Check 16 pre-satisfied goal budget controls",
-    )
+    for definition in CONTROL_CATALOG:
+        if definition.flag:
+            matrix.add_argument(
+                definition.cli_option, action="store_true", help=definition.cli_help
+            )
     audit_browser = commands.add_parser(
         "audit-browser", help="Re-audit a saved browser trial offline"
     )
@@ -246,10 +233,15 @@ def main() -> None:
     review_controls.add_argument("directory", type=Path)
     review_controls.add_argument("--format", choices=("text", "json"), default="text")
     suite = commands.add_parser(
-        "review-browser-suite", help="Review up to six distinct saved browser matrices offline"
+        "review-browser-suite",
+        help=f"Review up to {len(CONTROL_CATALOG)} distinct saved browser matrices offline",
     )
     suite.add_argument("directories", type=Path, nargs="+")
-    suite.add_argument("--require-all", action="store_true", help="Require all six matrix types")
+    suite.add_argument(
+        "--require-all",
+        action="store_true",
+        help=f"Require all {len(CONTROL_CATALOG)} matrix types",
+    )
     suite.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args()
     if args.command == "review-browser-suite":
@@ -310,11 +302,7 @@ def main() -> None:
         try:
             result = evaluate_browser_controls(
                 args.output,
-                indexed=args.indexed,
-                multi_event=args.multi_event,
-                budget_boundaries=args.budget_boundaries,
-                fault_budget_boundaries=args.fault_budget_boundaries,
-                satisfied_budget_boundaries=args.satisfied_budget_boundaries,
+                **{flag: getattr(args, flag) for flag in CONTROL_MATRIX_FLAGS},
             )
         except BrowserSetupError as exc:
             parser.error(str(exc))

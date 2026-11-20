@@ -22,6 +22,7 @@ An optional [local browser slice](docs/BROWSER.md) uses headless Chromium and fi
 controls to demonstrate the same dropped-write recovery with an independent SQLite oracle.
 The offline `browser-batch` command compares fixed corpus tasks and fault profiles with
 per-trial evidence and explicit fault-exposure summaries.
+`evaluate-browser` checks 42 fixed browser controls against explicit expected outcomes.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

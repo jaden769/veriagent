@@ -102,6 +102,10 @@ Completed browser corpus batch increment: bounded offline task/scenario/mode sel
 fresh per-trial state, partial manifests, provenance and explicit realized fault exposure
 with separate audited outcomes and claim denominators.
 
-Next browser increment: broaden the checked corpus batch matrix and add expected-outcome
-checks for the browser controls. Benchmark external review and optional stochastic
-comparisons remain separate pending work.
+Completed browser controls increment: a 42-trial dynamic mock matrix covering the six
+tasks/profiles in recovery mode and single-target baseline controls, with explicit
+expected outcomes, mismatch evidence and exact coverage checks.
+
+Next browser increment: indexed fault schedules targeting later browser writes, with
+exposure and expected-outcome checks for multi-target progress. Benchmark external review
+and optional stochastic comparisons remain separate pending work.

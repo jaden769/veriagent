@@ -221,3 +221,8 @@ task/scenario/mode/repeat in fresh state with MockProvider and the existing brow
 path. Atomic manifests retain provenance, completed trials and interrupted trial paths.
 Aggregates distinguish claims, independently audited state, overall execution outcomes and
 realized fault exposure; already-satisfied/unreached profiles do not imply recovery.
+Browser control evaluation (`browser_controls.py`) compares a fixed dynamic mock matrix
+against separately specified initial changed-target counts and profile outcomes. It
+retains expectation mismatches separately from task success: an intended baseline false
+claim can pass the control while failing the independent state audit. Exact matrix
+coverage rejects missing/duplicate combinations; interrupted evidence remains partial.

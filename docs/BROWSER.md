@@ -274,3 +274,29 @@ Empty denominators are null. Unreached faults, including already-satisfied goals
 count as exposure. The latter metric is not a recovery rate: post-commit faults may need
 no recovery. Clean trials have no injected exposure. Repeated deterministic mock results
 are fixture checks, not independent stochastic reliability estimates.
+
+## Expected-outcome controls
+
+```powershell
+.\.venv\Scripts\veriagent.exe evaluate-browser
+```
+
+This mock-only command checks a fixed 42-trial dynamic matrix: all six corpus tasks
+across clean, silent_drop, stale_dom, lost_ack, timeout_before_commit and
+timeout_after_commit in recover mode, plus all six profiles for the single_done baseline.
+Budgets and artifacts are the same as browser-batch. No API requests are made.
+
+`browser_controls.py` specifies changed-target counts independently for the fixed initial
+states. Every recovery case must reach the goal with exactly one commit per changed
+target. Dropped writes and pre-commit timeouts require one retry/extra attempt;
+post-commit ambiguity requires none. Already-satisfied cases must make no writes and
+expose no fault. Baseline controls distinguish expected false claims (dropped writes)
+from an error claim after a successful commit. They intentionally do not all pass the task.
+
+Each comparison retains the expected values and actual mismatches for exposure, claim,
+SQL audit, overall execution, commits, write attempts, retries and event truncation.
+Passing the evaluation requires all 42 unique task/profile/mode combinations and no
+mismatches. `controls.json` is saved atomically beside the nested browser batches;
+interruptions retain completed controls and partial batch manifests. Exit code 1 means
+an expectation or coverage mismatch; setup failures exit 2. This command checks the
+current fixture contract, not general browser reliability or independent corpus quality.

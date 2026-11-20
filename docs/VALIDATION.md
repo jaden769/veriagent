@@ -682,3 +682,23 @@ Starlette/httpx deprecation warning. The final additional summary count fields w
 checked by the seven pure batch tests and refreshed 12-trial CLI evidence. Ruff format,
 lint and whitespace checks passed. No paid API/model calls were made. These deterministic
 local trials do not establish stochastic reliability or independently reviewed task quality.
+## Browser expected-outcome matrix — 2026-11-20
+
+The offline `evaluate-browser` CLI completed **42/42 matching controls** with exact
+coverage: six task cases × six profiles in dynamic recovery mode, and six single-target
+baseline controls. Final evidence:
+`artifacts/browser-controls/99ea6520549547d1961c8683d8ce6a25/controls.json`.
+An initial matrix at `8ec80c6ea516412082d2edafac06ce6b` also matched all 42 before
+the final duplicate/missing coverage check was added.
+
+Recovery cases matched explicit fault exposure, audited outcomes, one commit per changed
+target and retry/attempt counts. Already-satisfied cases made no writes. Expected baseline
+false claims and committed-error outcomes remain distinct from successful task execution.
+Unit checks deliberately alter audit results, commit counts, exposure, retry counts and
+event completeness; mismatches are rejected. Missing and duplicate matrix coverage cannot
+pass; interruptions preserve completed controls.
+
+Full regression suite with Chromium enabled: **397 passed in 169.44 seconds**, with
+the existing Starlette/httpx deprecation warning. Ruff formatting/lint and whitespace
+checks passed. No paid API/model calls were made. This finite deterministic fixture matrix
+does not establish independently reviewed corpus quality or stochastic reliability.

@@ -202,7 +202,23 @@ def main() -> None:
     batch.add_argument("--mode", action="append", choices=[m.value for m in Mode])
     batch.add_argument("--engine", choices=("static", "dynamic"), default="dynamic")
     batch.add_argument("--repeats", type=int, default=1)
+    controls = commands.add_parser(
+        "evaluate-browser", help="Check 42 fixed offline dynamic browser controls"
+    )
+    controls.add_argument("--output", type=Path, default=Path("artifacts/browser-controls"))
     args = parser.parse_args()
+    if args.command == "evaluate-browser":
+        from veriagent.browser import BrowserSetupError
+        from veriagent.browser_controls import evaluate_browser_controls
+
+        try:
+            result = evaluate_browser_controls(args.output)
+        except BrowserSetupError as exc:
+            parser.error(str(exc))
+        print(json.dumps(result, indent=2))
+        if not result["passed"]:
+            raise SystemExit(1)
+        return
     if args.command == "browser-batch":
         from veriagent.browser import BrowserSetupError
         from veriagent.browser_batch import browser_batch

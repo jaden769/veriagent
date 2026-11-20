@@ -12,6 +12,7 @@ from urllib.parse import urlsplit
 import uvicorn
 
 from veriagent.api import create_app
+from veriagent.browser_faults import BrowserAppFaults
 from veriagent.executor import Executor
 from veriagent.models import Action, Issue, Observation, Status
 from veriagent.sandbox import Sandbox, TransientError
@@ -22,14 +23,16 @@ class BrowserSetupError(Exception):
 
 
 @contextmanager
-def local_browser_app(sandbox: Sandbox):
+def local_browser_app(sandbox: Sandbox, browser_faults: BrowserAppFaults | None = None):
     listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     listener.bind(("127.0.0.1", 0))
     listener.listen(128)
     listener.setblocking(False)
     port = listener.getsockname()[1]
     server = uvicorn.Server(
-        uvicorn.Config(create_app(sandbox), log_level="error", access_log=False, lifespan="off")
+        uvicorn.Config(
+            create_app(sandbox, browser_faults), log_level="error", access_log=False, lifespan="off"
+        )
     )
     thread = threading.Thread(target=server.run, kwargs={"sockets": [listener]}, daemon=True)
     thread.start()
@@ -73,6 +76,14 @@ class BrowserTools:
         self.playwright = self.browser = self.context = self.page = None
         self.deadline = 0.0
         self.blocked_requests = 0
+        self.events: list[dict] = []
+        self.events_dropped = 0
+
+    def record(self, event: dict):
+        if len(self.events) < 2048:
+            self.events.append(event)
+        else:
+            self.events_dropped += 1
 
     def __enter__(self):
         try:
@@ -188,12 +199,21 @@ class BrowserTools:
             def value(name):
                 return self.page.get_by_test_id(name).inner_text(timeout=self._remaining_ms())
 
-            return Issue(
+            issue = Issue(
                 id=issue_id,
                 title=value("title"),
                 status=Status(value("status")),
                 version=int(value("version")),
             )
+            self.record(
+                {
+                    "kind": "dom_read",
+                    "issue_id": issue_id,
+                    "status": issue.status.value,
+                    "version": issue.version,
+                }
+            )
+            return issue
 
     def set_status(self, issue_id: str, status: Status, *, timeout: float) -> dict:
         with self._timeouts():
@@ -204,8 +224,21 @@ class BrowserTools:
             self.page.get_by_test_id("save").click(timeout=self._remaining_ms())
             done = self.page.locator('[data-testid="result"][data-phase="done"]')
             done.wait_for(timeout=self._remaining_ms())
-            self._check_code(done.get_attribute("data-code", timeout=self._remaining_ms()))
-            return {"message": "Browser reported status updated", "status": status.value}
+            code = done.get_attribute("data-code", timeout=self._remaining_ms())
+            displayed = Status(
+                self.page.get_by_test_id("status").inner_text(timeout=self._remaining_ms())
+            )
+            self.record(
+                {
+                    "kind": "dom_write_result",
+                    "issue_id": issue_id,
+                    "http_status": int(code),
+                    "requested_status": status.value,
+                    "displayed_status": displayed.value,
+                }
+            )
+            self._check_code(code)
+            return {"message": "Browser reported status updated", "status": displayed.value}
 
     def screenshot(self, path: Path) -> None:
         self.page.screenshot(path=str(path), timeout=5000)
@@ -216,4 +249,14 @@ class BrowserExecutor(Executor):
 
     def execute(self, action: Action, timeout: float) -> Observation:
         self.tools.deadline = time.monotonic() + timeout
-        return super().execute(action, timeout)
+        result = super().execute(action, timeout)
+        self.tools.record(
+            {
+                "kind": "action_result",
+                "tool": action.tool,
+                "issue_id": action.issue_id,
+                "reported_success": result.reported_success,
+                "failure": result.failure.value if result.failure else None,
+            }
+        )
+        return result

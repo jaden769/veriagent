@@ -90,6 +90,10 @@ Completed reviewed-browser increment: explicit execute backend, approved multi-t
 UI actions, direct final-state/collateral audits, original-claim preservation and evidence
 bundles. Tests cover unrelated changes, baseline false claims and unconfirmed cleanup.
 
-Next browser increment: controlled stale-DOM and ambiguous-write scenarios with browser
-event evidence. Benchmark corpus external review and optional stochastic comparisons
-remain separate pending work.
+Completed browser ambiguity increment: controlled stale rendered status and post-commit
+HTTP-error profiles, bounded DOM/application event evidence, and no-replay checks. Dynamic
+multi-target progress now handles confirmed commits with errors without spending retries.
+
+Next browser increment: transport timeout/uncertain-commit schedules and failure analysis
+across the varied local task corpus. Benchmark external review and optional stochastic
+comparisons remain separate pending work.

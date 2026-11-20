@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from veriagent.agent import Agent
 from veriagent.browser import BrowserExecutor, BrowserSetupError, BrowserTools, local_browser_app
+from veriagent.browser_faults import BrowserAppFaults
 from veriagent.dynamic import DynamicAgent
 from veriagent.interpretation import proposal_digest
 from veriagent.models import Budget, Mode, Task, TaskProposal
@@ -83,10 +84,12 @@ def execute_browser(
     output: Path,
     engine: str = "static",
     mode: Mode = Mode.RECOVER,
+    browser_scenario: str = "clean",
 ) -> dict:
     # The caller verified the digest before constructing state/provider. Retain the exact
     # immutable proposal; never reread its file or reconstruct requirements from the model.
     task = proposal.task()
+    app_faults = BrowserAppFaults(browser_scenario)
     if engine not in {"static", "dynamic"}:
         raise ValueError("Unknown engine")
     directory = output.resolve() / uuid4().hex
@@ -98,7 +101,7 @@ def execute_browser(
     blocked_requests = 0
     cleanup_completed = False
     try:
-        with local_browser_app(sandbox) as origin, BrowserTools(origin) as tools:
+        with local_browser_app(sandbox, app_faults) as origin, BrowserTools(origin) as tools:
             browser_version = tools.browser.version
             captures.extend(_capture(tools, task, directory, "before"))
             agent_class = DynamicAgent if engine == "dynamic" else Agent
@@ -107,6 +110,8 @@ def execute_browser(
             ).run(task, mode, reviewed_proposal=proposal)
             captures.extend(_capture(tools, task, directory, "after"))
             blocked_requests = tools.blocked_requests
+            browser_events = tools.events
+            events_dropped = tools.events_dropped + app_faults.events_dropped
         cleanup_completed = True
     except BrowserSetupError:
         if report is None:
@@ -129,8 +134,18 @@ def execute_browser(
             "blocked_requests": blocked_requests,
             "cleanup_completed": cleanup_completed,
             "captures": captures,
+            "scenario": browser_scenario,
+            "pending_application_faults": app_faults.remaining,
+            "events_dropped": events_dropped,
         },
     }
+    for name, event_log in (
+        ("browser-events", browser_events),
+        ("application-events", app_faults.events),
+    ):
+        (directory / f"{name}.json").write_text(
+            json.dumps(event_log, indent=2) + "\n", encoding="utf-8"
+        )
     traces.append(
         report.run_id,
         "browser_execution_audit",

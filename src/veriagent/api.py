@@ -5,6 +5,7 @@ from importlib.resources import files
 from fastapi import FastAPI, HTTPException, Path
 from fastapi.responses import HTMLResponse, Response
 
+from veriagent.browser_faults import BrowserAppFaults
 from veriagent.models import Issue, Schema, Status
 from veriagent.sandbox import Sandbox, TransientError
 
@@ -13,7 +14,7 @@ class StatusUpdate(Schema):
     status: Status
 
 
-def create_app(sandbox: Sandbox) -> FastAPI:
+def create_app(sandbox: Sandbox, browser_faults: BrowserAppFaults | None = None) -> FastAPI:
     app = FastAPI(title="VeriAgent local sandbox", version="0.1.0")
 
     @app.get("/ui/issues/{issue_id}", response_class=HTMLResponse)
@@ -43,8 +44,10 @@ def create_app(sandbox: Sandbox) -> FastAPI:
             raise HTTPException(404, "Issue not found") from exc
 
     @app.patch("/issues/{issue_id}/status")
-    def set_status(issue_id: str, body: StatusUpdate) -> dict:
+    def set_status(issue_id: str, body: StatusUpdate):
         try:
+            if browser_faults is not None:
+                return browser_faults.write(sandbox, issue_id, body.status)
             return sandbox.set_status(issue_id, body.status, timeout=1)
         except KeyError as exc:
             raise HTTPException(404, "Issue not found") from exc

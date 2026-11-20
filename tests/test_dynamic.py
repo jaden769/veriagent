@@ -196,6 +196,31 @@ def test_already_satisfied_task_requires_no_decision_or_model_request(tmp_path):
     assert sandbox.read_issue("ISSUE-1").version == 0
 
 
+@pytest.mark.parametrize("mode", [Mode.VERIFY, Mode.RECOVER])
+@pytest.mark.parametrize("failure", [Failure.TRANSIENT, Failure.TIMEOUT])
+def test_committed_error_does_not_spend_retry_budget_for_other_targets(tmp_path, mode, failure):
+    sandbox, traces, agent, _ = make_system(tmp_path, budget=Budget(max_retries=0))
+    original = agent.executor.execute
+
+    def commit_then_error(action, timeout):
+        observation = original(action, timeout)
+        if action.tool == "set_status" and action.issue_id == "ISSUE-1":
+            return observation.model_copy(update={"reported_success": False, "failure": failure})
+        return observation
+
+    agent.executor.execute = commit_then_error
+    report = agent.run(MockProvider().parse("Set ISSUE-1, ISSUE-2 to done"), mode)
+    assert report.claimed_success and report.verified_success
+    assert report.recovery_attempts == 0 and report.failure is None
+    assert sandbox.read_issue("ISSUE-1").version == sandbox.read_issue("ISSUE-2").version == 1
+    writes = [
+        e["payload"]["issue_id"]
+        for e in traces.events(report.run_id)
+        if e["kind"] == "action" and e["payload"]["tool"] == "set_status"
+    ]
+    assert writes == ["ISSUE-1", "ISSUE-2"]
+
+
 def test_missing_issue_stops_before_model_request(tmp_path):
     _, _, agent, _ = make_system(tmp_path, provider=ScriptedProvider([]))
     report = agent.run(MockProvider().parse("Set ISSUE-999 to done"))

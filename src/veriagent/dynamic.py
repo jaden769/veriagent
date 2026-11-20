@@ -270,7 +270,7 @@ class DynamicAgent:
             # An unfinished multi-issue task is normal if this particular write persisted.
             if (
                 observation
-                and observation.reported_success
+                and observation.action.tool == "set_status"
                 and any(
                     e.issue_id == observation.action.issue_id and e.actual == e.expected
                     for e in verification.evidence

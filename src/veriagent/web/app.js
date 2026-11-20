@@ -35,7 +35,8 @@ document.querySelector("form").addEventListener("submit", async event => {
     if (response.ok) {
       // Deliberately trust the acknowledgment, as an ordinary optimistic UI might.
       // The independent SQLite oracle must detect an injected dropped commit.
-      find("status").textContent = choice.value;
+      const payload = await response.json();
+      find("status").textContent = payload.display_status ?? choice.value;
       message("Status updated", response.status, "done");
     } else { message("Status update failed", response.status, "done"); }
   } catch { message("Connection failed", 0, "done"); }

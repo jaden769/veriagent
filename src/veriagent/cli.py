@@ -9,6 +9,7 @@ from veriagent.agent import Agent
 from veriagent.benchmark import SCENARIOS, repeated_trials
 from veriagent.benchmark_cases import load_corpus, select_cases
 from veriagent.benchmark_faults import ALL_SCENARIOS
+from veriagent.browser_faults import BROWSER_SCENARIOS
 from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
@@ -168,6 +169,7 @@ def main() -> None:
     add_provider_options(execute, timeout=60)
     add_engine_options(execute, action_timeout=None)
     execute.add_argument("--tool-backend", choices=("sandbox", "browser"), default="sandbox")
+    execute.add_argument("--browser-scenario", choices=BROWSER_SCENARIOS, default="clean")
     execute.add_argument(
         "--browser-artifacts", type=Path, default=Path("artifacts/browser-executions")
     )
@@ -183,6 +185,7 @@ def main() -> None:
     browser.add_argument("--max-actions", type=int, default=8)
     browser.add_argument("--max-decisions", type=int, default=8)
     browser.add_argument("--action-timeout", type=float, default=5)
+    browser.add_argument("--browser-scenario", choices=BROWSER_SCENARIOS, default="silent_drop")
     add_provider_options(browser, timeout=60)
     check = commands.add_parser(
         "check-provider", help="Check OpenAI model metadata without generation"
@@ -375,6 +378,9 @@ def main() -> None:
                 engine=args.engine,
                 tool_config=tool_config,
                 tool_backend="browser" if args.command == "browser-smoke" else "sandbox",
+                browser_scenario=args.browser_scenario
+                if args.command == "browser-smoke"
+                else "silent_drop",
             )
         except BrowserSetupError as exc:
             parser.error(str(exc))
@@ -393,6 +399,10 @@ def main() -> None:
         else:
             task = MockProvider().parse(args.objective)
         browser_backend = args.command == "execute" and args.tool_backend == "browser"
+        if args.command == "execute" and args.browser_scenario != "clean" and not browser_backend:
+            raise ValueError("Browser scenarios require --tool-backend browser")
+        if browser_backend and args.browser_scenario != "clean" and args.silent_drops:
+            raise ValueError("Select a browser scenario or --silent-drops, not both")
         if browser_backend and (
             args.isolate_tools or args.hang_before_commit or args.hang_after_commit
         ):
@@ -416,7 +426,11 @@ def main() -> None:
             hangs_before_commit=args.hang_before_commit,
             hangs_after_commit=args.hang_after_commit,
         )
-        faults = Faults(silent_drops=args.silent_drops)
+        faults = Faults(
+            silent_drops=1
+            if browser_backend and args.browser_scenario == "silent_drop"
+            else args.silent_drops
+        )
         if args.db.resolve() == args.traces.resolve():
             raise ValueError("State and trace databases must use separate paths")
         provider = configured_provider(args)
@@ -440,6 +454,7 @@ def main() -> None:
                     output=args.browser_artifacts,
                     engine=args.engine,
                     mode=Mode(args.mode),
+                    browser_scenario=args.browser_scenario,
                 )
             except BrowserSetupError as exc:
                 parser.error(str(exc))

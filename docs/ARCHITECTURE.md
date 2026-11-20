@@ -193,3 +193,20 @@ rows. Original agent reports remain intact even when the evaluator rejects colla
 effects or cleanup uncertainty. Overall CLI success is distinct from an agent's claim.
 Per-target captures, proposal digest and before/after rows are retained in an evidence
 bundle. Worker isolation cannot be combined with browser mode.
+
+## 012: Resolve mutation outcomes before assigning retry budget
+
+Browser fixture profiles separate rendered status and transport/service acknowledgment
+from durable SQLite effects. A stale DOM can disagree with a successful commit, and a
+post-commit HTTP error can hide one. Browser tools return actual rendered status and
+normalized errors; hidden application fault/commit logs are retained only as evaluator
+evidence. Initial unsatisfied goals are excluded from post-write fault detection.
+
+For protected dynamic execution, a verified completed mutation target permits progress
+to other unmet targets even when its observation reported an error. No retry is needed
+for that target, and the existing completed-target guard prevents replay. This check
+follows the unsafe-cleanup stop boundary and does not override it. Recoverable unmet
+targets still require the existing mode, idempotency, retry/action/decision/time budgets.
+Tests exercise zero-retry multi-target progress for transient and timeout observations.
+The controlled lost-ack profile returns HTTP 503 after commit; actual delayed/uncertain
+transport outcomes remain a separate future experiment.

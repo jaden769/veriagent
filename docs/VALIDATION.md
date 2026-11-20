@@ -581,3 +581,48 @@ and unchanged target titles. No live-model browser request was issued.
 Full regression suite with real Chromium checks enabled: **344 passed in 108.50 seconds**,
 one existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks
 passed. No paid model calls were made.
+
+### Browser stale-DOM and post-commit ambiguity — 2026-11-20
+
+Added optional clean/silent_drop/stale_dom/lost_ack profiles for browser smoke and
+reviewed browser execution. The post-commit profiles fire once, only after a durable
+status-changing commit. stale_dom renders the previous status despite persistence;
+lost_ack returns HTTP 503 after persistence (not literal network packet loss). Browser
+write observations now reflect rendered status instead of assuming it equals the request.
+Bounded DOM/action and application commit/HTTP event logs are saved separately; hidden
+profile/commit metadata stays outside provider context. CLI rejects non-browser scenarios
+and mixed non-clean profile/counter flags before side effects. JS/HTML line endings now
+use the same explicit LF convention as the project's other source types.
+
+Corrected smoke fault_detected to exclude initial unsatisfied dynamic verification:
+only mismatches after mutation observations count. Browser ambiguity smoke instead requires
+actual anomaly evidence, a single durable application write, no replay/recovery, final
+verified state and unchanged unrelated issues. Zero events lost are required for the
+scenario evidence check. Already-satisfied/no-op writes do not consume post-commit profiles.
+
+Reviewing multi-target ambiguity exposed a dynamic-agent edge case: a completed write
+that reported an error could spend retry budget or stop verify/zero-retry execution while
+other targets remained unfinished. The agent now continues when authoritative evidence
+confirms that mutation's target completed, without allocating a retry to it. Unsafe worker
+cleanup still stops before this rule. Unit tests cover transient/timeout observations in
+verify/recover modes with zero retries, plus real-browser static/dynamic two-target lost-ack
+execution with exactly one write and one version increment per target.
+
+Initial browser/ambiguity/existing-smoke suites passed **50 tests in 28.14 seconds**.
+After the multi-target fix, focused ambiguity/dynamic/reviewed-browser/smoke suites passed
+**65 tests in 30.89 seconds**. They also check fault-label exclusion, no-op/pending profiles,
+event persistence, DOM-versus-SQL disagreement and no unnecessary replay.
+
+Final offline dynamic demonstrations:
+- `artifacts/browser-smoke/719315b229304385a5c75bc88efb4a72/result.json` (stale_dom).
+- `artifacts/browser-smoke/28be5f69449a4262b1e45114f5675933/result.json` (lost_ack).
+
+Both passed with observed anomaly, no post-write SQLite mismatch, one committed write,
+version 1, zero recovery attempts, unchanged unrelated issues and zero model calls.
+The early lost_ack demonstration `955a86122c4e40f59ba43a689a2d7399` predates the initial-
+verification counting fix; its fault_detected flag is superseded by these final runs.
+No paid browser/model request was issued.
+
+Full regression suite with real browser checks enabled: **361 passed in 123.86 seconds**,
+one existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks
+passed. No live-model browser request was made.

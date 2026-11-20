@@ -22,7 +22,8 @@ matching browser binaries; see the official [browser installation guide](https:/
 The adapter uses Playwright's [fixed test-ID locators](https://playwright.dev/python/docs/locators).
 
 Each smoke starts its own application on an OS-assigned `127.0.0.1` port, opens a new
-headless browser/context, seeds a fresh database and injects one dropped write. The UI
+headless browser/context and seeds a fresh database. The default profile injects one
+dropped write; other profiles are described below. The UI
 optimistically displays the requested status after the server acknowledges the write.
 The first acknowledgment can therefore say done while SQLite remains open. The agent
 must detect that mismatch, repair it within its budget and verify the persisted status.
@@ -45,9 +46,10 @@ A UUID directory under `artifacts/browser-smoke/` contains:
 - Structured/readable traces and their SQLite trace store.
 - `browser-before.png`, a refreshed `browser-after.png`, and final DOM HTML.
 
-`report.tool_execution` is `browser`. A passing smoke requires detected mismatch, an
-actual recovery attempt, verified success, final audit success and unchanged untargeted
-issues. The final screenshot reloads application state after execution; the recovery
+`report.tool_execution` is `browser`. The default dropped-write smoke requires a detected
+post-write mismatch, actual recovery, verified success, final audit success and unchanged
+untargeted issues. Other browser scenarios use the expectations below. The final screenshot
+reloads application state after execution; the recovery
 test does not treat that screenshot as its ground-truth oracle. If final capture fails,
 `browser.capture_complete` is false and the agent report/audit are still saved. Screenshot
 capture alone never establishes task success. Setup failures return CLI exit 2 and can
@@ -139,3 +141,60 @@ changing agent outcomes. A setup failure before an agent report returns exit 2 a
 bounded setup metadata. Unconfirmed cleanup after a report preserves it but fails the
 overall result. Passing cleanup records successful API shutdown, not an OS attestation of
 all possible subprocess descendants. Browser startup/capture/cleanup are not hard real-time.
+
+## Stale DOM and post-commit ambiguity
+
+Browser smoke and reviewed browser execution accept `--browser-scenario`:
+
+| Profile | Controlled behavior | Smoke expectation |
+| --- | --- | --- |
+| `silent_drop` | One successful acknowledgment without a commit | Post-write mismatch detected and repaired |
+| `stale_dom` | First status-changing commit succeeds, but the page renders the previous status | Goal verified without replay |
+| `lost_ack` | First status-changing commit succeeds, but its response is HTTP 503 | Goal verified without replay |
+| `clean` | No additional application fault | Verified completion |
+
+```powershell
+.\.venv\Scripts\veriagent.exe browser-smoke --engine dynamic --browser-scenario stale_dom
+.\.venv\Scripts\veriagent.exe browser-smoke --engine dynamic --browser-scenario lost_ack
+```
+
+Both commands default to mock. The `lost_ack` profile is a post-commit service-error
+response, not a literal packet loss or delayed transport timeout. `stale_dom` is a
+controlled stale rendered status, not an arbitrary SPA/cache model. The one-shot
+post-commit profiles are delivered only when status changes durably; no-op assignments
+and dropped writes do not consume them. Initial unsatisfied goals are not counted as
+post-write failures: `fault_detected` excludes initial dynamic verification.
+
+For `stale_dom`/`lost_ack`, smoke requires actual anomaly evidence, exactly one recorded
+application write, a durable commit, no recovery attempts, final verification/audit success
+and unchanged unrelated issues. It reports `anomaly_observed: true` and
+`recovery_required: false`; `fault_detected` can correctly be false because SQLite never
+mismatched after the write. Truncated event evidence cannot pass these smoke checks.
+
+Application writes are serialized in the fixture while before/after status and version
+are recorded. `application-events.json` includes HTTP outcome, persisted state and
+post-commit profile delivery; legacy counter faults are also visible through unchanged
+state and their fault counters. `browser-events.json` includes DOM reads, requested versus
+actually rendered status, observed response code and normalized action outcomes. Each log
+is capped at 2,048 events; dropped-event count is explicit. Final screenshots reload fresh
+state and can therefore look correct even when an earlier DOM result was stale. Use the
+event log to inspect that earlier discrepancy.
+
+These logs are evaluator evidence. Hidden profile labels and application commit metadata
+are not supplied to the planning provider; it sees ordinary tool feedback and independent
+verification through the existing protocol. Browser write observations now report the
+rendered DOM status, rather than copying the requested status as an observation.
+
+Reviewed `execute` defaults to `--browser-scenario clean`, preserving existing behavior;
+browser smoke defaults to `silent_drop`. Non-clean scenarios require the browser backend
+and cannot be combined with `--silent-drops`. Existing `execute --tool-backend browser
+--silent-drops 1` still works with the default clean application profile. Reviewed execution
+retains pending fault/event metadata but judges goal/collateral/cleanup outcomes; unlike
+smoke, it does not require the selected profile to be exercised on already-satisfied goals.
+
+When a write reports an error but independent verification confirms that target completed,
+the dynamic agent can continue to other unmet targets without allocating a retry for the
+completed target. This works in verify/recover modes with zero retry budget. Unconfirmed
+worker cleanup still terminates execution before this progress rule; completed writes
+are never authorized for replay. This is state-based progress, not proof that every
+error is harmless, and does not change baseline policy.

@@ -9,6 +9,7 @@ from typing import Literal
 from uuid import uuid4
 
 from veriagent.agent import Agent
+from veriagent.browser_faults import BROWSER_SCENARIOS, BrowserAppFaults
 from veriagent.dynamic import DynamicAgent
 from veriagent.isolated import sandbox_executor
 from veriagent.models import Budget, Mode, ToolExecutionConfig
@@ -26,11 +27,12 @@ def smoke_test(
     engine: Literal["static", "dynamic"] = "static",
     tool_config: ToolExecutionConfig | None = None,
     tool_backend: Literal["sandbox", "browser"] = "sandbox",
+    browser_scenario: str = "silent_drop",
 ) -> dict:
     """Save an honest result even when the model refuses or returns an invalid plan.
 
-    A completed task alone is insufficient: the trace must show the injected mismatch
-    being detected, a recovery attempt, and a successful final audit. The caller owns
+    The default dropped-write case requires a detected mismatch and actual recovery.
+    Browser post-commit cases instead require anomaly evidence and no replay. The caller owns
     the provider and closes its resources. Dynamic selection can make multiple model calls.
     """
     if engine not in {"static", "dynamic"}:
@@ -39,10 +41,14 @@ def smoke_test(
         raise ValueError("Unknown tool backend")
     if tool_backend == "browser" and tool_config is not None:
         raise ValueError("Browser tools cannot use process-worker configuration")
+    if browser_scenario not in BROWSER_SCENARIOS or (
+        tool_backend != "browser" and browser_scenario != "silent_drop"
+    ):
+        raise ValueError("Invalid browser scenario for this backend")
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
     budget = budget or Budget(timeout_seconds=60)
-    faults = Faults(silent_drops=1)
+    faults = Faults(silent_drops=int(browser_scenario == "silent_drop"))
     sandbox = Sandbox(directory / "state.sqlite", faults)
     sandbox.seed()
     traces = TraceStore(directory / "traces.sqlite")
@@ -54,7 +60,8 @@ def smoke_test(
     if tool_backend == "browser":
         from veriagent.browser import BrowserExecutor, BrowserTools, local_browser_app
 
-        with local_browser_app(sandbox) as origin, BrowserTools(origin) as tools:
+        app_faults = BrowserAppFaults(browser_scenario)
+        with local_browser_app(sandbox, app_faults) as origin, BrowserTools(origin) as tools:
             tools.deadline = time.monotonic() + 5
             tools.read_issue("ISSUE-1")
             tools.screenshot(directory / "browser-before.png")
@@ -65,6 +72,10 @@ def smoke_test(
                 "version": tools.browser.version,
                 "blocked_requests": tools.blocked_requests,
                 "capture_complete": False,
+                "scenario": browser_scenario,
+                "browser_events": tools.events,
+                "application_events": app_faults.events,
+                "pending_application_faults": app_faults.remaining,
             }
             try:
                 tools.deadline = time.monotonic() + 5
@@ -77,6 +88,14 @@ def smoke_test(
             except Exception:
                 # Preserve the report and independent audit if final browser capture fails.
                 pass
+            browser_evidence["events_dropped"] = tools.events_dropped + app_faults.events_dropped
+        for name, event_log in (
+            ("browser-events", tools.events),
+            ("application-events", app_faults.events),
+        ):
+            (directory / f"{name}.json").write_text(
+                json.dumps(event_log, indent=2) + "\n", encoding="utf-8"
+            )
     else:
         report = agent_class(
             provider, sandbox_executor(sandbox, tool_config), verifier, traces, budget
@@ -84,20 +103,49 @@ def smoke_test(
     audit = verifier.verify(task)
     traces.append(report.run_id, "evaluation_audit", audit)
     events = traces.events(report.run_id)
-    detected = any(
-        e["kind"] == "verification" and e["payload"]["failure"] == "state_mismatch" for e in events
-    )
+    # An initially-open target is not an injected failure. Count only mismatches
+    # observed after a mutation observation, excluding dynamic initial verification.
+    seen_write = detected = False
+    for event in events:
+        if event["kind"] == "observation" and event["payload"]["action"]["tool"] == "set_status":
+            seen_write = True
+        if (
+            seen_write
+            and event["kind"] == "verification"
+            and event["payload"]["failure"] == "state_mismatch"
+        ):
+            detected = True
     final = [sandbox.read_issue(f"ISSUE-{i}") for i in range(1, 4)]
     untouched = initial[1:] == final[1:]
-    passed = (
-        report.claimed_success
-        and report.verified_success is True
-        and audit.passed
-        and detected
-        and report.recovery_attempts > 0
-        and untouched
-        and faults.silent_drops == 0
+    base_passed = (
+        report.claimed_success and report.verified_success is True and audit.passed and untouched
     )
+    anomaly_observed = detected
+    expectations = detected and report.recovery_attempts > 0 and faults.silent_drops == 0
+    if tool_backend == "browser" and browser_scenario != "silent_drop":
+        application = browser_evidence["application_events"]
+        dom = browser_evidence["browser_events"]
+        anomaly_observed = any(e["injected"] == browser_scenario for e in application)
+        if browser_scenario == "stale_dom":
+            anomaly_observed = anomaly_observed and any(
+                e["kind"] == "dom_write_result"
+                and e["http_status"] == 200
+                and e["displayed_status"] != e["requested_status"]
+                for e in dom
+            )
+        elif browser_scenario == "lost_ack":
+            anomaly_observed = anomaly_observed and any(
+                e["kind"] == "action_result" and e["failure"] == "transient" for e in dom
+            )
+        expectations = browser_scenario == "clean" or (
+            anomaly_observed
+            and len(application) == 1
+            and application[0]["committed"]
+            and report.recovery_attempts == 0
+        )
+    if browser_evidence and browser_evidence["events_dropped"]:
+        expectations = False
+    passed = base_passed and expectations
     packages = {}
     for name in ("veriagent", "pydantic", "openai", "playwright"):
         try:
@@ -106,13 +154,15 @@ def smoke_test(
             packages[name] = None
     result = {
         "schema_version": 1,
-        "scenario": "silent_drop",
+        "scenario": browser_scenario,
         "engine": engine,
         "tool_backend": tool_backend,
         "browser": browser_evidence,
         "directory": str(directory),
         "smoke_passed": passed,
         "fault_detected": detected,
+        "anomaly_observed": anomaly_observed,
+        "recovery_required": browser_scenario == "silent_drop",
         "untargeted_issues_unchanged": untouched,
         "task": task.model_dump(mode="json"),
         "budget": budget.model_dump(mode="json"),
@@ -127,7 +177,10 @@ def smoke_test(
         "smoke_result",
         {
             "smoke_passed": passed,
+            "scenario": browser_scenario,
             "fault_detected": detected,
+            "anomaly_observed": anomaly_observed,
+            "recovery_required": browser_scenario == "silent_drop",
             "untargeted_issues_unchanged": untouched,
         },
     )

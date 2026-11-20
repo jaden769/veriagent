@@ -792,3 +792,27 @@ Full Chromium-enabled suite: **448 passed in 204.35 seconds**, with the existing
 Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
 No paid model/API calls were made. Batches/manifests are unsigned; this checks saved
 evidence consistency, not authenticated provenance or a new live-database query.
+## Complete browser control-evaluation audits — 2026-11-21
+
+New evaluations bind relative nested batches to manifest hashes and retain relative
+control/trial associations. `audit-browser-controls` checks all nested batch/trial
+evidence, fixed matrix budgets/selections, cross-batch unique run IDs and regenerated
+expected outcomes/mismatches. Evidence validity and control expectation success remain
+separate; accurately recorded expectation mismatches need not invalidate evidence.
+
+Focused checks: **25 passed in 3.78 seconds**. Audit tests cover the 42/24/12 matrix
+shapes, moved/read-only artifacts, changed pass flags or expectations, missing/duplicate
+controls, altered manifest hashes, escaped paths, interrupted status, conflicting matrix
+flags, invalid nested evidence, changed retry budgets and honestly reported mismatches.
+The updated generation tests initially hit the sandbox's Windows temporary-path limit;
+rerunning outside that sandbox passed all 11 generation checks.
+
+Final 12-control multi-event CLI evaluation and successful offline audit:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-controls-audit-validation/5bb6db817cc8457ea4470bb85467df7b`.
+Both evidence_passed and controls_passed were true. CLI JSON is retained at
+`artifacts/browser-controls-audit-validation.json` and
+`artifacts/browser-controls-audit-result.json`. No paid model/API calls were made.
+
+Full Chromium-enabled suite: **462 passed in 213.68 seconds**, with the existing
+Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
+Audits remain unsigned saved-evidence consistency checks, not authenticated provenance.

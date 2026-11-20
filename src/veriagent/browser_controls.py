@@ -1,5 +1,6 @@
 """Explicit expectations for the fixed dynamic mock browser controls."""
 
+import hashlib
 import json
 from pathlib import Path
 from uuid import uuid4
@@ -113,10 +114,35 @@ def compare_control(row: dict) -> dict:
         "mode": row["mode"],
         "max_retries": row.get("max_retries", 2),
         "artifacts": row["artifacts"],
+        "bundle_directory": row.get("bundle_directory"),
         "expected": expected,
         "passed": not mismatches,
         "mismatches": mismatches,
     }
+
+
+def control_batch_specs(*, indexed: bool = False, multi_event: bool = False) -> list[dict]:
+    if indexed and multi_event:
+        raise ValueError("Select one browser control matrix")
+    selections = (
+        (((tuple(CHANGED_TARGETS)), ("recover",)),)
+        if indexed
+        else ((tuple(CHANGED_TARGETS), ("recover",)), (("single_done",), ("baseline",)))
+    )
+    if multi_event:
+        selections = ((("pair_done", "mixed_status"), ("recover",)),)
+    scenarios = (
+        MULTI_BROWSER_SCENARIOS
+        if multi_event
+        else INDEXED_BROWSER_SCENARIOS
+        if indexed
+        else BROWSER_SCENARIOS
+    )
+    return [
+        {"tasks": tasks, "modes": modes, "scenarios": scenarios, "max_retries": retries}
+        for retries in ((0, 1, 2) if multi_event else (2,))
+        for tasks, modes in selections
+    ]
 
 
 def evaluate_browser_controls(
@@ -136,6 +162,7 @@ def evaluate_browser_controls(
         "multi_event": multi_event,
         "artifacts": str(directory),
         "batches": [],
+        "batch_bindings": [],
         "controls": [],
         "limitations": "Fixed local mechanism controls; not stochastic reliability.",
     }
@@ -147,54 +174,47 @@ def evaluate_browser_controls(
 
     save()
     try:
-        selections = (
-            ((tuple(CHANGED_TARGETS), ("recover",)),)
-            if indexed
-            else ((tuple(CHANGED_TARGETS), ("recover",)), (("single_done",), ("baseline",)))
-        )
-        if multi_event:
-            selections = ((("pair_done", "mixed_status"), ("recover",)),)
-        scenarios = (
-            MULTI_BROWSER_SCENARIOS
-            if multi_event
-            else INDEXED_BROWSER_SCENARIOS
-            if indexed
-            else BROWSER_SCENARIOS
-        )
-        retry_limits = (0, 1, 2) if multi_event else (2,)
-        for retries in retry_limits:
-            for tasks, modes in selections:
-                options = (
-                    {
-                        "budget": Budget(
-                            max_actions=8,
-                            max_decisions=8,
-                            timeout_seconds=30,
-                            action_timeout_seconds=1,
-                            max_retries=retries,
-                        )
-                    }
-                    if multi_event
-                    else {}
-                )
-                batch = browser_batch(
-                    directory, task_ids=tasks, scenarios=scenarios, modes=modes, **options
-                )
-                result["batches"].append(batch["artifacts"])
-                result["controls"].extend(compare_control(row) for row in batch["trials"])
-                save()
+        specs = control_batch_specs(indexed=indexed, multi_event=multi_event)
+        for spec in specs:
+            batch = browser_batch(
+                directory,
+                task_ids=spec["tasks"],
+                scenarios=spec["scenarios"],
+                modes=spec["modes"],
+                budget=Budget(
+                    max_actions=8,
+                    max_decisions=8,
+                    timeout_seconds=30,
+                    action_timeout_seconds=1,
+                    max_retries=spec["max_retries"],
+                ),
+            )
+            path = Path(batch["artifacts"])
+            relative = path.relative_to(directory).as_posix()
+            result["batches"].append(batch["artifacts"])
+            result["batch_bindings"].append(
+                {
+                    "directory": relative,
+                    "manifest_sha256": hashlib.sha256(
+                        (path / "manifest.json").read_bytes()
+                    ).hexdigest(),
+                }
+            )
+            result["controls"].extend(
+                {**compare_control(row), "batch_directory": relative} for row in batch["trials"]
+            )
+            save()
     except BaseException:
         result["status"] = "interrupted"
         save()
         raise
     result["status"] = "complete"
     required = {
-        (task, scenario, mode, retries)
-        for retries in retry_limits
-        for tasks, modes in selections
-        for task in tasks
-        for mode in modes
-        for scenario in scenarios
+        (task, scenario, mode, spec["max_retries"])
+        for spec in specs
+        for task in spec["tasks"]
+        for mode in spec["modes"]
+        for scenario in spec["scenarios"]
     }
     observed = {
         (r["task_id"], r["scenario"], r["mode"], r["max_retries"]) for r in result["controls"]

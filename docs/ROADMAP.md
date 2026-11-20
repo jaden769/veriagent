@@ -121,6 +121,10 @@ and independently recomputed saved-state outcomes. Inventories are unsigned.
 Completed batch evidence increment: relative trial/inventory bindings, bounded offline
 whole-batch audits, exact coverage/unique-run checks and saved-summary reconciliation.
 
-Next browser increment: re-audit complete control evaluations, including expected outcomes
-and their nested batch evidence. Benchmark external review and optional stochastic
-comparisons remain separate pending work.
+Completed control-evaluation evidence increment: relative nested-manifest bindings and
+offline reconciliation of all supported matrices, expected outcomes, mismatch details
+and nested batch/trial evidence.
+
+Next browser increment: a compact offline review report for audited control evidence,
+with distinct task failures, expectation mismatches and evidence gaps. Benchmark external
+review and optional stochastic comparisons remain separate pending work.

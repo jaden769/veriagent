@@ -247,3 +247,8 @@ current-corpus tasks/initial states and trial configuration, rejects reused run 
 reconciles summaries from saved trial evidence. Absolute stored artifact paths are never
 followed. Counter-based browser drops now record explicit injection labels for offline
 exposure reconstruction. Manifest validity remains separate from successful task outcomes.
+Control-evaluation audits add a parent layer: relative nested-manifest hashes, fixed
+matrix/budget validation, cross-batch run uniqueness and regenerated expected-outcome
+comparisons. They call the existing batch/trial auditors and keep evidence validity
+separate from expectation matches. This preserves honestly recorded mismatches without
+trusting a top-level passed flag or following stored absolute paths.

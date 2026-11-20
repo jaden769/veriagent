@@ -411,5 +411,32 @@ inventory bindings are unsupported and fail; no evidence is silently upgraded.
 This checks current-corpus consistency, not installed source fingerprint equality or a
 new query of the original SQLite databases. Batch manifests and inventories are unsigned;
 coordinated rewriting of all matching evidence/configuration is not prevented. Control
-evaluation controls.json files remain outside this command's scope; audit their nested
-browser-batch directories individually.
+evaluation controls.json files remain outside this command's scope; use the control audit
+below for the whole evaluation or audit nested browser-batch directories individually.
+
+## Re-auditing a complete control evaluation
+
+```powershell
+.\.venv\Scripts\veriagent.exe audit-browser-controls <evaluation-directory>
+```
+
+New evaluations bind each relative nested batch directory to its manifest SHA-256 and
+retain each control's relative trial/batch association. The offline audit supports the
+default 42-control matrix, --indexed 24-control matrix and --multi-event 12-control matrix.
+It checks completed status, the selected matrix shape and fixed budgets, nested manifest
+bindings, all nested batch/trial evidence, unique run IDs across batches, exact control
+coverage, expected values, mismatch details and the reported evaluation outcome.
+
+The command reconstructs comparisons using the current control definitions. It follows
+only confined relative directories, so complete evaluations can be moved. Stored absolute
+paths are not followed. The controls.json input is bounded to 16 MiB and the selected
+matrix permits at most three nested batches and 42 controls; nested batch/file limits
+also apply. Older evaluations lacking batch_bindings are unsupported and fail closed.
+
+`evidence_passed` means complete, consistent saved evidence. `controls_passed` independently
+reports whether the current expectations matched; an honestly recorded expectation
+mismatch can have evidence_passed true and controls_passed false. Individual expected
+baseline or retry-exhaustion task failures can pass their controls. Exit 0 requires valid
+evidence, while exit 1 reports incomplete or inconsistent evidence. Auditing reads files
+only: it launches no browsers, makes no API calls and does not rewrite artifacts. The
+unsigned manifests/hashes do not authenticate provenance or prevent coordinated rewriting.

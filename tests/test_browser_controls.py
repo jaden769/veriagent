@@ -23,6 +23,13 @@ def row(**overrides):
     }
 
 
+def fake_batch(directory, trials):
+    path = directory / ("a" * 32)
+    path.mkdir(exist_ok=True)
+    (path / "manifest.json").write_text(json.dumps({"trials": trials}), encoding="utf-8")
+    return {"artifacts": str(path), "trials": trials}
+
+
 @pytest.mark.parametrize(
     "field,value",
     [
@@ -80,21 +87,22 @@ def test_interrupted_evaluation_retains_completed_controls(tmp_path, monkeypatch
         calls.append(kwargs)
         if len(calls) == 2:
             raise KeyboardInterrupt()
-        return {"artifacts": "completed-batch", "trials": [row()]}
+        return fake_batch(args[0], [row()])
 
     monkeypatch.setattr("veriagent.browser_controls.browser_batch", batch)
     with pytest.raises(KeyboardInterrupt):
         evaluate_browser_controls(tmp_path)
     result = json.loads(next(tmp_path.glob("*/controls.json")).read_text())
     assert result["status"] == "interrupted" and not result["passed"]
-    assert len(result["controls"]) == 1 and result["batches"] == ["completed-batch"]
+    assert len(result["controls"]) == 1 and len(result["batches"]) == 1
+    assert result["batches"][0].endswith("a" * 32)
 
 
 @pytest.mark.parametrize("duplicates", [1, 21])
 def test_incomplete_matrix_cannot_pass(tmp_path, monkeypatch, duplicates):
     monkeypatch.setattr(
         "veriagent.browser_controls.browser_batch",
-        lambda *args, **kwargs: {"artifacts": "batch", "trials": [row()] * duplicates},
+        lambda *args, **kwargs: fake_batch(args[0], [row()] * duplicates),
     )
     result = evaluate_browser_controls(tmp_path)
     assert result["status"] == "complete" and not result["passed"]

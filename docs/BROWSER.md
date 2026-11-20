@@ -425,6 +425,7 @@ retain each control's relative trial/batch association. The offline audit suppor
 default 42-control matrix, --indexed 24-control matrix, --multi-event 12-control matrix
 and --budget-boundaries 12-control matrix.
 The --fault-budget-boundaries selection adds a 24-control recovery-admission matrix.
+The --satisfied-budget-boundaries selection adds 16 pre-satisfied-goal controls.
 It checks completed status, the selected matrix shape and fixed budgets, nested manifest
 bindings, all nested batch/trial evidence, unique run IDs across batches, exact control
 coverage, expected values, mismatch details and the reported evaluation outcome.
@@ -511,3 +512,27 @@ All 24 matching controls therefore represent 16 successful tasks and eight expec
 budget failures. Offline audit and review support the new matrix and display its exact
 limits. Existing saved bound evaluations remain supported. Counts describe this fixed
 mock flow and do not establish stochastic model or remote-service reliability.
+
+## Pre-satisfied goals under tight budgets
+
+```powershell
+.\.venv\Scripts\veriagent.exe evaluate-browser --satisfied-budget-boundaries
+```
+
+This separate 16-control dynamic mock matrix crosses already_satisfied/partial_satisfied,
+clean/second_drop, and action limits 1/2 (decision limit 8) or decision limits 1/2
+(action limit 8). Already-satisfied goals must complete with zero agent actions/decisions,
+zero writes/commits and their original version 0. Initial SQL verification and browser
+evidence-capture reads still occur; those are not agent action counts.
+
+Partially satisfied goals must leave the seeded completed target at version 0. At limit 1,
+the unfinished target is read but not written, so the task honestly fails budget with
+both target versions unchanged. At limit 2, one read/write completes the remaining target
+at version 1. No recovery is needed. second_drop must stay unused in all selected cases:
+at most one mutation is reached, so exposure is false and one scheduled fault remains.
+Unrelated state and target titles must remain unchanged.
+
+A matching review therefore shows 12 successful tasks and four expected budget failures.
+Offline audits require the same exact budget metadata and retain compatibility with
+previous bound evaluations. These are local initial-state/budget controls, not model-quality
+or general browser-reliability measurements.

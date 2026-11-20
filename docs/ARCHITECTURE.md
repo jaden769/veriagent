@@ -265,3 +265,7 @@ The fault/budget matrix adds second-write drops and committed errors at limits 4
 Expectations distinguish no recovery admission, an admitted but unfinished repair, and
 successful completion. A verified committed error needs no extra action or retry budget.
 This extends matrix definitions/audits without changing the production agent loop.
+The pre-satisfied budget matrix checks zero-action completion and selective remaining
+work at limits 1/2. Expectations retain initial target versions rather than assuming every
+goal needs a commit, and classify an unreached second-write schedule as unused rather
+than recovered. Audit/review resource identities and metadata checks apply unchanged.

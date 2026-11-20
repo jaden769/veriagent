@@ -894,3 +894,32 @@ conflicts and the fifth supported matrix shape. No paid API/model calls were mad
 Full Chromium-enabled regression suite: **495 passed in 213.52 seconds**, with the
 existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
 passed. These are fixed local mechanism checks, not stochastic reliability estimates.
+## Pre-satisfied browser budget boundaries — 2026-11-21
+
+Added `evaluate-browser --satisfied-budget-boundaries`: already_satisfied and
+partial_satisfied, clean/second_drop, and action or decision limits 1/2. All **16/16
+controls matched**, with 12 successful tasks, four expected budget failures and no
+unexpected failures or expectation mismatches. Offline audit and review also passed.
+
+Already-satisfied goals took zero agent actions/decisions and preserved version 0;
+initial verification/evidence reads still occurred outside those action counts. Partial
+goals preserved the seeded completed target at version 0, read without writing at limit 1,
+and completed the remaining target with one write at limit 2. All selected second-write
+faults remained unused, with exposure false and one pending event. No recovery was expected.
+
+Evidence:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-satisfied-budget-validation/ded6a8db0a75483083931acae06622e7`.
+CLI outputs: `artifacts/browser-satisfied-budget-validation.json`,
+`artifacts/browser-satisfied-budget-audit.json` and `artifacts/browser-satisfied-budget-review.txt`.
+The previous fault-budget evaluation at `browser-fault-budget-validation/22f45ca9dc8a41c2ad4aaf8faf6b9b6b`
+under the same writable artifact root still passed its offline audit; compatibility output
+is `artifacts/browser-satisfied-budget-compatibility-audit.json`.
+
+Focused tests: **37 passed in 5.78 seconds**, covering unwanted actions/commits, altered
+seeded versions, falsely claimed exposure, unused-event counts, premature success,
+one-write completion under both resource limits, flag conflicts and the sixth audit
+matrix shape. No paid API/model calls were made.
+
+Full Chromium-enabled regression suite: **507 passed in 209.37 seconds**, with the
+existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
+passed. Counts remain finite local mechanism checks, not stochastic reliability estimates.

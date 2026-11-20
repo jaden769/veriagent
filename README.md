@@ -27,6 +27,7 @@ Add `--indexed` to check 24 controls for faults scheduled on the second browser 
 Use `--multi-event` for 12 controls covering repeated faults and exhausted retries.
 Use `--budget-boundaries` for 12 clean controls at action and decision limits.
 Use `--fault-budget-boundaries` for 24 controls checking recovery admission at those limits.
+Use `--satisfied-budget-boundaries` for 16 controls covering pre-satisfied goals and unused faults.
 `audit-browser <trial-directory>` checks saved trial evidence offline without browser/API calls.
 `audit-browser-batch <batch-directory>` checks trial coverage and reconciles saved summaries.
 `audit-browser-controls <evaluation-directory>` rechecks complete control evaluations offline.

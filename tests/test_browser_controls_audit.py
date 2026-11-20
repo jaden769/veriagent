@@ -19,6 +19,7 @@ def fixture_evaluation(
     multi_event=True,
     budget_boundaries=False,
     fault_budget_boundaries=False,
+    satisfied_budget_boundaries=False,
 ):
     directory.mkdir()
     saved = dict(
@@ -30,6 +31,7 @@ def fixture_evaluation(
         multi_event=multi_event,
         budget_boundaries=budget_boundaries,
         fault_budget_boundaries=fault_budget_boundaries,
+        satisfied_budget_boundaries=satisfied_budget_boundaries,
         passed=True,
         coverage_complete=True,
         batch_bindings=[],
@@ -42,6 +44,7 @@ def fixture_evaluation(
             multi_event=multi_event,
             budget_boundaries=budget_boundaries,
             fault_budget_boundaries=fault_budget_boundaries,
+            satisfied_budget_boundaries=satisfied_budget_boundaries,
         ),
         1,
     ):
@@ -117,17 +120,25 @@ def nested_audit(monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "indexed,multi_event,budget_boundaries,fault_budget_boundaries,count",
+    "indexed,multi_event,budget_boundaries,fault_budget_boundaries,satisfied_budget_boundaries,count",
     [
-        (False, False, False, False, 42),
-        (True, False, False, False, 24),
-        (False, True, False, False, 12),
-        (False, False, True, False, 12),
-        (False, False, False, True, 24),
+        (False, False, False, False, False, 42),
+        (True, False, False, False, False, 24),
+        (False, True, False, False, False, 12),
+        (False, False, True, False, False, 12),
+        (False, False, False, True, False, 24),
+        (False, False, False, False, True, 16),
     ],
 )
 def test_all_matrix_shapes_are_read_only_and_movable(
-    tmp_path, nested_audit, indexed, multi_event, budget_boundaries, fault_budget_boundaries, count
+    tmp_path,
+    nested_audit,
+    indexed,
+    multi_event,
+    budget_boundaries,
+    fault_budget_boundaries,
+    satisfied_budget_boundaries,
+    count,
 ):
     directory = fixture_evaluation(
         tmp_path / "saved",
@@ -135,6 +146,7 @@ def test_all_matrix_shapes_are_read_only_and_movable(
         multi_event=multi_event,
         budget_boundaries=budget_boundaries,
         fault_budget_boundaries=fault_budget_boundaries,
+        satisfied_budget_boundaries=satisfied_budget_boundaries,
     )
     moved = tmp_path / "moved"
     directory.rename(moved)

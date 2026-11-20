@@ -137,6 +137,10 @@ Completed fault/budget browser increment: 24 second-write drop/committed-error c
 across action and decision limits, distinguishing recovery admission, unfinished repair
 and exact completion without replay. Offline audit/review support is included.
 
-Next browser increment: verify that already-satisfied and partially satisfied goals behave
-correctly under tight budgets and unreached fault schedules. Benchmark external review
-and optional stochastic comparisons remain separate pending work.
+Completed pre-satisfied browser budget increment: 16 controls for already/partially
+satisfied goals at action/decision limits 1/2, preserving seeded versions and explicitly
+unused second-write faults, with audit/review support.
+
+Next browser increment: a bounded offline review of multiple saved control matrices,
+with suite-level selection coverage and distinct aggregate outcome categories. Benchmark
+external review and optional stochastic comparisons remain separate pending work.

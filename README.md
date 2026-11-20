@@ -32,6 +32,7 @@ Use `--satisfied-budget-boundaries` for 16 controls covering pre-satisfied goals
 `audit-browser-batch <batch-directory>` checks trial coverage and reconciles saved summaries.
 `audit-browser-controls <evaluation-directory>` rechecks complete control evaluations offline.
 `review-browser-controls <evaluation-directory>` prints a compact audited text/JSON report.
+`review-browser-suite <directories...>` reviews up to six distinct saved matrices offline.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

@@ -269,3 +269,8 @@ The pre-satisfied budget matrix checks zero-action completion and selective rema
 work at limits 1/2. Expectations retain initial target versions rather than assuming every
 goal needs a commit, and classify an unreached second-write schedule as unused rather
 than recovered. Audit/review resource identities and metadata checks apply unchanged.
+The suite review layer consumes fully audited evaluations and their unique run IDs.
+It rejects repeated matrix types and cross-evaluation run reuse, reports missing matrix
+types explicitly, and withholds aggregate counts on evidence or required-selection
+failure. A partial selection can be reviewed without pretending it covers all six
+matrices; --require-all validates coverage without generating missing evidence.

@@ -536,3 +536,32 @@ A matching review therefore shows 12 successful tasks and four expected budget f
 Offline audits require the same exact budget metadata and retain compatibility with
 previous bound evaluations. These are local initial-state/budget controls, not model-quality
 or general browser-reliability measurements.
+
+## Reviewing multiple saved matrices
+
+```powershell
+.\.venv\Scripts\veriagent.exe review-browser-suite <evaluation-one> <evaluation-two>
+.\.venv\Scripts\veriagent.exe review-browser-suite <evaluation-one> <evaluation-two> --format json
+```
+
+Select one to six distinct saved evaluation directories. The command re-audits every
+evaluation and identifies its matrix from validated selection flags. It reports present
+and missing matrix types among default, indexed, multi_event, budget_boundaries,
+fault_budget_boundaries and satisfied_budget_boundaries. A valid partial selection is
+accepted by default but clearly displays partial coverage; --require-all requires all six
+types. No browser runs or API calls are made, and the command writes nothing itself.
+
+Suite totals preserve successful tasks, expected/unexpected task failures and expectation
+mismatches. Each evaluation retains its own compact review and evidence path. Canonical
+directory duplicates are rejected before auditing. Distinct directories containing the
+same matrix, reused/missing run IDs, or any invalid evaluation evidence withhold all suite
+totals rather than inflating them. Per-evaluation reports can still help locate the gap.
+Requiring all matrices on a partial valid selection also withholds totals and reports
+required_matrices_missing. A full selection contains 130 fixed controls under current
+definitions; a partial selection is never presented as full-suite validation.
+
+Exit 0 requires valid evidence and satisfied selection constraints, even if an accurately
+recorded expectation mismatch makes controls_passed false. Exit 1 reports evidence or
+selection failure; invalid argument counts or duplicate canonical directories exit 2.
+--require-all does not run missing matrices. These are unsigned saved-fixture totals,
+not independent stochastic samples, paired model comparisons or a reliability estimate.

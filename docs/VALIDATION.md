@@ -923,3 +923,32 @@ matrix shape. No paid API/model calls were made.
 Full Chromium-enabled regression suite: **507 passed in 209.37 seconds**, with the
 existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
 passed. Counts remain finite local mechanism checks, not stochastic reliability estimates.
+## Offline multi-matrix suite review — 2026-11-21
+
+Added `review-browser-suite` for one to six distinct saved evaluations. Each input is
+fully re-audited; matrix identities and unique run IDs come from validated evidence.
+Suite coverage lists present/missing types, rejects duplicate matrix/run use and withholds
+totals on evidence or required-selection failure. Text/JSON formats preserve separate
+successful tasks, expected/unexpected task failures and expectation mismatches.
+
+Focused tests: **23 passed in 0.92 seconds**, including the existing report checks.
+New cases cover partial/all-six selection shapes, --require-all behavior, duplicate
+matrices/directories, reused/missing run IDs, invalid evidence, bounds before auditing,
+both CLI formats, read-only audit input handling and selection-failure exit behavior.
+
+Both CLI formats reviewed the saved fault-budget and pre-satisfied budget evaluations
+under the writable artifact root:
+- `browser-fault-budget-validation/22f45ca9dc8a41c2ad4aaf8faf6b9b6b`
+- `browser-satisfied-budget-validation/ded6a8db0a75483083931acae06622e7`
+
+The valid partial selection showed **2/6 matrices**, **40/40 matched controls**, 28
+successful tasks, 12 expected failures and zero unexpected failures/mismatches. The four
+missing matrix types were explicit. --require-all on those same two inputs returned
+exit 1, reported required_matrices_missing and withheld totals. No missing matrix was run.
+Outputs: `artifacts/browser-suite-review.txt`, `artifacts/browser-suite-review.json` and
+`artifacts/browser-suite-required-all.txt`. No browsers or paid API/model calls were needed
+for these review commands; full six-matrix empirical CLI validation is not claimed.
+
+Full Chromium-enabled regression suite: **520 passed in 215.81 seconds**, with the
+existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
+passed. Aggregates remain unsigned deterministic fixture totals, not reliability estimates.

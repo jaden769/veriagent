@@ -13,6 +13,15 @@ from veriagent.browser_faults import (
 )
 from veriagent.models import Budget
 
+CONTROL_MATRIX_FLAGS = (
+    "indexed",
+    "multi_event",
+    "budget_boundaries",
+    "fault_budget_boundaries",
+    "satisfied_budget_boundaries",
+)
+CONTROL_MATRICES = ("default",) + CONTROL_MATRIX_FLAGS
+
 # Independently specified changed-target counts for the packaged initial states.
 CHANGED_TARGETS = {
     "single_done": 1,

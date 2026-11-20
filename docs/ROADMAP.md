@@ -141,6 +141,10 @@ Completed pre-satisfied browser budget increment: 16 controls for already/partia
 satisfied goals at action/decision limits 1/2, preserving seeded versions and explicitly
 unused second-write faults, with audit/review support.
 
-Next browser increment: a bounded offline review of multiple saved control matrices,
-with suite-level selection coverage and distinct aggregate outcome categories. Benchmark
-external review and optional stochastic comparisons remain separate pending work.
+Completed browser suite-review increment: bounded offline review of distinct saved
+matrices, explicit partial/full selection coverage, duplicate matrix/run rejection and
+separate aggregate outcomes. Complete coverage can be required without rerunning trials.
+
+Next browser increment: a declarative matrix catalog and cross-layer selection consistency
+checks to keep CLI, execution, auditing and suite coverage aligned. Benchmark external
+review and optional stochastic comparisons remain separate pending work.

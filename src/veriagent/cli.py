@@ -245,7 +245,27 @@ def main() -> None:
     )
     review_controls.add_argument("directory", type=Path)
     review_controls.add_argument("--format", choices=("text", "json"), default="text")
+    suite = commands.add_parser(
+        "review-browser-suite", help="Review up to six distinct saved browser matrices offline"
+    )
+    suite.add_argument("directories", type=Path, nargs="+")
+    suite.add_argument("--require-all", action="store_true", help="Require all six matrix types")
+    suite.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args()
+    if args.command == "review-browser-suite":
+        from veriagent.browser_suite import render_suite_review, review_browser_suite
+
+        try:
+            result = review_browser_suite(args.directories, require_all=args.require_all)
+        except ValueError as exc:
+            parser.error(str(exc))
+        print(
+            json.dumps(result, indent=2) if args.format == "json" else render_suite_review(result),
+            end="\n" if args.format == "json" else "",
+        )
+        if not result["evidence_passed"] or not result["selection_passed"]:
+            raise SystemExit(1)
+        return
     if args.command == "review-browser-controls":
         from veriagent.browser_review import render_control_review, review_browser_controls
 

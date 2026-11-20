@@ -7,6 +7,7 @@ from pathlib import Path
 
 from veriagent.browser_batch_audit import audit_browser_batch
 from veriagent.browser_controls import (
+    CONTROL_MATRIX_FLAGS,
     compare_control,
     control_batch_specs,
     control_budget,
@@ -20,6 +21,7 @@ def audit_browser_controls(directory: Path) -> dict:
         "schema_version": 1,
         "evidence_passed": False,
         "controls_passed": None,
+        "matrix": None,
         "checks": [],
         "batches": [],
         "limitations": "Unsigned evidence reconciliation against current control definitions.",
@@ -50,6 +52,9 @@ def audit_browser_controls(directory: Path) -> dict:
             budget_boundaries=saved.get("budget_boundaries", False),
             fault_budget_boundaries=saved.get("fault_budget_boundaries", False),
             satisfied_budget_boundaries=saved.get("satisfied_budget_boundaries", False),
+        )
+        result["matrix"] = next(
+            (key for key in CONTROL_MATRIX_FLAGS if saved.get(key, False)), "default"
         )
         bindings = saved["batch_bindings"]
         if not isinstance(bindings, list) or len(bindings) != len(specs):
@@ -146,6 +151,7 @@ def audit_browser_controls(directory: Path) -> dict:
         result["controls_passed"] = passed
         check("reported_outcome", saved["passed"] == passed)
         result["controls"] = controls
+        result["run_ids"] = sorted(run_ids)
         result["evidence_passed"] = all(c["passed"] for c in result["checks"])
     except (OSError, ValueError, KeyError, TypeError, AttributeError, RecursionError):
         check("readable_complete_evaluation", False)

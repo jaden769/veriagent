@@ -261,3 +261,7 @@ validates clean two-target partial progress at limits 2/3 versus exact completio
 Trial rows retain observed decisions and terminal failure. Parent audits bind the exact
 budget and require boundary metadata, while preserving compatibility with earlier bound
 evaluations whose default-budget rows lack the new optional fields.
+The fault/budget matrix adds second-write drops and committed errors at limits 4/5/6.
+Expectations distinguish no recovery admission, an admitted but unfinished repair, and
+successful completion. A verified committed error needs no extra action or retry budget.
+This extends matrix definitions/audits without changing the production agent loop.

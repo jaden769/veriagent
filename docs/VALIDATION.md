@@ -865,3 +865,32 @@ matrix shape. No paid API/model calls were made.
 Full Chromium-enabled suite: **482 passed in 208.30 seconds**, with the existing
 Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
 These exact-step boundaries apply to the fixed local mock flow, not arbitrary model runs.
+## Browser fault/recovery budget boundaries — 2026-11-21
+
+Added `evaluate-browser --fault-budget-boundaries`: 24 dynamic mock controls across
+pair_done/mixed_status, second_drop/second_lost_ack and action or decision limits 4/5/6.
+All **24/24 matched**, with 16 successful tasks, eight expected budget failures and no
+unexpected failures or expectation mismatches. The complete evaluation passed offline
+audit and review.
+
+For drops, limit 4 stopped before recovery admission, limit 5 admitted one recovery but
+only completed its read, and limit 6 completed the repair. Both partial cases retained
+first-target version 1 and second-target version 0. Post-commit errors completed at four
+steps without replay or recovery at every selected limit. No production agent-loop
+changes were required.
+
+Evidence:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-fault-budget-validation/22f45ca9dc8a41c2ad4aaf8faf6b9b6b`.
+CLI JSON/text outputs are retained at `artifacts/browser-fault-budget-validation.json`,
+`artifacts/browser-fault-budget-audit.json` and `artifacts/browser-fault-budget-review.txt`.
+The prior clean boundary evaluation at `browser-budget-validation/9467a81502be4ba78d3345a89c3bd5fd`
+under the same writable artifact root also passed its offline audit; output is
+`artifacts/browser-fault-budget-compatibility-audit.json`.
+
+Focused tests: **37 passed in 3.82 seconds**, including both resource limits, premature
+recovery admission, unfinished repair claims, committed-error replay rejection, flag
+conflicts and the fifth supported matrix shape. No paid API/model calls were made.
+
+Full Chromium-enabled regression suite: **495 passed in 213.52 seconds**, with the
+existing Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks
+passed. These are fixed local mechanism checks, not stochastic reliability estimates.

@@ -133,6 +133,10 @@ Completed browser budget-boundary increment: 12 clean dynamic action/decision-li
 controls, exact completion boundaries, explicit partial-progress/failure evidence and
 offline audit/review support with prior-evaluation compatibility.
 
-Next browser increment: combine second-write faults with action/decision boundaries to
-check recovery admission and preserved progress. Benchmark external review and optional
-stochastic comparisons remain separate pending work.
+Completed fault/budget browser increment: 24 second-write drop/committed-error controls
+across action and decision limits, distinguishing recovery admission, unfinished repair
+and exact completion without replay. Offline audit/review support is included.
+
+Next browser increment: verify that already-satisfied and partially satisfied goals behave
+correctly under tight budgets and unreached fault schedules. Benchmark external review
+and optional stochastic comparisons remain separate pending work.

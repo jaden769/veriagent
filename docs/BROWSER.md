@@ -424,6 +424,7 @@ New evaluations bind each relative nested batch directory to its manifest SHA-25
 retain each control's relative trial/batch association. The offline audit supports the
 default 42-control matrix, --indexed 24-control matrix, --multi-event 12-control matrix
 and --budget-boundaries 12-control matrix.
+The --fault-budget-boundaries selection adds a 24-control recovery-admission matrix.
 It checks completed status, the selected matrix shape and fixed budgets, nested manifest
 bindings, all nested batch/trial evidence, unique run IDs across batches, exact control
 coverage, expected values, mismatch details and the reported evaluation outcome.
@@ -486,3 +487,27 @@ the exact configured limits; reports show four successes and eight expected task
 when all controls match. The existing default, indexed and multi-event matrices keep
 their original identities. Previously generated bound evaluations without the new optional
 budget fields remain auditable; no files are upgraded during audit.
+
+## Faults at action and decision boundaries
+
+```powershell
+.\.venv\Scripts\veriagent.exe evaluate-browser --fault-budget-boundaries
+```
+
+This separate 24-control dynamic mock matrix crosses pair_done/mixed_status,
+second_drop/second_lost_ack, and action limits 4/5/6 (decision limit 8) or decision limits
+4/5/6 (action limit 8). A write fault is reached on the fourth step after the first target
+has committed. Every control requires injection at write attempt 2, no replay of the first
+target and unchanged unrelated state/titles.
+
+For second_drop, limit 4 must stop with a budget failure before admitting recovery:
+two write attempts, one commit, zero retries. Limit 5 admits one recovery but only has
+room to reread the second target; it still fails budget with that target open/version 0.
+Limit 6 completes the repair with three write attempts, two commits and one retry.
+For second_lost_ack, verification confirms the second commit at step 4, so every selected
+limit must succeed at four actions/decisions with two commits and no retry or replay.
+
+All 24 matching controls therefore represent 16 successful tasks and eight expected
+budget failures. Offline audit and review support the new matrix and display its exact
+limits. Existing saved bound evaluations remain supported. Counts describe this fixed
+mock flow and do not establish stochastic model or remote-service reliability.

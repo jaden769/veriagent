@@ -12,7 +12,14 @@ def write_json(path, value):
     path.write_text(json.dumps(value), encoding="utf-8")
 
 
-def fixture_evaluation(directory, *, indexed=False, multi_event=True, budget_boundaries=False):
+def fixture_evaluation(
+    directory,
+    *,
+    indexed=False,
+    multi_event=True,
+    budget_boundaries=False,
+    fault_budget_boundaries=False,
+):
     directory.mkdir()
     saved = dict(
         schema_version=1,
@@ -22,6 +29,7 @@ def fixture_evaluation(directory, *, indexed=False, multi_event=True, budget_bou
         indexed=indexed,
         multi_event=multi_event,
         budget_boundaries=budget_boundaries,
+        fault_budget_boundaries=fault_budget_boundaries,
         passed=True,
         coverage_complete=True,
         batch_bindings=[],
@@ -30,7 +38,10 @@ def fixture_evaluation(directory, *, indexed=False, multi_event=True, budget_bou
     run = 0
     for index, spec in enumerate(
         control_batch_specs(
-            indexed=indexed, multi_event=multi_event, budget_boundaries=budget_boundaries
+            indexed=indexed,
+            multi_event=multi_event,
+            budget_boundaries=budget_boundaries,
+            fault_budget_boundaries=fault_budget_boundaries,
         ),
         1,
     ):
@@ -106,22 +117,24 @@ def nested_audit(monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "indexed,multi_event,budget_boundaries,count",
+    "indexed,multi_event,budget_boundaries,fault_budget_boundaries,count",
     [
-        (False, False, False, 42),
-        (True, False, False, 24),
-        (False, True, False, 12),
-        (False, False, True, 12),
+        (False, False, False, False, 42),
+        (True, False, False, False, 24),
+        (False, True, False, False, 12),
+        (False, False, True, False, 12),
+        (False, False, False, True, 24),
     ],
 )
 def test_all_matrix_shapes_are_read_only_and_movable(
-    tmp_path, nested_audit, indexed, multi_event, budget_boundaries, count
+    tmp_path, nested_audit, indexed, multi_event, budget_boundaries, fault_budget_boundaries, count
 ):
     directory = fixture_evaluation(
         tmp_path / "saved",
         indexed=indexed,
         multi_event=multi_event,
         budget_boundaries=budget_boundaries,
+        fault_budget_boundaries=fault_budget_boundaries,
     )
     moved = tmp_path / "moved"
     directory.rename(moved)

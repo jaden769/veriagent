@@ -218,6 +218,11 @@ def main() -> None:
     matrix.add_argument(
         "--budget-boundaries", action="store_true", help="Check 12 action/decision-limit controls"
     )
+    matrix.add_argument(
+        "--fault-budget-boundaries",
+        action="store_true",
+        help="Check 24 fault/recovery budget controls",
+    )
     audit_browser = commands.add_parser(
         "audit-browser", help="Re-audit a saved browser trial offline"
     )
@@ -283,6 +288,7 @@ def main() -> None:
                 indexed=args.indexed,
                 multi_event=args.multi_event,
                 budget_boundaries=args.budget_boundaries,
+                fault_budget_boundaries=args.fault_budget_boundaries,
             )
         except BrowserSetupError as exc:
             parser.error(str(exc))

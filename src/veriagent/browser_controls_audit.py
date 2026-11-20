@@ -35,12 +35,16 @@ def audit_browser_controls(directory: Path) -> dict:
             for k in ("indexed", "multi_event", "passed", "coverage_complete")
         ):
             raise ValueError("Invalid matrix flags")
-        if type(saved.get("budget_boundaries", False)) is not bool:
+        if any(
+            type(saved.get(key, False)) is not bool
+            for key in ("budget_boundaries", "fault_budget_boundaries")
+        ):
             raise ValueError("Invalid budget matrix flag")
         specs = control_batch_specs(
             indexed=saved["indexed"],
             multi_event=saved["multi_event"],
             budget_boundaries=saved.get("budget_boundaries", False),
+            fault_budget_boundaries=saved.get("fault_budget_boundaries", False),
         )
         bindings = saved["batch_bindings"]
         if not isinstance(bindings, list) or len(bindings) != len(specs):
@@ -90,7 +94,7 @@ def audit_browser_controls(directory: Path) -> dict:
             check(f"batch_evidence:{ordinal}", batch_audit["evidence_passed"])
             if not batch_audit["evidence_passed"]:
                 raise ValueError("Invalid nested evidence")
-            if saved.get("budget_boundaries", False):
+            if saved.get("budget_boundaries", False) or saved.get("fault_budget_boundaries", False):
                 valid_metadata = all(
                     row.get("max_actions") == spec["max_actions"]
                     and row.get("max_decisions") == spec["max_decisions"]

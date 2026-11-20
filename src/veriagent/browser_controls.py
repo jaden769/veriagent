@@ -33,17 +33,22 @@ def expected_control(
     max_decisions: int = 8,
 ) -> dict:
     if (max_actions, max_decisions) != (8, 8):
+        fault_budget = scenario in {"second_drop", "second_lost_ack"}
+        levels = (4, 5, 6) if fault_budget else (2, 3, 4)
+        allowed_limits = {(level, 8) for level in levels} | {(8, level) for level in levels}
         if (
             task_id not in {"pair_done", "mixed_status"}
-            or scenario != "clean"
+            or (scenario != "clean" and not fault_budget)
             or mode != "recover"
             or max_retries != 2
-            or (max_actions, max_decisions) not in {(2, 8), (3, 8), (4, 8), (8, 2), (8, 3), (8, 4)}
+            or (max_actions, max_decisions) not in allowed_limits
         ):
             raise ValueError("Unknown budget-boundary control")
-        steps = min(max_actions, max_decisions)
-        passed = steps == 4
-        return {
+        limit = min(max_actions, max_decisions)
+        dropped = scenario == "second_drop"
+        steps = limit if dropped else min(limit, 4)
+        passed = limit >= (6 if dropped else 4)
+        expected = {
             "claimed_success": passed,
             "audit_passed": passed,
             "execution_passed": passed,
@@ -52,12 +57,12 @@ def expected_control(
             "decisions": steps,
             "max_actions": max_actions,
             "max_decisions": max_decisions,
-            "fault_exposed": False,
-            "recovery_attempts": 0,
-            "application_write_attempts": 2 if passed else 1,
+            "fault_exposed": fault_budget,
+            "recovery_attempts": int(dropped and limit >= 5),
+            "application_write_attempts": (2 + int(passed)) if dropped else (2 if passed else 1),
             "commits": 2 if passed else 1,
             "pending_application_faults": 0,
-            "injected_attempts": [],
+            "injected_attempts": [2] if fault_budget else [],
             "events_dropped": 0,
             "untargeted_issues_unchanged": True,
             "target_titles_unchanged": True,
@@ -69,6 +74,9 @@ def expected_control(
             },
             "target_versions": {"ISSUE-1": 1, "ISSUE-2": int(passed)},
         }
+        if fault_budget:
+            expected["planned_fault_attempt"] = 2
+        return expected
     if scenario in MULTI_BROWSER_SCENARIOS:
         if (
             task_id not in {"pair_done", "mixed_status"}
@@ -174,21 +182,29 @@ def compare_control(row: dict) -> dict:
 
 
 def control_batch_specs(
-    *, indexed: bool = False, multi_event: bool = False, budget_boundaries: bool = False
+    *,
+    indexed: bool = False,
+    multi_event: bool = False,
+    budget_boundaries: bool = False,
+    fault_budget_boundaries: bool = False,
 ) -> list[dict]:
-    if sum((indexed, multi_event, budget_boundaries)) > 1:
+    if sum((indexed, multi_event, budget_boundaries, fault_budget_boundaries)) > 1:
         raise ValueError("Select one browser control matrix")
-    if budget_boundaries:
+    if budget_boundaries or fault_budget_boundaries:
+        levels = (4, 5, 6) if fault_budget_boundaries else (2, 3, 4)
         return [
             {
                 "tasks": ("pair_done", "mixed_status"),
                 "modes": ("recover",),
-                "scenarios": ("clean",),
+                "scenarios": ("second_drop", "second_lost_ack")
+                if fault_budget_boundaries
+                else ("clean",),
                 "max_retries": 2,
                 "max_actions": actions,
                 "max_decisions": decisions,
             }
-            for actions, decisions in ((2, 8), (3, 8), (4, 8), (8, 2), (8, 3), (8, 4))
+            for actions, decisions in tuple((level, 8) for level in levels)
+            + tuple((8, level) for level in levels)
         ]
     selections = (
         (((tuple(CHANGED_TARGETS)), ("recover",)),)
@@ -238,9 +254,13 @@ def evaluate_browser_controls(
     indexed: bool = False,
     multi_event: bool = False,
     budget_boundaries: bool = False,
+    fault_budget_boundaries: bool = False,
 ) -> dict:
     specs = control_batch_specs(
-        indexed=indexed, multi_event=multi_event, budget_boundaries=budget_boundaries
+        indexed=indexed,
+        multi_event=multi_event,
+        budget_boundaries=budget_boundaries,
+        fault_budget_boundaries=fault_budget_boundaries,
     )
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
@@ -253,6 +273,7 @@ def evaluate_browser_controls(
         "indexed": indexed,
         "multi_event": multi_event,
         "budget_boundaries": budget_boundaries,
+        "fault_budget_boundaries": fault_budget_boundaries,
         "artifacts": str(directory),
         "batches": [],
         "batch_bindings": [],

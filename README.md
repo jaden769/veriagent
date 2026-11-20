@@ -18,6 +18,8 @@ Optional [process-isolated tools](docs/PROCESS_EXECUTION.md) terminate hung sand
 and use authoritative state to resolve interrupted writes.
 An [offline adversarial suite](docs/SAFETY_EVALUATION.md) checks 24 fixed boundary cases
 and saves state-oracle evidence, traces, fixture hashes and source fingerprints.
+An optional [local browser slice](docs/BROWSER.md) uses headless Chromium and fixed UI
+controls to demonstrate the same dropped-write recovery with an independent SQLite oracle.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

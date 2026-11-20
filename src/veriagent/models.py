@@ -261,5 +261,5 @@ class RunReport(Schema):
     engine: Literal["static", "dynamic"] = "static"
     decisions: int = 0
     model_budget: ModelBudgetState | None = None
-    tool_execution: Literal["in_process", "process"] = "in_process"
+    tool_execution: Literal["in_process", "process", "browser"] = "in_process"
     provider_diagnostic: ProviderDiagnostic | None = None

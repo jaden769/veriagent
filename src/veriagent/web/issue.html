@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VeriAgent local issue sandbox</title>
+  <style>
+    body { font: 17px system-ui, sans-serif; background: #f4f6fa; color: #17263b; margin: 0; }
+    main { max-width: 660px; margin: 60px auto; padding: 32px; background: white; border-radius: 12px; }
+    h1 { margin-top: 0; } label, select, button { display: block; margin-top: 16px; }
+    select, button { font: inherit; padding: 10px 16px; } button { background: #224d89; color: white; border: 0; border-radius: 6px; }
+    small { color: #58677b; } #result { padding-top: 16px; }
+  </style>
+  <script src="/ui/app.js" defer></script>
+</head>
+<body data-issue-id="__ISSUE_ID__">
+<main>
+  <small>Local test application</small>
+  <h1 data-testid="issue-id">__ISSUE_ID__</h1>
+  <p data-testid="title">Loading issue…</p>
+  <p>Status: <strong data-testid="status">Loading…</strong></p>
+  <p>Version: <span data-testid="version">—</span></p>
+  <form>
+    <label for="status-choice">New status</label>
+    <select id="status-choice" data-testid="status-choice" disabled>
+      <option value="open">Open</option>
+      <option value="in_progress">In progress</option>
+      <option value="done">Done</option>
+    </select>
+    <button data-testid="save" type="submit" disabled>Save status</button>
+  </form>
+  <p id="result" data-testid="result" role="status" data-phase="loading" data-code="0">Loading…</p>
+</main>
+</body>
+</html>

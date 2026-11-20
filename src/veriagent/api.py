@@ -1,6 +1,9 @@
 """Optional local sandbox API. Bind to loopback; not an authenticated public service."""
 
-from fastapi import FastAPI, HTTPException
+from importlib.resources import files
+
+from fastapi import FastAPI, HTTPException, Path
+from fastapi.responses import HTMLResponse, Response
 
 from veriagent.models import Issue, Schema, Status
 from veriagent.sandbox import Sandbox, TransientError
@@ -12,6 +15,25 @@ class StatusUpdate(Schema):
 
 def create_app(sandbox: Sandbox) -> FastAPI:
     app = FastAPI(title="VeriAgent local sandbox", version="0.1.0")
+
+    @app.get("/ui/issues/{issue_id}", response_class=HTMLResponse)
+    def issue_page(issue_id: str = Path(pattern=r"^ISSUE-\d+$")) -> HTMLResponse:
+        html = files("veriagent").joinpath("web/issue.html").read_text(encoding="utf-8")
+        return HTMLResponse(
+            html.replace("__ISSUE_ID__", issue_id),
+            headers={
+                "Content-Security-Policy": (
+                    "default-src 'self'; script-src 'self'; style-src 'unsafe-inline'; "
+                    "connect-src 'self'; frame-src 'none'; base-uri 'none'; form-action 'self'"
+                ),
+                "Cache-Control": "no-store",
+            },
+        )
+
+    @app.get("/ui/app.js")
+    def browser_script() -> Response:
+        script = files("veriagent").joinpath("web/app.js").read_text(encoding="utf-8")
+        return Response(script, media_type="application/javascript")
 
     @app.get("/issues/{issue_id}", response_model=Issue)
     def read_issue(issue_id: str) -> Issue:

@@ -169,6 +169,15 @@ def main() -> None:
     smoke.add_argument("--output", type=Path, default=Path("artifacts/smoke"))
     add_provider_options(smoke, timeout=60)
     add_engine_options(smoke)
+    browser = commands.add_parser(
+        "browser-smoke", help="Run the local headless browser recovery check"
+    )
+    browser.add_argument("--output", type=Path, default=Path("artifacts/browser-smoke"))
+    browser.add_argument("--engine", choices=("static", "dynamic"), default="static")
+    browser.add_argument("--max-actions", type=int, default=8)
+    browser.add_argument("--max-decisions", type=int, default=8)
+    browser.add_argument("--action-timeout", type=float, default=5)
+    add_provider_options(browser, timeout=60)
     check = commands.add_parser(
         "check-provider", help="Check OpenAI model metadata without generation"
     )
@@ -330,12 +339,18 @@ def main() -> None:
         sandbox.seed()
         uvicorn.run(create_app(sandbox), host="127.0.0.1", port=args.port)
         return
-    if args.command == "smoke":
+    if args.command in {"smoke", "browser-smoke"}:
+        from veriagent.browser import BrowserSetupError
+
         try:
-            tool_config = ToolExecutionConfig(
-                mode="process" if args.isolate_tools else "in_process",
-                hangs_before_commit=args.hang_before_commit,
-                hangs_after_commit=args.hang_after_commit,
+            tool_config = (
+                None
+                if args.command == "browser-smoke"
+                else ToolExecutionConfig(
+                    mode="process" if args.isolate_tools else "in_process",
+                    hangs_before_commit=args.hang_before_commit,
+                    hangs_after_commit=args.hang_after_commit,
+                )
             )
             budget = Budget(
                 timeout_seconds=args.timeout,
@@ -348,8 +363,15 @@ def main() -> None:
             parser.error(str(exc))
         try:
             result = smoke_test(
-                args.output, provider, budget, engine=args.engine, tool_config=tool_config
+                args.output,
+                provider,
+                budget,
+                engine=args.engine,
+                tool_config=tool_config,
+                tool_backend="browser" if args.command == "browser-smoke" else "sandbox",
             )
+        except BrowserSetupError as exc:
+            parser.error(str(exc))
         finally:
             if isinstance(provider, OpenAIProvider):
                 provider.close()

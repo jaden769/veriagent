@@ -161,3 +161,28 @@ fixture/source fingerprints make failures inspectable. Tests weaken guards, lie 
 verification and leak markers to demonstrate that the evaluator can fail. This is finite
 local boundary validation, not live LLM robustness, independent statistical benchmarking
 or an attestation of a secure runtime.
+
+## 011: A fixed local browser tool adapter
+
+Phase 3 starts with a known loopback application and the existing action schema, rather
+than arbitrary-site automation. A new headless Chromium/context and owned OS-assigned
+loopback server isolate each smoke's application state and cookies from personal browsing.
+Browser tools navigate fixed issue pages, read DOM fields and operate the status form;
+model actions cannot supply selectors, scripts or URLs. Request routing allows only the
+fixture's known paths/methods on its exact origin, with service workers blocked. This is
+not an OS security boundary or a general browser egress guarantee.
+
+The page treats a successful PATCH acknowledgment optimistically. Independent SQLite
+verification therefore remains essential: a UI claim can say done while the application
+state is still open. The existing trusted task/status authorization, idempotency policy
+and retry limits apply unchanged. Browser waits share the remaining action deadline;
+timeouts remain potentially ambiguous commits and require state resolution. Browser
+startup/evidence capture and shutdown are outside the agent's cooperative run deadline.
+
+The optional browser extra and matching Chromium binaries are explicit installations.
+Default commands remain mock/offline. Smoke evidence includes before/after screenshots,
+final refreshed DOM, package/browser versions and the original state/audit/traces. A
+capture failure is recorded separately from agent/audit outcomes. Neither screenshot
+appearance nor DOM acknowledgment is accepted as persisted-state proof. The slice does
+not implement arbitrary-site planning, a vision model, personal-profile access or a
+reviewed browser execution backend yet.

@@ -510,3 +510,40 @@ assistant, not independent external review or external corpus validation.
 
 Full regression suite after metric corrections: **314 passed in 80.28 seconds**, one
 existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks passed.
+
+### First Phase 3 local browser slice — 2026-11-20
+
+Added the optional `browser` dependency (locked Playwright 1.65.2), packaged local issue
+HTML/JS, fixed DOM browser tools and browser-smoke CLI. Every trial owns a loopback server,
+fresh headless Chromium/context and fresh SQLite state. Request routing restricts browser
+context requests to fixed paths/methods on that origin. Existing action authorization,
+idempotency/recovery budgets and independent SQLite verification remain in force. Model
+selectors/scripts/arbitrary URLs and personal profiles are not supported.
+
+The page deliberately trusts a successful write acknowledgment optimistically. Real-browser
+tests confirmed DOM status done while a dropped commit leaves SQLite open; reloading reads
+the actual status. Both engines detected and recovered the fault. Tests also exercise
+literal title rendering, missing issues, transient pre-commit errors, zero/stalled action
+deadlines, blocked external navigation and honest smoke failure without retries. Evidence
+captures refreshed final DOM and screenshots; final capture failure is tracked separately.
+
+Focused browser/existing-smoke checks passed **27 tests in 8.90 seconds** before adding
+the stalled-UI and no-recovery checks. Full suite with `VERIAGENT_BROWSER_TESTS=1` then
+passed **334 tests in 99.00 seconds**, one existing Starlette/httpx deprecation warning.
+Ruff lint/format and whitespace checks passed. Built the wheel offline and inspected it:
+HTML, JS and benchmark corpus resources are included. Existing project import and installed
+package versions were verified after installation.
+
+Dependency sync initially hit Windows access denied while removing editable project
+metadata. Installed optional dependencies with no-install-project and restored the editable
+project via uv pip install --no-deps --editable .; subsequent import/version, wheel and full
+suite checks passed. No application data or user browser profiles were removed.
+
+Actual dynamic CLI smoke saved
+`artifacts/browser-smoke/b5d205afb8fa4bda92b5a68dc79a05cb/result.json`: smoke passed,
+injected mismatch detected, recovery performed, final version 1, unrelated issues unchanged,
+zero model calls and capture_complete true. Browser version 159.0.8154.6. Visually inspected
+the refreshed after screenshot: ISSUE-1 done/version 1. The prior initial implementation
+smoke at `6356d343820a40189ec1dda3468b5236` also passed. No live-model browser trial or paid
+request was made. This validates a fixed local fixture, not arbitrary-site autonomy or a
+browser/network security sandbox. Benchmark external review remains pending.

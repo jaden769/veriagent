@@ -78,5 +78,14 @@ denominators and fault-mismatch eligibility checks; external review remains pend
 Do not infer reliability from the three successful live trials.
 Broader generated attacks, independent live task corpora and
 stochastic reliability comparisons remain future work before research claims. No live model
-quality or general injection resistance is established. No browser agent, dashboard,
+quality or general injection resistance is established. No general browser agent, dashboard,
 learned verifier, or broad reliability claim is included.
+
+Completed first Phase 3 slice: optional headless Chromium, a loopback issue UI, fixed
+DOM tools, independent SQLite verification, browser screenshots/DOM artifacts and real
+browser regression checks. Both engines can recover the controlled dropped write using
+the mock provider. See BROWSER.md. No live-model browser trial has been run.
+
+Next browser increment: reviewed multi-target execution through the local UI with
+explicit backend selection and independent collateral-state checks. Benchmark corpus
+external review and optional stochastic comparisons remain separate pending work.

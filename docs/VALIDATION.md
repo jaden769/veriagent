@@ -702,3 +702,25 @@ Full regression suite with Chromium enabled: **397 passed in 169.44 seconds**, w
 the existing Starlette/httpx deprecation warning. Ruff formatting/lint and whitespace
 checks passed. No paid API/model calls were made. This finite deterministic fixture matrix
 does not establish independently reviewed corpus quality or stochastic reliability.
+## Indexed browser faults — 2026-11-20
+
+Added second_drop, second_lost_ack and second_timeout_before/after_commit schedules.
+The indexed CLI evaluation matched **24/24 controls** with exact coverage; evidence:
+`artifacts/browser-controls/333be8f8cc3847898f7ab49ff3172f23/controls.json`.
+Two-changing-target cases injected at attempt 2; zero/one-changing-target cases retained
+an unused fault. Commit, retry, attempt and final/collateral audit expectations matched.
+
+Focused regression checks: **31 passed in 24.63 seconds**. Real browser tests cover both
+engines across all four profiles on pair_done, with a single first-target write and final
+version 1 per target. Pure tests cover read/no-op/missing-target schedule positions and
+deliberately shifted injection evidence.
+
+The original matrix still matched **42/42 controls** at
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-controls/169f52b0f50f4590aa8426a3964d3e6d/controls.json`.
+An earlier rerun under OneDrive stopped on Windows access-denied replacing a manifest
+(`artifacts/browser-controls/dbfd4a0e87cf4057b9b95e8b2015fa53`); it is not counted as a
+completed evaluation. The successful rerun used the other writable local directory.
+
+Full Chromium-enabled regression suite: **409 passed in 178.24 seconds**, one existing
+Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
+No paid model/API calls were made; results remain finite deterministic fixture checks.

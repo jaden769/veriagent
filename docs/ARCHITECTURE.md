@@ -226,3 +226,8 @@ against separately specified initial changed-target counts and profile outcomes.
 retains expectation mismatches separately from task success: an intended baseline false
 claim can pass the control while failing the independent state audit. Exact matrix
 coverage rejects missing/duplicate combinations; interrupted evidence remains partial.
+Indexed browser profiles count mutation attempts under the fixture write lock. Four
+second-write profiles inject only at attempt 2 on a changing target; no-ops and missing
+targets consume positions without moving the scheduled event. Batch evidence retains
+planned and realized positions plus pending fault counts. A separate 24-control dynamic
+evaluation checks both exposed two-target cases and unused zero/one-target schedules.

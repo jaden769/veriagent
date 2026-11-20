@@ -5,7 +5,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from veriagent.browser_batch import browser_batch
-from veriagent.browser_faults import BROWSER_SCENARIOS
+from veriagent.browser_faults import BROWSER_SCENARIOS, INDEXED_BROWSER_SCENARIOS
 
 # Independently specified changed-target counts for the packaged initial states.
 CHANGED_TARGETS = {
@@ -19,6 +19,25 @@ CHANGED_TARGETS = {
 
 
 def expected_control(task_id: str, scenario: str, mode: str) -> dict:
+    if scenario in INDEXED_BROWSER_SCENARIOS:
+        if mode != "recover":
+            raise ValueError("Indexed controls require recover mode")
+        changes = CHANGED_TARGETS[task_id]
+        exposed = changes >= 2
+        retry = int(exposed and scenario in {"second_drop", "second_timeout_before_commit"})
+        return {
+            "fault_exposed": exposed,
+            "claimed_success": True,
+            "audit_passed": True,
+            "execution_passed": True,
+            "recovery_attempts": retry,
+            "commits": changes,
+            "application_write_attempts": changes + retry,
+            "events_dropped": 0,
+            "planned_fault_attempt": 2,
+            "injected_attempts": [2] if exposed else [],
+            "pending_application_faults": int(not exposed),
+        }
     if scenario not in BROWSER_SCENARIOS or mode not in {"baseline", "recover"}:
         raise ValueError("Unknown browser control")
     if mode == "baseline" and task_id != "single_done":
@@ -60,7 +79,7 @@ def compare_control(row: dict) -> dict:
     }
 
 
-def evaluate_browser_controls(output: Path) -> dict:
+def evaluate_browser_controls(output: Path, *, indexed: bool = False) -> dict:
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
     result = {
@@ -69,6 +88,7 @@ def evaluate_browser_controls(output: Path) -> dict:
         "passed": False,
         "provider": "mock",
         "engine": "dynamic",
+        "indexed": indexed,
         "artifacts": str(directory),
         "batches": [],
         "controls": [],
@@ -82,13 +102,14 @@ def evaluate_browser_controls(output: Path) -> dict:
 
     save()
     try:
-        for tasks, modes in (
-            (tuple(CHANGED_TARGETS), ("recover",)),
-            (("single_done",), ("baseline",)),
-        ):
-            batch = browser_batch(
-                directory, task_ids=tasks, scenarios=BROWSER_SCENARIOS, modes=modes
-            )
+        selections = (
+            ((tuple(CHANGED_TARGETS), ("recover",)),)
+            if indexed
+            else ((tuple(CHANGED_TARGETS), ("recover",)), (("single_done",), ("baseline",)))
+        )
+        scenarios = INDEXED_BROWSER_SCENARIOS if indexed else BROWSER_SCENARIOS
+        for tasks, modes in selections:
+            batch = browser_batch(directory, task_ids=tasks, scenarios=scenarios, modes=modes)
             result["batches"].append(batch["artifacts"])
             result["controls"].extend(compare_control(row) for row in batch["trials"])
             save()
@@ -98,8 +119,12 @@ def evaluate_browser_controls(output: Path) -> dict:
         raise
     result["status"] = "complete"
     required = {
-        (task, scenario, "recover") for task in CHANGED_TARGETS for scenario in BROWSER_SCENARIOS
-    } | {("single_done", scenario, "baseline") for scenario in BROWSER_SCENARIOS}
+        (task, scenario, mode)
+        for tasks, modes in selections
+        for task in tasks
+        for mode in modes
+        for scenario in scenarios
+    }
     observed = {(r["task_id"], r["scenario"], r["mode"]) for r in result["controls"]}
     result["coverage_complete"] = observed == required and len(result["controls"]) == len(required)
     result["passed"] = result["coverage_complete"] and all(

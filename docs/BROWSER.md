@@ -300,3 +300,26 @@ mismatches. `controls.json` is saved atomically beside the nested browser batche
 interruptions retain completed controls and partial batch manifests. Exit code 1 means
 an expectation or coverage mismatch; setup failures exit 2. This command checks the
 current fixture contract, not general browser reliability or independent corpus quality.
+
+## Indexed browser writes
+
+The batch runner additionally accepts second_drop, second_lost_ack,
+second_timeout_before_commit and second_timeout_after_commit. These profiles schedule one
+fault at mutation attempt 2. Reads do not advance that index; no-ops and rejected missing
+targets do. Injection requires a changing existing target; an unreached or ineligible
+event stays unused and never moves to a later attempt. Existing first-write profiles and
+the default 42-control evaluation remain unchanged.
+
+```powershell
+.\.venv\Scripts\veriagent.exe evaluate-browser --indexed
+```
+
+The indexed evaluation checks 24 dynamic recovery controls: all six tasks across the four
+second-write profiles. Two-changing-target cases must expose the fault at attempt 2,
+preserve the first completed target, commit each changed target once and retry exactly
+once only for the drop/pre-commit timeout. Zero/one-changing-target cases must finish
+without exposure and retain one unused scheduled fault. These expectations are separate
+from the batch implementation and include exact injected positions and remaining faults.
+The batch manifest records planned_fault_attempt, injected_attempts and
+pending_application_faults alongside its ordinary results. Both agent engines also have
+real browser regressions for all four indexed profiles on pair_done.

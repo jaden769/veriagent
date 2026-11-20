@@ -9,7 +9,11 @@ from veriagent.agent import Agent
 from veriagent.benchmark import SCENARIOS, repeated_trials
 from veriagent.benchmark_cases import load_corpus, select_cases
 from veriagent.benchmark_faults import ALL_SCENARIOS
-from veriagent.browser_faults import BROWSER_SCENARIOS, validate_browser_deadline
+from veriagent.browser_faults import (
+    ALL_BROWSER_SCENARIOS,
+    BROWSER_SCENARIOS,
+    validate_browser_deadline,
+)
 from veriagent.dynamic import DynamicAgent
 from veriagent.evaluation import compare
 from veriagent.interpretation import approved_task, load_proposal, proposal_digest, propose_task
@@ -198,7 +202,7 @@ def main() -> None:
     batch = commands.add_parser("browser-batch", help="Run bounded offline browser corpus trials")
     batch.add_argument("--output", type=Path, default=Path("artifacts/browser-batches"))
     batch.add_argument("--task", action="append")
-    batch.add_argument("--scenario", action="append", choices=BROWSER_SCENARIOS)
+    batch.add_argument("--scenario", action="append", choices=ALL_BROWSER_SCENARIOS)
     batch.add_argument("--mode", action="append", choices=[m.value for m in Mode])
     batch.add_argument("--engine", choices=("static", "dynamic"), default="dynamic")
     batch.add_argument("--repeats", type=int, default=1)
@@ -206,13 +210,14 @@ def main() -> None:
         "evaluate-browser", help="Check 42 fixed offline dynamic browser controls"
     )
     controls.add_argument("--output", type=Path, default=Path("artifacts/browser-controls"))
+    controls.add_argument("--indexed", action="store_true", help="Check 24 later-write controls")
     args = parser.parse_args()
     if args.command == "evaluate-browser":
         from veriagent.browser import BrowserSetupError
         from veriagent.browser_controls import evaluate_browser_controls
 
         try:
-            result = evaluate_browser_controls(args.output)
+            result = evaluate_browser_controls(args.output, indexed=args.indexed)
         except BrowserSetupError as exc:
             parser.error(str(exc))
         print(json.dumps(result, indent=2))

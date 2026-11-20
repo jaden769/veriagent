@@ -8,7 +8,11 @@ from uuid import uuid4
 
 from veriagent.benchmark_cases import select_cases
 from veriagent.browser_execution import execute_browser
-from veriagent.browser_faults import BROWSER_SCENARIOS, validate_browser_deadline
+from veriagent.browser_faults import (
+    ALL_BROWSER_SCENARIOS,
+    INDEXED_BROWSER_SCENARIOS,
+    validate_browser_deadline,
+)
 from veriagent.interpretation import proposal_digest
 from veriagent.models import Budget, Interpretation, Mode, TaskProposal
 from veriagent.planner import MockProvider
@@ -66,7 +70,7 @@ def browser_batch(
     if (
         not scenarios
         or len(set(scenarios)) != len(scenarios)
-        or any(s not in BROWSER_SCENARIOS for s in scenarios)
+        or any(s not in ALL_BROWSER_SCENARIOS for s in scenarios)
     ):
         raise ValueError("Select unique browser scenarios")
     modes = tuple(Mode(m) for m in modes)
@@ -171,6 +175,15 @@ def browser_batch(
                                 "application_write_attempts": len(events),
                                 "commits": sum(e["committed"] for e in events),
                                 "events_dropped": result["browser"]["events_dropped"],
+                                "planned_fault_attempt": 2
+                                if scenario in INDEXED_BROWSER_SCENARIOS
+                                else None,
+                                "injected_attempts": [
+                                    e["attempt"] for e in events if e.get("injected") == scenario
+                                ],
+                                "pending_application_faults": result["browser"][
+                                    "pending_application_faults"
+                                ],
                             }
                         )
                         save()

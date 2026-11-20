@@ -106,6 +106,10 @@ Completed browser controls increment: a 42-trial dynamic mock matrix covering th
 tasks/profiles in recovery mode and single-target baseline controls, with explicit
 expected outcomes, mismatch evidence and exact coverage checks.
 
-Next browser increment: indexed fault schedules targeting later browser writes, with
-exposure and expected-outcome checks for multi-target progress. Benchmark external review
-and optional stochastic comparisons remain separate pending work.
+Completed indexed browser increment: four second-write profiles, explicit planned/realized
+positions and unused faults, a 24-control dynamic matrix and both-engine multi-target
+no-replay regressions.
+
+Next browser increment: multi-event schedules and exhausted-retry controls, with explicit
+partial-progress audits. Benchmark external review and optional stochastic comparisons
+remain separate pending work.

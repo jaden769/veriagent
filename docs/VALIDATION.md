@@ -661,3 +661,24 @@ remote-service cancellation guarantee or an OS TCP timeout. No API credits were 
 Full regression suite with real Chromium checks enabled: **378 passed in 182.36 seconds**,
 one existing Starlette/httpx deprecation warning. Ruff lint/format and whitespace checks
 passed. No paid model/API requests were made.
+# Offline browser corpus batches — 2026-11-20
+
+Added the mock-only `browser-batch` command with fresh trial state, fixed corpus
+requirements, bounded selections, atomic partial manifests and grouped claim/audit/exposure
+metrics. Focused tests: **8 passed**, including four real browser trials. Pure tests cover
+invalid preflight selections, interruption evidence and empty conditional denominators.
+
+Final CLI evidence:
+`artifacts/browser-batches/9bbd6bb2cfb84fd096512f2fcf60549a/manifest.json`.
+Twelve dynamic mock trials crossed single_done/already_satisfied, clean/silent_drop/
+timeout_after_commit and baseline/recover. The dropped-write single_done baseline claimed
+success but failed the SQL audit; recover passed with one retry. Post-commit timeout left
+the correct goal state in both modes, but the baseline did not claim success. Already-
+satisfied recover trials made no writes and never counted the selected fault as exposure.
+This is a control check, not a requirement that every baseline outcome pass.
+
+Full Chromium-enabled suite: **386 passed in 155.89 seconds**, with the existing
+Starlette/httpx deprecation warning. The final additional summary count fields were also
+checked by the seven pure batch tests and refreshed 12-trial CLI evidence. Ruff format,
+lint and whitespace checks passed. No paid API/model calls were made. These deterministic
+local trials do not establish stochastic reliability or independently reviewed task quality.

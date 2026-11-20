@@ -242,3 +242,35 @@ mixed_status, reopen and partial_satisfied corpus initial states with original a
 requirements. Both timeout boundaries are tested against those cases using the dynamic
 engine, direct final-state/collateral audits and version checks. They are deterministic
 local mechanism tests, not repeated stochastic browser or model reliability measurements.
+
+## Offline corpus batches
+
+`browser-batch` runs fresh local browser/state instances against the packaged six-task
+corpus. It uses only MockProvider; no API credentials or model requests are needed.
+For example, in PowerShell:
+
+```powershell
+.\.venv\Scripts\veriagent.exe browser-batch --task single_done --task already_satisfied --scenario clean --scenario silent_drop --scenario timeout_after_commit --mode baseline --mode recover
+```
+
+Repeat `--task`, `--scenario`, or `--mode` to select unique values. Defaults are
+single_done, clean/silent_drop, recover, dynamic engine, one repeat. `--repeats` accepts
+1–20, with a maximum of 120 total trials. Each run has eight actions/decisions,
+two retries, a 30-second cooperative run deadline and a one-second action deadline.
+Browser setup and evidence captures are outside that run deadline.
+
+The UUID output directory contains an atomically replaced `manifest.json`, per-trial
+state/traces and the existing reviewed execution evidence bundles. The manifest retains
+the corpus hash, Python/UI/fixture source hashes, exact selection/budget, proposal
+digests, actual write/commit counts, event truncation counts and evidence paths.
+Interrupted batches retain completed rows and the active trial path; no automatic resume
+is provided. A completed batch can contain failed agent outcomes; command success means
+the batch completed, not that every trial passed.
+
+Summaries group by task/scenario/mode. They separate independent audited state success,
+claimed success, overall execution passes and actual fault exposure. Conditional false
+success uses claims as its denominator; audited success given exposure uses exposed runs.
+Empty denominators are null. Unreached faults, including already-satisfied goals, do not
+count as exposure. The latter metric is not a recovery rate: post-commit faults may need
+no recovery. Clean trials have no injected exposure. Repeated deterministic mock results
+are fixture checks, not independent stochastic reliability estimates.

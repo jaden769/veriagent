@@ -195,7 +195,31 @@ def main() -> None:
     serve = commands.add_parser("serve", help="Serve a local sandbox on 127.0.0.1")
     serve.add_argument("--db", type=Path, default=Path("artifacts/sandbox.sqlite"))
     serve.add_argument("--port", type=int, default=8000)
+    batch = commands.add_parser("browser-batch", help="Run bounded offline browser corpus trials")
+    batch.add_argument("--output", type=Path, default=Path("artifacts/browser-batches"))
+    batch.add_argument("--task", action="append")
+    batch.add_argument("--scenario", action="append", choices=BROWSER_SCENARIOS)
+    batch.add_argument("--mode", action="append", choices=[m.value for m in Mode])
+    batch.add_argument("--engine", choices=("static", "dynamic"), default="dynamic")
+    batch.add_argument("--repeats", type=int, default=1)
     args = parser.parse_args()
+    if args.command == "browser-batch":
+        from veriagent.browser import BrowserSetupError
+        from veriagent.browser_batch import browser_batch
+
+        try:
+            result = browser_batch(
+                args.output,
+                task_ids=tuple(args.task or ("single_done",)),
+                scenarios=tuple(args.scenario or ("clean", "silent_drop")),
+                modes=tuple(args.mode or ("recover",)),
+                repeats=args.repeats,
+                engine=args.engine,
+            )
+        except (ValueError, BrowserSetupError) as exc:
+            parser.error(str(exc))
+        print(json.dumps(result, indent=2))
+        return
     if args.command == "benchmark":
         try:
             scenarios = tuple(args.scenario) if args.scenario else SCENARIOS

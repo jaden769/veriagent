@@ -98,6 +98,10 @@ Completed pending-response timeout increment: real browser action deadlines befo
 commit, bounded handler release, no-late-commit rejection, and replay-versus-progress checks.
 Dynamic reviewed trials cover mixed statuses, reopening and partially satisfied goals.
 
-Next browser increment: reproducible browser corpus batches with explicit fault-exposure
-and outcome summaries. Benchmark external review and optional stochastic comparisons
-remain separate pending work.
+Completed browser corpus batch increment: bounded offline task/scenario/mode selections,
+fresh per-trial state, partial manifests, provenance and explicit realized fault exposure
+with separate audited outcomes and claim denominators.
+
+Next browser increment: broaden the checked corpus batch matrix and add expected-outcome
+checks for the browser controls. Benchmark external review and optional stochastic
+comparisons remain separate pending work.

@@ -215,3 +215,9 @@ a ten-second safety release bounds abandoned waits. Pre-commit held requests rej
 without a late write; post-commit held requests retain the committed state. Event evidence
 distinguishes action-timeout releases from cleanup/safety releases. This is a controlled
 browser action deadline, not a general remote-cancellation or TCP-timeout model.
+The offline browser corpus runner (`browser_batch.py`) reuses immutable fixed task
+requirements and initial states, never model-generated evaluation targets. It runs each
+task/scenario/mode/repeat in fresh state with MockProvider and the existing browser audit
+path. Atomic manifests retain provenance, completed trials and interrupted trial paths.
+Aggregates distinguish claims, independently audited state, overall execution outcomes and
+realized fault exposure; already-satisfied/unreached profiles do not imply recovery.

@@ -20,6 +20,8 @@ An [offline adversarial suite](docs/SAFETY_EVALUATION.md) checks 24 fixed bounda
 and saves state-oracle evidence, traces, fixture hashes and source fingerprints.
 An optional [local browser slice](docs/BROWSER.md) uses headless Chromium and fixed UI
 controls to demonstrate the same dropped-write recovery with an independent SQLite oracle.
+The offline `browser-batch` command compares fixed corpus tasks and fault profiles with
+per-trial evidence and explicit fault-exposure summaries.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

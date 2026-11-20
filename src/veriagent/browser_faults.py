@@ -112,6 +112,7 @@ class BrowserAppFaults:
                 # This controlled request is rejected, never committed after release.
                 return JSONResponse({"detail": "Status update failed"}, status_code=503)
             try:
+                drops_before = sandbox.faults.silent_drops
                 result = sandbox.set_status(issue_id, status, timeout=1)
             except (TransientError, TimeoutError) as exc:
                 self._record(
@@ -144,7 +145,8 @@ class BrowserAppFaults:
                 "before_version": before.version,
                 "after_version": after.version,
                 "http_status": code,
-                "injected": injected,
+                "injected": injected
+                or ("silent_drop" if sandbox.faults.silent_drops < drops_before else None),
                 "committed": committed,
             }
             if injected is not None:

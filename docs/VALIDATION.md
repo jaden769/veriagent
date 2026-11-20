@@ -768,3 +768,27 @@ Full Chromium-enabled suite: **436 passed in 204.86 seconds**, with the existing
 Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
 No paid API/model calls were made. These audits compare saved evidence, not the current
 live database; an unsigned inventory cannot prevent coordinated rewriting of all files.
+## Whole-batch browser evidence reconciliation — 2026-11-21
+
+New manifests retain relative bundle directories and inventory hashes. The read-only
+`audit-browser-batch` command checks exact selection coverage, unique run IDs,
+current-corpus tasks/initial states, trial configuration, nested bundle evidence and
+reconstructed grouped summaries. Counter-based silent drops now record explicit
+application-event injection labels for offline exposure reconstruction.
+
+Focused regressions: **33 passed in 25.86 seconds**, including existing batch/ambiguity
+tests. New cases cover moving a batch without modifying files, removed/duplicate trials,
+altered rows/summaries, interrupted status, changed corpus hash, escaped relative paths,
+missing bundles, inventory changes and copied evidence reused as another repeat.
+
+Final CLI batch evidence:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-batch-audit-validation/c2cc7d6297e34f4dba288f55ab3bb3b5`.
+The saved baseline/recover silent-drop batch passed the offline audit. Recomputed summaries
+preserved one exposed baseline false claim and one exposed successful recovery. CLI JSON
+is retained at `artifacts/browser-batch-audit-validation.json` and
+`artifacts/browser-batch-audit-result.json`.
+
+Full Chromium-enabled suite: **448 passed in 204.35 seconds**, with the existing
+Starlette/httpx deprecation warning. Ruff format/lint and whitespace checks passed.
+No paid model/API calls were made. Batches/manifests are unsigned; this checks saved
+evidence consistency, not authenticated provenance or a new live-database query.

@@ -372,10 +372,44 @@ hash checks still use exact bytes. PNG/HTML hashes check byte integrity, not vis
 saved execution outcome. An honestly recorded exhausted-retry failure can have valid
 evidence and task_passed false. Exit code 0 requires evidence_passed; code 1 reports failed
 checks. Earlier bundles lacking evidence.json fail the inventory check; no inventory is
-silently generated during audit. This first slice audits individual reviewed execution
-bundles, not browser-smoke or a whole batch manifest.
+silently generated during audit. This command audits individual reviewed execution
+bundles, not browser-smoke or a whole batch manifest; batch auditing is described below.
 
 The inventory is unsigned. It detects missing/changed files against that inventory and
 cross-file inconsistencies; someone rewriting the inventory and all matching evidence can
 evade it. Audits use saved snapshots and logs, not a new query of the original live SQLite
 database, and do not establish authenticated provenance or independently reproduced runs.
+
+## Re-auditing a whole batch
+
+```powershell
+.\.venv\Scripts\veriagent.exe audit-browser-batch <batch-directory>
+```
+
+New browser-batch manifests bind each trial to a relative bundle_directory and an
+inventory_sha256. The auditor reads at most 120 trials, validates the configured
+task/profile/mode/repeat coverage, rejects duplicate run IDs, and confines bundle paths
+to the selected batch directory. Recorded absolute artifact paths are never followed,
+so moving the complete directory preserves auditability. Each trial must pass the
+individual evidence audit and match the recorded inventory hash.
+
+The auditor checks reviewed task requirements and initial statuses against the current
+packaged corpus/hash, binds trial engine/mode/budget/provider configuration, reconstructs
+outcomes, write/commit/retry counts, fault exposure, indexed positions and remaining
+application faults, then recomputes grouped summaries. First-write counter drops now
+carry explicit application-event injection labels so exposure can be reconstructed
+without consulting live fault counters. All reads retain the per-file/per-bundle limits
+of audit-browser; the manifest itself is bounded to 16 MiB.
+
+`evidence_passed` means complete, consistent batch evidence, not universal task success.
+Expected baseline failures remain failures in the reconciled summaries. Interrupted or
+incomplete coverage, missing bundles, changed inventories/rows/summaries and escaped paths
+fail closed (exit 1). Exit 0 requires all checks to pass. The command writes no files,
+starts no browsers and makes no API calls. Older manifests lacking relative paths or
+inventory bindings are unsupported and fail; no evidence is silently upgraded.
+
+This checks current-corpus consistency, not installed source fingerprint equality or a
+new query of the original SQLite databases. Batch manifests and inventories are unsigned;
+coordinated rewriting of all matching evidence/configuration is not prevented. Control
+evaluation controls.json files remain outside this command's scope; audit their nested
+browser-batch directories individually.

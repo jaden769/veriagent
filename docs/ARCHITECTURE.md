@@ -242,3 +242,8 @@ filenames only, validates reviewed requirements and trace consistency, replays s
 application events and recomputes the saved-state audit. Evidence validity remains
 separate from successful task execution. This unsigned inventory detects byte changes
 and inconsistencies; it is not authenticated provenance or a new live database query.
+Whole-batch re-auditing binds relative trial directories to inventory hashes, rechecks
+current-corpus tasks/initial states and trial configuration, rejects reused run IDs and
+reconciles summaries from saved trial evidence. Absolute stored artifact paths are never
+followed. Counter-based browser drops now record explicit injection labels for offline
+exposure reconstruction. Manifest validity remains separate from successful task outcomes.

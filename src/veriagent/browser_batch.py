@@ -167,6 +167,10 @@ def browser_batch(
                                 "repeat": repeat,
                                 "approval_digest": proposal_digest(proposal),
                                 "artifacts": str(evidence),
+                                "bundle_directory": evidence.relative_to(directory).as_posix(),
+                                "inventory_sha256": hashlib.sha256(
+                                    (evidence / "evidence.json").read_bytes()
+                                ).hexdigest(),
                                 "fault_exposed": exposed,
                                 "claimed_success": result["claimed_success"],
                                 "audit_passed": result["browser_audit"]["passed"],

@@ -118,6 +118,9 @@ Completed browser evidence increment: per-trial hash inventories and bounded rea
 offline audits for missing/altered files, reviewed requirements, trace/event consistency
 and independently recomputed saved-state outcomes. Inventories are unsigned.
 
-Next browser increment: whole-batch offline re-auditing with trial coverage and summary
-reconciliation. Benchmark external review and optional stochastic comparisons remain
-separate pending work.
+Completed batch evidence increment: relative trial/inventory bindings, bounded offline
+whole-batch audits, exact coverage/unique-run checks and saved-summary reconciliation.
+
+Next browser increment: re-audit complete control evaluations, including expected outcomes
+and their nested batch evidence. Benchmark external review and optional stochastic
+comparisons remain separate pending work.

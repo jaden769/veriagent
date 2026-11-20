@@ -219,7 +219,19 @@ def main() -> None:
         "audit-browser", help="Re-audit a saved browser trial offline"
     )
     audit_browser.add_argument("directory", type=Path)
+    audit_batch = commands.add_parser(
+        "audit-browser-batch", help="Reconcile saved browser batch evidence offline"
+    )
+    audit_batch.add_argument("directory", type=Path)
     args = parser.parse_args()
+    if args.command == "audit-browser-batch":
+        from veriagent.browser_batch_audit import audit_browser_batch
+
+        result = audit_browser_batch(args.directory)
+        print(json.dumps(result, indent=2))
+        if not result["evidence_passed"]:
+            raise SystemExit(1)
+        return
     if args.command == "audit-browser":
         from veriagent.browser_evidence import audit_browser_evidence
 

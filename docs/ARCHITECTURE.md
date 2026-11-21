@@ -337,3 +337,9 @@ review boundaries. Default acceptance retains schema-1 missing-header metadata; 
 policy fails before publication. Separate negative cases distinguish legacy omission from
 schema-2 omission and explicit mismatch. A real nested-evidence fixture confirms these
 policies without stubbing the auditors. This increment changes tests and documentation only.
+
+Transfer publication failure tests cover exceptions after partial staging, after staged
+audit and at final link/rename. They retain input hashes and verify cleanup without
+removing competing destination content. A restore destination created during audit is
+caught by the final existence check. The tests do not change production behavior or
+claim crash-durable publication across filesystems.

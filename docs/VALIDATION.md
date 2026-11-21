@@ -1183,3 +1183,18 @@ source/archive immutability and downstream default/strict suite results were che
 Ruff, formatting and diff checks passed. Tests ran outside Windows sandbox path limits.
 No paid API calls ran. The full suite was not rerun for this test-only increment; its
 previous 670-test run remains the last complete-suite result.
+
+### Archive filesystem failure handling — 2026-11-21
+
+All 55 focused archive tests passed in 14.77 seconds, including 11 new injected failure
+regressions. Archive creation and restoration were checked for extraction write failures,
+staged audit failures, publication permission failures and concurrent output-file creation.
+A restore directory created during audit was preserved, and missing output parents were
+not implicitly created. Sources and incoming archives retained their exact hashes/bytes;
+private staging was removed after the handled failures.
+
+No production-code changes were needed. Ruff, formatting and diff checks passed. Tests
+ran outside Windows sandbox path limits. Chromium was not rerun for this test-only
+increment; the previous full result remains 670 passed, followed by the separate legacy
+compatibility checks. No paid API calls ran. Abrupt process termination and filesystem
+refusal to delete staging were not simulated.

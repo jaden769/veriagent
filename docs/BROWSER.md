@@ -786,3 +786,10 @@ evaluation missing its required header and an explicit mismatched header are rej
 under both policies. Transfer never synthesizes an identity or upgrades artifact versions.
 The Chromium regression derives a schema-1 compatibility fixture from freshly generated
 nested evidence, then checks default/strict transfer and downstream suite policy behavior.
+
+Filesystem failure regressions inject extraction writes, staged audit rejection and
+publication permission errors. They check source/archive immutability, unpublished output
+and staging cleanup. Concurrent output files are preserved, and a destination directory
+created during restoration audit is rejected before publication. Missing output parents
+are not created automatically. These checks cover handled operation failures on the test
+host; they do not simulate process termination, power loss or denied staging deletion.

@@ -192,6 +192,10 @@ Completed legacy archive compatibility increment: default byte-preserving legacy
 strict rejection without publication, modern missing/mismatched identity rejection and
 real nested-evidence downstream policy coverage.
 
-Next browser increment: review archive publication failure handling and cleanup at
-filesystem boundaries.
+Completed archive filesystem-failure review: injected staging, audit and publication
+failures preserve inputs and competing outputs while cleaning temporary trees; missing
+output parents and destinations created during audit are covered.
+
+Next browser increment: consolidate the offline evidence workflow commands into a compact
+operator guide with explicit success criteria and exit-status meanings.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

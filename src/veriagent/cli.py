@@ -9,7 +9,7 @@ from veriagent.agent import Agent
 from veriagent.benchmark import SCENARIOS, repeated_trials
 from veriagent.benchmark_cases import load_corpus, select_cases
 from veriagent.benchmark_faults import ALL_SCENARIOS
-from veriagent.browser_catalog import CONTROL_CATALOG, CONTROL_MATRIX_FLAGS
+from veriagent.browser_catalog import CONTROL_CATALOG, CONTROL_MATRICES, CONTROL_MATRIX_FLAGS
 from veriagent.browser_faults import (
     ALL_BROWSER_SCENARIOS,
     BROWSER_SCENARIOS,
@@ -243,7 +243,30 @@ def main() -> None:
         help=f"Require all {len(CONTROL_CATALOG)} matrix types",
     )
     suite.add_argument("--format", choices=("text", "json"), default="text")
+    inspect_matrices = commands.add_parser(
+        "inspect-browser-matrices",
+        help="Inspect installed matrix contracts without running evaluations",
+    )
+    inspect_matrices.add_argument("--matrix", action="append", choices=CONTROL_MATRICES)
+    inspect_matrices.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args()
+    if args.command == "inspect-browser-matrices":
+        from veriagent.browser_catalog_review import (
+            inspect_browser_matrices,
+            render_matrix_inspection,
+        )
+
+        try:
+            result = inspect_browser_matrices(tuple(args.matrix) if args.matrix else None)
+        except ValueError as exc:
+            parser.error(str(exc))
+        print(
+            json.dumps(result, indent=2)
+            if args.format == "json"
+            else render_matrix_inspection(result),
+            end="\n" if args.format == "json" else "",
+        )
+        return
     if args.command == "review-browser-suite":
         from veriagent.browser_suite import render_suite_review, review_browser_suite
 

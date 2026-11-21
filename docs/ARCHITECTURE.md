@@ -284,3 +284,6 @@ batches, full budgets and independent expected outcomes. Parent audits compare i
 reading nested batches; reviews distinguish matched identities from unsupported/mismatched
 ones and explicitly identify schema-1 legacy artifacts with no stored contract. This is
 an unsigned declaration fingerprint, not a source-code signature or proof of authorship.
+The installed-contract inspector consumes the same catalog and fingerprint function as
+execution/auditing. It exposes selected matrix metadata, ordered budgets and identities
+through read-only text/JSON output, without creating an evaluation or provider.

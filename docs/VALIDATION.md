@@ -1009,3 +1009,23 @@ Final Chromium-enabled regression suite: **559 passed in 229.00 seconds**, with 
 existing Starlette/httpx deprecation warning. The final run is retained at
 `artifacts/browser-contract-tests.txt` after an earlier session's final output became
 unavailable during continuation. Ruff format/lint and whitespace checks passed.
+## Read-only installed contract inspection — 2026-11-21
+
+Added `inspect-browser-matrices` with compact text/JSON output for all installed matrices
+or a unique named subset. It exposes flags, control/batch counts, ordered selections/full
+budgets and the same versioned identity used by evaluation writing/auditing. It constructs
+no provider, launches no evaluation/browser and writes no files itself.
+
+Final focused verification: **47 passed in 2.14 seconds**, covering the new inspector,
+existing catalog and contract compatibility tests. New cases check all six/130 declared
+controls, identity equality, selection order/budgets, invalid preflight selections,
+provider/evaluation rejection sentinels, read-only CLI behavior, both formats and duplicate
+argument errors. Ruff lint/format and whitespace checks passed. The full Chromium suite
+was not repeated for this command-only increment.
+
+Actual CLI output is retained at `artifacts/browser-matrix-inspection.txt` and
+`artifacts/browser-matrix-inspection.json`. All six declarations were listed, and the
+inspected satisfied-budget identity exactly matched the saved schema-2 evaluation at
+`browser-contract-validation/80631766492847c6b75f4cf7b9885037` under the writable artifact
+root. The printed 130 controls were declarations, not newly executed trials. No browser
+launches or paid API/model calls were needed for this inspection validation.

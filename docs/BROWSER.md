@@ -607,3 +607,22 @@ same as a malformed header. Schema-2 files cannot silently omit the required ide
 Contract hashes are unsigned identifiers, not signatures. Someone rewriting metadata,
 including downgrading a schema version, and all matching evidence can evade these checks.
 They do not authenticate provenance or replace the nested file/state/trace audits.
+
+## Inspecting installed contracts without evaluations
+
+```powershell
+.\.venv\Scripts\veriagent.exe inspect-browser-matrices
+.\.venv\Scripts\veriagent.exe inspect-browser-matrices --matrix indexed --format json
+```
+
+The read-only inspector lists all six installed matrices by default, or the unique matrix
+names selected with repeated --matrix options. Text shows CLI flags, control/batch counts
+and full versioned identities. JSON also includes ordered batch selections and budgets.
+The identity function is the same one used to write and audit evaluation headers, so the
+output can be compared with a saved matrix_contract without generating a new evaluation.
+
+The command reads the installed corpus/declarations only. It creates no artifacts,
+constructs no provider and launches no browser/evaluation; redirect stdout explicitly to
+save a copy. Unknown names, empty programmatic selections and duplicate selections are
+rejected. Counts describe declared controls, not newly executed trials. Printed identities
+remain unsigned declaration fingerprints, not signatures or implementation hashes.

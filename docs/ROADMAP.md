@@ -153,6 +153,10 @@ Completed browser contract-identity increment: schema-2 evaluations require a ve
 matrix/corpus/budget/expectation fingerprint, audits reject explicit contract mismatches
 before nested interpretation, and reports label legacy schema-1 artifacts explicitly.
 
-Next browser increment: inspect current matrix contracts offline through a compact catalog
-command, so reviewers can compare identities without generating a new evaluation.
+Completed browser contract-inspection increment: a compact read-only text/JSON catalog
+command exposes current names, flags, counts, ordered budgets and identities without
+generating evaluations or rewriting saved evidence.
+
+Next browser increment: an optional strict contract policy for saved reviews, so callers
+can require matched identities while default legacy compatibility remains explicit.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

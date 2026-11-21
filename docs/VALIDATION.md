@@ -1198,3 +1198,14 @@ ran outside Windows sandbox path limits. Chromium was not rerun for this test-on
 increment; the previous full result remains 670 passed, followed by the separate legacy
 compatibility checks. No paid API calls ran. Abrupt process termination and filesystem
 refusal to delete staging were not simulated.
+
+### Offline evidence operator guide — 2026-11-21
+
+Added `docs/OFFLINE_EVIDENCE.md` and linked it from README and the browser guide.
+Checked all ten documented command help entries against the installed CLI, verified guide
+file links and validated both existing saved suite exports (accepted mixed suite and
+strict-policy rejection report). Both exported reports passed internal validation as
+expected; this does not re-audit their underlying evidence. Exit-status explanations
+were checked against CLI dispatch behavior, including expected task/control failures.
+Diff checks passed. No production code or tests changed, so the test suites were not
+rerun for this documentation-only increment. No browser trials or paid API calls ran.

@@ -35,6 +35,8 @@ Use `--satisfied-budget-boundaries` for 16 controls covering pre-satisfied goals
 `review-browser-suite <directories...>` reviews up to six distinct saved matrices offline.
 `inspect-browser-matrices` prints installed matrix metadata and contract identities without trials.
 Add `--require-contract` to control audit/review or suite review to reject unmatched legacy identities.
+See the [offline evidence operator guide](docs/OFFLINE_EVIDENCE.md) for review, report
+validation, archive inspection and transfer commands, success criteria and exit codes.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

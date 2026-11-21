@@ -196,6 +196,9 @@ Completed archive filesystem-failure review: injected staging, audit and publica
 failures preserve inputs and competing outputs while cleaning temporary trees; missing
 output parents and destinations created during audit are covered.
 
-Next browser increment: consolidate the offline evidence workflow commands into a compact
-operator guide with explicit success criteria and exit-status meanings.
+Completed offline operator-guide increment: a compact review/export/validation/transfer
+workflow, explicit result-field meanings, policy choices and verified exit-status table.
+
+Next browser increment: exercise the documented operator workflow as one end-to-end
+CLI smoke check over completed evidence.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

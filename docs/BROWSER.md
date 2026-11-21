@@ -6,6 +6,9 @@ their typed `read_issue` / `set_status` actions and trusted target/status author
 Browser actions use fixed DOM locators and form controls rather than direct API calls.
 Independent verification and the final audit read SQLite, not the page's success message.
 
+For the compact review/export/transfer workflow and exit-status table, see the
+[offline evidence operator guide](OFFLINE_EVIDENCE.md).
+
 ## Install and run
 
 From the project root:

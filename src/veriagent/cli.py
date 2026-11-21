@@ -267,7 +267,36 @@ def main() -> None:
     )
     validate_suite.add_argument("report", type=Path)
     validate_suite.add_argument("--format", choices=("text", "json"), default="text")
+    for command, help_text in (
+        ("archive-browser-controls", "Archive a completed evaluation after auditing its bytes"),
+        (
+            "restore-browser-controls",
+            "Restore and audit an evaluation archive into a new directory",
+        ),
+    ):
+        transfer = commands.add_parser(command, help=help_text)
+        transfer.add_argument("source", type=Path)
+        transfer.add_argument("destination", type=Path)
+        transfer.add_argument("--require-contract", action="store_true")
     args = parser.parse_args()
+    if args.command in {"archive-browser-controls", "restore-browser-controls"}:
+        import zipfile
+
+        from veriagent.browser_archive import archive_browser_controls, restore_browser_controls
+
+        operation = (
+            archive_browser_controls
+            if args.command == "archive-browser-controls"
+            else restore_browser_controls
+        )
+        try:
+            result = operation(
+                args.source, args.destination, require_contract=args.require_contract
+            )
+        except (OSError, ValueError, zipfile.BadZipFile, RuntimeError) as exc:
+            parser.error(str(exc))
+        print(json.dumps(result, indent=2))
+        return
     if args.command == "validate-browser-suite":
         from veriagent.browser_suite_validation import (
             render_suite_validation,

@@ -719,3 +719,35 @@ match. Separate copied-tree cases remove a capture, change manifest bytes or int
 an escaping batch binding; each must reject evidence and withhold aggregate outcomes.
 This covers same-filesystem relocation on the test host, without claiming cross-platform
 archive compatibility or artifact authenticity.
+
+### Transfer a completed evaluation as a ZIP archive
+
+```powershell
+.\.venv\Scripts\veriagent.exe archive-browser-controls PATH_TO_EVALUATION transfer.zip --require-contract
+.\.venv\Scripts\veriagent.exe restore-browser-controls transfer.zip restored-evaluation --require-contract
+.\.venv\Scripts\veriagent.exe review-browser-suite restored-evaluation --require-contract
+```
+
+Both commands are offline and emit JSON. Archive creation audits the completed source,
+copies all tree files into a ZIP, then extracts and audits the exact archived bytes in a
+private staging directory before publishing. Restoration extracts into private staging,
+audits it, then publishes a new destination directory. Relative bindings and all file
+bytes remain unchanged; saved absolute path strings may refer to the original location.
+Existing output files or directories are rejected, and archives must be outside the
+source tree. Output parents must already exist. Archive publication uses a same-filesystem
+hard link, so the output filesystem must support hard links. Temporary staging is removed
+on success or failure. Do not concurrently modify source or destination paths during transfer.
+
+Limits are 4,096 files, 16 MiB per file, 256 MiB expanded and 128 MiB compressed.
+Members must use portable relative ASCII names, at most eight components and 240
+characters. Traversal, absolute paths, Windows reserved names, case-insensitive duplicates,
+links, explicit directory entries, encryption and unsupported compression are rejected.
+ZIP storage and deflate are supported. All source files, including local SQLite files,
+are transferred; inspect the source before sharing it.
+
+`--require-contract` requires a matched matrix identity. Without it, the existing legacy
+compatibility policy applies. Exit 0 means the transferred evidence passed consistency
+audit, even if controls accurately record expectation mismatches; check `controls_passed`
+separately. Invalid input, failed audit, limits or filesystem failures use exit 2.
+These unsigned archives do not authenticate provenance. Underlying saved evidence is
+always audited against the installed definitions before publication.

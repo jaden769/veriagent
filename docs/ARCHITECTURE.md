@@ -313,3 +313,10 @@ through real nested auditors after same-filesystem relocation. Evaluation genera
 runs in a completed CLI subprocess before moving files, avoiding Windows handles retained
 in a generating process. Stale absolute paths remain display metadata; relative bindings
 and byte hashes remain authoritative. The regression makes no production behavior change.
+
+`browser_archive.py` implements staged ZIP transfer with bounded file count, file size,
+total expanded size, compressed size and portable member paths. Restore never uses
+`extractall`: it rejects unsafe member metadata and writes bounded bytes into a private
+new tree, then runs the full evaluation audit before publishing. Archive creation also
+audits a staged extraction of its ZIP, catching changes between initial source audit and
+serialization. It preserves bytes and relative bindings; it does not sign or upgrade them.

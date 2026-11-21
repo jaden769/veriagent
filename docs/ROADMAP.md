@@ -177,6 +177,10 @@ Completed complete-evaluation portability increment: real nested audits after re
 a fresh sealed evaluation, unchanged-byte checks and fail-closed relocated corruption
 regressions.
 
-Next browser increment: document and validate a bounded offline evidence archive workflow
-for transferring completed evaluations while preserving relative bindings.
+Completed bounded archive-transfer increment: offline ZIP creation/restoration with
+portable relative paths, resource limits, staged nested audits, no-overwrite outputs and
+real Chromium evidence round-trip coverage.
+
+Next browser increment: expose archive inspection without extraction so transfer metadata
+and declared resource requirements can be reviewed before restoration.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

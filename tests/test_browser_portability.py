@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pytest
 
+from veriagent.browser_archive import archive_browser_controls, restore_browser_controls
 from veriagent.browser_controls_audit import audit_browser_controls
 from veriagent.browser_suite import review_browser_suite
 
@@ -72,6 +73,17 @@ def test_relocated_tree_passes_real_nested_audits_and_suite_review(relocated):
     assert report["counts"]["expected_task_failures"] == 4
     assert report["contract_coverage"]["matched"] == 1
     assert inventory(relocated) == before
+
+
+def test_archive_roundtrip_passes_real_nested_audits(relocated, tmp_path):
+    before = inventory(relocated)
+    archive = tmp_path / "evaluation.zip"
+    archive_browser_controls(relocated, archive, require_contract=True)
+    destination = tmp_path / "restored"
+    result = restore_browser_controls(archive, destination, require_contract=True)
+    assert result["evidence_passed"] and result["controls_passed"]
+    assert inventory(destination) == before == inventory(relocated)
+    assert review_browser_suite([destination], require_contract=True)["counts"]["controls"] == 16
 
 
 @pytest.mark.parametrize("mutation", ["missing_capture", "changed_manifest", "escaped_binding"])

@@ -1120,3 +1120,19 @@ This validates completed-artifact portability rather than in-process handle rele
 No paid API calls were used. The complete Chromium suite was not rerun for this test-only
 increment. All 92 focused offline review regressions also passed; Ruff, formatting and
 diff checks passed.
+
+### Bounded evidence archive transfer — 2026-11-21
+
+Added offline archive/restore CLI commands with strict-contract options and staged audit
+before publication. All 118 focused tests passed in 50.33 seconds: 21 archive tests,
+five Chromium-enabled portability tests and 92 existing offline review regressions.
+The real 16-control evaluation round-trip preserved every file hash and remained
+strictly auditable after restoration. Its suite still contained 16 controls.
+
+Archive regressions covered traversal, absolute/drive/backslash paths, reserved names,
+case-insensitive duplicates, links, resource limits, invalid evidence, existing outputs,
+source changes after initial audit, CLI success/failure and staging cleanup. Archive unit
+tests isolate nested audits; the Chromium round-trip exercises real nested auditors.
+Ruff, formatting and diff checks passed. Tests ran outside the sandbox to avoid Windows
+temporary path-length limits. No paid API calls were made. The full Chromium suite was
+not rerun for this isolated transfer workflow; five relevant browser integration tests ran.

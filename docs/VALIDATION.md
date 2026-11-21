@@ -1251,3 +1251,25 @@ and diff checks. This was argument/configuration validation, not a benchmark dry
 No benchmark trials, browser trials, test suites or paid API calls ran. No production
 code changed. The specification is prospective; measured outcomes, external approval,
 self-reflection and budget-controlled ablations remain pending.
+
+### Specified offline comparison execution — 2026-11-21
+
+Executed the pinned mock comparison: completed 72 static and 72 dynamic runs. Original
+OneDrive static attempt exited 2 on WinError 5 atomic replacement; its committed manifest
+has 38 rows, temporary manifest 39, and 39 saved result files. Preserved that attempt and
+its hashes separately. Restarted both complete batches in the writable local artifact
+root, with output path as the only argument amendment. The prospective plan JSON remains
+unchanged. Recorded artifacts and per-condition outcomes in the new results JSON/report.
+
+Verified exact 72-condition coverage per engine, 144 unique run IDs, corpus/provider/
+budget matching, per-run result equality, recomputed summaries, trace presence and final
+SQLite row equality via read-only queries. Independently recomputed requested target
+status outcomes, untargeted status/version changes and false claims. No untargeted changes
+were observed. Partial-satisfied static one-shot faults were ineligible no-op exposures;
+dynamic one-shot faults affected unmet targets and recovery used one attempt. Results
+remain stratified and descriptive; no stochastic or causal reliability inference is made.
+
+Verified plan/manifest hashes, document links and diff checks. No production code or tests
+changed, and no test suites were rerun for this recorded experiment. All calls used the
+mock provider with zero model tokens; no browser trials or paid API calls ran. Raw traces
+and databases remain local rather than bundled in the committed results record.

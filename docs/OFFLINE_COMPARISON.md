@@ -5,6 +5,10 @@ check over the [review snapshot](review/offline-baseline.json), not a stochastic
 or external approval. The [machine-readable plan](review/offline-comparison-plan.json)
 contains exact CLI arguments, source-snapshot binding, selections, budgets and metrics.
 
+Execution was subsequently recorded in [the outcome report](OFFLINE_COMPARISON_RESULTS.md),
+including an output-path amendment and a preserved interrupted attempt. This prospective
+specification retains its original planned values; the plan JSON is unchanged.
+
 ## Question and scope
 
 For each fixed task/fault condition, how do baseline, verify and recover differ in final

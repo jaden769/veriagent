@@ -211,6 +211,11 @@ Completed prospective offline comparison specification: two explicit 72-run mock
 pinned selections/budgets, per-condition outcomes, failure handling and missing comparator/
 ablation boundaries. CLI argument paths were checked without executing trials.
 
-Next research increment: execute the specified mock batches and record actual artifacts,
-coverage and descriptive outcomes separately from this prospective plan.
+Completed specified mock comparison: 72 static and 72 dynamic runs, pinned coverage/
+budget checks, read-only final-state reconciliation and per-condition descriptive results.
+A OneDrive-interrupted attempt is retained separately and the output-path amendment is
+disclosed. Partial-satisfaction exposure differences are recorded, not treated as recovery.
+
+Next research increment: prepare a comparator/ablation design that makes realized fault
+exposure and extra verification/recovery work explicit before adding a new comparator.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

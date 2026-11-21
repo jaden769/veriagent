@@ -704,3 +704,18 @@ parsing or report validation failed; argument errors use exit 2. Text and JSON o
 explicitly state that underlying evidence, contract identities and outcomes were not
 independently verified. JSON diagnostics contain at most 20 field locations and error
 types, without echoing field values. Use `review-browser-suite` to audit saved evidence.
+
+### Portability regression
+
+The opt-in `tests/test_browser_portability.py` generates a complete 16-control
+pre-satisfied budget evaluation with the mock provider in a separate CLI process.
+After that process exits, it moves the entire tree into a differently named parent and
+evaluation directory, including spaces. Saved absolute evaluation and batch paths no
+longer exist; their display strings are preserved unchanged.
+
+Strict contract audit and suite review then traverse the relative manifest and bundle
+bindings through the real nested auditors. File hashes before and after review must
+match. Separate copied-tree cases remove a capture, change manifest bytes or introduce
+an escaping batch binding; each must reject evidence and withhold aggregate outcomes.
+This covers same-filesystem relocation on the test host, without claiming cross-platform
+archive compatibility or artifact authenticity.

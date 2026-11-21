@@ -1103,3 +1103,20 @@ Actual CLI validation accepted both saved version-2 exports: the 40-control mixe
 and its strict-policy rejection report. Acceptance means report consistency only;
 no referenced evidence was reopened and no underlying success was inferred. No browser
 trials or paid API calls ran, and the full Chromium suite was not rerun for this change.
+
+### Complete evaluation portability — 2026-11-21
+
+Four Chromium-enabled portability tests passed in 31.95 seconds. A fresh mock-provider
+16-control pre-satisfied budget matrix was generated in a CLI subprocess, then relocated
+with original absolute paths unavailable. Strict nested audit and suite review passed:
+16 matched controls, 12 successful tasks and four expected task failures. All evidence
+file hashes remained unchanged across reviews. Three independently copied corruptions
+(missing capture, changed manifest bytes, escaping batch binding) rejected evidence and
+withheld totals without rewriting remaining files.
+
+The initial in-process generation attempt encountered Windows access denial on rename;
+the final regression finishes generation in a separate CLI process before relocation.
+This validates completed-artifact portability rather than in-process handle release.
+No paid API calls were used. The complete Chromium suite was not rerun for this test-only
+increment. All 92 focused offline review regressions also passed; Ruff, formatting and
+diff checks passed.

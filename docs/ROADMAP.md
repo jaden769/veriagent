@@ -173,6 +173,10 @@ Completed exported-report validation increment: bounded read-only JSON loading, 
 runtime validation, text/JSON diagnostics and explicit report-consistency scope without
 reopening evidence directories.
 
-Next browser increment: add an offline portability regression that relocates complete
-saved evaluation trees and verifies their relative evidence bindings remain auditable.
+Completed complete-evaluation portability increment: real nested audits after relocating
+a fresh sealed evaluation, unchanged-byte checks and fail-closed relocated corruption
+regressions.
+
+Next browser increment: document and validate a bounded offline evidence archive workflow
+for transferring completed evaluations while preserving relative bindings.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

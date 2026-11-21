@@ -307,3 +307,9 @@ It rejects ambiguous JSON before invoking the version-2 runtime validator and em
 separate version-1 validation envelope scoped to exported report consistency. It never
 traverses report references. A valid report of rejected evidence is a successful
 consistency check, so command exit status is independent of recorded task outcomes.
+
+The portability integration regression exercises the entire sealed evaluation hierarchy
+through real nested auditors after same-filesystem relocation. Evaluation generation
+runs in a completed CLI subprocess before moving files, avoiding Windows handles retained
+in a generating process. Stale absolute paths remain display metadata; relative bindings
+and byte hashes remain authoritative. The regression makes no production behavior change.

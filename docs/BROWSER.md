@@ -772,3 +772,9 @@ argument failures use exit 2. Payload CRCs, actual expanded contents, contracts 
 outcomes are not verified by inspection. A metadata inspection success never replaces
 restoration's independent extraction and full evidence audit. Declared sizes come from
 an unsigned ZIP directory and should be treated accordingly.
+
+Validation review tightened two boundaries: suite and nested review schema versions
+require exact integer JSON values (boolean and floating-point equivalents are rejected),
+and archive preflight rejects names normalized by the ZIP reader, including NUL-truncated
+names. The latter check runs before any payload is opened or extracted. The published
+suite JSON Schema is unchanged; runtime checks enforce the exact Python integer boundary.

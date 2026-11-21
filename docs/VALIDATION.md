@@ -1151,3 +1151,19 @@ passes metadata inspection but fails restoration CRC checks with no destination 
 Ruff, formatting and diff checks passed. Tests ran outside the sandbox to avoid Windows
 temporary path-length limits. No paid API calls ran. The full Chromium suite was not
 rerun; the five relevant browser integration tests were included in the focused run.
+
+### Offline workflow validation review — 2026-11-21
+
+Reproduced and fixed two boundary gaps: strict Pydantic Literal fields accepted numeric
+or boolean equivalents for schema versions, and ZipInfo truncated names at NUL before
+portable path validation. Output models now require exact integer version types, and
+archive preflight rejects normalized original names before opening any payload.
+Ten version-type regressions cover suite and nested reviews; one raw ZIP regression
+covers both inspection and restoration, including no-payload-access and cleanup checks.
+The generated structural JSON Schema remains unchanged.
+
+All 41 targeted schema/inspection tests passed. The complete Chromium-enabled suite then
+passed: **670 passed, one existing Starlette/httpx deprecation warning, in 271.04 seconds**.
+The durable log is `artifacts/offline-workflow-review-tests.txt`. Ruff, formatting and diff
+checks passed. Tests ran outside the sandbox to avoid Windows temporary path-length
+limits. Browser runs used the local mock provider; no paid API calls were made.

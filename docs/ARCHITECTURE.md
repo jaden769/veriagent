@@ -326,3 +326,8 @@ metadata and file/parent conflicts before extraction writes any member. The read
 `inspect-browser-archive` command exposes a version-1 metadata-scoped result without
 opening member payload streams. It does not reuse evidence-audit success fields; CRC and
 semantic evidence checks remain in restore and its nested auditors.
+
+Output models explicitly validate schema-version integer types before Literal matching,
+because Literal equality alone can accept boolean or floating-point equivalents.
+Archive preflight compares original and normalized ZIP names before applying portable
+path validation, preventing NUL truncation from hiding the original member name.

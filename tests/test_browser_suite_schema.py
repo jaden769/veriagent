@@ -74,3 +74,12 @@ def test_child_outcome_details_must_match_counters(report):
     child["counts"].update(successful_tasks=0, expected_task_failures=1)
     with pytest.raises(ValidationError, match="Outcome details"):
         validate_suite_review(report)
+
+
+@pytest.mark.parametrize("value", [True, False, 1.0, 2.0, "2"])
+@pytest.mark.parametrize("nested", [False, True])
+def test_schema_versions_require_exact_integer_types(report, value, nested):
+    target = report["evaluations"][0]["review"] if nested else report
+    target["schema_version"] = value
+    with pytest.raises(ValidationError):
+        validate_suite_review(report)

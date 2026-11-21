@@ -16,6 +16,13 @@ ContractCategory = Literal["matched", "legacy_missing", "unverifiable"]
 class OutputSchema(Schema):
     model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
 
+    @field_validator("schema_version", mode="before", check_fields=False)
+    @classmethod
+    def integer_version(cls, value):
+        if type(value) is not int:
+            raise ValueError("Schema version must be an integer")
+        return value
+
 
 class OutcomeCounts(OutputSchema):
     controls: Annotated[int, Field(ge=1, le=130)]

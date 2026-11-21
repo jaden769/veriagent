@@ -69,6 +69,23 @@ def test_corrupt_payload_is_not_certified_by_inspection(tmp_path):
     assert not (tmp_path / "restored").exists()
 
 
+def test_nul_truncated_zip_names_fail_before_payload_access(tmp_path, monkeypatch):
+    archive = tmp_path / "nul.zip"
+    with zipfile.ZipFile(archive, "w") as output:
+        output.writestr("nameX.txt", b"payload")
+    archive.write_bytes(archive.read_bytes().replace(b"nameX.txt", b"name\x00.txt"))
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("NUL filenames must fail preflight before member payload access")
+
+    monkeypatch.setattr(zipfile.ZipFile, "open", forbidden)
+    with pytest.raises(ValueError, match="normalized"):
+        inspect_browser_archive(archive)
+    with pytest.raises(ValueError, match="normalized"):
+        restore_browser_controls(archive, tmp_path / "restored")
+    assert not (tmp_path / "restored").exists()
+
+
 @pytest.mark.parametrize("output_format", ["text", "json"])
 def test_cli_formats_and_failure(tmp_path, monkeypatch, capsys, output_format):
     archive = tmp_path / "data.zip"

@@ -185,6 +185,9 @@ Completed archive-inspection increment: read-only text/JSON directory metadata, 
 resource summaries, shared extraction preflight and explicit separation from payload CRC
 verification and evidence auditing.
 
-Next browser increment: review the completed offline transfer/report workflows for
-remaining validation gaps before extending the control catalog.
+Completed offline-workflow validation review: exact integer schema versions and original
+ZIP filename checks close reproduced type-coercion and NUL-truncation gaps.
+
+Next browser increment: add focused compatibility regressions for legacy evaluation
+archives under default and strict contract policies.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

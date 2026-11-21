@@ -54,6 +54,9 @@ def _members(source):
     names = set()
     total = 0
     for member in members:
+        # ZipInfo truncates filenames at NUL; validate the original decoded name too.
+        if member.orig_filename != member.filename:
+            raise ValueError("Archive member name was normalized by the ZIP reader")
         _name(member.filename)
         key = member.filename.casefold()
         mode = member.external_attr >> 16

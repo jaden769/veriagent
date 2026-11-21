@@ -108,6 +108,7 @@ def render_suite_review(result: dict) -> str:
                 f"  Evidence: {row['directory']}",
             ]
         )
+        lines.append("  Matrix contract: " + review["matrix_contract"]["status"])
         for gap in review["evidence_gaps"]:
             lines.append(f"  Gap: {gap['location']}: {gap['check']}")
         if review["gaps_truncated"]:

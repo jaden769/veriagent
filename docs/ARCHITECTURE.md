@@ -279,3 +279,8 @@ batches, resource limits and saved-flag/budget-metadata rules. Execution and aud
 the same selections; suite coverage consumes the same names. Expected outcomes stay in
 their independent control definitions. Prior ordered-batch fingerprints guard this
 refactor against silently changing the finite evaluation contract.
+Schema-2 control evaluations persist a versioned contract identity over corpus, ordered
+batches, full budgets and independent expected outcomes. Parent audits compare it before
+reading nested batches; reviews distinguish matched identities from unsupported/mismatched
+ones and explicitly identify schema-1 legacy artifacts with no stored contract. This is
+an unsigned declaration fingerprint, not a source-code signature or proof of authorship.

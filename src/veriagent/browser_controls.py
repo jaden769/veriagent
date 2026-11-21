@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from uuid import uuid4
 
+from veriagent.benchmark_cases import load_corpus
 from veriagent.browser_batch import browser_batch
 from veriagent.browser_catalog import CONTROL_MATRICES as CONTROL_MATRICES
 from veriagent.browser_catalog import CONTROL_MATRIX_FLAGS, select_control_matrix
@@ -237,6 +238,51 @@ def control_budget(spec: dict) -> Budget:
     )
 
 
+def matrix_contract(definition) -> dict:
+    """Identify declarations/expectations, not artifacts, source code or authorship."""
+    batches = []
+    for spec in definition.specs():
+        expectations = [
+            {
+                "task_id": task,
+                "scenario": scenario,
+                "mode": mode,
+                "expected": expected_control(
+                    task,
+                    scenario,
+                    mode,
+                    spec["max_retries"],
+                    spec["max_actions"],
+                    spec["max_decisions"],
+                ),
+            }
+            for task in spec["tasks"]
+            for scenario in spec["scenarios"]
+            for mode in spec["modes"]
+        ]
+        batches.append(
+            {
+                "selection": spec,
+                "budget": control_budget(spec).model_dump(mode="json"),
+                "expectations": expectations,
+            }
+        )
+    payload = {
+        "format": "veriagent.browser_control_contract",
+        "version": 1,
+        "matrix": definition.name,
+        "selection_flag": definition.flag,
+        "provider": "mock",
+        "engine": "dynamic",
+        "corpus_sha256": load_corpus()[1],
+        "batches": batches,
+    }
+    raw = json.dumps(
+        payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+    ).encode("utf-8")
+    return {"version": 1, "matrix": definition.name, "sha256": hashlib.sha256(raw).hexdigest()}
+
+
 def control_key(row: dict) -> tuple:
     return (
         row["task_id"],
@@ -251,10 +297,12 @@ def control_key(row: dict) -> tuple:
 def evaluate_browser_controls(output: Path, **matrix_flags: bool) -> dict:
     definition = select_control_matrix(matrix_flags)
     specs = definition.specs()
+    contract = matrix_contract(definition)
     directory = output.resolve() / uuid4().hex
     directory.mkdir(parents=True)
     result = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "matrix_contract": contract,
         "status": "running",
         "passed": False,
         "provider": "mock",

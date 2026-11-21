@@ -11,6 +11,7 @@ def summarize_control_audit(audit: dict) -> dict:
         "schema_version": 1,
         "evidence_passed": audit["evidence_passed"],
         "controls_passed": None,
+        "matrix_contract": audit.get("matrix_contract", {"status": "unavailable"}),
         "counts": None,
         "expected_task_failures": [],
         "unexpected_task_failures": [],
@@ -99,6 +100,7 @@ def render_control_review(report: dict) -> str:
     lines = [
         "Browser control evidence review",
         "Evidence: " + ("valid" if report["evidence_passed"] else "invalid or incomplete"),
+        "Matrix contract: " + report["matrix_contract"]["status"],
     ]
     if report["counts"] is None:
         lines.append("Outcome counts withheld because evidence is incomplete or inconsistent.")

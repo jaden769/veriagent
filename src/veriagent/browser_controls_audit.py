@@ -11,6 +11,7 @@ from veriagent.browser_controls import (
     compare_control,
     control_budget,
     control_key,
+    matrix_contract,
 )
 from veriagent.browser_evidence import _read
 
@@ -21,6 +22,7 @@ def audit_browser_controls(directory: Path) -> dict:
         "evidence_passed": False,
         "controls_passed": None,
         "matrix": None,
+        "matrix_contract": {"status": "not_checked", "saved": None, "current": None},
         "checks": [],
         "batches": [],
         "limitations": "Unsigned evidence reconciliation against current control definitions.",
@@ -31,17 +33,47 @@ def audit_browser_controls(directory: Path) -> dict:
 
     try:
         saved = json.loads(_read(directory, "controls.json"))
+        if type(saved["schema_version"]) is not int or saved["schema_version"] not in {1, 2}:
+            raise ValueError("Unsupported evaluation schema")
         if any(type(saved[key]) is not bool for key in ("passed", "coverage_complete")):
             raise ValueError("Invalid matrix flags")
         definition = saved_control_matrix(saved)
         specs = definition.specs()
         result["matrix"] = definition.name
+        current = matrix_contract(definition)
+        identity = saved.get("matrix_contract")
+        contract = result["matrix_contract"]
+        contract["current"] = current
+        if "matrix_contract" not in saved:
+            contract["status"] = "legacy_missing" if saved["schema_version"] == 1 else "missing"
+        elif (
+            not isinstance(identity, dict)
+            or set(identity) != {"version", "matrix", "sha256"}
+            or type(identity["version"]) is not int
+            or not 1 <= identity["version"] <= 99
+            or not isinstance(identity["matrix"], str)
+            or len(identity["matrix"]) > 80
+            or not isinstance(identity["sha256"], str)
+            or not re.fullmatch(r"[0-9a-f]{64}", identity["sha256"])
+        ):
+            contract["status"] = "invalid"
+        else:
+            contract["saved"] = identity
+            contract["status"] = (
+                "unsupported_version"
+                if identity["version"] != 1
+                else "matched"
+                if identity == current
+                else "mismatch"
+            )
+        if contract["status"] not in {"matched", "legacy_missing"}:
+            check("matrix_contract", False)
+            return result  # Do not interpret nested evidence under a different contract.
+        check("matrix_contract", True)
         bindings = saved["batch_bindings"]
         if not isinstance(bindings, list) or len(bindings) != len(specs):
             raise ValueError("Incomplete batch bindings")
-        check(
-            "completed_evaluation", saved["schema_version"] == 1 and saved["status"] == "complete"
-        )
+        check("completed_evaluation", saved["status"] == "complete")
         check("offline_engine", saved["provider"] == "mock" and saved["engine"] == "dynamic")
         controls = []
         run_ids = set()

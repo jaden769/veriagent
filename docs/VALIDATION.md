@@ -979,3 +979,33 @@ Full Chromium-enabled regression suite: **540 passed in 212.54 seconds**, with t
 existing Starlette/httpx deprecation warning. The final catalog-derived help/limit text
 was additionally checked by the focused catalog/suite run above. This refactor preserves
 the finite local matrix contract; it does not establish stochastic reliability.
+## Versioned browser matrix-contract identities — 2026-11-21
+
+New controls.json schema-2 evaluations require a version-1 matrix_contract header.
+Its canonical SHA-256 covers the corpus fingerprint, selected matrix/flag, ordered
+batches, full budgets, mock/dynamic configuration and independent expected outcomes.
+Paths, run IDs, timestamps and display-only descriptions are excluded. Parent audits
+compare the current identity before nested interpretation; review and suite text expose
+contract status. Legacy schema-1 files without a header remain labeled legacy_missing.
+
+Focused checks: **59 passed in 6.32 seconds**. They cover deterministic identities for
+all six matrices, declaration/expectation/corpus drift, display-only stability, read-only
+matched audits, legacy compatibility, malformed/unknown-version/wrong-matrix identities,
+required-field removal and explicit mismatch reporting before nested reads. The initial
+focused run exposed an incomplete synthetic nested-audit fixture; it was completed and
+the focused suite passed.
+
+A fresh schema-2 pre-satisfied evaluation passed all **16/16 controls** and offline review
+showed matrix contract matched:
+`C:/Users/SAMSUNG/.codex/visualizations/2026/11/17/01a1e7ea-e64f-7f61-b1e4-c299e01e75b8/browser-contract-validation/80631766492847c6b75f4cf7b9885037`.
+Outputs: `artifacts/browser-contract-validation.json` and `artifacts/browser-contract-review.txt`.
+An isolated copied header with an altered digest returned exit 1, contract mismatch and
+withheld counts (`artifacts/browser-contract-negative-review.json`); original evidence was
+not changed. The previous fault-budget evaluation still reviewed as valid/legacy_missing
+with 24/24 matching controls (`artifacts/browser-contract-legacy-review.txt`). No paid
+API/model calls were made. Contract identities are unsigned, not authorship signatures.
+
+Final Chromium-enabled regression suite: **559 passed in 229.00 seconds**, with the
+existing Starlette/httpx deprecation warning. The final run is retained at
+`artifacts/browser-contract-tests.txt` after an earlier session's final output became
+unavailable during continuation. Ruff format/lint and whitespace checks passed.

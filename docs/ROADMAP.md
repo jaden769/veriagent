@@ -149,6 +149,10 @@ Completed browser catalog increment: immutable declarative selections shared by 
 execution, auditing and suite coverage, with pinned prior batch-order fingerprints and
 cross-layer consistency checks. Existing matrix behavior and saved evidence remain supported.
 
-Next browser increment: persist matrix-contract identity in saved evaluations and report
-catalog mismatches explicitly. Benchmark external review and optional stochastic
-comparisons remain separate pending work.
+Completed browser contract-identity increment: schema-2 evaluations require a versioned
+matrix/corpus/budget/expectation fingerprint, audits reject explicit contract mismatches
+before nested interpretation, and reports label legacy schema-1 artifacts explicitly.
+
+Next browser increment: inspect current matrix contracts offline through a compact catalog
+command, so reviewers can compare identities without generating a new evaluation.
+Benchmark external review and optional stochastic comparisons remain separate pending work.

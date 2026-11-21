@@ -581,3 +581,29 @@ separately specified in browser_controls.py rather than being inferred from the 
 Saved legacy evaluations still require their original indexed/multi_event flags while
 later optional flags default to false. Unknown, non-boolean or conflicting runtime
 selection flags fail before execution artifacts are created.
+
+## Versioned matrix contracts
+
+New evaluations use controls.json schema 2 and require a matrix_contract header with
+version 1, matrix name and SHA-256 identity. The canonical payload covers the installed
+corpus fingerprint, matrix selection flag/name, ordered batches, common/full budgets,
+mock/dynamic configuration and separately declared expected outcomes. Artifact paths,
+run IDs, timestamps and display-only catalog descriptions are excluded. This identifies
+the evaluation contract, not the complete implementation or its author.
+
+Audits compute the current identity before interpreting nested batches. Reports show
+matched, mismatch, missing, invalid or unsupported_version explicitly; mismatches and
+unsupported/malformed/missing required identities reject the evaluation and withhold
+outcome counts. JSON retains current/saved identities when well-formed, and suite text
+shows each evaluation's contract status. No nested evidence is interpreted under a
+contract that differs from the currently installed declarations.
+
+Schema-1 evaluations without a header remain supported and are labeled legacy_missing.
+Their nested evidence is still checked against current definitions, but historical
+contract identity cannot be established. Auditing never adds a header or rewrites old
+files. A schema-1 file with an explicit header must still match it; absence is not the
+same as a malformed header. Schema-2 files cannot silently omit the required identity.
+
+Contract hashes are unsigned identifiers, not signatures. Someone rewriting metadata,
+including downgrading a schema version, and all matching evidence can evade these checks.
+They do not authenticate provenance or replace the nested file/state/trace audits.

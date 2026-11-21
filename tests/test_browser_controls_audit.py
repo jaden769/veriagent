@@ -113,10 +113,22 @@ def fixture_evaluation(
 def nested_audit(monkeypatch):
     # These tests isolate evaluation reconciliation; real nested evidence is tested by
     # the batch auditor regressions and the end-to-end CLI control matrix.
-    monkeypatch.setattr(
-        "veriagent.browser_controls_audit.audit_browser_batch",
-        lambda path: {"evidence_passed": True},
-    )
+    def audit(path):
+        manifest = json.loads((path / "manifest.json").read_text())
+        return {
+            "evidence_passed": True,
+            "checks": [],
+            "trials": [
+                {
+                    "bundle_directory": row["bundle_directory"],
+                    "task_passed": row["execution_passed"],
+                    "checks": [],
+                }
+                for row in manifest["trials"]
+            ],
+        }
+
+    monkeypatch.setattr("veriagent.browser_controls_audit.audit_browser_batch", audit)
 
 
 @pytest.mark.parametrize(

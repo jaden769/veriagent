@@ -1167,3 +1167,19 @@ passed: **670 passed, one existing Starlette/httpx deprecation warning, in 271.0
 The durable log is `artifacts/offline-workflow-review-tests.txt`. Ruff, formatting and diff
 checks passed. Tests ran outside the sandbox to avoid Windows temporary path-length
 limits. Browser runs used the local mock provider; no paid API calls were made.
+
+### Legacy archive compatibility — 2026-11-21
+
+Added nine compatibility regressions without production-code changes. All 71 focused
+archive, inspection, portability, strict-policy and identity-coverage tests passed in
+62.64 seconds. This includes six Chromium-enabled portability tests and the new real
+legacy archive round-trip. The fixture derives schema-1 header omission from a freshly
+generated 16-control evaluation while preserving its complete nested sealed evidence.
+
+Default transfer retained legacy status and exact bytes; strict archive creation and
+restoration rejected without publishing output or leaving staging directories. Schema-2
+missing headers and explicit mismatches were rejected under both policies. CLI exits,
+source/archive immutability and downstream default/strict suite results were checked.
+Ruff, formatting and diff checks passed. Tests ran outside Windows sandbox path limits.
+No paid API calls ran. The full suite was not rerun for this test-only increment; its
+previous 670-test run remains the last complete-suite result.

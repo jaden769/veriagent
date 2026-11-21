@@ -86,6 +86,36 @@ def test_archive_roundtrip_passes_real_nested_audits(relocated, tmp_path):
     assert review_browser_suite([destination], require_contract=True)["counts"]["controls"] == 16
 
 
+def test_legacy_archive_policy_with_real_nested_evidence(relocated, tmp_path):
+    source = tmp_path / "legacy"
+    shutil.copytree(relocated, source)
+    controls = source / "controls.json"
+    saved = json.loads(controls.read_text(encoding="utf-8"))
+    saved["schema_version"] = 1
+    del saved["matrix_contract"]
+    controls.write_text(json.dumps(saved), encoding="utf-8")
+    before = inventory(source)
+    archive = tmp_path / "legacy.zip"
+    created = archive_browser_controls(source, archive)
+    assert created["matrix_contract"]["status"] == "legacy_missing"
+    archive_before = archive.read_bytes()
+    destination = tmp_path / "restored"
+    restore_browser_controls(archive, destination)
+    assert inventory(destination) == before == inventory(source)
+    report = review_browser_suite([destination])
+    assert report["counts"]["controls"] == 16
+    assert report["contract_coverage"]["legacy_missing"] == 1
+    strict = review_browser_suite([destination], require_contract=True)
+    assert not strict["evidence_passed"] and strict["counts"] is None
+    with pytest.raises(ValueError, match="audit failed"):
+        archive_browser_controls(source, tmp_path / "strict.zip", require_contract=True)
+    with pytest.raises(ValueError, match="audit failed"):
+        restore_browser_controls(archive, tmp_path / "strict", require_contract=True)
+    assert not (tmp_path / "strict.zip").exists() and not (tmp_path / "strict").exists()
+    assert inventory(source) == before and archive.read_bytes() == archive_before
+    assert not list(tmp_path.glob("veriagent-*"))
+
+
 @pytest.mark.parametrize("mutation", ["missing_capture", "changed_manifest", "escaped_binding"])
 def test_relocated_corruption_fails_closed_without_rewriting(relocated, tmp_path, mutation):
     destination = tmp_path / "copy"

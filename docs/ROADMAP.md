@@ -188,6 +188,10 @@ verification and evidence auditing.
 Completed offline-workflow validation review: exact integer schema versions and original
 ZIP filename checks close reproduced type-coercion and NUL-truncation gaps.
 
-Next browser increment: add focused compatibility regressions for legacy evaluation
-archives under default and strict contract policies.
+Completed legacy archive compatibility increment: default byte-preserving legacy transfer,
+strict rejection without publication, modern missing/mismatched identity rejection and
+real nested-evidence downstream policy coverage.
+
+Next browser increment: review archive publication failure handling and cleanup at
+filesystem boundaries.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

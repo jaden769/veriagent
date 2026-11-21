@@ -331,3 +331,9 @@ Output models explicitly validate schema-version integer types before Literal ma
 because Literal equality alone can accept boolean or floating-point equivalents.
 Archive preflight compares original and normalized ZIP names before applying portable
 path validation, preventing NUL truncation from hiding the original member name.
+
+Legacy archive compatibility is tested at creation, restoration, CLI and downstream suite
+review boundaries. Default acceptance retains schema-1 missing-header metadata; strict
+policy fails before publication. Separate negative cases distinguish legacy omission from
+schema-2 omission and explicit mismatch. A real nested-evidence fixture confirms these
+policies without stubbing the auditors. This increment changes tests and documentation only.

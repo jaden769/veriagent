@@ -778,3 +778,11 @@ require exact integer JSON values (boolean and floating-point equivalents are re
 and archive preflight rejects names normalized by the ZIP reader, including NUL-truncated
 names. The latter check runs before any payload is opened or extracted. The published
 suite JSON Schema is unchanged; runtime checks enforce the exact Python integer boundary.
+
+Archive compatibility regressions cover schema-1 evaluations without contract headers:
+default creation/restoration preserves their bytes and `legacy_missing` identity status,
+while `--require-contract` rejects both operations without publishing output. A schema-2
+evaluation missing its required header and an explicit mismatched header are rejected
+under both policies. Transfer never synthesizes an identity or upgrades artifact versions.
+The Chromium regression derives a schema-1 compatibility fixture from freshly generated
+nested evidence, then checks default/strict transfer and downstream suite policy behavior.

@@ -207,6 +207,10 @@ Completed research-priority review: RESEARCH_REVIEW.md and a machine-readable pi
 corpus/matrix/source snapshot distinguish local mechanism evidence from pending external
 review, missing self-reflection/budget ablations and prospective stochastic study design.
 
-Next research increment: prepare an offline-only comparison specification over the pinned
-corpus, existing budgets and metrics, explicitly listing missing comparator behavior.
+Completed prospective offline comparison specification: two explicit 72-run mock batches,
+pinned selections/budgets, per-condition outcomes, failure handling and missing comparator/
+ablation boundaries. CLI argument paths were checked without executing trials.
+
+Next research increment: execute the specified mock batches and record actual artifacts,
+coverage and descriptive outcomes separately from this prospective plan.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

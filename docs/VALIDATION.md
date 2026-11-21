@@ -1238,3 +1238,16 @@ It does not record independent approval, new measurements or a live study.
 No production code or test cases changed; no test suites, browser trials or paid API
 calls were run for this documentation/snapshot increment. Diff checks passed. External
 review, self-reflection comparison and repeated stochastic evidence remain pending.
+
+### Prospective offline comparison specification — 2026-11-21
+
+Added `OFFLINE_COMPARISON.md` and `review/offline-comparison-plan.json`, bound to the
+previous baseline snapshot. Verified all source/corpus hashes, six tasks, four scenarios,
+three modes and two batches of 72 planned rows (144 total). Exercised both exact argument
+vectors through CLI dispatch with `repeated_trials` intercepted before execution, and
+confirmed mock provider selection and matching per-run budgets. Verified document links
+and diff checks. This was argument/configuration validation, not a benchmark dry run.
+
+No benchmark trials, browser trials, test suites or paid API calls ran. No production
+code changed. The specification is prospective; measured outcomes, external approval,
+self-reflection and budget-controlled ablations remain pending.

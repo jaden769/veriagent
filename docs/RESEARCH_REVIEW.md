@@ -81,7 +81,9 @@ See [the benchmark protocol](BENCHMARK.md) for the implemented metric definition
 
 ## Next concrete work
 
-Prepare a prospective **offline-only comparison specification** from this pinned corpus:
-identify selected task/fault groups, existing comparator budgets, planned primary metrics
-and missing comparator behavior. Keep live execution and external approval pending.
-No API calls or new benchmark results are authorized or implied by this review packet.
+The [prospective offline specification](OFFLINE_COMPARISON.md) now records the selected
+groups, exact arguments and missing comparators. Its preparation did not run the batches.
+
+Next, run the specified mock batches only after checking their pinned inputs, then record
+measured artifact paths and outcomes separately from planned values. Keep live execution
+and external approval pending. No live study or external sign-off is implied by this packet.

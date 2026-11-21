@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "status": "prospective_offline_specification_not_run",
+  "prepared_on": "2026-11-21",
+  "baseline_snapshot": "offline-baseline.json",
+  "baseline_sha256": "32e498f6f7fd65d8578f642733730a4ad8dbaa8b97aa5ffeff3659ac1a88de09",
+  "corpus_sha256": "8f517516d2d6d70574f93dde371e6fef40676c70733a5966b72d8a17abcef6b0",
+  "provider": "mock",
+  "interpretation_in_scope": false,
+  "task_ids": [
+    "single_done",
+    "pair_done",
+    "mixed_status",
+    "reopen",
+    "already_satisfied",
+    "partial_satisfied"
+  ],
+  "scenarios": [
+    "clean",
+    "silent_drop",
+    "persistent_drop",
+    "transient"
+  ],
+  "modes": [
+    "baseline",
+    "verify",
+    "recover"
+  ],
+  "repeats": 1,
+  "budget_per_run": {
+    "max_actions": 8,
+    "max_retries": 2,
+    "timeout_seconds": 60.0,
+    "action_timeout_seconds": 1.0,
+    "max_decisions": 8
+  },
+  "batches": [
+    {
+      "engine": "static",
+      "planned_runs": 72,
+      "argv": [
+        "benchmark",
+        "--provider",
+        "mock",
+        "--all-tasks",
+        "--repeats",
+        "1",
+        "--max-actions",
+        "8",
+        "--max-decisions",
+        "8",
+        "--timeout",
+        "60",
+        "--scenario",
+        "clean",
+        "--scenario",
+        "silent_drop",
+        "--scenario",
+        "persistent_drop",
+        "--scenario",
+        "transient",
+        "--engine",
+        "static",
+        "--output",
+        "artifacts/comparison-spec-static"
+      ]
+    },
+    {
+      "engine": "dynamic",
+      "planned_runs": 72,
+      "argv": [
+        "benchmark",
+        "--provider",
+        "mock",
+        "--all-tasks",
+        "--repeats",
+        "1",
+        "--max-actions",
+        "8",
+        "--max-decisions",
+        "8",
+        "--timeout",
+        "60",
+        "--scenario",
+        "clean",
+        "--scenario",
+        "silent_drop",
+        "--scenario",
+        "persistent_drop",
+        "--scenario",
+        "transient",
+        "--engine",
+        "dynamic",
+        "--output",
+        "artifacts/comparison-spec-dynamic"
+      ]
+    }
+  ],
+  "total_planned_runs": 144,
+  "primary_metric": "ground_truth_success",
+  "strata": [
+    "engine",
+    "task_id",
+    "scenario",
+    "mode"
+  ],
+  "secondary_metrics": [
+    "false_success",
+    "false_success_given_claim",
+    "recovered",
+    "recovery_given_fault_mismatch",
+    "untargeted_changes",
+    "runs_with_injected_fault",
+    "injected_faults",
+    "unused_indexed_events",
+    "mean_actions",
+    "mean_elapsed_ms",
+    "model_calls",
+    "model_tokens",
+    "unknown_usage_runs"
+  ],
+  "missing_comparators": [
+    "self_reflection",
+    "budget_controlled_ablations"
+  ],
+  "limitations": "Prospective deterministic mechanism check only; no stochastic reliability or causal claim. No live provider execution is included."
+}

@@ -25,6 +25,13 @@ def review_browser_suite(
         "coverage_complete": False,
         "present_matrices": [],
         "missing_matrices": [],
+        "contract_coverage": {
+            "scope": "selected_evaluation_inputs",
+            "inputs": len(paths),
+            "matched": 0,
+            "legacy_missing": 0,
+            "unverifiable": 0,
+        },
         "counts": None,
         "evaluations": [],
         "issues": [],
@@ -34,9 +41,19 @@ def review_browser_suite(
     for index, directory in enumerate(paths, 1):
         audit = audit_browser_controls(directory, require_contract=require_contract)
         report = summarize_control_audit(audit)
+        contract_status = report["matrix_contract"]["status"]
+        contract_category = (
+            contract_status if contract_status in ("matched", "legacy_missing") else "unverifiable"
+        )
+        result["contract_coverage"][contract_category] += 1
         matrix = audit.get("matrix") if report["evidence_passed"] else None
         result["evaluations"].append(
-            {"directory": str(directory), "matrix": matrix, "review": report}
+            {
+                "directory": str(directory),
+                "matrix": matrix,
+                "contract_category": contract_category,
+                "review": report,
+            }
         )
         if not report["evidence_passed"] or matrix not in CONTROL_MATRICES:
             result["evidence_passed"] = False
@@ -83,6 +100,12 @@ def render_suite_review(result: dict) -> str:
     ]
     if result["require_contract"]:
         lines.append("Contract policy: matched identity required for every selected evaluation")
+    coverage = result["contract_coverage"]
+    lines.append(
+        "Contract identities (evaluation inputs): "
+        f"matched={coverage['matched']}, legacy_missing={coverage['legacy_missing']}, "
+        f"unverifiable={coverage['unverifiable']}"
+    )
     if result["missing_matrices"]:
         lines.append("Missing matrices: " + ", ".join(result["missing_matrices"]))
     if result["counts"] is None:

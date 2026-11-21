@@ -1054,3 +1054,23 @@ Outputs: `artifacts/browser-strict-contract-review.txt`,
 `artifacts/browser-strict-contract-legacy.json`, `artifacts/browser-strict-default-compatibility.json`
 and `artifacts/browser-strict-suite-review.json`. No browser launches or paid API/model
 calls were needed. Strict matching of unsigned identities does not authenticate provenance.
+## Suite contract-policy coverage — 2026-11-21
+
+Suite reports now retain input-level contract_coverage counts for matched, legacy_missing
+and unverifiable identities. Counts are independent of task outcomes, distinct matrix
+coverage and strict-policy acceptance; each evaluation also records its category while
+retaining exact identity status. Matching headers never override failed nested evidence.
+
+Focused verification: **63 passed in 3.10 seconds**, including existing contract, strict
+policy, suite and single-review checks. New cases cover mixed metadata/outcomes, strict
+legacy rejection with retained diagnostics, all unsupported/unknown status categories,
+matching headers with failed evidence, duplicate input versus matrix denominators and
+CLI JSON coverage. Ruff lint/format and whitespace checks passed. The full Chromium suite
+was not repeated for this read-only report increment.
+
+Actual mixed schema-2/legacy suite review showed two inputs: matched=1, legacy_missing=1,
+unverifiable=0. Default review still showed 40/40 matched controls, 28 successes and 12
+expected task failures across 2/6 matrix types. Strict review returned exit 1 and withheld
+outcomes while retaining the same metadata coverage. Outputs:
+`artifacts/browser-contract-coverage.txt` and `artifacts/browser-contract-coverage-strict.json`.
+The review reused saved evidence; no browser launches or paid API/model calls were needed.

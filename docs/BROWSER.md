@@ -647,3 +647,18 @@ one unmatched evaluation withholds all suite totals. --require-contract applies 
 selected evaluations only; --require-all independently requires all six matrix types.
 The two options can be combined. Requiring a matched unsigned identity does not authenticate
 provenance or establish reliability, and no new browser/API work is performed by review.
+
+## Contract-policy coverage in suites
+
+Suite JSON includes contract_coverage with scope selected_evaluation_inputs: total inputs,
+matched identities, legacy_missing identities and unverifiable identities. Text prints
+the same counts. Mismatch, missing, invalid, unsupported_version, not_checked and unknown
+future statuses belong to unverifiable, while per-evaluation reviews retain the exact
+status and failure details.
+
+These counts remain visible when strict policy rejects legacy evidence or other evidence
+checks withhold task totals. They count inputs, not distinct matrices or executed controls.
+Two duplicate matrix inputs can therefore have two matching headers while distinct matrix
+coverage stays one and suite selection fails. A matching header can also coexist with a
+failed nested file audit; matching identity counts never override evidence failures.
+Task outcomes, accepted matrix coverage and contract metadata coverage remain separate.

@@ -291,3 +291,6 @@ Strict contract review is caller-selected policy, not a mutation of saved eviden
 It rejects legacy missing identities before nested interpretation and propagates through
 single and suite reports, withholding totals if any selected evidence fails the policy.
 Matrix coverage requirements remain independent; default legacy support stays explicit.
+Suite contract coverage counts every selected input by observed identity status before
+evidence-policy rejection. It does not admit matrices or override nested audit failures;
+distinct matrix coverage and task totals retain their independent validity gates.

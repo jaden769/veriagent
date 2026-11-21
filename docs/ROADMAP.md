@@ -161,6 +161,10 @@ Completed strict contract-review increment: optional matched-identity requiremen
 evaluation audit/review and suite review, fail-closed totals under strict policy, and
 explicit default legacy compatibility without artifact upgrades.
 
-Next browser increment: expose contract-policy coverage in suite summaries, separating
-matched, legacy and unverifiable identities independently of task outcomes. Benchmark
-external review and optional stochastic comparisons remain separate pending work.
+Completed suite contract-coverage increment: explicit input-level matched/legacy/
+unverifiable identity counts, retained under strict-policy rejection or invalid evidence,
+separate from task outcomes and distinct matrix selection coverage.
+
+Next browser increment: version and validate the offline suite-review output schema so
+downstream consumers can distinguish metadata coverage from outcome totals reliably.
+Benchmark external review and optional stochastic comparisons remain separate pending work.

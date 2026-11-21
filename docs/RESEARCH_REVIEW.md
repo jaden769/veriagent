@@ -81,6 +81,9 @@ See [the benchmark protocol](BENCHMARK.md) for the implemented metric definition
 
 ## Next concrete work
 
+The [comparator and ablation design](COMPARATOR_DESIGN.md) specifies information access,
+exposure diagnostics and resource-accounting prerequisites; it implements no new arm.
+
 The [prospective offline specification](OFFLINE_COMPARISON.md) now records the selected
 groups, exact arguments and missing comparators. Its preparation did not run the batches.
 

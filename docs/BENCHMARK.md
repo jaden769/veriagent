@@ -4,6 +4,8 @@ For current evidence gaps, pinned corpus/matrix fingerprints and external-review
 see the [research validation review packet](RESEARCH_REVIEW.md).
 The [offline comparison specification](OFFLINE_COMPARISON.md) pins a prospective mock
 check; planned batches are separate from [recorded mock results](OFFLINE_COMPARISON_RESULTS.md).
+The [comparator design](COMPARATOR_DESIGN.md) identifies information-access and resource
+controls still required for self-reflection and ablation comparisons.
 
 `veriagent benchmark` runs fixed requirements on fresh SQLite sandboxes,
 comparing baseline, verify and recover modes. Offline mock is the default even when API

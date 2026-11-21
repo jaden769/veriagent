@@ -216,6 +216,10 @@ budget checks, read-only final-state reconciliation and per-condition descriptiv
 A OneDrive-interrupted attempt is retained separately and the output-path amendment is
 disclosed. Partial-satisfaction exposure differences are recorded, not treated as recovery.
 
-Next research increment: prepare a comparator/ablation design that makes realized fault
-exposure and extra verification/recovery work explicit before adding a new comparator.
+Completed comparator/ablation design: proposed observation-only self-reflection semantics,
+explicit missing implementations, separate tool/decision/oracle/recovery accounting and
+exposure-aware analysis rules. Read-only trace spot-checks confirm differing verifier work.
+
+Next research increment: derive and reconcile a verification-work ledger from the saved
+comparison traces, retaining error and unknown-work information before adding new arms.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

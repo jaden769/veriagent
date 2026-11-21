@@ -1273,3 +1273,17 @@ Verified plan/manifest hashes, document links and diff checks. No production cod
 changed, and no test suites were rerun for this recorded experiment. All calls used the
 mock provider with zero model tokens; no browser trials or paid API calls ran. Raw traces
 and databases remain local rather than bundled in the committed results record.
+
+### Comparator and ablation design — 2026-11-21
+
+Added a prospective design separating trusted verification from observation-only
+self-reflection, describing proposed phase admission and resource/exposure controls.
+Confirmed existing Mode values remain baseline/verify/recover and inspected actual
+agent/verifier behavior. Read-only trace spot-checks for partial_satisfied/silent_drop/
+recover found static 1 completed verification/2 evidence rows/2 actions versus dynamic
+3 verifications/6 evidence rows/4 actions, with ineligible versus eligible fault exposure.
+These quantities are not interchangeable resource units or an equal-exposure contrast.
+
+Verified document links and diff checks. No implementation, tests, benchmark trials,
+browser trials or paid API calls changed/ran. The design does not implement a reflection
+arm, new caps or fault profiles; external review and stochastic study design remain pending.

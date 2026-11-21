@@ -47,33 +47,91 @@ def _audit(directory, require_contract):
     return result
 
 
-def _extract(archive, destination):
+def _members(source):
+    members = source.infolist()
+    if not 1 <= len(members) <= MAX_FILES:
+        raise ValueError("Archive file count exceeds limit")
+    names = set()
+    total = 0
+    for member in members:
+        _name(member.filename)
+        key = member.filename.casefold()
+        mode = member.external_attr >> 16
+        if (
+            key in names
+            or member.is_dir()
+            or mode & 0o170000 not in (0, 0o100000)
+            or member.flag_bits & 1
+            or member.compress_type not in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
+            or not 0 <= member.file_size <= MAX_FILE_BYTES
+        ):
+            raise ValueError("Unsupported or duplicate archive member")
+        names.add(key)
+        total += member.file_size
+        if total > MAX_TOTAL_BYTES:
+            raise ValueError("Archive exceeds expanded size limit")
+    for name in names:
+        parts = name.split("/")
+        if any("/".join(parts[:i]) in names for i in range(1, len(parts))):
+            raise ValueError("Archive file conflicts with a parent directory")
+    return members
+
+
+def _open(archive):
     if archive.stat().st_size > MAX_ARCHIVE_BYTES:
         raise ValueError("Archive exceeds compressed size limit")
-    with zipfile.ZipFile(archive) as source:
-        members = source.infolist()
-        if not 1 <= len(members) <= MAX_FILES:
-            raise ValueError("Archive file count exceeds limit")
-        names = set()
-        total = 0
-        for member in members:
-            parts = _name(member.filename)
-            key = member.filename.casefold()
-            mode = member.external_attr >> 16
-            if (
-                key in names
-                or member.is_dir()
-                or mode & 0o170000 not in (0, 0o100000)
-                or member.flag_bits & 1
-                or member.compress_type not in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
-                or not 0 <= member.file_size <= MAX_FILE_BYTES
-            ):
-                raise ValueError("Unsupported or duplicate archive member")
-            names.add(key)
-            total += member.file_size
-            if total > MAX_TOTAL_BYTES:
-                raise ValueError("Archive exceeds expanded size limit")
-            target = destination.joinpath(*parts)
+    return zipfile.ZipFile(archive)
+
+
+def inspect_browser_archive(archive: Path):
+    archive = Path(archive)
+    with _open(archive) as source:
+        members = _members(source)
+        return {
+            "schema_version": 1,
+            "scope": "archive_directory_metadata",
+            "metadata_passed": True,
+            "archive_bytes": archive.stat().st_size,
+            "files": len(members),
+            "declared_expanded_bytes": sum(m.file_size for m in members),
+            "declared_compressed_bytes": sum(m.compress_size for m in members),
+            "controls_json_present": any(m.filename == "controls.json" for m in members),
+            "members": [
+                {
+                    "name": m.filename,
+                    "declared_bytes": m.file_size,
+                    "declared_compressed_bytes": m.compress_size,
+                    "compression": "stored" if m.compress_type == 0 else "deflate",
+                }
+                for m in sorted(members, key=lambda m: m.filename)
+            ],
+            "limitations": (
+                "ZIP directory metadata only; payloads are not decompressed, CRCs are not "
+                "checked and evidence is not audited. Sizes are declared, not verified. "
+                "Restoration must independently validate and audit the archive."
+            ),
+        }
+
+
+def render_archive_inspection(result):
+    lines = [
+        "Browser evidence archive metadata",
+        f"Files: {result['files']}",
+        f"Archive bytes: {result['archive_bytes']}",
+        f"Declared expanded bytes: {result['declared_expanded_bytes']}",
+        f"Declared compressed bytes: {result['declared_compressed_bytes']}",
+        f"Root controls.json present: {result['controls_json_present']}",
+        "",
+    ]
+    lines.extend(f"- {m['name']}: {m['declared_bytes']} bytes" for m in result["members"])
+    return "\n".join([*lines, "", result["limitations"], ""])
+
+
+def _extract(archive, destination):
+    with _open(archive) as source:
+        # Inspect all members before creating any extracted file.
+        for member in _members(source):
+            target = destination.joinpath(*_name(member.filename))
             target.parent.mkdir(parents=True, exist_ok=True)
             with source.open(member) as stream, target.open("xb") as output:
                 data = stream.read(MAX_FILE_BYTES + 1)

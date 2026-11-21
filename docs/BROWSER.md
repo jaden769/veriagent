@@ -751,3 +751,24 @@ audit, even if controls accurately record expectation mismatches; check `control
 separately. Invalid input, failed audit, limits or filesystem failures use exit 2.
 These unsigned archives do not authenticate provenance. Underlying saved evidence is
 always audited against the installed definitions before publication.
+
+### Inspect an archive before restoring
+
+```powershell
+.\.venv\Scripts\veriagent.exe inspect-browser-archive transfer.zip
+.\.venv\Scripts\veriagent.exe inspect-browser-archive transfer.zip --format json
+```
+
+Inspection reads the ZIP directory without opening member payloads, extracting files,
+creating temporary directories or auditing evidence. It reports sorted member names,
+compression methods, declared per-file sizes, total declared expanded/compressed bytes,
+actual archive size and whether a root `controls.json` entry exists. Missing
+`controls.json` is reported explicitly; it does not make safe directory metadata invalid.
+
+Inspection and restoration share resource, path and member-type checks. They reject
+case-insensitive duplicates and file-versus-parent-directory conflicts before extraction.
+Exit 0 means this metadata passes those checks; invalid metadata, unreadable inputs and
+argument failures use exit 2. Payload CRCs, actual expanded contents, contracts and task
+outcomes are not verified by inspection. A metadata inspection success never replaces
+restoration's independent extraction and full evidence audit. Declared sizes come from
+an unsigned ZIP directory and should be treated accordingly.

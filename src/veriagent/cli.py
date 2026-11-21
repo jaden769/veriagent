@@ -278,7 +278,29 @@ def main() -> None:
         transfer.add_argument("source", type=Path)
         transfer.add_argument("destination", type=Path)
         transfer.add_argument("--require-contract", action="store_true")
+    inspect_archive = commands.add_parser(
+        "inspect-browser-archive",
+        help="Inspect ZIP metadata without extracting or auditing evidence",
+    )
+    inspect_archive.add_argument("archive", type=Path)
+    inspect_archive.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args()
+    if args.command == "inspect-browser-archive":
+        import zipfile
+
+        from veriagent.browser_archive import inspect_browser_archive, render_archive_inspection
+
+        try:
+            result = inspect_browser_archive(args.archive)
+        except (OSError, ValueError, zipfile.BadZipFile, RuntimeError) as exc:
+            parser.error(str(exc))
+        print(
+            json.dumps(result, indent=2)
+            if args.format == "json"
+            else render_archive_inspection(result),
+            end="\n" if args.format == "json" else "",
+        )
+        return
     if args.command in {"archive-browser-controls", "restore-browser-controls"}:
         import zipfile
 

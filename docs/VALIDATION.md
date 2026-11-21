@@ -1136,3 +1136,18 @@ tests isolate nested audits; the Chromium round-trip exercises real nested audit
 Ruff, formatting and diff checks passed. Tests ran outside the sandbox to avoid Windows
 temporary path-length limits. No paid API calls were made. The full Chromium suite was
 not rerun for this isolated transfer workflow; five relevant browser integration tests ran.
+
+### Archive metadata inspection — 2026-11-21
+
+Added `inspect-browser-archive` with text/JSON output and shared directory preflight.
+All 132 focused tests passed in 50.70 seconds: 14 new metadata inspection regressions,
+21 archive transfer tests, five Chromium portability tests and 92 offline review tests.
+The real 16-control evidence archive round-trip remains valid under the shared checks.
+
+New cases verify read-only operation without payload access or auditing, declared size
+summaries, portable names, case-insensitive duplicates, file/parent conflicts, shared
+resource limits, CLI output/exit behavior and corrupt-payload scope. The corrupt ZIP
+passes metadata inspection but fails restoration CRC checks with no destination left.
+Ruff, formatting and diff checks passed. Tests ran outside the sandbox to avoid Windows
+temporary path-length limits. No paid API calls ran. The full Chromium suite was not
+rerun; the five relevant browser integration tests were included in the focused run.

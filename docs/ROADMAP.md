@@ -181,6 +181,10 @@ Completed bounded archive-transfer increment: offline ZIP creation/restoration w
 portable relative paths, resource limits, staged nested audits, no-overwrite outputs and
 real Chromium evidence round-trip coverage.
 
-Next browser increment: expose archive inspection without extraction so transfer metadata
-and declared resource requirements can be reviewed before restoration.
+Completed archive-inspection increment: read-only text/JSON directory metadata, declared
+resource summaries, shared extraction preflight and explicit separation from payload CRC
+verification and evidence auditing.
+
+Next browser increment: review the completed offline transfer/report workflows for
+remaining validation gaps before extending the control catalog.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

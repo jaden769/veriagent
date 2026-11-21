@@ -320,3 +320,9 @@ total expanded size, compressed size and portable member paths. Restore never us
 new tree, then runs the full evaluation audit before publishing. Archive creation also
 audits a staged extraction of its ZIP, catching changes between initial source audit and
 serialization. It preserves bytes and relative bindings; it does not sign or upgrade them.
+
+Archive directory preflight is shared by inspection and extraction. It checks all member
+metadata and file/parent conflicts before extraction writes any member. The read-only
+`inspect-browser-archive` command exposes a version-1 metadata-scoped result without
+opening member payload streams. It does not reuse evidence-audit success fields; CRC and
+semantic evidence checks remain in restore and its nested auditors.

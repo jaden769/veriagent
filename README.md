@@ -34,6 +34,7 @@ Use `--satisfied-budget-boundaries` for 16 controls covering pre-satisfied goals
 `review-browser-controls <evaluation-directory>` prints a compact audited text/JSON report.
 `review-browser-suite <directories...>` reviews up to six distinct saved matrices offline.
 `inspect-browser-matrices` prints installed matrix metadata and contract identities without trials.
+Add `--require-contract` to control audit/review or suite review to reject unmatched legacy identities.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

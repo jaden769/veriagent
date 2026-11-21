@@ -227,16 +227,29 @@ def main() -> None:
         "audit-browser-controls", help="Re-audit a browser control evaluation offline"
     )
     audit_controls.add_argument("directory", type=Path)
+    audit_controls.add_argument(
+        "--require-contract",
+        action="store_true",
+        help="Reject legacy evaluations without matched contract identities",
+    )
     review_controls = commands.add_parser(
         "review-browser-controls", help="Show a compact audited browser control report"
     )
     review_controls.add_argument("directory", type=Path)
+    review_controls.add_argument(
+        "--require-contract", action="store_true", help="Require a matched contract identity"
+    )
     review_controls.add_argument("--format", choices=("text", "json"), default="text")
     suite = commands.add_parser(
         "review-browser-suite",
         help=f"Review up to {len(CONTROL_CATALOG)} distinct saved browser matrices offline",
     )
     suite.add_argument("directories", type=Path, nargs="+")
+    suite.add_argument(
+        "--require-contract",
+        action="store_true",
+        help="Require matched identities for every selected evaluation",
+    )
     suite.add_argument(
         "--require-all",
         action="store_true",
@@ -271,7 +284,11 @@ def main() -> None:
         from veriagent.browser_suite import render_suite_review, review_browser_suite
 
         try:
-            result = review_browser_suite(args.directories, require_all=args.require_all)
+            result = review_browser_suite(
+                args.directories,
+                require_all=args.require_all,
+                require_contract=args.require_contract,
+            )
         except ValueError as exc:
             parser.error(str(exc))
         print(
@@ -284,7 +301,7 @@ def main() -> None:
     if args.command == "review-browser-controls":
         from veriagent.browser_review import render_control_review, review_browser_controls
 
-        result = review_browser_controls(args.directory)
+        result = review_browser_controls(args.directory, require_contract=args.require_contract)
         print(
             json.dumps(result, indent=2)
             if args.format == "json"
@@ -297,7 +314,7 @@ def main() -> None:
     if args.command == "audit-browser-controls":
         from veriagent.browser_controls_audit import audit_browser_controls
 
-        result = audit_browser_controls(args.directory)
+        result = audit_browser_controls(args.directory, require_contract=args.require_contract)
         print(json.dumps(result, indent=2))
         if not result["evidence_passed"]:
             raise SystemExit(1)

@@ -1029,3 +1029,28 @@ inspected satisfied-budget identity exactly matched the saved schema-2 evaluatio
 `browser-contract-validation/80631766492847c6b75f4cf7b9885037` under the writable artifact
 root. The printed 130 controls were declarations, not newly executed trials. No browser
 launches or paid API/model calls were needed for this inspection validation.
+## Optional strict contract review — 2026-11-21
+
+Added --require-contract to evaluation audits, single reviews and suite reviews. The
+caller-selected policy requires status matched and rejects legacy_missing before nested
+interpretation, while default legacy compatibility remains explicit. Policy selection
+is reported separately from --require-all matrix coverage and never rewrites artifacts.
+
+Focused verification: **96 passed in 9.10 seconds**, covering strict matched acceptance,
+legacy early rejection, default compatibility, count withholding, propagation to every
+selected evaluation, CLI text/JSON behavior, independent full-suite selection, and the
+existing contract/audit/review/suite/catalog/inspection checks. Ruff format/lint and
+whitespace checks passed. The full Chromium suite was not repeated for this read-only
+review-policy increment.
+
+Actual CLI checks used the saved schema-2 16-control evaluation at
+`browser-contract-validation/80631766492847c6b75f4cf7b9885037` and the schema-1 fault-budget
+evaluation at `browser-fault-budget-validation/22f45ca9dc8a41c2ad4aaf8faf6b9b6b` under the
+writable artifact root. Strict matched review passed; strict legacy review returned
+exit 1 with legacy_missing; default legacy review still passed. A mixed strict suite
+returned exit 1 and withheld aggregate counts.
+
+Outputs: `artifacts/browser-strict-contract-review.txt`,
+`artifacts/browser-strict-contract-legacy.json`, `artifacts/browser-strict-default-compatibility.json`
+and `artifacts/browser-strict-suite-review.json`. No browser launches or paid API/model
+calls were needed. Strict matching of unsigned identities does not authenticate provenance.

@@ -287,3 +287,7 @@ an unsigned declaration fingerprint, not a source-code signature or proof of aut
 The installed-contract inspector consumes the same catalog and fingerprint function as
 execution/auditing. It exposes selected matrix metadata, ordered budgets and identities
 through read-only text/JSON output, without creating an evaluation or provider.
+Strict contract review is caller-selected policy, not a mutation of saved evidence.
+It rejects legacy missing identities before nested interpretation and propagates through
+single and suite reports, withholding totals if any selected evidence fails the policy.
+Matrix coverage requirements remain independent; default legacy support stays explicit.

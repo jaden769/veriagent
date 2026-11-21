@@ -44,7 +44,7 @@ def mock_evaluations(monkeypatch, tmp_path, audits):
     paths = [tmp_path / str(i) for i in range(len(audits))]
     mapping = {path.resolve(): audit for path, audit in zip(paths, audits, strict=True)}
     monkeypatch.setattr(
-        "veriagent.browser_suite.audit_browser_controls", lambda path: mapping[path]
+        "veriagent.browser_suite.audit_browser_controls", lambda path, **options: mapping[path]
     )
     return paths
 

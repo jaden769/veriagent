@@ -626,3 +626,24 @@ constructs no provider and launches no browser/evaluation; redirect stdout expli
 save a copy. Unknown names, empty programmatic selections and duplicate selections are
 rejected. Counts describe declared controls, not newly executed trials. Printed identities
 remain unsigned declaration fingerprints, not signatures or implementation hashes.
+
+## Requiring a matched contract
+
+```powershell
+.\.venv\Scripts\veriagent.exe audit-browser-controls <evaluation-directory> --require-contract
+.\.venv\Scripts\veriagent.exe review-browser-controls <evaluation-directory> --require-contract
+.\.venv\Scripts\veriagent.exe review-browser-suite <directories...> --require-contract
+```
+
+The optional strict policy requires matrix_contract status matched for every selected
+evaluation. A schema-1 evaluation without an identity remains labeled legacy_missing,
+but fails matrix_contract_required before nested interpretation. Strict review withholds
+counts and exits 1; it does not rewrite or upgrade legacy data. Default review still
+accepts otherwise valid legacy evidence with its explicit label. Malformed or mismatched
+explicit identities remain rejected regardless of the optional flag.
+
+JSON records require_contract and text reports state the selected policy. In suites,
+one unmatched evaluation withholds all suite totals. --require-contract applies to the
+selected evaluations only; --require-all independently requires all six matrix types.
+The two options can be combined. Requiring a matched unsigned identity does not authenticate
+provenance or establish reliability, and no new browser/API work is performed by review.

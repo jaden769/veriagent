@@ -157,6 +157,10 @@ Completed browser contract-inspection increment: a compact read-only text/JSON c
 command exposes current names, flags, counts, ordered budgets and identities without
 generating evaluations or rewriting saved evidence.
 
-Next browser increment: an optional strict contract policy for saved reviews, so callers
-can require matched identities while default legacy compatibility remains explicit.
-Benchmark external review and optional stochastic comparisons remain separate pending work.
+Completed strict contract-review increment: optional matched-identity requirements on
+evaluation audit/review and suite review, fail-closed totals under strict policy, and
+explicit default legacy compatibility without artifact upgrades.
+
+Next browser increment: expose contract-policy coverage in suite summaries, separating
+matched, legacy and unverifiable identities independently of task outcomes. Benchmark
+external review and optional stochastic comparisons remain separate pending work.

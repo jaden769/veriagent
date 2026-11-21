@@ -16,12 +16,13 @@ from veriagent.browser_controls import (
 from veriagent.browser_evidence import _read
 
 
-def audit_browser_controls(directory: Path) -> dict:
+def audit_browser_controls(directory: Path, *, require_contract: bool = False) -> dict:
     result = {
         "schema_version": 1,
         "evidence_passed": False,
         "controls_passed": None,
         "matrix": None,
+        "require_contract": require_contract,
         "matrix_contract": {"status": "not_checked", "saved": None, "current": None},
         "checks": [],
         "batches": [],
@@ -69,6 +70,10 @@ def audit_browser_controls(directory: Path) -> dict:
         if contract["status"] not in {"matched", "legacy_missing"}:
             check("matrix_contract", False)
             return result  # Do not interpret nested evidence under a different contract.
+        if require_contract:
+            check("matrix_contract_required", contract["status"] == "matched")
+            if contract["status"] != "matched":
+                return result
         check("matrix_contract", True)
         bindings = saved["batch_bindings"]
         if not isinstance(bindings, list) or len(bindings) != len(specs):

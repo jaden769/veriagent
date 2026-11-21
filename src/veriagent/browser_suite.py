@@ -7,7 +7,9 @@ from veriagent.browser_controls_audit import audit_browser_controls
 from veriagent.browser_review import summarize_control_audit
 
 
-def review_browser_suite(directories: list[Path], *, require_all: bool = False) -> dict:
+def review_browser_suite(
+    directories: list[Path], *, require_all: bool = False, require_contract: bool = False
+) -> dict:
     if not 1 <= len(directories) <= len(CONTROL_MATRICES):
         raise ValueError(f"Select one to {len(CONTROL_MATRICES)} saved evaluations")
     paths = [directory.resolve() for directory in directories]
@@ -19,6 +21,7 @@ def review_browser_suite(directories: list[Path], *, require_all: bool = False) 
         "selection_passed": True,
         "controls_passed": None,
         "require_all": require_all,
+        "require_contract": require_contract,
         "coverage_complete": False,
         "present_matrices": [],
         "missing_matrices": [],
@@ -29,7 +32,7 @@ def review_browser_suite(directories: list[Path], *, require_all: bool = False) 
     }
     matrices, runs = set(), set()
     for index, directory in enumerate(paths, 1):
-        audit = audit_browser_controls(directory)
+        audit = audit_browser_controls(directory, require_contract=require_contract)
         report = summarize_control_audit(audit)
         matrix = audit.get("matrix") if report["evidence_passed"] else None
         result["evaluations"].append(
@@ -78,6 +81,8 @@ def render_suite_review(result: dict) -> str:
         f"Matrix coverage: {len(result['present_matrices'])}/{len(CONTROL_MATRICES)}",
         "Selection: " + ("accepted" if result["selection_passed"] else "not satisfied"),
     ]
+    if result["require_contract"]:
+        lines.append("Contract policy: matched identity required for every selected evaluation")
     if result["missing_matrices"]:
         lines.append("Missing matrices: " + ", ".join(result["missing_matrices"]))
     if result["counts"] is None:

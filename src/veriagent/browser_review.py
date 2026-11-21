@@ -11,6 +11,7 @@ def summarize_control_audit(audit: dict) -> dict:
         "schema_version": 1,
         "evidence_passed": audit["evidence_passed"],
         "controls_passed": None,
+        "require_contract": audit.get("require_contract", False),
         "matrix_contract": audit.get("matrix_contract", {"status": "unavailable"}),
         "counts": None,
         "expected_task_failures": [],
@@ -92,8 +93,10 @@ def summarize_control_audit(audit: dict) -> dict:
     return report
 
 
-def review_browser_controls(directory: Path) -> dict:
-    return summarize_control_audit(audit_browser_controls(directory))
+def review_browser_controls(directory: Path, *, require_contract: bool = False) -> dict:
+    return summarize_control_audit(
+        audit_browser_controls(directory, require_contract=require_contract)
+    )
 
 
 def render_control_review(report: dict) -> str:
@@ -102,6 +105,8 @@ def render_control_review(report: dict) -> str:
         "Evidence: " + ("valid" if report["evidence_passed"] else "invalid or incomplete"),
         "Matrix contract: " + report["matrix_contract"]["status"],
     ]
+    if report["require_contract"]:
+        lines.append("Contract policy: matched identity required")
     if report["counts"] is None:
         lines.append("Outcome counts withheld because evidence is incomplete or inconsistent.")
     else:

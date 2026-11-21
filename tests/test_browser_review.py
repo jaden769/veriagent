@@ -106,7 +106,9 @@ def test_cli_uses_offline_review_and_preserves_valid_expectation_failure(
 ):
     audit = audited_outcomes()
     original = copy.deepcopy(audit)
-    monkeypatch.setattr("veriagent.browser_review.audit_browser_controls", lambda path: audit)
+    monkeypatch.setattr(
+        "veriagent.browser_review.audit_browser_controls", lambda path, **options: audit
+    )
     monkeypatch.setattr(
         "veriagent.cli.configured_provider", lambda args: pytest.fail("No provider")
     )

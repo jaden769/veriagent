@@ -116,6 +116,57 @@ def test_legacy_archive_policy_with_real_nested_evidence(relocated, tmp_path):
     assert not list(tmp_path.glob("veriagent-*"))
 
 
+def test_documented_operator_workflow_through_cli(relocated, tmp_path):
+    before = inventory(relocated)
+
+    def command(*arguments, expected_exit=0):
+        completed = subprocess.run(
+            [sys.executable, "-m", "veriagent.cli", *map(str, arguments)],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        assert completed.returncode == expected_exit, completed.stderr
+        return json.loads(completed.stdout)
+
+    catalog = command("inspect-browser-matrices", "--format", "json")
+    assert catalog["schema_version"] == 1
+    control = command(
+        "review-browser-controls", relocated, "--require-contract", "--format", "json"
+    )
+    assert control["evidence_passed"] and control["controls_passed"]
+    report = command("review-browser-suite", relocated, "--require-contract", "--format", "json")
+    exported = tmp_path / "suite-review.json"
+    exported.write_text(json.dumps(report), encoding="utf-8-sig")
+    assert command("validate-browser-suite", exported, "--format", "json")["validation_passed"]
+    archive = tmp_path / "transfer.zip"
+    assert command("archive-browser-controls", relocated, archive, "--require-contract")[
+        "evidence_passed"
+    ]
+    archive_before = archive.read_bytes()
+    inspection = command("inspect-browser-archive", archive, "--format", "json")
+    assert inspection["metadata_passed"] and inspection["controls_json_present"]
+    restored = tmp_path / "restored-evaluation"
+    assert command("restore-browser-controls", archive, restored, "--require-contract")[
+        "evidence_passed"
+    ]
+    reviewed = command("review-browser-suite", restored, "--require-contract", "--format", "json")
+    assert reviewed["counts"] == report["counts"]
+    assert reviewed["counts"]["controls"] == 16
+    assert reviewed["counts"]["expected_task_failures"] == 4
+    assert reviewed["contract_coverage"] == report["contract_coverage"]
+    rejected = command(
+        "review-browser-suite", restored, "--require-all", "--format", "json", expected_exit=1
+    )
+    assert rejected["evidence_passed"] and not rejected["selection_passed"]
+    assert rejected["counts"] is None
+    exported.write_text(json.dumps(rejected), encoding="utf-8")
+    assert command("validate-browser-suite", exported, "--format", "json")["validation_passed"]
+    assert inventory(restored) == before == inventory(relocated)
+    assert archive.read_bytes() == archive_before
+    assert not list(tmp_path.glob("veriagent-*"))
+
+
 @pytest.mark.parametrize("mutation", ["missing_capture", "changed_manifest", "escaped_binding"])
 def test_relocated_corruption_fails_closed_without_rewriting(relocated, tmp_path, mutation):
     destination = tmp_path / "copy"

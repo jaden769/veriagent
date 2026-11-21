@@ -101,3 +101,12 @@ An exit code alone does not establish task success. Inspect the outcome fields a
 the original evidence. If a check fails, use full `audit-browser-controls` output for
 per-check diagnostics before considering any regeneration; do not edit bound files to
 make the audit pass.
+
+## Workflow regression
+
+The Chromium-enabled `test_documented_operator_workflow_through_cli` test runs this
+sequence through separate CLI processes against a complete, relocated 16-control
+mock-provider evaluation. It checks BOM-compatible exported JSON, byte-preserving ZIP
+transfer, unchanged review totals and the difference between a rejected partial selection
+(exit 1 from suite review) and a consistent export of that rejection (exit 0 from report
+validation). See [validation records](VALIDATION.md) for the recorded run.

@@ -199,6 +199,10 @@ output parents and destinations created during audit are covered.
 Completed offline operator-guide increment: a compact review/export/validation/transfer
 workflow, explicit result-field meanings, policy choices and verified exit-status table.
 
-Next browser increment: exercise the documented operator workflow as one end-to-end
-CLI smoke check over completed evidence.
+Completed operator-workflow smoke increment: separate CLI processes cover catalog
+inspection, evidence review/export, report validation, archive/inspect/restore and re-review,
+including partial-selection rejection versus valid exported-report consistency.
+
+Next review: assess remaining research validation priorities after the completed offline
+evidence workflow, before adding more command surface.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

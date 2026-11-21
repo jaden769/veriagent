@@ -1209,3 +1209,19 @@ expected; this does not re-audit their underlying evidence. Exit-status explanat
 were checked against CLI dispatch behavior, including expected task/control failures.
 Diff checks passed. No production code or tests changed, so the test suites were not
 rerun for this documentation-only increment. No browser trials or paid API calls ran.
+
+### Documented operator workflow smoke — 2026-11-21
+
+All 62 focused portability and archive tests passed in 93.26 seconds. The new
+Chromium-enabled operator smoke runs ten command invocations through separate CLI
+processes over a fresh, relocated 16-control mock-provider evaluation: catalog inspection,
+control and suite review, BOM-compatible report validation, archive creation/inspection,
+restoration, restored suite review, required-full-coverage rejection and validation of
+that rejection report. The sequence includes two report-validation invocations.
+
+Restored totals match the original (16 controls, four expected task failures), contract
+coverage matches and source/restored hashes plus ZIP bytes remain unchanged. Partial
+coverage correctly returns exit 1, while its consistent exported rejection report
+validates with exit 0. Ruff, formatting and diff checks passed. No production code
+changed. The full suite was not rerun for this test/docs-only increment; seven relevant
+Chromium portability tests were included. No paid API calls ran.

@@ -169,7 +169,10 @@ Completed suite output-schema increment: version-2 strict report models, exporte
 Schema, runtime cross-field validation and corruption regressions separate metadata
 coverage, selection policy and outcome totals.
 
-Next browser increment: add a read-only command to validate exported suite-review JSON
-without reopening evaluation directories, while preserving the distinction between report
-consistency and underlying evidence validity.
+Completed exported-report validation increment: bounded read-only JSON loading, strict
+runtime validation, text/JSON diagnostics and explicit report-consistency scope without
+reopening evidence directories.
+
+Next browser increment: add an offline portability regression that relocates complete
+saved evaluation trees and verifies their relative evidence bindings remain auditable.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

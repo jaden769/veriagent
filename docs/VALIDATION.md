@@ -1090,3 +1090,16 @@ Results are saved in `artifacts/browser-suite-schema-v2.json` and its `-strict` 
 No browser trials or paid API calls were run; the Chromium suite was not rerun for this
 read-only report change. JSON Schema structural checks do not replace runtime
 cross-field validation or underlying evidence audits.
+
+### Exported suite validation command — 2026-11-21
+
+Added `validate-browser-suite` with text/JSON results, bounded UTF-8 loading and
+runtime schema checks. Ruff passed and 92 focused offline review tests passed, including
+15 new cases for input bounds, malformed/ambiguous JSON, field corruption, CLI exits,
+BOM compatibility, accepted rejection reports and no evidence/provider access.
+Tests ran outside the sandbox to avoid Windows temporary path-length limits.
+
+Actual CLI validation accepted both saved version-2 exports: the 40-control mixed suite
+and its strict-policy rejection report. Acceptance means report consistency only;
+no referenced evidence was reopened and no underlying success was inferred. No browser
+trials or paid API calls ran, and the full Chromium suite was not rerun for this change.

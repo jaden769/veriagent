@@ -683,3 +683,24 @@ The exported JSON Schema checks structure, types, bounds and allowed fields. Run
 validation additionally checks counter partitions, child-to-suite totals, detail lengths,
 identity categories, coverage and policy consistency. Structural validation alone does
 not perform these cross-field checks or authenticate the underlying saved evidence.
+
+### Validate an exported suite report
+
+```powershell
+.\.venv\Scripts\veriagent.exe validate-browser-suite artifacts/browser-suite-schema-v2.json
+.\.venv\Scripts\veriagent.exe validate-browser-suite artifacts/browser-suite-schema-v2.json --format json
+```
+
+This read-only command validates suite version 2 using the runtime cross-field checks.
+It opens only the supplied JSON file and never follows its evaluation directory fields,
+constructs a provider, starts a browser or rewrites artifacts. Input is limited to 4 MiB;
+UTF-8 with an optional BOM is accepted. Duplicate object keys, non-finite JSON numbers,
+malformed JSON, unsupported versions and inconsistent fields are rejected.
+
+Exit 0 means the exported report is structurally and internally consistent, including
+reports that accurately record rejected evidence or selection with withheld outcomes.
+It does not mean the underlying task or control succeeded. Exit 1 means input reading,
+parsing or report validation failed; argument errors use exit 2. Text and JSON output
+explicitly state that underlying evidence, contract identities and outcomes were not
+independently verified. JSON diagnostics contain at most 20 field locations and error
+types, without echoing field values. Use `review-browser-suite` to audit saved evidence.

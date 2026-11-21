@@ -262,7 +262,28 @@ def main() -> None:
     )
     inspect_matrices.add_argument("--matrix", action="append", choices=CONTROL_MATRICES)
     inspect_matrices.add_argument("--format", choices=("text", "json"), default="text")
+    validate_suite = commands.add_parser(
+        "validate-browser-suite", help="Validate exported suite JSON without reopening evidence"
+    )
+    validate_suite.add_argument("report", type=Path)
+    validate_suite.add_argument("--format", choices=("text", "json"), default="text")
     args = parser.parse_args()
+    if args.command == "validate-browser-suite":
+        from veriagent.browser_suite_validation import (
+            render_suite_validation,
+            validate_suite_review_file,
+        )
+
+        result = validate_suite_review_file(args.report)
+        print(
+            json.dumps(result, indent=2)
+            if args.format == "json"
+            else render_suite_validation(result),
+            end="\n" if args.format == "json" else "",
+        )
+        if not result["validation_passed"]:
+            raise SystemExit(1)
+        return
     if args.command == "inspect-browser-matrices":
         from veriagent.browser_catalog_review import (
             inspect_browser_matrices,

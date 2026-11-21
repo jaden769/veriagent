@@ -301,3 +301,9 @@ retain version 1. A generated draft-2020-12 JSON Schema documents structural fie
 runtime validators also reconcile metadata denominators, matrix selection, outcome
 partitions, child totals and fail-closed outcome gates. This validates report consistency;
 the existing evidence auditors still establish artifact consistency separately.
+
+`browser_suite_validation.py` provides bounded file loading for `validate-browser-suite`.
+It rejects ambiguous JSON before invoking the version-2 runtime validator and emits a
+separate version-1 validation envelope scoped to exported report consistency. It never
+traverses report references. A valid report of rejected evidence is a successful
+consistency check, so command exit status is independent of recorded task outcomes.

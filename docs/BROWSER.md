@@ -662,3 +662,24 @@ Two duplicate matrix inputs can therefore have two matching headers while distin
 coverage stays one and suite selection fails. A matching header can also coexist with a
 failed nested file audit; matching identity counts never override evidence failures.
 Task outcomes, accepted matrix coverage and contract metadata coverage remain separate.
+
+### Suite review output schema (version 2)
+
+`review-browser-suite` now emits `schema_version: 2`. Evaluation artifacts and
+individual review formats retain their existing versions. Consumers of suite version 1
+must explicitly migrate to version 2; the runtime validator rejects old suite versions.
+
+The published structural contract is `docs/schemas/browser-suite-review-v2.schema.json`
+(JSON Schema draft 2020-12). Python consumers can call
+`veriagent.browser_suite_schema.validate_suite_review(report)` before using a report.
+Suite generation and text rendering both validate reports automatically.
+
+Strict fields distinguish `contract_coverage` (selected input identity metadata),
+`present_matrices`/`missing_matrices` (admitted matrix coverage), policy flags and
+`counts` (task and expectation outcomes). Rejected evidence or selection requires null
+aggregate counts and pass status. Contract metadata remains available for diagnosis.
+
+The exported JSON Schema checks structure, types, bounds and allowed fields. Runtime
+validation additionally checks counter partitions, child-to-suite totals, detail lengths,
+identity categories, coverage and policy consistency. Structural validation alone does
+not perform these cross-field checks or authenticate the underlying saved evidence.

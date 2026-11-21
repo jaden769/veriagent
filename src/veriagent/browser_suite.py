@@ -5,6 +5,7 @@ from pathlib import Path
 from veriagent.browser_catalog import CONTROL_MATRICES
 from veriagent.browser_controls_audit import audit_browser_controls
 from veriagent.browser_review import summarize_control_audit
+from veriagent.browser_suite_schema import validate_suite_review
 
 
 def review_browser_suite(
@@ -16,7 +17,7 @@ def review_browser_suite(
     if len(set(paths)) != len(paths):
         raise ValueError("Select distinct evaluation directories")
     result = {
-        "schema_version": 1,
+        "schema_version": 2,
         "evidence_passed": True,
         "selection_passed": True,
         "controls_passed": None,
@@ -88,10 +89,11 @@ def review_browser_suite(
         keys = reports[0]["counts"]
         result["counts"] = {key: sum(report["counts"][key] for report in reports) for key in keys}
         result["controls_passed"] = all(report["controls_passed"] for report in reports)
-    return result
+    return validate_suite_review(result)
 
 
 def render_suite_review(result: dict) -> str:
+    validate_suite_review(result)
     lines = [
         "Browser control suite review",
         "Evidence: " + ("valid" if result["evidence_passed"] else "invalid or inconsistent"),

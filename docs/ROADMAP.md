@@ -165,6 +165,11 @@ Completed suite contract-coverage increment: explicit input-level matched/legacy
 unverifiable identity counts, retained under strict-policy rejection or invalid evidence,
 separate from task outcomes and distinct matrix selection coverage.
 
-Next browser increment: version and validate the offline suite-review output schema so
-downstream consumers can distinguish metadata coverage from outcome totals reliably.
+Completed suite output-schema increment: version-2 strict report models, exported JSON
+Schema, runtime cross-field validation and corruption regressions separate metadata
+coverage, selection policy and outcome totals.
+
+Next browser increment: add a read-only command to validate exported suite-review JSON
+without reopening evaluation directories, while preserving the distinction between report
+consistency and underlying evidence validity.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

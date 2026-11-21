@@ -1,0 +1,561 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ContractCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "const": "selected_evaluation_inputs",
+          "title": "Scope",
+          "type": "string"
+        },
+        "inputs": {
+          "maximum": 6,
+          "minimum": 1,
+          "title": "Inputs",
+          "type": "integer"
+        },
+        "matched": {
+          "maximum": 6,
+          "minimum": 0,
+          "title": "Matched",
+          "type": "integer"
+        },
+        "legacy_missing": {
+          "maximum": 6,
+          "minimum": 0,
+          "title": "Legacy Missing",
+          "type": "integer"
+        },
+        "unverifiable": {
+          "maximum": 6,
+          "minimum": 0,
+          "title": "Unverifiable",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "scope",
+        "inputs",
+        "matched",
+        "legacy_missing",
+        "unverifiable"
+      ],
+      "title": "ContractCoverage",
+      "type": "object"
+    },
+    "ContractMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Status",
+          "type": "string"
+        },
+        "saved": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Saved"
+        },
+        "current": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "ContractMetadata",
+      "type": "object"
+    },
+    "ControlDetail": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "scenario": {
+          "title": "Scenario",
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "baseline",
+            "verify",
+            "recover"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "max_retries": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Max Retries",
+          "type": "integer"
+        },
+        "batch_directory": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Batch Directory",
+          "type": "string"
+        },
+        "bundle_directory": {
+          "pattern": "^trial-[0-9]{3}/[0-9a-f]{32}$",
+          "title": "Bundle Directory",
+          "type": "string"
+        },
+        "max_actions": {
+          "anyOf": [
+            {
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Actions"
+        },
+        "max_decisions": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Decisions"
+        },
+        "mismatches": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mismatches"
+        }
+      },
+      "required": [
+        "task_id",
+        "scenario",
+        "mode",
+        "max_retries",
+        "batch_directory",
+        "bundle_directory"
+      ],
+      "title": "ControlDetail",
+      "type": "object"
+    },
+    "ControlReviewOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "evidence_passed": {
+          "title": "Evidence Passed",
+          "type": "boolean"
+        },
+        "controls_passed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Controls Passed"
+        },
+        "require_contract": {
+          "title": "Require Contract",
+          "type": "boolean"
+        },
+        "matrix_contract": {
+          "$ref": "#/$defs/ContractMetadata"
+        },
+        "counts": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OutcomeCounts"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expected_task_failures": {
+          "items": {
+            "$ref": "#/$defs/ControlDetail"
+          },
+          "maxItems": 130,
+          "title": "Expected Task Failures",
+          "type": "array"
+        },
+        "unexpected_task_failures": {
+          "items": {
+            "$ref": "#/$defs/ControlDetail"
+          },
+          "maxItems": 130,
+          "title": "Unexpected Task Failures",
+          "type": "array"
+        },
+        "expectation_mismatches": {
+          "items": {
+            "$ref": "#/$defs/ControlDetail"
+          },
+          "maxItems": 130,
+          "title": "Expectation Mismatches",
+          "type": "array"
+        },
+        "evidence_gaps": {
+          "items": {
+            "$ref": "#/$defs/EvidenceGap"
+          },
+          "maxItems": 100,
+          "title": "Evidence Gaps",
+          "type": "array"
+        },
+        "gaps_truncated": {
+          "title": "Gaps Truncated",
+          "type": "boolean"
+        },
+        "limitations": {
+          "title": "Limitations",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "evidence_passed",
+        "controls_passed",
+        "require_contract",
+        "matrix_contract",
+        "counts",
+        "expected_task_failures",
+        "unexpected_task_failures",
+        "expectation_mismatches",
+        "evidence_gaps",
+        "gaps_truncated",
+        "limitations"
+      ],
+      "title": "ControlReviewOutput",
+      "type": "object"
+    },
+    "EvaluationOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "directory": {
+          "maxLength": 32768,
+          "minLength": 1,
+          "title": "Directory",
+          "type": "string"
+        },
+        "matrix": {
+          "anyOf": [
+            {
+              "enum": [
+                "default",
+                "indexed",
+                "multi_event",
+                "budget_boundaries",
+                "fault_budget_boundaries",
+                "satisfied_budget_boundaries"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Matrix"
+        },
+        "contract_category": {
+          "enum": [
+            "matched",
+            "legacy_missing",
+            "unverifiable"
+          ],
+          "title": "Contract Category",
+          "type": "string"
+        },
+        "review": {
+          "$ref": "#/$defs/ControlReviewOutput"
+        }
+      },
+      "required": [
+        "directory",
+        "matrix",
+        "contract_category",
+        "review"
+      ],
+      "title": "EvaluationOutput",
+      "type": "object"
+    },
+    "EvidenceGap": {
+      "additionalProperties": false,
+      "properties": {
+        "location": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Location",
+          "type": "string"
+        },
+        "check": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Check",
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "check"
+      ],
+      "title": "EvidenceGap",
+      "type": "object"
+    },
+    "OutcomeCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "controls": {
+          "maximum": 130,
+          "minimum": 1,
+          "title": "Controls",
+          "type": "integer"
+        },
+        "matched_controls": {
+          "maximum": 130,
+          "minimum": 0,
+          "title": "Matched Controls",
+          "type": "integer"
+        },
+        "successful_tasks": {
+          "maximum": 130,
+          "minimum": 0,
+          "title": "Successful Tasks",
+          "type": "integer"
+        },
+        "expected_task_failures": {
+          "maximum": 130,
+          "minimum": 0,
+          "title": "Expected Task Failures",
+          "type": "integer"
+        },
+        "unexpected_task_failures": {
+          "maximum": 130,
+          "minimum": 0,
+          "title": "Unexpected Task Failures",
+          "type": "integer"
+        },
+        "expectation_mismatches": {
+          "maximum": 130,
+          "minimum": 0,
+          "title": "Expectation Mismatches",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "controls",
+        "matched_controls",
+        "successful_tasks",
+        "expected_task_failures",
+        "unexpected_task_failures",
+        "expectation_mismatches"
+      ],
+      "title": "OutcomeCounts",
+      "type": "object"
+    },
+    "SuiteIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "issue": {
+          "enum": [
+            "invalid_evaluation_evidence",
+            "duplicate_matrix",
+            "missing_or_reused_run_ids",
+            "required_matrices_missing"
+          ],
+          "title": "Issue",
+          "type": "string"
+        },
+        "evaluation": {
+          "anyOf": [
+            {
+              "maximum": 6,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluation"
+        }
+      },
+      "required": [
+        "issue"
+      ],
+      "title": "SuiteIssue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 2,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "evidence_passed": {
+      "title": "Evidence Passed",
+      "type": "boolean"
+    },
+    "selection_passed": {
+      "title": "Selection Passed",
+      "type": "boolean"
+    },
+    "controls_passed": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Controls Passed"
+    },
+    "require_all": {
+      "title": "Require All",
+      "type": "boolean"
+    },
+    "require_contract": {
+      "title": "Require Contract",
+      "type": "boolean"
+    },
+    "coverage_complete": {
+      "title": "Coverage Complete",
+      "type": "boolean"
+    },
+    "present_matrices": {
+      "items": {
+        "enum": [
+          "default",
+          "indexed",
+          "multi_event",
+          "budget_boundaries",
+          "fault_budget_boundaries",
+          "satisfied_budget_boundaries"
+        ],
+        "type": "string"
+      },
+      "maxItems": 6,
+      "title": "Present Matrices",
+      "type": "array"
+    },
+    "missing_matrices": {
+      "items": {
+        "enum": [
+          "default",
+          "indexed",
+          "multi_event",
+          "budget_boundaries",
+          "fault_budget_boundaries",
+          "satisfied_budget_boundaries"
+        ],
+        "type": "string"
+      },
+      "maxItems": 6,
+      "title": "Missing Matrices",
+      "type": "array"
+    },
+    "contract_coverage": {
+      "$ref": "#/$defs/ContractCoverage"
+    },
+    "counts": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OutcomeCounts"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evaluations": {
+      "items": {
+        "$ref": "#/$defs/EvaluationOutput"
+      },
+      "maxItems": 6,
+      "minItems": 1,
+      "title": "Evaluations",
+      "type": "array"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/SuiteIssue"
+      },
+      "maxItems": 32,
+      "title": "Issues",
+      "type": "array"
+    },
+    "limitations": {
+      "title": "Limitations",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "evidence_passed",
+    "selection_passed",
+    "controls_passed",
+    "require_all",
+    "require_contract",
+    "coverage_complete",
+    "present_matrices",
+    "missing_matrices",
+    "contract_coverage",
+    "counts",
+    "evaluations",
+    "issues",
+    "limitations"
+  ],
+  "title": "SuiteReviewOutput",
+  "type": "object"
+}

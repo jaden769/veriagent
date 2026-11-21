@@ -1074,3 +1074,19 @@ expected task failures across 2/6 matrix types. Strict review returned exit 1 an
 outcomes while retaining the same metadata coverage. Outputs:
 `artifacts/browser-contract-coverage.txt` and `artifacts/browser-contract-coverage-strict.json`.
 The review reused saved evidence; no browser launches or paid API/model calls were needed.
+
+### Suite output schema — 2026-11-21
+
+Added version-2 suite output validation and a checked-in generated JSON Schema.
+Ruff passed; 77 focused offline suite, schema, contract-policy, contract-coverage,
+control-audit and review tests passed. Corruption cases cover strict types, old versions,
+unknown fields, metadata drift, inflated totals, policy flags and outcome detail counts.
+Tests ran outside the sandbox to avoid Windows temporary path-length failures.
+
+Actual CLI review of saved modern and legacy evaluations retained 40 matched controls,
+28 successful tasks and 12 expected task failures. Strict contract review exited 1,
+withheld totals and retained identity coverage (one matched, one legacy input).
+Results are saved in `artifacts/browser-suite-schema-v2.json` and its `-strict` variant.
+No browser trials or paid API calls were run; the Chromium suite was not rerun for this
+read-only report change. JSON Schema structural checks do not replace runtime
+cross-field validation or underlying evidence audits.

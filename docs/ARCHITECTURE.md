@@ -294,3 +294,10 @@ Matrix coverage requirements remain independent; default legacy support stays ex
 Suite contract coverage counts every selected input by observed identity status before
 evidence-policy rejection. It does not admit matrices or override nested audit failures;
 distinct matrix coverage and task totals retain their independent validity gates.
+
+Suite output version 2 is validated by frozen strict Pydantic models in
+`browser_suite_schema.py` before publication or text rendering. Nested review records
+retain version 1. A generated draft-2020-12 JSON Schema documents structural fields;
+runtime validators also reconcile metadata denominators, matrix selection, outcome
+partitions, child totals and fail-closed outcome gates. This validates report consistency;
+the existing evidence auditors still establish artifact consistency separately.

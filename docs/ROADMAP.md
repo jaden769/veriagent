@@ -203,6 +203,10 @@ Completed operator-workflow smoke increment: separate CLI processes cover catalo
 inspection, evidence review/export, report validation, archive/inspect/restore and re-review,
 including partial-selection rejection versus valid exported-report consistency.
 
-Next review: assess remaining research validation priorities after the completed offline
-evidence workflow, before adding more command surface.
+Completed research-priority review: RESEARCH_REVIEW.md and a machine-readable pinned
+corpus/matrix/source snapshot distinguish local mechanism evidence from pending external
+review, missing self-reflection/budget ablations and prospective stochastic study design.
+
+Next research increment: prepare an offline-only comparison specification over the pinned
+corpus, existing budgets and metrics, explicitly listing missing comparator behavior.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

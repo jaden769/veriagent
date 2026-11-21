@@ -1,5 +1,8 @@
 # Repeated-trial benchmark
 
+For current evidence gaps, pinned corpus/matrix fingerprints and external-review questions,
+see the [research validation review packet](RESEARCH_REVIEW.md).
+
 `veriagent benchmark` runs fixed requirements on fresh SQLite sandboxes,
 comparing baseline, verify and recover modes. Offline mock is the default even when API
 credentials exist. Default: 3 repetitions × 4 scenarios × 3 modes = 36 runs. Scenarios

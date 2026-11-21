@@ -37,6 +37,8 @@ Use `--satisfied-budget-boundaries` for 16 controls covering pre-satisfied goals
 Add `--require-contract` to control audit/review or suite review to reject unmatched legacy identities.
 See the [offline evidence operator guide](docs/OFFLINE_EVIDENCE.md) for review, report
 validation, archive inspection and transfer commands, success criteria and exit codes.
+The [research review packet](docs/RESEARCH_REVIEW.md) records remaining validation gaps
+and a pinned corpus/matrix snapshot; external review and stochastic comparisons are pending.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

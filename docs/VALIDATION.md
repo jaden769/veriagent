@@ -1225,3 +1225,16 @@ coverage correctly returns exit 1, while its consistent exported rejection repor
 validates with exit 0. Ruff, formatting and diff checks passed. No production code
 changed. The full suite was not rerun for this test/docs-only increment; seven relevant
 Chromium portability tests were included. No paid API calls ran.
+
+### Research validation priority review — 2026-11-21
+
+Added a local research-review packet and unsigned machine-readable baseline snapshot.
+Verified the corpus hash, all six initially-unmet-target counts (1/2/2/1/0/1), three
+implemented modes, six matrix identities totaling 130 controls, 12 selected source hashes
+and document links against installed code/data. The packet prioritizes external corpus/
+fault review and prospective comparator/ablation design before broader reliability claims.
+It does not record independent approval, new measurements or a live study.
+
+No production code or test cases changed; no test suites, browser trials or paid API
+calls were run for this documentation/snapshot increment. Diff checks passed. External
+review, self-reflection comparison and repeated stochastic evidence remain pending.

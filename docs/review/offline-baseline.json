@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-11-21",
+  "review_status": "external_review_pending",
+  "scope": "local_review_snapshot_not_experimental_results",
+  "corpus_sha256": "8f517516d2d6d70574f93dde371e6fef40676c70733a5966b72d8a17abcef6b0",
+  "tasks": [
+    {
+      "id": "single_done",
+      "requirements": [
+        {
+          "issue_id": "ISSUE-1",
+          "status": "done"
+        }
+      ],
+      "initial_statuses": {
+        "ISSUE-1": "open",
+        "ISSUE-2": "open",
+        "ISSUE-3": "open"
+      },
+      "initially_unmet_targets": 1
+    },
+    {
+      "id": "pair_done",
+      "requirements": [
+        {
+          "issue_id": "ISSUE-1",
+          "status": "done"
+        },
+        {
+          "issue_id": "ISSUE-2",
+          "status": "done"
+        }
+      ],
+      "initial_statuses": {
+        "ISSUE-1": "open",
+        "ISSUE-2": "open",
+        "ISSUE-3": "open"
+      },
+      "initially_unmet_targets": 2
+    },
+    {
+      "id": "mixed_status",
+      "requirements": [
+        {
+          "issue_id": "ISSUE-1",
+          "status": "done"
+        },
+        {
+          "issue_id": "ISSUE-2",
+          "status": "in_progress"
+        }
+      ],
+      "initial_statuses": {
+        "ISSUE-1": "open",
+        "ISSUE-2": "open",
+        "ISSUE-3": "in_progress"
+      },
+      "initially_unmet_targets": 2
+    },
+    {
+      "id": "reopen",
+      "requirements": [
+        {
+          "issue_id": "ISSUE-2",
+          "status": "open"
+        }
+      ],
+      "initial_statuses": {
+        "ISSUE-1": "done",
+        "ISSUE-2": "done",
+        "ISSUE-3": "in_progress"
+      },
+      "initially_unmet_targets": 1
+    },
+    {
+      "id": "already_satisfied",
+      "requirements": [
+        {
+          "issue_id": "ISSUE-1",
+          "status": "done"
+        }
+      ],
+      "initial_statuses": {
+        "ISSUE-1": "done",
+        "ISSUE-2": "in_progress",
+        "ISSUE-3": "open"
+      },
+      "initially_unmet_targets": 0
+    },
+    {
+      "id": "partial_satisfied",
+      "requirements": [
+        {
+          "issue_id": "ISSUE-1",
+          "status": "done"
+        },
+        {
+          "issue_id": "ISSUE-2",
+          "status": "done"
+        }
+      ],
+      "initial_statuses": {
+        "ISSUE-1": "done",
+        "ISSUE-2": "open",
+        "ISSUE-3": "in_progress"
+      },
+      "initially_unmet_targets": 1
+    }
+  ],
+  "implemented_modes": [
+    "baseline",
+    "verify",
+    "recover"
+  ],
+  "browser_matrices": [
+    {
+      "name": "default",
+      "controls": 42,
+      "identity": {
+        "version": 1,
+        "matrix": "default",
+        "sha256": "23e35461e08e6f1b58fb55688e8cc7bb97a9fd73424139b730ec86e2b2e59e9d"
+      }
+    },
+    {
+      "name": "indexed",
+      "controls": 24,
+      "identity": {
+        "version": 1,
+        "matrix": "indexed",
+        "sha256": "f21f5917cec16dde0658f40ff86d2cbd34b807d9301d1aa5a0b6058d1701cfaf"
+      }
+    },
+    {
+      "name": "multi_event",
+      "controls": 12,
+      "identity": {
+        "version": 1,
+        "matrix": "multi_event",
+        "sha256": "e9134d7619f8afc1c583c2474965afed42567fbed0309893561721ee5acb0506"
+      }
+    },
+    {
+      "name": "budget_boundaries",
+      "controls": 12,
+      "identity": {
+        "version": 1,
+        "matrix": "budget_boundaries",
+        "sha256": "5697480bef770d5dbc5ce597747512ef213bcb279380322395dba2d23ee2cac6"
+      }
+    },
+    {
+      "name": "fault_budget_boundaries",
+      "controls": 24,
+      "identity": {
+        "version": 1,
+        "matrix": "fault_budget_boundaries",
+        "sha256": "a25d4b4bb4cb1f3694719c84495687862aba18e6838432d0f97ce42dda4b3e54"
+      }
+    },
+    {
+      "name": "satisfied_budget_boundaries",
+      "controls": 16,
+      "identity": {
+        "version": 1,
+        "matrix": "satisfied_budget_boundaries",
+        "sha256": "28de80f20f861ad1414a7ccee5e8f2de36569a0a7db42bffd5119d7b1b80c658"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/veriagent/scenarios/benchmark_tasks.json": "8f517516d2d6d70574f93dde371e6fef40676c70733a5966b72d8a17abcef6b0",
+    "src/veriagent/benchmark_cases.py": "3cb1c7a6293a457d779f74488d23eed0508f16b34531ddd8a6635b133f87720d",
+    "src/veriagent/benchmark_faults.py": "1835f7c9abc66f0322ed5c38a80977df1b4365a064927fb532c9f290942a9aec",
+    "src/veriagent/benchmark.py": "814cf0cf2eb22c320f7837423e2dc7e77cc4c4fa10dccd5d46537738a75845c3",
+    "src/veriagent/browser_catalog.py": "4dd77a05e40a610b28df91cc9be66d1b5919507ac838c34dc7cdaa70887b3460",
+    "src/veriagent/browser_controls.py": "f6ac8f0157ee547b62531349883beb2288fb58907874c094e547305052142e3c",
+    "src/veriagent/models.py": "28593e3e4747ddaacde8a4b542a094ebb24bb35b19e5aa6c4b78d06a68b41d15",
+    "src/veriagent/browser_faults.py": "20c079e54c1586c62f80a6d76f08a9236dd5433d1e886db3221f7fbb39b6c0cb",
+    "src/veriagent/browser_execution.py": "aecdf8981488426dc03a53c6d220dab512ba17dc1264b87bdb43d5fba3653c4a",
+    "src/veriagent/verification.py": "c7c1e4093c9db89c3d9300c9a56386866aded9d834c843ded0c8916eda3f027c",
+    "src/veriagent/agent.py": "5ad4e1e026912c12c96f727909a60b9808b6645880ea979f159d131a6ee44c0e",
+    "src/veriagent/dynamic.py": "cdd75f29e789ea210496823a16143ee7d7beb9e39597fefeaa666975d6a49498"
+  },
+  "limitations": "Unsigned local snapshot; not independent review, approval, provenance authentication or reliability evidence."
+}

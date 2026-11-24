@@ -77,6 +77,8 @@ motivates separate accounting; it is not an equal-exposure cost comparison.
 First derive the completed-call ledger from saved traces without changing agent behavior.
 The [saved-trace ledger](VERIFICATION_WORK.md) now provides that descriptive derivation;
 its error-path work remains unknown rather than assumed zero.
+The [standalone admission specification](VERIFICATION_ADMISSION.md) defines reservation
+semantics and acceptance tests; it is not yet connected to execution.
 Then specify and test any new admission caps before using them as experimental controls.
 Post-hoc truncation or regression adjustment does not retroactively equalize budgets.
 

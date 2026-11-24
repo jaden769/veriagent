@@ -224,6 +224,10 @@ Completed verification-work ledger increment: bounded single-run trace reconcili
 separate action/decision/recovery/oracle units, unknown error-path work and a hash-bound
 derivation for all 144 completed comparison runs.
 
-Next research increment: define bounded trusted-verification admission semantics and
-acceptance tests before changing execution policies or introducing comparator arms.
+Completed standalone verification-admission semantics: strict optional call/target-row
+limits, pre-work reservations, no refunds on errors and unknown partial-work accounting,
+with acceptance tests. The ledger remains disconnected from execution and CLI.
+
+Next research increment: add an opt-in trusted-verifier adapter that reserves before
+opening read transactions, settles all attempts and proves denial performs no read.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

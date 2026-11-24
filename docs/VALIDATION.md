@@ -1304,3 +1304,17 @@ sandbox run encountered seven known long-path SQLite failures; the final run out
 the sandbox passed. Ruff, formatting, document links, derived hashes and diff checks
 passed. No browser or paid API calls ran. Regression tests exercised mock benchmarks;
 the recorded 144 comparison outcomes were read, not rerun. No execution policy changed.
+
+### Standalone verification admission — 2026-11-24
+
+Added strict optional call/target-row limits and a one-in-flight reservation ledger.
+Reservations precede prospective work, denied requests do not mutate state, errors
+retain allowances and leave total actual work unknown. Exact completed target-row
+accounting, ticket identity, stale/double settlement and detached snapshots are enforced.
+The module remains disconnected from StateVerifier, agents, Budget and CLI.
+
+All 77 focused admission, saved-trace and dynamic-engine tests passed in 12.38 seconds,
+including 28 new admission tests. Ruff, formatting, documentation links, existing derived
+implementation hash and diff checks passed. Existing comparison traces/outcomes and
+execution policies were unchanged. No new comparison batches, browser trials or paid API
+calls ran. Adapter-level proof of no read on denial remains the next integration gate.

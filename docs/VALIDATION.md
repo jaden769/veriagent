@@ -1418,3 +1418,29 @@ after observing results. No product agent code changed; the full Chromium suite 
 rerun for this repository-local runner. Tests and the experiment used MockProvider, with
 zero model tokens, no browser trials and no paid API calls. Raw artifacts remain local;
 the committed record is not a complete portable raw-evidence release.
+
+### Portable bounded-oracle raw evidence — 2026-11-24
+
+Added repository-local packaging/audit utilities and committed-candidate raw ZIP at
+`docs/evidence/bounded-oracle-2026-11-24.zip`: 424,810 bytes, 436 files and all 72 recorded
+runs. It includes the bound manifest, plan, corpus, generating runner source, state/trace
+SQLite files, JSON traces, reports, admission replays and per-trial results. ZIP/checker
+fingerprints and relocation validation are recorded separately. The runner source inside
+the ZIP is read as bytes and never executed.
+
+The real package passed staged validation and was copied to its repository location;
+its re-audit passed with original-source file and SQLite access explicitly blocked.
+All 28 denials, per-condition expectations, exact coverage, bound hashes, report/result/
+trace equality, quota/budget configuration, fresh admission replay and independent final
+SQL outcomes reconciled. Original absolute manifest paths were not followed.
+
+All 165 focused package/runner/admission/agent/adapter/work/dynamic tests passed in
+35.13 seconds, including 17 new package cases. Coverage includes relocation, corrupt
+payloads, bad external hashes, unbound/escaping members, no overwrite/publication on
+failure, preflight before payload access, excessive/duplicate plan dimensions and strict
+expected outcome types. Shared archive bounds and SQLite read-only instruction budgets
+are used. Ruff, formatting, package/checker checksums, links and diff checks passed.
+Tests ran outside Windows sandbox path limits. No new comparison, browser trial or paid
+API call ran; fixed mock regression conditions exercised the harness. Product code and
+historical predictions/results were unchanged. No authenticated provenance or stochastic
+reliability claim is made.

@@ -53,3 +53,5 @@ audit. A wholly rewritten, self-consistent trace is not excluded by replay alone
 reconciler does not establish total SQLite work, cost parity, fault-exposure equality or
 causal policy effects. Dedicated bounded-oracle comparison plans and external research
 review remain separate gates.
+The [raw bounded-oracle package](BOUNDED_ORACLE_PACKAGE.md) uses this replay check as
+one part of its independent file, trace and final-state reconciliation.

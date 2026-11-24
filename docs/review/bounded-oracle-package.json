@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "consistency_passed": true,
+  "runs": 72,
+  "files": 436,
+  "denied_runs": 28,
+  "experiment_evidence_passed": true,
+  "expectations_passed": true,
+  "manifest_sha256": "97ddc8da800f8e8d7c778a05f94af0ff375151eecfb13a4a38728253d3b8e758",
+  "limitations": "Unsigned bound-evidence consistency; embedded runner source is never executed.",
+  "archive": "docs/evidence/bounded-oracle-2026-11-24.zip",
+  "archive_sha256": "a168813c105a50de87654c7d1d35e58ec442486fa1ca8e01c7291d6ede4c3b63",
+  "archive_bytes": 424810,
+  "recorded_on": "2026-11-24",
+  "checker_sha256": "c63f413e0ef5fe93a752dae2a8e495929e1faf66abce9414df6cd1d1ba4ba37f",
+  "relocation_check": "Repository ZIP re-audited with original source file and SQLite access blocked.",
+  "raw_evidence_included": true
+}

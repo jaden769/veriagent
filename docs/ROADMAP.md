@@ -248,6 +248,10 @@ Completed bounded-oracle runner/execution: all 72 mock conditions completed and 
 28 predicted denials matched, and final-state success remains separate from budget denial.
 Raw artifacts, per-condition results and interruption/expectation-retention tests are recorded.
 
-Next research increment: package and independently recheck the raw bounded-oracle evidence
-so the recorded comparison can be transferred without relying on local absolute paths.
+Completed portable raw-evidence release: a 436-file/72-run ZIP is included in the repo,
+with external manifest binding, file/SQLite/trace/admission/state rechecks and blocked-
+original-path relocation validation. Source/corpus/runner bytes and checksums travel with it.
+
+Next research increment: implement a mock-only self-reflection comparator prototype with
+typed corrective phases, shared limits and no trusted-oracle feedback, following the design.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

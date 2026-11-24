@@ -26,8 +26,9 @@ and preserve the incomplete manifest and active trial.
 
 A single new UUID tree was created under the approved non-OneDrive local artifact root.
 Raw state/trace databases, JSON traces, reports, admission replays and per-run results
-remain at the directory recorded in the results JSON. They are unsigned and not bundled
-in this committed record. A complete portable raw-evidence release is still separate work.
+remain at the recorded directory and are now also included in a
+[portable evidence package](BOUNDED_ORACLE_PACKAGE.md). They are unsigned; package hashes
+establish bound consistency rather than authenticated provenance.
 
 Post-run checks independently verified exact coverage and 72 unique run IDs, every bound
 file hash, result/manifest and report equality, SQLite trace rows versus exported JSON,

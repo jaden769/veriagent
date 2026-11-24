@@ -78,9 +78,9 @@ First derive the completed-call ledger from saved traces without changing agent 
 The [saved-trace ledger](VERIFICATION_WORK.md) now provides that descriptive derivation;
 its error-path work remains unknown rather than assumed zero.
 The [standalone admission specification](VERIFICATION_ADMISSION.md) defines reservation
-semantics and acceptance tests; it is not yet connected to execution.
-The [explicit adapter](BOUNDED_VERIFICATION.md) subsequently adds pre-read admission;
-agent policy mapping and trace integration remain pending.
+semantics and acceptance tests. The [explicit adapter](BOUNDED_VERIFICATION.md) adds
+pre-read admission, and [explicit agent integration](AGENT_VERIFICATION_ADMISSION.md)
+provides budget-denial outcomes and durable state. Comparator experiments remain pending.
 Then specify and test any new admission caps before using them as experimental controls.
 Post-hoc truncation or regression adjustment does not retroactively equalize budgets.
 

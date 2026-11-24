@@ -4,8 +4,9 @@ The [comparator design](COMPARATOR_DESIGN.md) requires accounting for trusted ve
 separately from executor actions. `verification_work(events, expected_run_id=...)` in
 `veriagent.verification_work` derives a descriptive ledger without rerunning an agent,
 opening its state database or changing admission budgets. It adds no CLI mode.
-Prospective [admission accounting](VERIFICATION_ADMISSION.md) is defined separately and
-is not wired into the agents.
+Prospective [admission accounting](VERIFICATION_ADMISSION.md) is separate from this
+retrospective ledger. [Agent integration](AGENT_VERIFICATION_ADMISSION.md) is explicit
+and leaves default execution unchanged.
 
 ## Accepted trace and reconciliation
 

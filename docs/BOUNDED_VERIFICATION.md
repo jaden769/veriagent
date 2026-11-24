@@ -44,8 +44,7 @@ known completed rows stay zero and actual total rows stay null. Missing-file, mi
 satisfied-target, incomplete-return, exception and cancellation paths are covered separately.
 Ordinary final verification remains available after execution denial.
 
-Agents still use ordinary StateVerifier by default. Integration must define explicit
-denial-to-outcome mapping and durable admission/state trace events before an executed
-bounded-oracle comparison. Passing this wrapper to current agents without that mapping
-is not a supported experiment: generic verifier-error handling does not distinguish
-budget denial. No CLI flags, reflection arm or changed benchmark outcomes are added here.
+Agents and CLI still use ordinary StateVerifier by default. Explicitly supplying this
+adapter to Agent or DynamicAgent now enables run binding, durable admission events and
+budget-denial handling. See [opt-in agent integration](AGENT_VERIFICATION_ADMISSION.md).
+No CLI flags or reflection arm are added.

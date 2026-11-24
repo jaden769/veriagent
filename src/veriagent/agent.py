@@ -3,6 +3,11 @@
 import time
 from uuid import uuid4
 
+from veriagent.bounded_verification import (
+    prepare_verification_run,
+    verification_configuration,
+    verify_for_run,
+)
 from veriagent.budgeting import ModelBudgetExceeded
 from veriagent.executor import Executor
 from veriagent.interpretation import proposal_digest
@@ -11,6 +16,7 @@ from veriagent.planner import PlanningProvider
 from veriagent.recovery import RecoveryPolicy
 from veriagent.trace import TraceStore
 from veriagent.verification import StateVerifier
+from veriagent.verification_budget import VerificationBudgetExceeded
 
 
 class Agent:
@@ -58,6 +64,7 @@ class Agent:
         start = time.monotonic()
         deadline = start + self.budget.timeout_seconds
         run_id = uuid4().hex
+        prepare_verification_run(self.verifier, task, run_id)
         self.traces.append(run_id, "task", task)
         if reviewed_proposal is not None:
             self.traces.append(
@@ -77,6 +84,7 @@ class Agent:
                 "mode": mode.value,
                 "budget": self.budget.model_dump(),
                 "tool_execution": self.executor.execution_mode,
+                **verification_configuration(self.verifier),
             },
         )
         try:
@@ -166,8 +174,16 @@ class Agent:
             if mode == Mode.BASELINE:
                 break
             try:
-                verification = self.verifier.verify(task)
+                verification = verify_for_run(self.verifier, task, self.traces, run_id)
                 self.traces.append(run_id, "verification", verification)
+            except VerificationBudgetExceeded as exc:
+                verification = None
+                failure = Failure.BUDGET
+                claimed = False
+                self.traces.append(
+                    run_id, "verification_denied", {"failure": failure.value, "reason": str(exc)}
+                )
+                break
             except Exception:
                 # Missing/unreadable evidence must never become a success claim.
                 failure = Failure.INTERNAL

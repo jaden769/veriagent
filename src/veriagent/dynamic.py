@@ -4,6 +4,11 @@ import time
 from typing import Protocol
 from uuid import uuid4
 
+from veriagent.bounded_verification import (
+    prepare_verification_run,
+    verification_configuration,
+    verify_for_run,
+)
 from veriagent.budgeting import ModelBudgetExceeded
 from veriagent.executor import Executor
 from veriagent.interpretation import proposal_digest
@@ -25,6 +30,7 @@ from veriagent.models import (
 )
 from veriagent.trace import TraceStore
 from veriagent.verification import StateVerifier
+from veriagent.verification_budget import VerificationBudgetExceeded
 
 
 class DecisionProvider(Protocol):
@@ -111,6 +117,7 @@ class DynamicAgent:
         start = time.monotonic()
         deadline = start + self.budget.timeout_seconds
         run_id = uuid4().hex
+        prepare_verification_run(self.verifier, task, run_id)
         self.traces.append(run_id, "task", task)
         if reviewed_proposal is not None:
             self.traces.append(
@@ -131,6 +138,7 @@ class DynamicAgent:
                 "mode": mode.value,
                 "budget": self.budget.model_dump(mode="json"),
                 "tool_execution": self.executor.execution_mode,
+                **verification_configuration(self.verifier),
             },
         )
         metadata = self.provider.usage
@@ -146,9 +154,16 @@ class DynamicAgent:
         def verify() -> bool:
             nonlocal verification, failure
             try:
-                verification = self.verifier.verify(task)
+                verification = verify_for_run(self.verifier, task, self.traces, run_id)
                 self.traces.append(run_id, "verification", verification)
                 return True
+            except VerificationBudgetExceeded as exc:
+                verification = None
+                failure = Failure.BUDGET
+                self.traces.append(
+                    run_id, "verification_denied", {"failure": failure.value, "reason": str(exc)}
+                )
+                return False
             except Exception:
                 verification = None
                 failure = Failure.INTERNAL
@@ -157,7 +172,7 @@ class DynamicAgent:
 
         if mode != Mode.BASELINE:
             if not verify():
-                failure = Failure.INTERNAL
+                failure = failure or Failure.INTERNAL
             elif verification.passed:
                 claimed = True
             elif verification.failure == Failure.NOT_FOUND:

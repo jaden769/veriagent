@@ -67,8 +67,9 @@ and saved-trace tests are also run for regressions.
 
 The opt-in adapter tests prove reservation **before** opening a trusted read transaction,
 original unique-target counting, settlement of admitted attempts and no read on denial.
-Final evaluator reads remain outside its allowance. Durable denial/accounting trace
-events remain an agent-integration requirement.
+Final evaluator reads remain outside its allowance. Explicit agent integration now adds
+[durable events and denial outcomes](AGENT_VERIFICATION_ADMISSION.md).
 Agent integration must separately define how denial maps to an honest terminal outcome,
 how initially satisfied tasks behave, and how default unlimited behavior stays compatible.
-No bounded-oracle comparator claim should be made until those gates are tested.
+These integration gates have focused coverage; they do not themselves constitute a
+budget-controlled comparator experiment.

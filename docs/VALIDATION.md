@@ -1337,3 +1337,27 @@ Ruff, formatting, document links, pinned baseline source hashes and diff checks 
 Broader tests ran outside Windows sandbox path limits. Regression mock trials ran; no new
 comparison batch, browser trial or paid API call ran. Agent denial mapping and durable
 admission traces remain pending; no bounded-oracle comparison result is claimed.
+
+### Explicit agent verification admission and traces — 2026-11-24
+
+Both engines now recognize an explicitly supplied BudgetedStateVerifier. A fresh adapter/
+ledger binds to the original task/run, configuration records its limits and verification
+requests emit admitted/completed/error/denied state snapshots. Denial is an honest budget
+failure with no success claim and no stale verification snapshot. Actual admitted errors
+remain internal failures with unknown partial work. Ordinary verifiers and CLI defaults
+retain their original path without admission trace fields.
+
+All 104 focused agent/admission/adapter/trace/dynamic tests passed in 20.13 seconds,
+including 16 new opt-in agent cases. Coverage includes no oracle read on initial denial,
+post-repair denial despite satisfied final state, independent evaluator access, unlimited
+parity across engines/modes, baseline zero use, initial satisfaction, run binding and
+admitted errors. The complete Chromium-enabled suite then passed: **762 passed, one
+existing Starlette/httpx deprecation warning, in 437.08 seconds**. A portability evidence
+read triggered a 30-second faulthandler diagnostic; it resumed and the suite completed
+without failures. The full log is `artifacts/agent-verification-admission-tests.txt`.
+
+Ruff, formatting, document links, historical verification-work implementation hash and
+diff checks passed. The broad run used the approved outside-sandbox environment to avoid
+Windows temporary path limits. Mock benchmarks/browser integration tests ran; no paid API
+calls or new comparator study ran. Historical baseline source fingerprints are retained
+as historical records, not silently updated to the changed agent implementation.

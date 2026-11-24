@@ -232,6 +232,10 @@ Completed opt-in trusted-verifier adapter: original target reservations precede 
 connections, complete/missing/mismatched snapshots settle work, and errors/cancellation
 retain reservations and unknown work. Existing agents and CLI remain unchanged.
 
-Next research increment: define explicit budget-denial outcomes and durable verification
-admission/state traces for opt-in agent integration, preserving default behavior.
+Completed explicit agent admission integration: fresh run/task binding, opt-in limit
+configuration and durable admitted/completed/error/denied snapshots; denial maps to honest
+budget failure with no stale verification, while ordinary defaults remain on their old path.
+
+Next research increment: validate and reconcile the new admission-state trace events
+against final ledger counters before using them in a bounded-oracle comparison.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

@@ -244,6 +244,10 @@ Completed prospective bounded-oracle specification: 72 dynamic mock conditions a
 three tasks, two scenarios, three modes and four quota profiles, with pinned source/budget
 inputs and 28 predicted denial boundaries validated before running agents.
 
-Next research increment: implement and execute the explicit mock-only bounded-oracle
-runner, retaining raw evidence, unexpected outcomes and admission replay results.
+Completed bounded-oracle runner/execution: all 72 mock conditions completed and reconciled,
+28 predicted denials matched, and final-state success remains separate from budget denial.
+Raw artifacts, per-condition results and interruption/expectation-retention tests are recorded.
+
+Next research increment: package and independently recheck the raw bounded-oracle evidence
+so the recorded comparison can be transferred without relying on local absolute paths.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

@@ -1,9 +1,12 @@
 # Prospective bounded-oracle mechanism check
 
-Prepared 2026-11-24. Status: **specified, not run**. The
+Prepared 2026-11-24. Status at preparation: **specified, not run**. The
 [plan JSON](review/bounded-oracle-plan.json) pins current Python source hashes, corpus,
 selections, budgets and all 72 expected condition outcomes. It is a new specification;
 historical baseline hashes and earlier comparison plans remain unchanged.
+
+Subsequent execution is recorded in [the outcome report](BOUNDED_ORACLE_RESULTS.md).
+The prospective plan JSON remains unchanged; predictions and observations are separate.
 
 ## Selection and purpose
 
@@ -27,9 +30,9 @@ because a quota prevents its delivery.
 
 Execution caps are eight tool actions, eight dynamic decisions, two recovery admissions,
 a 60-second cooperative run deadline and one-second action timeout. No model/API provider
-is selected, and no new CLI flag or browser backend is proposed. A later explicit Python
-experiment runner must implement this specification; `benchmark` currently has no
-verification-quota parameter, so these are not runnable benchmark CLI options.
+is selected, and no new CLI flag or browser backend is proposed. The [repository-local runner](../research/run_bounded_oracle.py) implements this
+specification; `benchmark` has no verification-quota parameter, so these are not product
+benchmark CLI options.
 
 ## Expected boundaries, fixed before outcomes
 
@@ -84,5 +87,5 @@ reads with ordinary tool actions, enforce total SQLite cost, guarantee deadline 
 equalize realized fault exposure or establish causal/stochastic reliability. Self-reflection,
 budget-controlled policy ablations and independent external review remain pending.
 
-Next, implement and run this explicit mock-only experiment with raw evidence retention
-and admission reconciliation. No trial was executed when this plan was prepared.
+Execution with raw evidence retention and admission reconciliation is now recorded in
+the linked outcome report. No trial was executed when the original plan was prepared.

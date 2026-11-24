@@ -1394,3 +1394,27 @@ corpus hashes, document links and diff checks. Replayed only abstract ledger res
 to confirm initial/post-write denial boundaries and reason codes; no agent, tool or oracle
 was executed. No production code, test suites, comparison outcomes, browser trials or paid
 API calls changed/ran. The explicit runner and outcome collection remain pending.
+
+### Bounded-oracle runner and recorded execution — 2026-11-24
+
+Added the repository-local `research.run_bounded_oracle` runner, outside the product CLI
+and pinned product source tree. It validates the reviewed mock-only plan before output,
+uses fresh state/provider/ledger/adapter/traces per cell, preserves mismatches and partial
+attempts, and stores raw reports, SQLite/JSON traces, final state and admission replay.
+All 148 focused runner/admission/agent/adapter/work/dynamic tests passed in 23.43 seconds,
+including eight new runner cases for invalid plans, unexpected predictions and interruption.
+
+Executed all 72 pinned conditions once in a new local non-OneDrive UUID artifact tree.
+Every expectation and admission check passed: 16 initial denials, 12 post-write denials,
+42 completed trusted checks and 55 known target reads. Ten denied runs had independently
+satisfied final targets, with claims correctly withheld. No collateral changes or verifier
+errors were observed. These are descriptive inventories, not pooled policy estimates.
+
+Independently checked exact coverage, 72 unique IDs, every raw file hash, manifest/result/
+report equality, trace SQLite/JSON equality, fresh replay/live-state equality and final
+SQLite target/collateral outcomes. Plan and runner hashes and links match the recorded
+JSON. Ruff, formatting and diff checks passed. Source/plan predictions were not changed
+after observing results. No product agent code changed; the full Chromium suite was not
+rerun for this repository-local runner. Tests and the experiment used MockProvider, with
+zero model tokens, no browser trials and no paid API calls. Raw artifacts remain local;
+the committed record is not a complete portable raw-evidence release.

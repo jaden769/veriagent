@@ -121,6 +121,9 @@ No live study, sample size or billable execution is established by this design.
 
 ## Implementation gates
 
+The [prospective bounded-oracle check](BOUNDED_ORACLE_COMPARISON.md) now pins a small
+mock-only admission comparison. Its expected outcomes are not measured results.
+
 1. Reconcile the verification-work ledger against saved static and dynamic traces,
    preserving missing/error information explicitly.
 2. Review self-reflection observations, typed phase transitions, accounting and admission

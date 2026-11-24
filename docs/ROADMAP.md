@@ -240,6 +240,10 @@ Completed offline admission-trace reconciliation: replay strict limits and state
 pair outcomes, reconcile work counters and reject dishonest denial/error reports without
 executing an oracle. Default traces and historical work derivations remain unchanged.
 
-Next research increment: specify a small offline bounded-oracle comparison with explicit
-limits, expected denial conditions and admission reconciliation before collecting outcomes.
+Completed prospective bounded-oracle specification: 72 dynamic mock conditions across
+three tasks, two scenarios, three modes and four quota profiles, with pinned source/budget
+inputs and 28 predicted denial boundaries validated before running agents.
+
+Next research increment: implement and execute the explicit mock-only bounded-oracle
+runner, retaining raw evidence, unexpected outcomes and admission replay results.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

@@ -1380,3 +1380,17 @@ Ruff, formatting, document links, historical work implementation hash and diff c
 passed. No agent or CLI behavior changed in this increment. The complete suite was not
 rerun after its previous 762-test pass; the new reconciler is isolated and focused tests
 exercise its integration. No browser trials, comparison batches or paid API calls ran.
+
+### Prospective bounded-oracle specification — 2026-11-24
+
+Added BOUNDED_ORACLE_COMPARISON.md and a machine-readable 72-condition plan. Selections
+are three fixed tasks, clean/silent-drop scenarios, baseline/verify/recover and zero-call,
+one-call, one-row/unlimited profiles, dynamic mock only. Per-cell expected denial phase,
+reason, final target success, claim, failure and verified-success values are recorded
+prospectively. The predicted inventory is 28 denials, not a measured result.
+
+Validated unique exact condition coverage, budget schema, every quota profile, source/
+corpus hashes, document links and diff checks. Replayed only abstract ledger reservations
+to confirm initial/post-write denial boundaries and reason codes; no agent, tool or oracle
+was executed. No production code, test suites, comparison outcomes, browser trials or paid
+API calls changed/ran. The explicit runner and outcome collection remain pending.

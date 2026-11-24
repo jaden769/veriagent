@@ -6,6 +6,8 @@ The [offline comparison specification](OFFLINE_COMPARISON.md) pins a prospective
 check; planned batches are separate from [recorded mock results](OFFLINE_COMPARISON_RESULTS.md).
 The [comparator design](COMPARATOR_DESIGN.md) identifies information-access and resource
 controls still required for self-reflection and ablation comparisons.
+The [verification-work ledger](VERIFICATION_WORK.md) derives trusted-check counts from
+saved traces separately from tool actions, without changing the benchmark policy.
 
 `veriagent benchmark` runs fixed requirements on fresh SQLite sandboxes,
 comparing baseline, verify and recover modes. Offline mock is the default even when API

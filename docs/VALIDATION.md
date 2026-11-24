@@ -1287,3 +1287,20 @@ These quantities are not interchangeable resource units or an equal-exposure con
 Verified document links and diff checks. No implementation, tests, benchmark trials,
 browser trials or paid API calls changed/ran. The design does not implement a reflection
 arm, new caps or fault profiles; external review and stochastic study design remain pending.
+
+### Saved-trace verification work ledger — 2026-11-24
+
+Added a pure bounded ledger for dedicated single-run traces. Reconciled all 144 saved
+comparison traces against terminal reports and original benchmark rows: 182 completed
+trusted verification calls, 284 known target evidence rows, zero recorded verification
+errors. Derived records bind comparison/implementation/trace hashes and keep task,
+scenario, engine and mode labels. No interrupted-attempt rows were pooled.
+
+All 85 focused ledger, benchmark, fault, metric and dynamic-engine tests passed in
+56.03 seconds, including 16 new cases. Tests cover unknown partial error work (including
+zero completed calls), final-evaluator exclusion, strict sequence/counter reconciliation,
+wrong identity, missing terminal reports and task/evidence disagreement. The initial
+sandbox run encountered seven known long-path SQLite failures; the final run outside
+the sandbox passed. Ruff, formatting, document links, derived hashes and diff checks
+passed. No browser or paid API calls ran. Regression tests exercised mock benchmarks;
+the recorded 144 comparison outcomes were read, not rerun. No execution policy changed.

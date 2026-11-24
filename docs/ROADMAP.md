@@ -220,6 +220,10 @@ Completed comparator/ablation design: proposed observation-only self-reflection 
 explicit missing implementations, separate tool/decision/oracle/recovery accounting and
 exposure-aware analysis rules. Read-only trace spot-checks confirm differing verifier work.
 
-Next research increment: derive and reconcile a verification-work ledger from the saved
-comparison traces, retaining error and unknown-work information before adding new arms.
+Completed verification-work ledger increment: bounded single-run trace reconciliation,
+separate action/decision/recovery/oracle units, unknown error-path work and a hash-bound
+derivation for all 144 completed comparison runs.
+
+Next research increment: define bounded trusted-verification admission semantics and
+acceptance tests before changing execution policies or introducing comparator arms.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

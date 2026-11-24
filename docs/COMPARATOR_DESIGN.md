@@ -75,6 +75,8 @@ The static run was fault-recovery-ineligible and the dynamic run eligible. This 
 motivates separate accounting; it is not an equal-exposure cost comparison.
 
 First derive the completed-call ledger from saved traces without changing agent behavior.
+The [saved-trace ledger](VERIFICATION_WORK.md) now provides that descriptive derivation;
+its error-path work remains unknown rather than assumed zero.
 Then specify and test any new admission caps before using them as experimental controls.
 Post-hoc truncation or regression adjustment does not retroactively equalize budgets.
 

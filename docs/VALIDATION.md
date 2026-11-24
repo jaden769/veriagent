@@ -1361,3 +1361,22 @@ diff checks passed. The broad run used the approved outside-sandbox environment 
 Windows temporary path limits. Mock benchmarks/browser integration tests ran; no paid API
 calls or new comparator study ran. Historical baseline source fingerprints are retained
 as historical records, not silently updated to the changed agent implementation.
+
+### Offline admission-trace reconciliation — 2026-11-24
+
+Added a pure opt-in admission reconciler. It validates ordinary work first, then replays
+strict limit/counter snapshots, admitted/completed/error/denied transitions, paired outcome
+events and terminal report semantics. Snapshot comparisons preserve bool/int/float type
+distinctions. Consistent quota failures pass evidence reconciliation without being called
+task success; partial error-path work remains unknown.
+
+All 140 focused reconciliation, agent, adapter, admission, work-ledger and dynamic tests
+passed in 23.91 seconds, including 36 new cases. Actual traces cover both engines, three
+modes, unlimited, zero-call and one-row limits, plus admitted errors. Corruptions exercise
+counter/type drift, removed phases/outcomes with sequence renumbering, wrong targets,
+changed limits, invalid denial reasons, false success and execution after denial.
+
+Ruff, formatting, document links, historical work implementation hash and diff checks
+passed. No agent or CLI behavior changed in this increment. The complete suite was not
+rerun after its previous 762-test pass; the new reconciler is isolated and focused tests
+exercise its integration. No browser trials, comparison batches or paid API calls ran.

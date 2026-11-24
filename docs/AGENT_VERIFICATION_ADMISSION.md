@@ -64,6 +64,8 @@ label denial as a failed verifier call. Ordinary completed `verification` events
 `verification_error` events continue to describe actual attempts. Report schemas are not
 extended: detailed quota state is in the traces. A trace-storage failure cannot establish
 durable evidence and must not be interpreted as a successful budget-controlled trial.
+The [offline admission reconciler](VERIFICATION_ADMISSION_AUDIT.md) replays these states
+and checks their outcomes without executing an oracle.
 
 No hidden fault labels or quota state are added to provider observations. The existing
 task/feedback/verification protocol remains in place. Setup and post-run evaluator reads

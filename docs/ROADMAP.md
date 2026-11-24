@@ -236,6 +236,10 @@ Completed explicit agent admission integration: fresh run/task binding, opt-in l
 configuration and durable admitted/completed/error/denied snapshots; denial maps to honest
 budget failure with no stale verification, while ordinary defaults remain on their old path.
 
-Next research increment: validate and reconcile the new admission-state trace events
-against final ledger counters before using them in a bounded-oracle comparison.
+Completed offline admission-trace reconciliation: replay strict limits and state changes,
+pair outcomes, reconcile work counters and reject dishonest denial/error reports without
+executing an oracle. Default traces and historical work derivations remain unchanged.
+
+Next research increment: specify a small offline bounded-oracle comparison with explicit
+limits, expected denial conditions and admission reconciliation before collecting outcomes.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

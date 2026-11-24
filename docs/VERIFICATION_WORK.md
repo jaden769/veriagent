@@ -7,6 +7,9 @@ opening its state database or changing admission budgets. It adds no CLI mode.
 Prospective [admission accounting](VERIFICATION_ADMISSION.md) is separate from this
 retrospective ledger. [Agent integration](AGENT_VERIFICATION_ADMISSION.md) is explicit
 and leaves default execution unchanged.
+For opt-in admission counters and state transitions, use the separate
+[admission reconciler](VERIFICATION_ADMISSION_AUDIT.md); this work ledger alone does not
+validate admission snapshots.
 
 ## Accepted trace and reconciliation
 

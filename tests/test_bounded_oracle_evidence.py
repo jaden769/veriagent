@@ -13,6 +13,10 @@ from research import run_bounded_oracle as runner
 @pytest.fixture
 def bundle(tmp_path):
     plan = json.loads((runner.ROOT / "docs/review/bounded-oracle-plan.json").read_text())
+    plan["source_sha256"] = {
+        p.relative_to(runner.ROOT).as_posix(): runner.digest(p)
+        for p in (runner.ROOT / "src/veriagent").rglob("*.py")
+    }
     cases, budget = runner.validate_plan(plan)
     condition = plan["cases"][0]
     source = tmp_path / "source"

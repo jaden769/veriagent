@@ -1444,3 +1444,32 @@ Tests ran outside Windows sandbox path limits. No new comparison, browser trial 
 API call ran; fixed mock regression conditions exercised the harness. Product code and
 historical predictions/results were unchanged. No authenticated provenance or stochastic
 reliability claim is made.
+
+### Mock-only reflection prototype — 2026-11-24
+
+Added a separate ReflectionAgent/MockReflectionProvider and typed phase/context/report
+contracts, without extending existing Mode, RunReport or CLI. Execution finish proposals
+or recoverable failures request at most two corrective admissions within shared budgets.
+Correction uses fresh ordinary reads and read-back after writes; repeated writes need a
+new read and safe policy. Original/final claims, admissions and write attempts stay separate.
+No StateVerifier or live provider is accepted. Final claims are not trusted verification.
+
+The 850-test Chromium-enabled regression collection passed with one existing Starlette/
+httpx warning in 347.08 seconds. Two additional multi-target boundary tests were added
+after that collection, followed by strict report-counter/version input tests. The final
+focused run passed all 65 tests in 18.74 seconds, including all 40 reflection tests and
+runner/package compatibility fixtures. Final changes after the broad run were report
+integer-type guards and tests; normal execution logic was unchanged.
+
+Cases cover clean/drop/transient/post-commit timeout behavior, persistent faults, admission
+and shared caps, exact eight-decision multi-target completion versus honest repair budget
+failure, authorization, stale/unsafe replay, late decisions, unsafe cleanup, hidden context,
+canary exclusion and provider restriction. A spoofed ordinary read produces a success
+claim with an independently failed SQL audit; that false claim is deliberately preserved.
+
+Historical source plans were not rewritten. Only temporary test-plan source fingerprints
+were refreshed because the new source module changes the inventory. Confirmed the old
+execution plan rejects drift and the released 72-run/436-file ZIP still audits. Ruff,
+formatting, document links and diff checks passed. No comparison study or paid API call
+ran; the broad suite exercised mock/browser regressions. A metered LLM reflection arm,
+external review and a prospective common-corpus comparison remain pending.

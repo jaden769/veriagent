@@ -9,7 +9,13 @@ from research import run_bounded_oracle as runner
 
 @pytest.fixture
 def plan():
-    return json.loads((runner.ROOT / "docs/review/bounded-oracle-plan.json").read_text())
+    plan = json.loads((runner.ROOT / "docs/review/bounded-oracle-plan.json").read_text())
+    # Fixture snapshots follow test code; published historical plans remain immutable.
+    plan["source_sha256"] = {
+        p.relative_to(runner.ROOT).as_posix(): runner.digest(p)
+        for p in (runner.ROOT / "src/veriagent").rglob("*.py")
+    }
+    return plan
 
 
 @pytest.mark.parametrize("mutation", ["provider", "source", "duplicate", "quota", "budget"])

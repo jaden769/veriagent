@@ -39,6 +39,8 @@ See the [offline evidence operator guide](docs/OFFLINE_EVIDENCE.md) for review, 
 validation, archive inspection and transfer commands, success criteria and exit codes.
 The [research review packet](docs/RESEARCH_REVIEW.md) records remaining validation gaps
 and a pinned corpus/matrix snapshot; external review and stochastic comparisons are pending.
+An explicit [mock self-reflection prototype](docs/REFLECTION_PROTOTYPE.md) exercises
+observation-based corrective phases without a trusted oracle; it is separate from existing modes.
 This is a research prototype, not a general autonomous agent. The hypothesis
 that verification and adaptive recovery improve reliability at acceptable cost remains
 unproven outside these controlled scenarios. No model benchmark results are claimed.

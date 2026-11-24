@@ -28,7 +28,7 @@ feedback to any arm.
 | Baseline | None | Existing baseline stopping/replay policy | Implemented `baseline` |
 | Verify | Initial and subsequent trusted checks | No recovery admission after detected mismatch | Implemented `verify` |
 | Recover | Initial and subsequent trusted checks | Existing bounded, authorized recovery policy | Implemented `recover` |
-| Self-reflection candidate | None | Proposed bounded reflection and corrective phase using ordinary observations | Missing |
+| Self-reflection candidate | None | Bounded corrective phase using ordinary observations | Mock-only prototype; live/metered arm missing |
 
 The self-reflection candidate would use typed tool observations and its own earlier
 decisions, with the same authorized `read_issue`/`set_status` surface. Ordinary reads
@@ -120,6 +120,9 @@ and one deterministic run per cell do not justify a paired significance or causa
 No live study, sample size or billable execution is established by this design.
 
 ## Implementation gates
+
+The [mock-only reflection prototype](REFLECTION_PROTOTYPE.md) now exercises typed phases
+and shared limits. It does not establish an LLM comparator or an executed ablation study.
 
 The [prospective bounded-oracle check](BOUNDED_ORACLE_COMPARISON.md) now pins a small
 mock-only admission comparison. Its expected outcomes are not measured results.

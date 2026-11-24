@@ -252,6 +252,10 @@ Completed portable raw-evidence release: a 436-file/72-run ZIP is included in th
 with external manifest binding, file/SQLite/trace/admission/state rechecks and blocked-
 original-path relocation validation. Source/corpus/runner bytes and checksums travel with it.
 
-Next research increment: implement a mock-only self-reflection comparator prototype with
-typed corrective phases, shared limits and no trusted-oracle feedback, following the design.
+Completed mock-only reflection prototype: separate typed execution/corrective states and
+report, original/final claims, fresh ordinary read-back, safe replay guards, shared caps and
+no trusted verifier access. Spoofed-read false claims are retained as a limitation.
+
+Next research increment: specify a prospective common-corpus mock comparison including
+the separate reflection prototype, ordinary-read costs and realized fault exposure.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

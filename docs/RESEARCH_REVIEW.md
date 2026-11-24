@@ -12,7 +12,7 @@ corpus, implemented modes, matrix identities and selected source-file hashes.
 | Execution mechanisms | Deterministic mock tasks, faults and independent final-state checks | Independent corpus/fault review and broader task coverage |
 | Browser controls | Six fixed matrices, 130 declared controls, sealed nested artifacts | External review of expectations; controls are finite mechanism checks |
 | Live integration | Individual user-run static, dynamic and reviewed checks | Repeated, prospectively specified model comparisons |
-| Comparators | Baseline, verify and recover modes | Self-reflection comparator and budget-controlled ablations |
+| Comparators | Baseline, verify/recover modes and separate mock reflection prototype | Live/metered reflection comparator and budget-controlled ablations |
 | Metrics | Explicit denominators and descriptive Wilson intervals in sandbox benchmark | Study-specific estimand, analysis plan and dependence assumptions |
 | Transfer/review | Audits, report validation, archive round-trips and CLI smoke coverage | These establish workflow consistency, not model reliability |
 
@@ -54,8 +54,9 @@ contacted and no external sign-off is recorded here.
 
 ## Priority 2: specify a comparison before collecting new live outcomes
 
-The current three modes do not implement the roadmap's self-reflection comparator.
-Define its observations, stopping rule and permitted tool access before adding it.
+The three production modes remain unchanged. A separate mock-only reflection prototype
+now exercises observation-only corrective phases; a live/metered reflection arm is still
+missing. Review its observations, stopping rule and tool access before any model comparison.
 Specify ablations that distinguish verification/recovery policy from simply granting
 more actions, decisions, tokens or elapsed time. Static and dynamic engines verify at
 different times; analyze them separately unless the design explicitly controls that.
@@ -87,6 +88,8 @@ exposure diagnostics and resource-accounting prerequisites; it implements no new
 The [prospective offline specification](OFFLINE_COMPARISON.md) now records the selected
 groups, exact arguments and missing comparators. Its preparation did not run the batches.
 
-Next, run the specified mock batches only after checking their pinned inputs, then record
-measured artifact paths and outcomes separately from planned values. Keep live execution
-and external approval pending. No live study or external sign-off is implied by this packet.
+The specified mock batches and bounded-oracle checks are now recorded separately from
+their plans. Next, specify a new common-corpus comparison that includes the separate
+reflection prototype and its ordinary-read costs, pinning the changed source inventory.
+Keep live execution and external approval pending. No live study or external sign-off is
+implied by this packet.

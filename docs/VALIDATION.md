@@ -1318,3 +1318,22 @@ including 28 new admission tests. Ruff, formatting, documentation links, existin
 implementation hash and diff checks passed. Existing comparison traces/outcomes and
 execution policies were unchanged. No new comparison batches, browser trials or paid API
 calls ran. Adapter-level proof of no read on denial remains the next integration gate.
+
+### Opt-in trusted-verifier adapter — 2026-11-24
+
+Added BudgetedStateVerifier as a separate explicit adapter; ordinary StateVerifier,
+existing agents, Budget and CLI are unchanged. It reserves original unique targets before
+any trusted database connection, validates complete evidence before settlement and records
+admitted errors/cancellation as unknown work without refund. Final evaluation stays separate.
+
+All 124 focused adapter, admission, trace-ledger, dynamic and benchmark/fault/metric tests
+passed in 54.10 seconds, including 11 new adapter cases. Connection/query spies prove no
+SQLite connection on denial and read-only exact-query behavior on admission. Actual invalid
+second-target status causes partial-read failure with consumed reservation and null total
+work; missing files, missing targets, satisfied targets, incomplete returns, exceptions and
+cancellation are covered. Post-denial final verification is independent.
+
+Ruff, formatting, document links, pinned baseline source hashes and diff checks passed.
+Broader tests ran outside Windows sandbox path limits. Regression mock trials ran; no new
+comparison batch, browser trial or paid API call ran. Agent denial mapping and durable
+admission traces remain pending; no bounded-oracle comparison result is claimed.

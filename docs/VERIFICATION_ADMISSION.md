@@ -1,7 +1,8 @@
 # Standalone trusted-verification admission semantics
 
 This increment defines and tests logical admission in `veriagent.verification_budget`.
-It does **not** connect the ledger to StateVerifier, an agent, Budget or the CLI.
+An explicit [opt-in verifier adapter](BOUNDED_VERIFICATION.md) now connects it to trusted
+reads; agents, Budget and CLI do not enable it implicitly.
 Existing comparison results and execution behavior are unchanged. The
 [saved-trace ledger](VERIFICATION_WORK.md) remains retrospective; this ledger is a
 prospective reservation mechanism for later integration review.
@@ -64,10 +65,10 @@ no partial admission, no refund on error, persistent unknown work, stale/foreign
 settlement, single in-flight admission and detached snapshots. Existing dynamic-engine
 and saved-trace tests are also run for regressions.
 
-Before connecting this to execution, an adapter must prove that it reserves **before**
-opening a trusted read transaction, counts the original unique targets, settles every
-returned/failed attempt and performs no read on denial. It must keep final evaluator
-reads outside the execution allowance and expose denial/accounting in durable traces.
+The opt-in adapter tests prove reservation **before** opening a trusted read transaction,
+original unique-target counting, settlement of admitted attempts and no read on denial.
+Final evaluator reads remain outside its allowance. Durable denial/accounting trace
+events remain an agent-integration requirement.
 Agent integration must separately define how denial maps to an honest terminal outcome,
 how initially satisfied tasks behave, and how default unlimited behavior stays compatible.
 No bounded-oracle comparator claim should be made until those gates are tested.

@@ -228,6 +228,10 @@ Completed standalone verification-admission semantics: strict optional call/targ
 limits, pre-work reservations, no refunds on errors and unknown partial-work accounting,
 with acceptance tests. The ledger remains disconnected from execution and CLI.
 
-Next research increment: add an opt-in trusted-verifier adapter that reserves before
-opening read transactions, settles all attempts and proves denial performs no read.
+Completed opt-in trusted-verifier adapter: original target reservations precede SQLite
+connections, complete/missing/mismatched snapshots settle work, and errors/cancellation
+retain reservations and unknown work. Existing agents and CLI remain unchanged.
+
+Next research increment: define explicit budget-denial outcomes and durable verification
+admission/state traces for opt-in agent integration, preserving default behavior.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

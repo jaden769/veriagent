@@ -79,6 +79,8 @@ The [saved-trace ledger](VERIFICATION_WORK.md) now provides that descriptive der
 its error-path work remains unknown rather than assumed zero.
 The [standalone admission specification](VERIFICATION_ADMISSION.md) defines reservation
 semantics and acceptance tests; it is not yet connected to execution.
+The [explicit adapter](BOUNDED_VERIFICATION.md) subsequently adds pre-read admission;
+agent policy mapping and trace integration remain pending.
 Then specify and test any new admission caps before using them as experimental controls.
 Post-hoc truncation or regression adjustment does not retroactively equalize budgets.
 

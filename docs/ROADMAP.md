@@ -282,6 +282,10 @@ Completed prospective mock decision-budget specification: 288 assigned fresh con
 at decision caps 4/8/12, fixed action/information policies, balanced ordering and explicit
 joint-cap diagnostics. No new trials executed.
 
-Next research increment: implement the mock decision-budget runner and pretrial binding
-with native trace/resource/stop reconciliation before executing the pinned study.
+Completed mock decision-budget runner and pretrial binding: exact 288-condition validation,
+fresh native execution, trace/SQL/resource reconciliation, separate joint-cap diagnostics
+and partial-attempt retention. The planned study remains unexecuted.
+
+Next research increment: execute the frozen decision-budget study and independently audit
+coverage, within-arm sensitivity, achieved-goal stops and resource/exposure findings.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

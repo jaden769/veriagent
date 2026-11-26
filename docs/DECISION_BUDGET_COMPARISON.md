@@ -3,7 +3,8 @@
 Prepared 2026-11-26. Status: **specified, not run**. The
 [machine-readable plan](review/decision-budget-plan.json) pins all 288 ordered conditions,
 product source/corpus hashes and the prior results that motivated this follow-up.
-No runner, execution lock or new outcome is supplied by this specification.
+The subsequent [mock runner and execution lock](DECISION_BUDGET_RUNNER.md) implement
+the pretrial gates; the published plan is unchanged and no study outcome is recorded.
 
 The [96-run study](REFLECTION_COMPARISON_RESULTS.md) observed five reflection runs with
 satisfied final goals and budget failures. All used eight decisions; pair_done/transient

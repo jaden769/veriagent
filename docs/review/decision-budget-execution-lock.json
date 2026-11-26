@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "5b7a96df05794fc2fe5e284641331f4f189e18f50aea672d8724fcab79b18f3f",
+  "research_sha256": {
+    "research/__init__.py": "d856a94a31a4acb7d9c2b68a613230802efdefedccbd0529557d33724a71f0e8",
+    "research/bounded_oracle_evidence.py": "c63f413e0ef5fe93a752dae2a8e495929e1faf66abce9414df6cd1d1ba4ba37f",
+    "research/reflection_evidence.py": "4c7d88bbeb6e3d6c513c9509d9975617080fafb9394d194cf93272254a37b940",
+    "research/reflection_results.py": "ef3a275640b5811f150c682b751d202ae104af6ad5520efd0a717b9601903502",
+    "research/reflection_trace.py": "ca10d3c17204f2f53c1c0c49001bc7aaa8267447a171464776b40080f888687e",
+    "research/run_bounded_oracle.py": "99d912795d25e02074c007f7dafdc48433e2c0099dc5a2ac70525d232f4b2018",
+    "research/run_decision_budget.py": "893855e78c463291942aa66e92e0f2399075de8fcff64970d187dfd700fb265f",
+    "research/run_reflection_comparison.py": "52e6369abfed0b87a1f0706053413243a3d3a54fe41fcd1df09d4638df0a2612"
+  }
+}

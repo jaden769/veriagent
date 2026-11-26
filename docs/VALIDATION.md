@@ -1603,3 +1603,25 @@ This specification-only increment changed no source or tests, so suites were not
 No trials, oracle checks, browser runs or paid API calls occurred. Historical plans,
 execution locks, results and archives remain unchanged. The new study remains unexecuted;
 it is decision-cap sensitivity, not equal-resource or LLM-quality evidence.
+
+### Pinned mock decision-budget runner — 2026-11-26
+
+Implemented the standalone mock-only runner and pretrial execution lock for the unchanged
+288-condition plan. Validation precedes output/provider construction and checks exact
+plan bytes/order, typed budgets, product/corpus/prior-result pins and the complete research
+Python inventory. Fresh per-condition execution reuses the native mock runner; the existing
+portable condition auditor independently checks traces/resources and final SQL state.
+
+Added recorded budget, available repeat-write/time resources and separate action/decision/
+corrective/reported-deadline flags, terminal failure and achieved-goal budget outcome.
+Reconciliation rejects changed fields or assigned caps. Overlapping exhausted counters
+are retained, not interpreted as a unique causal stop. Partial/failed evidence is retained
+under an unknown active outcome; no automatic resume, retry or replacement was added.
+
+243 focused tests passed, including 33 new runner checks covering all four arms at caps
+4/8/12, reflection single/joint cap examples, plan/lock/resource/diagnostic corruption,
+interruption and simulated complete/duplicate-ID orchestration. Existing reflection,
+admission/budget, result/runner and bounded-oracle package regressions passed in that run.
+Ruff, formatting, links, execution bindings and diff checks passed. No product or historical
+bound source/plan/result/archive changed. No full browser rerun or paid API call occurred.
+Selected unit fixtures are not study observations; the 288-run study remains unexecuted.

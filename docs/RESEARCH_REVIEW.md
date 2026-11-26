@@ -133,7 +133,8 @@ implementer summaries. No reviewer has been assigned or contacted.
 ## Next concrete work
 
 The [prospective decision-budget sensitivity study](DECISION_BUDGET_COMPARISON.md) now
-specifies 288 fresh conditions at caps 4/8/12; its runner and execution remain pending. The
+specifies 288 fresh conditions at caps 4/8/12. Its [runner](DECISION_BUDGET_RUNNER.md)
+and pretrial binding are implemented; execution remains pending. The
 five achieved-goal reflection stops motivate varying the decision cap while retaining
 original goals, fault profiles, action caps and arm information access. Predeclare the
 cap grid, assigned denominator, ordering, resource vectors and treatment of achieved-goal

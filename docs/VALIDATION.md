@@ -1690,3 +1690,27 @@ fault configuration objects were constructed for validation; no agents, tools, o
 checks, browser trials or paid calls ran. The new study remains unexecuted; its dedicated
 runner and pretrial binding are pending. Historical plans, locks, results and archives
 remain unchanged. No equal-information, stochastic, causal or LLM-quality claim is made.
+
+### Dedicated fixed-fault action-budget runner — 2026-11-26
+
+Implemented the mock-only runner outside historical execution inventories and added a
+pretrial lock binding its source, the existing research modules and unchanged plan.
+Validation checks all 288 ordered assignments, typed action budgets, source/corpus/prior
+pins and fixed fault ceiling before outputs/providers. Fault generation receives twelve
+at every assigned cap; persistent drops remain thirteen rather than following max_actions.
+
+Fresh native reports/traces and independent SQL/resource replay retain ordinary versus
+trusted work. Added reconciliation of assigned cap, recorded budget, fixed configured
+faults, repeat-write/time metadata and overlapping stop diagnostics. Failures/partial
+files remain under an unknown active outcome with no automatic resume or replacement.
+
+290 focused tests passed, including 38 new checks across all arms/caps, persistent fault
+configuration, multi-target reflection, plan/lock/fault/resource/stop corruption, partial
+retention and simulated full/duplicate-ID orchestration. Existing result/runner/reflection,
+admission/budget and bounded-oracle evidence regressions passed in the same run. Ruff,
+formatting, links, new/historical execution bindings and diff checks passed.
+
+No product or historically frozen execution source, plan, lock, result or archive changed.
+No full browser rerun or paid calls occurred. Selected fixtures are software checks; the
+288-condition action-budget study remains unexecuted. No live-quality or equal-cost
+claim follows from this increment.

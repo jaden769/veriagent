@@ -2,8 +2,9 @@
 
 Prepared 2026-11-26. Status: **specified, not run**. The
 [plan JSON](review/action-budget-plan.json) pins 288 ordered fresh assignments, source/
-corpus hashes and the prior results motivating this follow-up. Runner, execution lock
-and outcomes remain pending. Historical plans, locks and evidence are unchanged.
+corpus hashes and the prior results motivating this follow-up. The
+[dedicated runner and execution lock](ACTION_BUDGET_RUNNER.md) now implement its gates;
+execution and outcomes remain pending. Historical plans, locks and evidence are unchanged.
 
 The [decision-cap study](DECISION_BUDGET_RESULTS.md) retained four reflection runs with
 achieved goals and budget failures at twelve decisions. All four exhausted eight actions;

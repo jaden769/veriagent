@@ -18,7 +18,7 @@ and selected source hashes; later studies retain their own prospective bindings.
 | Transfer/review | Three portable study evidence sets, with the interrupted sensitivity attempt archived separately | External review; unsigned consistency does not establish authenticity or model reliability |
 
 The latest broad complete-suite record is 850 passing tests; the latest focused evidence
-regression run passed 269 tests. Subsequent additions were checked with focused suites,
+regression run passed 290 tests. Subsequent additions were checked with focused suites,
 not a new full run; see [validation history](VALIDATION.md). Test counts are software-validation evidence.
 They are not independent task samples or a reliability denominator.
 
@@ -140,7 +140,8 @@ now retain the completed study and separate operational interruption. At twelve 
 eight decisions, goals were unchanged and four achieved-goal reflection stops retained
 exhausted action counters. The [action-cap follow-up](ACTION_BUDGET_COMPARISON.md) now
 specifies caps 8/10/12 with twelve decisions and fixed fault configuration; its dedicated
-runner and execution remain pending. Neither sensitivity check equalizes oracle
+runner and pretrial lock are [implemented](ACTION_BUDGET_RUNNER.md); execution remains
+pending. Neither sensitivity check equalizes oracle
 information or establishes dollar-cost parity. The [comparator design](COMPARATOR_DESIGN.md)
 retains the broader ablation requirements.
 

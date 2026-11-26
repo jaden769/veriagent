@@ -299,6 +299,10 @@ Completed prospective action-cap sensitivity specification: 288 fresh conditions
 action caps 8/10/12 with twelve decisions, unchanged information policies and a fixed
 fault-generation ceiling so persistent-drop counters do not vary with the intervention.
 
-Next research increment: implement the dedicated action-cap runner and pretrial binding,
-including fixed-fault, native trace/resource/stop and independent SQL checks.
+Completed dedicated action-cap runner and pretrial binding: fixed fault ceiling across
+caps, fresh native execution, trace/SQL/resource/fault/stop reconciliation and retained
+partial attempts. The planned study remains unexecuted.
+
+Next research increment: execute the frozen action-cap study and independently audit
+coverage, matched sensitivity, achieved-goal stops and resource/exposure findings.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

@@ -308,6 +308,10 @@ checks. Reflection's four achieved-goal budget failures disappeared at ten actio
 goal truth stayed unchanged across caps, while twelve actions added work without changing
 those outcomes.
 
-Next research increment: package the completed action-cap evidence for portable review,
-preserving fixed-fault bindings and the disclosed historical reference difference.
+Completed portable action-cap release: all 288 runs in a 1,742-file archive with frozen
+execution sources, fixed-fault/resource/SQL reconciliation and relocated corruption checks.
+The historical persistent-counter difference remains explicit.
+
+Next research increment: consolidate finite mock findings and external-review handoff
+priorities across all four portable studies, keeping live/generalization claims pending.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

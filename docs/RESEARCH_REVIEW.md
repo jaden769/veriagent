@@ -15,10 +15,10 @@ and selected source hashes; later studies retain their own prospective bindings.
 | Live integration | Individual user-run static, dynamic and reviewed checks | Repeated, prospectively specified model comparisons |
 | Comparators | Completed 96-condition common-corpus comparison of four fixed mock policies | Live/metered reflection comparator and actual resource ablations |
 | Metrics | Pinned assigned denominators; independent SQL outcomes separate from claims and exposure | Stochastic estimand, analysis plan and dependence assumptions for any live study |
-| Transfer/review | Three portable study evidence sets, with the interrupted sensitivity attempt archived separately | External review; unsigned consistency does not establish authenticity or model reliability |
+| Transfer/review | Four portable study evidence sets, with the interrupted sensitivity attempt archived separately | External review; unsigned consistency does not establish authenticity or model reliability |
 
 The latest broad complete-suite record is 850 passing tests; the latest focused evidence
-regression run passed 300 tests. Subsequent additions were checked with focused suites,
+regression run passed 318 tests. Subsequent additions were checked with focused suites,
 not a new full run; see [validation history](VALIDATION.md). Test counts are software-validation evidence.
 They are not independent task samples or a reliability denominator.
 
@@ -30,7 +30,7 @@ They are not independent task samples or a reliability denominator.
 | Bounded trusted oracle | 72 dynamic mock conditions across three tasks, two scenarios, three modes and four quotas | [Results](BOUNDED_ORACLE_RESULTS.md), [portable package and audit instructions](BOUNDED_ORACLE_PACKAGE.md) |
 | Common-corpus reflection | 96 runs across six tasks, four scenarios and four fixed mock arms | [Results](REFLECTION_COMPARISON_RESULTS.md), [portable package and audit instructions](REFLECTION_PACKAGE.md) |
 | Decision-cap sensitivity | 288 completed mock conditions at caps 4/8/12, plus a separate retained interrupted attempt | [Results](DECISION_BUDGET_RESULTS.md), [separate portable complete/partial packages](DECISION_BUDGET_PACKAGE.md) |
-| Action-cap sensitivity | 288 completed mock conditions at caps 8/10/12, with decisions and configured faults fixed | [Results](ACTION_BUDGET_RESULTS.md); local evidence, portable packaging pending |
+| Action-cap sensitivity | 288 completed mock conditions at caps 8/10/12, with decisions and configured faults fixed | [Results](ACTION_BUDGET_RESULTS.md), [portable package](ACTION_BUDGET_PACKAGE.md) |
 
 Start with each prospective plan, then its recorded results, external manifest binding
 and archive audit. Inspect representative raw reports, traces and final SQLite states
@@ -142,8 +142,8 @@ eight decisions, goals were unchanged and four achieved-goal reflection stops re
 exhausted action counters. The [action-cap follow-up](ACTION_BUDGET_COMPARISON.md) now
 specifies caps 8/10/12 with twelve decisions and fixed fault configuration; its dedicated
 runner and pretrial lock are [implemented](ACTION_BUDGET_RUNNER.md), and
-[results](ACTION_BUDGET_RESULTS.md) now record completed execution. Packaging and external
-review remain pending. Neither sensitivity check equalizes oracle
+[results](ACTION_BUDGET_RESULTS.md) now record completed execution with portable evidence.
+External review remains pending. Neither sensitivity check equalizes oracle
 information or establishes dollar-cost parity. The [comparator design](COMPARATOR_DESIGN.md)
 retains the broader ablation requirements.
 

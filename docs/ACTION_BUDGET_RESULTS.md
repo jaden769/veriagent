@@ -74,7 +74,7 @@ matched contrasts. It does not execute a policy/provider and is outside the lock
 execution inputs. All 288 rows, exact order, IDs, copied plan/lock, native trace/SQL data,
 fixed-fault metadata, stop diagnostics and resource vectors passed. Original product/
 execution code, plan, lock and historical artifacts remain unchanged. The raw evidence
-is local; portable packaging is the next increment.
+is now included in the [portable evidence package](ACTION_BUDGET_PACKAGE.md).
 
 These are unsigned fixed-mock sensitivity findings, not authenticated provenance or an
 independent reenactment of fault delivery. One observation per cell supports no stochastic

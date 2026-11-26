@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "consistency_passed": true,
+  "study_complete": true,
+  "assigned_runs": 288,
+  "completed_runs": 288,
+  "active_outcome": null,
+  "files": 1742,
+  "manifest_sha256": "94a1e78000d637910db03370ba9f3bf5cb21a67600eb0b3472e15abd36e5ec45",
+  "false_successes": 30,
+  "limitations": "Unsigned portable consistency. Partial prefix is not complete study coverage. Embedded sources never executed; fault delivery not reenacted.",
+  "archive": "action-budget-2026-11-26.zip",
+  "archive_sha256": "e6b7f4ac0207d4c1850027224cabf168ce3b1fd23d20f3cbbe46994554874c5f",
+  "archive_bytes": 2035138,
+  "checker_sha256": "a7256c18c6b2dfa67f8521c7de9b0171edc9cbdcd88727e9f15fb7e5627532f6"
+}

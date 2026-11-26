@@ -1737,3 +1737,27 @@ in the same run. Ruff, formatting, links, saved summary/contrast consistency, au
 frozen bindings and diff checks passed. No product/frozen execution source, plan, lock
 or historical result/archive changed. No paid calls or browser suite rerun occurred.
 Evidence remains local and unsigned; portable packaging and external review are pending.
+
+### Portable fixed-fault action-budget evidence — 2026-11-26
+
+Published a 1,742-file/2,035,138-byte ZIP containing all 288 original runs, manifest,
+plan/lock, corpus, prior reference and nine execution source snapshots under preserved
+research/analysis namespaces. Archive SHA-256 is
+`e6b7f4ac0207d4c1850027224cabf168ce3b1fd23d20f3cbbe46994554874c5f`.
+Original raw evidence, frozen code/inputs, measured results and historical archives
+remain unchanged. Embedded source bytes are never executed.
+
+The portable checker verifies external manifest binding, relative file/source inventory,
+complete coverage/identities, native trace/SQL agreement, fixed thirteen-drop configuration,
+budgets/resources and stopping diagnostics. Relocated audit passed with original artifact
+and repository metadata reads blocked. All 288 outcomes and thirty baseline false claims
+across caps remain intact. The disclosed historical persistent-counter difference is kept.
+
+318 focused tests passed, including eighteen new package/relocation/corruption checks,
+alongside runner/result/reflection/admission/budget and bounded-oracle evidence regressions.
+Unsafe ZIPs, wrong coverage/category, altered sources/reference/faults/resources/stops/
+outcomes and overwrites are rejected. Ruff, formatting, links, ZIP/checker hashes,
+frozen bindings and diff checks passed. Staged audited publication used the established
+escalated hard-link workflow for Windows. No study rerun, paid call or browser suite
+execution occurred. Evidence remains unsigned and fault delivery was not independently
+reenacted; external review and live/generalization work remain pending.

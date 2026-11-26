@@ -312,6 +312,10 @@ Completed portable action-cap release: all 288 runs in a 1,742-file archive with
 execution sources, fixed-fault/resource/SQL reconciliation and relocated corruption checks.
 The historical persistent-counter difference remains explicit.
 
-Next research increment: consolidate finite mock findings and external-review handoff
-priorities across all four portable studies, keeping live/generalization claims pending.
+Completed consolidated mock findings and review handoff: four studies/five archives,
+source/result/package bindings, distinct truth/claim/budget measurements and unassigned
+external-review priorities. No outcomes or denominators are pooled.
+
+Next research increment: specify an opt-in metered reflection-provider contract and
+offline validation gates, preserving the mock comparator and deferring paid trials.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

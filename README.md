@@ -40,6 +40,8 @@ validation, archive inspection and transfer commands, success criteria and exit 
 The [research review packet](docs/RESEARCH_REVIEW.md) records remaining validation gaps
 and links both portable mock studies, their findings and the historical corpus/matrix
 snapshot; external review, metered LLM comparisons and resource ablations are pending.
+The [consolidated findings](docs/RESEARCH_FINDINGS.md) distinguish final-state truth,
+claims and budget stops and provide a bound external-review handoff.
 An explicit [mock self-reflection prototype](docs/REFLECTION_PROTOTYPE.md) exercises
 observation-based corrective phases without a trusted oracle; it is separate from existing modes.
 This is a research prototype, not a general autonomous agent. The hypothesis

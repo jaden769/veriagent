@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-11-26",
+  "scope": "implementer_findings_and_external_review_handoff",
+  "external_review": {
+    "status": "pending",
+    "reviewer": null,
+    "review_date": null,
+    "dispositions": []
+  },
+  "pooling": "No pooled success/reliability denominator across studies or attempts.",
+  "studies": [
+    {
+      "study_id": "bounded_oracle",
+      "status": "completed_fixed_mock",
+      "assigned_runs": 72,
+      "completed_runs": 72,
+      "plan": {
+        "path": "docs/review/bounded-oracle-plan.json",
+        "sha256": "bf22baa5a22f1f92a8f19f781afdede797fa868fc9959cae51a331b8c7079a19"
+      },
+      "results": {
+        "path": "docs/review/bounded-oracle-results.json",
+        "sha256": "402353bd3e8d0284e386b305d1a2a9fd5d3b63fe62248e95ee0d2b7b4a4ff822"
+      },
+      "package_record": {
+        "path": "docs/review/bounded-oracle-package.json",
+        "sha256": "f4b59173631cadbe7c0525c65a2c1745eacd3b41bdf7bcebe0998dd6ef646930"
+      },
+      "archive": {
+        "path": "docs/evidence/bounded-oracle-2026-11-24.zip",
+        "sha256": "a168813c105a50de87654c7d1d35e58ec442486fa1ca8e01c7291d6ede4c3b63",
+        "bytes": 424810,
+        "files": 436
+      },
+      "manifest_sha256": "97ddc8da800f8e8d7c778a05f94af0ff375151eecfb13a4a38728253d3b8e758",
+      "checker": {
+        "path": "research/bounded_oracle_evidence.py",
+        "sha256": "c63f413e0ef5fe93a752dae2a8e495929e1faf66abce9414df6cd1d1ba4ba37f"
+      },
+      "review_disposition": "unassigned_external_review"
+    },
+    {
+      "study_id": "common_corpus",
+      "status": "completed_fixed_mock",
+      "assigned_runs": 96,
+      "completed_runs": 96,
+      "plan": {
+        "path": "docs/review/reflection-comparison-plan.json",
+        "sha256": "913babf753dcc1b58eb946deb62cc7cff77e5be02eb831cda9379916fcb69239"
+      },
+      "results": {
+        "path": "docs/review/reflection-comparison-results.json",
+        "sha256": "57e002f43bce47ca39ac23eb782ab3b0bb498e161f29e204a60374a17c8d8af0"
+      },
+      "package_record": {
+        "path": "docs/review/reflection-comparison-package.json",
+        "sha256": "b5d3845886b605160187f87450e710e2db940a0286129329b639abfdb70a33aa"
+      },
+      "archive": {
+        "path": "docs/evidence/reflection-comparison-2026-11-26.zip",
+        "sha256": "34445c56c209d320141a0ce3d085d3ea411a6459e1980368cb6e5eb8d7e1620a",
+        "bytes": 634689,
+        "files": 583
+      },
+      "manifest_sha256": "b15d202a3f160e4f9968b287c7a6f4ce46fdcc1834d3c885ab5fb91fb770660c",
+      "checker": {
+        "path": "research/reflection_evidence.py",
+        "sha256": "4c7d88bbeb6e3d6c513c9509d9975617080fafb9394d194cf93272254a37b940"
+      },
+      "review_disposition": "unassigned_external_review"
+    },
+    {
+      "study_id": "decision_cap",
+      "status": "completed_fixed_mock",
+      "assigned_runs": 288,
+      "completed_runs": 288,
+      "plan": {
+        "path": "docs/review/decision-budget-plan.json",
+        "sha256": "5b7a96df05794fc2fe5e284641331f4f189e18f50aea672d8724fcab79b18f3f"
+      },
+      "results": {
+        "path": "docs/review/decision-budget-results.json",
+        "sha256": "681dec4ede38a3ff838c1d3defc80ede9564f45bc62d33ec10cea7cfdc282efa"
+      },
+      "package_record": {
+        "path": "docs/review/decision-budget-package.json",
+        "sha256": "6b8991cb220f295d38af3b460116c7f3d5a5ff286fc3f9ab644507cc8b84ba0e"
+      },
+      "archive": {
+        "path": "docs/evidence/decision-budget-complete-2026-11-26.zip",
+        "sha256": "d55e1a2d27a8b2ac3ebceb98929312a44d1caba2fb8a9a55d3c8237451bec9e8",
+        "bytes": 1954522,
+        "files": 1741
+      },
+      "manifest_sha256": "69c8aadd644bf5a6b79aec7d44dde6317f79c40abbd468a63fce2751f16a7d9f",
+      "checker": {
+        "path": "analysis/decision_budget_evidence.py",
+        "sha256": "03e16f119c346030c4ab667f60753015ec2ed1973ca5b9b5b1d82d42403a472e"
+      },
+      "review_disposition": "unassigned_external_review"
+    },
+    {
+      "study_id": "action_cap",
+      "status": "completed_fixed_mock",
+      "assigned_runs": 288,
+      "completed_runs": 288,
+      "plan": {
+        "path": "docs/review/action-budget-plan.json",
+        "sha256": "698015632a2ef1e7b9dd3317a10aa9c6ec73c8779c9e74f76e95adf6de15f770"
+      },
+      "results": {
+        "path": "docs/review/action-budget-results.json",
+        "sha256": "609ab55007d8f2f17f27e54d18ac1585b852bdd27bacb452478ad6438b157504"
+      },
+      "package_record": {
+        "path": "docs/review/action-budget-package.json",
+        "sha256": "3847c5de14335aa5fa1f449d4f3189dbdc651c7cf69c443deea19cbcc0cf0f51"
+      },
+      "archive": {
+        "path": "docs/evidence/action-budget-2026-11-26.zip",
+        "sha256": "e6b7f4ac0207d4c1850027224cabf168ce3b1fd23d20f3cbbe46994554874c5f",
+        "bytes": 2035138,
+        "files": 1742
+      },
+      "manifest_sha256": "94a1e78000d637910db03370ba9f3bf5cb21a67600eb0b3472e15abd36e5ec45",
+      "checker": {
+        "path": "analysis/action_budget_evidence.py",
+        "sha256": "a7256c18c6b2dfa67f8521c7de9b0171edc9cbdcd88727e9f15fb7e5627532f6"
+      },
+      "review_disposition": "unassigned_external_review"
+    }
+  ],
+  "retained_partial_attempts": [
+    {
+      "study_id": "decision_cap",
+      "study_complete": false,
+      "assigned_runs": 288,
+      "completed_runs": 206,
+      "active_outcome": "unknown",
+      "pooled": false,
+      "archive": {
+        "path": "docs/evidence/decision-budget-partial-2026-11-26.zip",
+        "sha256": "ae3dbe20ee0c73d219177ad61a648461d88a179a85f729377c9eef1755a6f24a",
+        "bytes": 1443101,
+        "files": 1249
+      },
+      "manifest_sha256": "b9969491867c05b606ec14acafa7c3629289918dcfa3359dfc01ca221a1c9a8f",
+      "review_disposition": "retained_operational_interruption"
+    }
+  ],
+  "limitations": [
+    "Unsigned local consistency does not establish authenticity.",
+    "Finite fixed-mock findings do not establish stochastic, causal, LLM-quality or cost-parity claims.",
+    "No reviewer has been contacted and no paid execution is authorized by this index."
+  ]
+}

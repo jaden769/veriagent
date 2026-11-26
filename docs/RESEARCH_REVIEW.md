@@ -6,6 +6,10 @@ findings and review priorities. It records no independent approval. The historic
 [snapshot](review/offline-baseline.json) pins its original corpus, modes, matrix identities
 and selected source hashes; later studies retain their own prospective bindings.
 
+The [consolidated findings and handoff](RESEARCH_FINDINGS.md) summarize all four portable
+studies with a [checksum index](review/research-handoff.json), separate attempt denominators
+and unassigned external-review priorities.
+
 ## Current evidence and open gaps
 
 | Area | Available evidence | Remaining requirement before broader claims |
@@ -13,7 +17,7 @@ and selected source hashes; later studies retain their own prospective bindings.
 | Execution mechanisms | Deterministic mock tasks, faults and independent final-state checks | Independent corpus/fault review and broader task coverage |
 | Browser controls | Six fixed matrices, 130 declared controls, sealed nested artifacts | External review of expectations; controls are finite mechanism checks |
 | Live integration | Individual user-run static, dynamic and reviewed checks | Repeated, prospectively specified model comparisons |
-| Comparators | Completed 96-condition common-corpus comparison of four fixed mock policies | Live/metered reflection comparator and actual resource ablations |
+| Comparators | Common-corpus comparison and decision/action-cap sensitivities for four fixed mock policies | Live/metered reflection, equal-information/cost and broader resource studies |
 | Metrics | Pinned assigned denominators; independent SQL outcomes separate from claims and exposure | Stochastic estimand, analysis plan and dependence assumptions for any live study |
 | Transfer/review | Four portable study evidence sets, with the interrupted sensitivity attempt archived separately | External review; unsigned consistency does not establish authenticity or model reliability |
 
@@ -146,6 +150,10 @@ runner and pretrial lock are [implemented](ACTION_BUDGET_RUNNER.md), and
 External review remains pending. Neither sensitivity check equalizes oracle
 information or establishes dollar-cost parity. The [comparator design](COMPARATOR_DESIGN.md)
 retains the broader ablation requirements.
+
+The [consolidated handoff](RESEARCH_FINDINGS.md) now captures these findings and review
+priorities. Next, specify the opt-in metered reflection-provider contract and offline
+validation gates; no billable trial or reviewer contact is part of this handoff.
 
 External review, metered LLM reflection, stochastic sample-size/analysis design and any
 paid execution remain separate pending work. This updated packet authorizes none of them.

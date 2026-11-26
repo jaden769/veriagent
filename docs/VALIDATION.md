@@ -1761,3 +1761,20 @@ frozen bindings and diff checks passed. Staged audited publication used the esta
 escalated hard-link workflow for Windows. No study rerun, paid call or browser suite
 execution occurred. Evidence remains unsigned and fault delivery was not independently
 reenacted; external review and live/generalization work remain pending.
+
+### Consolidated fixed-mock findings and review handoff — 2026-11-26
+
+Added RESEARCH_FINDINGS.md and a machine-readable handoff index binding four completed
+study plans/results/package records/checkers and five archives, including the separate
+206-run interrupted decision-budget attempt. Consolidated truth, claim and budget-stop
+findings with explicit per-study/per-arm denominators and no pooling. Recorded unassigned
+external-review priorities for oracle scope, fault/exposure semantics, stopping/partial
+evidence, resource accounting and generalization. No reviewer or approval was fabricated.
+
+Verified all indexed plan/result/package/checker hashes, five ZIP hashes/sizes/member
+counts, measured summary/resource numbers and document links. Diff checks passed. This
+documentation/index-only increment changed no executable code, frozen plan/lock, result
+record or archive, so suites and studies were not rerun. The latest software records
+remain the 850-test broad suite and 318-test focused evidence run. No paid calls or
+external reviewer contact occurred. Next is an opt-in metered-provider contract with
+offline gates; billable trials and external review remain separate pending work.

@@ -1,8 +1,9 @@
 # Pinned mock decision-budget runner
 
 `research/run_decision_budget.py` implements the
-[288-condition sensitivity plan](DECISION_BUDGET_COMPARISON.md). The full study remains
-unexecuted. Unit tests exercise selected conditions and simulated orchestration; those
+[288-condition sensitivity plan](DECISION_BUDGET_COMPARISON.md). The full study is
+recorded separately in the [results](DECISION_BUDGET_RESULTS.md). Unit tests exercise
+selected conditions and simulated orchestration; those
 fixtures are not study results.
 
 The [pretrial execution lock](review/decision-budget-execution-lock.json) binds the exact

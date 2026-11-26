@@ -18,7 +18,7 @@ and selected source hashes; later studies retain their own prospective bindings.
 | Transfer/review | Two portable study archives with relocated trace/SQL audits | External review; unsigned consistency does not establish authenticity or model reliability |
 
 The latest broad complete-suite record is 850 passing tests; the latest focused evidence
-regression run passed 227 tests. Subsequent additions were checked with focused suites,
+regression run passed 252 tests. Subsequent additions were checked with focused suites,
 not a new full run; see [validation history](VALIDATION.md). Test counts are software-validation evidence.
 They are not independent task samples or a reliability denominator.
 
@@ -29,6 +29,7 @@ They are not independent task samples or a reliability denominator.
 | Initial offline comparison | 144 static/dynamic mock runs | [Plan](OFFLINE_COMPARISON.md), [results](OFFLINE_COMPARISON_RESULTS.md), [verification-work ledger](VERIFICATION_WORK.md); historical execution pins remain unchanged |
 | Bounded trusted oracle | 72 dynamic mock conditions across three tasks, two scenarios, three modes and four quotas | [Results](BOUNDED_ORACLE_RESULTS.md), [portable package and audit instructions](BOUNDED_ORACLE_PACKAGE.md) |
 | Common-corpus reflection | 96 runs across six tasks, four scenarios and four fixed mock arms | [Results](REFLECTION_COMPARISON_RESULTS.md), [portable package and audit instructions](REFLECTION_PACKAGE.md) |
+| Decision-cap sensitivity | 288 completed mock conditions at caps 4/8/12, plus a separate retained interrupted attempt | [Results](DECISION_BUDGET_RESULTS.md); local evidence, portable packaging pending |
 
 Start with each prospective plan, then its recorded results, external manifest binding
 and archive audit. Inspect representative raw reports, traces and final SQLite states
@@ -134,7 +135,8 @@ implementer summaries. No reviewer has been assigned or contacted.
 
 The [prospective decision-budget sensitivity study](DECISION_BUDGET_COMPARISON.md) now
 specifies 288 fresh conditions at caps 4/8/12. Its [runner](DECISION_BUDGET_RUNNER.md)
-and pretrial binding are implemented; execution remains pending. The
+and pretrial binding are implemented; [recorded results](DECISION_BUDGET_RESULTS.md)
+now retain the completed study and separate operational interruption. The
 five achieved-goal reflection stops motivate varying the decision cap while retaining
 original goals, fault profiles, action caps and arm information access. Predeclare the
 cap grid, assigned denominator, ordering, resource vectors and treatment of achieved-goal

@@ -1,10 +1,11 @@
 # Prospective mock decision-budget sensitivity study
 
-Prepared 2026-11-26. Status: **specified, not run**. The
+Prepared 2026-11-26 as a prospective specification. The subsequent
+[results](DECISION_BUDGET_RESULTS.md) record execution separately. The
 [machine-readable plan](review/decision-budget-plan.json) pins all 288 ordered conditions,
 product source/corpus hashes and the prior results that motivated this follow-up.
 The subsequent [mock runner and execution lock](DECISION_BUDGET_RUNNER.md) implement
-the pretrial gates; the published plan is unchanged and no study outcome is recorded.
+the pretrial gates; the published plan bytes remain unchanged.
 
 The [96-run study](REFLECTION_COMPARISON_RESULTS.md) observed five reflection runs with
 satisfied final goals and budget failures. All used eight decisions; pair_done/transient

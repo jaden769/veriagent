@@ -1625,3 +1625,25 @@ admission/budget, result/runner and bounded-oracle package regressions passed in
 Ruff, formatting, links, execution bindings and diff checks passed. No product or historical
 bound source/plan/result/archive changed. No full browser rerun or paid API call occurred.
 Selected unit fixtures are not study observations; the 288-run study remains unexecuted.
+
+### Recorded decision-budget sensitivity and local audit — 2026-11-26
+
+The initial attempt stopped on Windows atomic manifest replacement after 206 completed
+rows; its manifest and unknown active condition remain separate. An explicitly disclosed
+fresh attempt outside the sandbox completed all 288 ordered assignments with the same
+frozen inputs. No individual cell was resumed/replaced and partial outcomes were not
+pooled. Both attempt paths and manifest hashes are recorded in the results.
+
+A post-execution read-only auditor outside the frozen research inventory verified full
+coverage, identities, native trace/resource/SQL reconciliation and stopping diagnostics.
+All 288 checks passed. Recorded 192 matched cap contrasts. All new cap-eight outcomes,
+failures and resource vectors matched the earlier 96-run reference without pooling it.
+Goal satisfaction did not change at cap twelve versus eight; reflection gained one final
+claim and retained four achieved-goal budget failures with exhausted action counters.
+
+252 focused tests passed, including nine new result-auditor/contrast/manifest checks.
+The final nine also passed after adding execution-binding metadata to the saved record.
+Ruff, formatting, links, result/auditor hashes, frozen bindings and diff checks passed.
+No product or frozen research execution source, plan, lock or historical result/archive
+changed. No paid calls or browser suite rerun occurred. Raw evidence remains local and
+unsigned; portable complete/partial-attempt packaging and external review remain pending.

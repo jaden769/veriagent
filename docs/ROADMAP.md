@@ -286,6 +286,11 @@ Completed mock decision-budget runner and pretrial binding: exact 288-condition 
 fresh native execution, trace/SQL/resource reconciliation, separate joint-cap diagnostics
 and partial-attempt retention. The planned study remains unexecuted.
 
-Next research increment: execute the frozen decision-budget study and independently audit
-coverage, within-arm sensitivity, achieved-goal stops and resource/exposure findings.
+Completed frozen decision-budget execution and independent audit: 288 completed conditions,
+cap contrasts and prior-reference checks, with a separate retained 206-run interrupted
+attempt. Extra decisions left goal truth unchanged at 12 versus 8; four reflection
+achieved-goal action-cap stops remained.
+
+Next research increment: package the completed and partial decision-budget evidence for
+portable review with separate identities, manifest bindings and coverage claims.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

@@ -86,6 +86,8 @@ Dynamic traces must pass admission replay and agree with live ledger counters.
 Reflection needs its own trace reconciler before this study runs: verify typed phases,
 shared counters, admissions and finish claims without expecting RunReport or inventing
 trusted verification. The existing verification-work ledger is not a reflection audit.
+The [reflection reconciler](REFLECTION_TRACE.md) is now implemented; the runner and its
+pretrial source binding remain pending. The published machine-readable plan is unchanged.
 Both report families must reconcile with observed action/read/write counts and the same
 independent final-state audit. No new comparative outcomes are collected by this document.
 

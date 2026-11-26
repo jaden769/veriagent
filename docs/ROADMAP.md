@@ -260,6 +260,9 @@ Completed prospective common-corpus specification: 96 mock conditions, four dist
 report/policy arms, shared caps with explicit information differences, balanced fixed
 arm positions, separate resource vectors and exposure-aware analysis gates.
 
-Next research increment: implement offline reflection-trace reconciliation for phases,
-counters, claims and retry guards before executing the pinned common-corpus comparison.
+Completed offline reflection-trace reconciliation: typed phases, shared counters, claims,
+authorization and fresh-read/idempotence retry guards, with separate final-state truth.
+
+Next research increment: implement the mock-only common-corpus runner and bind plan,
+runner and reflection-auditor hashes before the first of the 96 assigned trials.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

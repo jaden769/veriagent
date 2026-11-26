@@ -1492,3 +1492,15 @@ No code or tests changed, so suites were not rerun for this specification-only i
 No agents, oracle checks, comparison runs, browser trials or paid API calls were executed.
 Historical plans/results were not changed. Diff checks passed. This is not an equal-cost
 ablation, LLM reflection study, stochastic comparison or external approval.
+
+### Offline reflection trace reconciliation — 2026-11-26
+
+Added the research-only reflection reconciler and 39 tests for actual phase traces,
+strict counters/contexts/claims, authorization, retry guards, policy denials, malformed
+frames and deadline limitations. A spoofed-read claim remains trace-consistent while
+failing separate SQL truth; reconciliation invokes neither provider nor oracle.
+
+156 focused tests passed, including reflection, verification admission/budget and bounded
+oracle runner/package regressions. Product sources and the prospective comparison plan
+remain unchanged. Ruff, formatting and diff checks passed. The full browser suite was
+not repeated for this isolated research auditor. No comparison study or paid API calls ran.

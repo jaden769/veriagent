@@ -93,6 +93,9 @@ decisions, preserve realized exposure and include a separate final-state oracle.
 The [common-corpus specification](REFLECTION_COMPARISON.md) now records those selections
 and gates; its 96 planned conditions have not been executed.
 
+The [offline trace checker](REFLECTION_TRACE.md) now reconciles native phase, claim,
+counter and retry evidence independently of the final-state oracle.
+
 Adding this source module deliberately changes the current source inventory. Historical
 plans and evidence hashes are preserved; their runners must reject silently rerunning
 the old pinned study on changed code. Unit-test plans refresh only their temporary source

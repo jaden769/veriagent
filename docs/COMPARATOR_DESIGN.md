@@ -123,6 +123,8 @@ No live study, sample size or billable execution is established by this design.
 
 The [mock-only reflection prototype](REFLECTION_PROTOTYPE.md) now exercises typed phases
 and shared limits. It does not establish an LLM comparator or an executed ablation study.
+The [prospective common-corpus comparison](REFLECTION_COMPARISON.md) keeps actual tool,
+oracle and corrective work separate across the four assigned mock arms.
 
 The [prospective bounded-oracle check](BOUNDED_ORACLE_COMPARISON.md) now pins a small
 mock-only admission comparison. Its expected outcomes are not measured results.

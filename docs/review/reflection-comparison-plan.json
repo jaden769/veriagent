@@ -1,0 +1,1208 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-11-26",
+  "status": "prospective_not_run",
+  "scope": "fixed_mock_common_corpus_mechanism_comparison",
+  "corpus_sha256": "8f517516d2d6d70574f93dde371e6fef40676c70733a5966b72d8a17abcef6b0",
+  "task_ids": [
+    "single_done",
+    "pair_done",
+    "mixed_status",
+    "reopen",
+    "already_satisfied",
+    "partial_satisfied"
+  ],
+  "scenarios": [
+    "clean",
+    "silent_drop",
+    "persistent_drop",
+    "transient"
+  ],
+  "arms": [
+    {
+      "id": "dynamic_baseline",
+      "policy": "DynamicAgent",
+      "provider": "MockProvider",
+      "mode": "baseline",
+      "trusted_verification_limits": {
+        "max_calls": null,
+        "max_target_rows": null
+      },
+      "report_contract": "RunReport",
+      "trace_audit": "reconcile_verification_admission"
+    },
+    {
+      "id": "dynamic_verify",
+      "policy": "DynamicAgent",
+      "provider": "MockProvider",
+      "mode": "verify",
+      "trusted_verification_limits": {
+        "max_calls": null,
+        "max_target_rows": null
+      },
+      "report_contract": "RunReport",
+      "trace_audit": "reconcile_verification_admission"
+    },
+    {
+      "id": "dynamic_recover",
+      "policy": "DynamicAgent",
+      "provider": "MockProvider",
+      "mode": "recover",
+      "trusted_verification_limits": {
+        "max_calls": null,
+        "max_target_rows": null
+      },
+      "report_contract": "RunReport",
+      "trace_audit": "reconcile_verification_admission"
+    },
+    {
+      "id": "mock_self_reflection",
+      "policy": "ReflectionAgent",
+      "provider": "MockReflectionProvider",
+      "mode": null,
+      "trusted_verification_limits": null,
+      "max_reflections": 2,
+      "report_contract": "ReflectionReport",
+      "trace_audit": "reflection_reconciler_required_before_execution"
+    }
+  ],
+  "repeats": 1,
+  "planned_runs": 96,
+  "budget_per_run": {
+    "max_actions": 8,
+    "max_retries": 2,
+    "timeout_seconds": 60.0,
+    "action_timeout_seconds": 1.0,
+    "max_decisions": 8
+  },
+  "blocks": [
+    {
+      "block": 1,
+      "task_id": "single_done",
+      "scenario": "clean",
+      "arm_order": [
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection"
+      ]
+    },
+    {
+      "block": 2,
+      "task_id": "single_done",
+      "scenario": "silent_drop",
+      "arm_order": [
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline"
+      ]
+    },
+    {
+      "block": 3,
+      "task_id": "single_done",
+      "scenario": "persistent_drop",
+      "arm_order": [
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify"
+      ]
+    },
+    {
+      "block": 4,
+      "task_id": "single_done",
+      "scenario": "transient",
+      "arm_order": [
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover"
+      ]
+    },
+    {
+      "block": 5,
+      "task_id": "pair_done",
+      "scenario": "clean",
+      "arm_order": [
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection"
+      ]
+    },
+    {
+      "block": 6,
+      "task_id": "pair_done",
+      "scenario": "silent_drop",
+      "arm_order": [
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline"
+      ]
+    },
+    {
+      "block": 7,
+      "task_id": "pair_done",
+      "scenario": "persistent_drop",
+      "arm_order": [
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify"
+      ]
+    },
+    {
+      "block": 8,
+      "task_id": "pair_done",
+      "scenario": "transient",
+      "arm_order": [
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover"
+      ]
+    },
+    {
+      "block": 9,
+      "task_id": "mixed_status",
+      "scenario": "clean",
+      "arm_order": [
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection"
+      ]
+    },
+    {
+      "block": 10,
+      "task_id": "mixed_status",
+      "scenario": "silent_drop",
+      "arm_order": [
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline"
+      ]
+    },
+    {
+      "block": 11,
+      "task_id": "mixed_status",
+      "scenario": "persistent_drop",
+      "arm_order": [
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify"
+      ]
+    },
+    {
+      "block": 12,
+      "task_id": "mixed_status",
+      "scenario": "transient",
+      "arm_order": [
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover"
+      ]
+    },
+    {
+      "block": 13,
+      "task_id": "reopen",
+      "scenario": "clean",
+      "arm_order": [
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection"
+      ]
+    },
+    {
+      "block": 14,
+      "task_id": "reopen",
+      "scenario": "silent_drop",
+      "arm_order": [
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline"
+      ]
+    },
+    {
+      "block": 15,
+      "task_id": "reopen",
+      "scenario": "persistent_drop",
+      "arm_order": [
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify"
+      ]
+    },
+    {
+      "block": 16,
+      "task_id": "reopen",
+      "scenario": "transient",
+      "arm_order": [
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover"
+      ]
+    },
+    {
+      "block": 17,
+      "task_id": "already_satisfied",
+      "scenario": "clean",
+      "arm_order": [
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection"
+      ]
+    },
+    {
+      "block": 18,
+      "task_id": "already_satisfied",
+      "scenario": "silent_drop",
+      "arm_order": [
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline"
+      ]
+    },
+    {
+      "block": 19,
+      "task_id": "already_satisfied",
+      "scenario": "persistent_drop",
+      "arm_order": [
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify"
+      ]
+    },
+    {
+      "block": 20,
+      "task_id": "already_satisfied",
+      "scenario": "transient",
+      "arm_order": [
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover"
+      ]
+    },
+    {
+      "block": 21,
+      "task_id": "partial_satisfied",
+      "scenario": "clean",
+      "arm_order": [
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection"
+      ]
+    },
+    {
+      "block": 22,
+      "task_id": "partial_satisfied",
+      "scenario": "silent_drop",
+      "arm_order": [
+        "dynamic_verify",
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline"
+      ]
+    },
+    {
+      "block": 23,
+      "task_id": "partial_satisfied",
+      "scenario": "persistent_drop",
+      "arm_order": [
+        "dynamic_recover",
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify"
+      ]
+    },
+    {
+      "block": 24,
+      "task_id": "partial_satisfied",
+      "scenario": "transient",
+      "arm_order": [
+        "mock_self_reflection",
+        "dynamic_baseline",
+        "dynamic_verify",
+        "dynamic_recover"
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "block": 1,
+      "position": 1,
+      "task_id": "single_done",
+      "scenario": "clean",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 1,
+      "position": 2,
+      "task_id": "single_done",
+      "scenario": "clean",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 1,
+      "position": 3,
+      "task_id": "single_done",
+      "scenario": "clean",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 1,
+      "position": 4,
+      "task_id": "single_done",
+      "scenario": "clean",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 2,
+      "position": 1,
+      "task_id": "single_done",
+      "scenario": "silent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 2,
+      "position": 2,
+      "task_id": "single_done",
+      "scenario": "silent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 2,
+      "position": 3,
+      "task_id": "single_done",
+      "scenario": "silent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 2,
+      "position": 4,
+      "task_id": "single_done",
+      "scenario": "silent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 3,
+      "position": 1,
+      "task_id": "single_done",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 3,
+      "position": 2,
+      "task_id": "single_done",
+      "scenario": "persistent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 3,
+      "position": 3,
+      "task_id": "single_done",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 3,
+      "position": 4,
+      "task_id": "single_done",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 4,
+      "position": 1,
+      "task_id": "single_done",
+      "scenario": "transient",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 4,
+      "position": 2,
+      "task_id": "single_done",
+      "scenario": "transient",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 4,
+      "position": 3,
+      "task_id": "single_done",
+      "scenario": "transient",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 4,
+      "position": 4,
+      "task_id": "single_done",
+      "scenario": "transient",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 5,
+      "position": 1,
+      "task_id": "pair_done",
+      "scenario": "clean",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 5,
+      "position": 2,
+      "task_id": "pair_done",
+      "scenario": "clean",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 5,
+      "position": 3,
+      "task_id": "pair_done",
+      "scenario": "clean",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 5,
+      "position": 4,
+      "task_id": "pair_done",
+      "scenario": "clean",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 6,
+      "position": 1,
+      "task_id": "pair_done",
+      "scenario": "silent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 6,
+      "position": 2,
+      "task_id": "pair_done",
+      "scenario": "silent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 6,
+      "position": 3,
+      "task_id": "pair_done",
+      "scenario": "silent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 6,
+      "position": 4,
+      "task_id": "pair_done",
+      "scenario": "silent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 7,
+      "position": 1,
+      "task_id": "pair_done",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 7,
+      "position": 2,
+      "task_id": "pair_done",
+      "scenario": "persistent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 7,
+      "position": 3,
+      "task_id": "pair_done",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 7,
+      "position": 4,
+      "task_id": "pair_done",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 8,
+      "position": 1,
+      "task_id": "pair_done",
+      "scenario": "transient",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 8,
+      "position": 2,
+      "task_id": "pair_done",
+      "scenario": "transient",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 8,
+      "position": 3,
+      "task_id": "pair_done",
+      "scenario": "transient",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 8,
+      "position": 4,
+      "task_id": "pair_done",
+      "scenario": "transient",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 9,
+      "position": 1,
+      "task_id": "mixed_status",
+      "scenario": "clean",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 9,
+      "position": 2,
+      "task_id": "mixed_status",
+      "scenario": "clean",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 9,
+      "position": 3,
+      "task_id": "mixed_status",
+      "scenario": "clean",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 9,
+      "position": 4,
+      "task_id": "mixed_status",
+      "scenario": "clean",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 10,
+      "position": 1,
+      "task_id": "mixed_status",
+      "scenario": "silent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 10,
+      "position": 2,
+      "task_id": "mixed_status",
+      "scenario": "silent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 10,
+      "position": 3,
+      "task_id": "mixed_status",
+      "scenario": "silent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 10,
+      "position": 4,
+      "task_id": "mixed_status",
+      "scenario": "silent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 11,
+      "position": 1,
+      "task_id": "mixed_status",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 11,
+      "position": 2,
+      "task_id": "mixed_status",
+      "scenario": "persistent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 11,
+      "position": 3,
+      "task_id": "mixed_status",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 11,
+      "position": 4,
+      "task_id": "mixed_status",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 12,
+      "position": 1,
+      "task_id": "mixed_status",
+      "scenario": "transient",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 12,
+      "position": 2,
+      "task_id": "mixed_status",
+      "scenario": "transient",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 12,
+      "position": 3,
+      "task_id": "mixed_status",
+      "scenario": "transient",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 12,
+      "position": 4,
+      "task_id": "mixed_status",
+      "scenario": "transient",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 13,
+      "position": 1,
+      "task_id": "reopen",
+      "scenario": "clean",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 13,
+      "position": 2,
+      "task_id": "reopen",
+      "scenario": "clean",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 13,
+      "position": 3,
+      "task_id": "reopen",
+      "scenario": "clean",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 13,
+      "position": 4,
+      "task_id": "reopen",
+      "scenario": "clean",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 14,
+      "position": 1,
+      "task_id": "reopen",
+      "scenario": "silent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 14,
+      "position": 2,
+      "task_id": "reopen",
+      "scenario": "silent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 14,
+      "position": 3,
+      "task_id": "reopen",
+      "scenario": "silent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 14,
+      "position": 4,
+      "task_id": "reopen",
+      "scenario": "silent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 15,
+      "position": 1,
+      "task_id": "reopen",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 15,
+      "position": 2,
+      "task_id": "reopen",
+      "scenario": "persistent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 15,
+      "position": 3,
+      "task_id": "reopen",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 15,
+      "position": 4,
+      "task_id": "reopen",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 16,
+      "position": 1,
+      "task_id": "reopen",
+      "scenario": "transient",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 16,
+      "position": 2,
+      "task_id": "reopen",
+      "scenario": "transient",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 16,
+      "position": 3,
+      "task_id": "reopen",
+      "scenario": "transient",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 16,
+      "position": 4,
+      "task_id": "reopen",
+      "scenario": "transient",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 17,
+      "position": 1,
+      "task_id": "already_satisfied",
+      "scenario": "clean",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 17,
+      "position": 2,
+      "task_id": "already_satisfied",
+      "scenario": "clean",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 17,
+      "position": 3,
+      "task_id": "already_satisfied",
+      "scenario": "clean",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 17,
+      "position": 4,
+      "task_id": "already_satisfied",
+      "scenario": "clean",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 18,
+      "position": 1,
+      "task_id": "already_satisfied",
+      "scenario": "silent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 18,
+      "position": 2,
+      "task_id": "already_satisfied",
+      "scenario": "silent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 18,
+      "position": 3,
+      "task_id": "already_satisfied",
+      "scenario": "silent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 18,
+      "position": 4,
+      "task_id": "already_satisfied",
+      "scenario": "silent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 19,
+      "position": 1,
+      "task_id": "already_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 19,
+      "position": 2,
+      "task_id": "already_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 19,
+      "position": 3,
+      "task_id": "already_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 19,
+      "position": 4,
+      "task_id": "already_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 20,
+      "position": 1,
+      "task_id": "already_satisfied",
+      "scenario": "transient",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 20,
+      "position": 2,
+      "task_id": "already_satisfied",
+      "scenario": "transient",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 20,
+      "position": 3,
+      "task_id": "already_satisfied",
+      "scenario": "transient",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 20,
+      "position": 4,
+      "task_id": "already_satisfied",
+      "scenario": "transient",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 21,
+      "position": 1,
+      "task_id": "partial_satisfied",
+      "scenario": "clean",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 21,
+      "position": 2,
+      "task_id": "partial_satisfied",
+      "scenario": "clean",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 21,
+      "position": 3,
+      "task_id": "partial_satisfied",
+      "scenario": "clean",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 21,
+      "position": 4,
+      "task_id": "partial_satisfied",
+      "scenario": "clean",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 22,
+      "position": 1,
+      "task_id": "partial_satisfied",
+      "scenario": "silent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 22,
+      "position": 2,
+      "task_id": "partial_satisfied",
+      "scenario": "silent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 22,
+      "position": 3,
+      "task_id": "partial_satisfied",
+      "scenario": "silent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 22,
+      "position": 4,
+      "task_id": "partial_satisfied",
+      "scenario": "silent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 23,
+      "position": 1,
+      "task_id": "partial_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    },
+    {
+      "block": 23,
+      "position": 2,
+      "task_id": "partial_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 23,
+      "position": 3,
+      "task_id": "partial_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 23,
+      "position": 4,
+      "task_id": "partial_satisfied",
+      "scenario": "persistent_drop",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 24,
+      "position": 1,
+      "task_id": "partial_satisfied",
+      "scenario": "transient",
+      "arm": "mock_self_reflection",
+      "repetition": 1
+    },
+    {
+      "block": 24,
+      "position": 2,
+      "task_id": "partial_satisfied",
+      "scenario": "transient",
+      "arm": "dynamic_baseline",
+      "repetition": 1
+    },
+    {
+      "block": 24,
+      "position": 3,
+      "task_id": "partial_satisfied",
+      "scenario": "transient",
+      "arm": "dynamic_verify",
+      "repetition": 1
+    },
+    {
+      "block": 24,
+      "position": 4,
+      "task_id": "partial_satisfied",
+      "scenario": "transient",
+      "arm": "dynamic_recover",
+      "repetition": 1
+    }
+  ],
+  "ordering": "fixed task/scenario blocks; arm order rotates by block index, not randomized",
+  "primary_outcome": {
+    "field": "ground_truth_success",
+    "definition": "all original target statuses satisfied in independent final SQL audit",
+    "strata": [
+      "task_id",
+      "scenario",
+      "arm"
+    ],
+    "denominator": "all assigned runs in the stratum; interruptions retained separately without silent replacement"
+  },
+  "secondary_outcomes": [
+    "claimed_success",
+    "false_success",
+    "false_success_given_claim",
+    "untargeted_changed",
+    "original_claimed_success_reflection_only",
+    "actions",
+    "decisions",
+    "tool_reads",
+    "tool_writes",
+    "recovery_admissions_dynamic_only",
+    "corrective_admissions_reflection_only",
+    "repeat_write_attempts",
+    "trusted_verification_calls",
+    "known_verified_target_rows",
+    "verified_target_rows",
+    "verification_errors",
+    "elapsed_ms",
+    "model_calls",
+    "model_tokens",
+    "realized_faults",
+    "unused_faults",
+    "fault_recovery_eligible"
+  ],
+  "completion_gates": [
+    "source_and_corpus_pins_match",
+    "exact_96_condition_coverage",
+    "fresh_per_run_state_provider_and_policy",
+    "unique_run_ids",
+    "independent_final_SQL_audit",
+    "report_and_trace_counter_agreement",
+    "dynamic_admission_replay_equals_live_ledger",
+    "reflection_trace_reconciliation_implemented_and_passed",
+    "retain_all_outcomes_and_partial_attempts",
+    "no_oracle_input_to_reflection_provider",
+    "bind_runner_and_reflection_auditor_hashes_before_first_trial"
+  ],
+  "source_sha256": {
+    "src/veriagent/__init__.py": "b463246e1b94dd7df56dc5b73e07fde546059e951d26f1a8480a5bb6c9a87edf",
+    "src/veriagent/agent.py": "72db0e85e3646277b9e8b0dd3ea41556a061d514c9b09013aacf64ebc894043d",
+    "src/veriagent/api.py": "e1bff9dcc3a88d57b2215fbda372e2024ed8cee430c649c526caa5cf6935612c",
+    "src/veriagent/benchmark.py": "814cf0cf2eb22c320f7837423e2dc7e77cc4c4fa10dccd5d46537738a75845c3",
+    "src/veriagent/benchmark_cases.py": "3cb1c7a6293a457d779f74488d23eed0508f16b34531ddd8a6635b133f87720d",
+    "src/veriagent/benchmark_faults.py": "1835f7c9abc66f0322ed5c38a80977df1b4365a064927fb532c9f290942a9aec",
+    "src/veriagent/bounded_verification.py": "71f309f7671f8b37cf11955e2c326d7a68cba5aa5ae2adb814bf6e1a61906e64",
+    "src/veriagent/browser.py": "ec9068b20d8e7b8a670bab1cac09195130fc085c37c4d9fc913d0ef2272fe718",
+    "src/veriagent/browser_archive.py": "4c6e622024e06b1ee209f417296132b8c3979b8078334b50b644611cb82459c7",
+    "src/veriagent/browser_batch.py": "9a2c7a6fce48ddb823c9209f924d4889778c1e962d58dcfd99c365d75b4fa0c8",
+    "src/veriagent/browser_batch_audit.py": "7495bf26e7b76becd68b307f744c217f8bdf503110b5592b3fbfe8dd269549c1",
+    "src/veriagent/browser_catalog.py": "4dd77a05e40a610b28df91cc9be66d1b5919507ac838c34dc7cdaa70887b3460",
+    "src/veriagent/browser_catalog_review.py": "4c1d487bf87f720301f54e6d344ef7633bed1749512faf61376add97504bc768",
+    "src/veriagent/browser_controls.py": "f6ac8f0157ee547b62531349883beb2288fb58907874c094e547305052142e3c",
+    "src/veriagent/browser_controls_audit.py": "9eb577bba1f592d704a646093216bb09484c108eae60ef3ed61d29d55568f3f7",
+    "src/veriagent/browser_evidence.py": "1bb2cdec655e753be2dae5edcb9af23d936c10bee60f76e658e5cb9202a61dc4",
+    "src/veriagent/browser_execution.py": "aecdf8981488426dc03a53c6d220dab512ba17dc1264b87bdb43d5fba3653c4a",
+    "src/veriagent/browser_faults.py": "20c079e54c1586c62f80a6d76f08a9236dd5433d1e886db3221f7fbb39b6c0cb",
+    "src/veriagent/browser_review.py": "f9f2abfda311e282e4afb5c1ae3a0becc143e74b4e0578b65fb4f9fa715a85c3",
+    "src/veriagent/browser_suite.py": "f791f175bb1ad27de73fc492a2d5546b71b8f32d2efc6337a5f3f0375a526402",
+    "src/veriagent/browser_suite_schema.py": "006c6e42cef39113e7503e51a34ae88f8fb246d33d1e3405a9c04f71558cb8c6",
+    "src/veriagent/browser_suite_validation.py": "9a4ea4f014260942ec6517740a3c0a318ed5817dab8044cf943f82140e7d8cf0",
+    "src/veriagent/budgeting.py": "35560977f139f2cda305d7537b04e860fe0151f318e38cc2e62c5cf1c1e271bd",
+    "src/veriagent/cli.py": "d283598155c4b2a284530d9a6f7eed8fc898a21f8196ed1fb3ccb87ed1169e4b",
+    "src/veriagent/dynamic.py": "cff170b7fc3cb5ce6458ea252e258e2d6ccd4318fa371d60575309f452a151d7",
+    "src/veriagent/evaluation.py": "5e5af905d5cfeba41c07f53e872a9b29b62c206a2b1e528595f3eecd328c4872",
+    "src/veriagent/executor.py": "f2cfea5ed5edcef229f3fa965d56da6b3cf4dfa4e74f10d8f02989c8b1cdefa7",
+    "src/veriagent/interpretation.py": "ee92dc3d57b238e564088bea2097f86bca5a127933311ea5ff0e397d9f3138ce",
+    "src/veriagent/isolated.py": "50aa154f9cfb83fd26c4d9f2bd37e00f5b582f26d8d6098a6b4b73cf7a47c574",
+    "src/veriagent/models.py": "28593e3e4747ddaacde8a4b542a094ebb24bb35b19e5aa6c4b78d06a68b41d15",
+    "src/veriagent/openai_provider.py": "b9e7d562feaca2fcef6b77508dd6f851209c953ebee6ea6e6e0bc44ac367224d",
+    "src/veriagent/planner.py": "b8a35721f1d809b617bb4a668291d50cc8b104fbc7f2e6a0897aca8110fc1a57",
+    "src/veriagent/recovery.py": "d86b9a61045c79f0708e600823a3950cab8baf4960c59a82241f5ca0c3b51278",
+    "src/veriagent/reflection.py": "4eb2b8109efe1e1b986cd36c786e8ca7a716896febcd4bb1b79235cd36b0ac41",
+    "src/veriagent/safety_evaluation.py": "6de0f32b63300b8b77263e333e56995b4882a90695e4d16cbe609174baf0bbc5",
+    "src/veriagent/sandbox.py": "823b33d8dd4e47f837663e76c02d7e48c987126bf5c47042ea67c026df5d917a",
+    "src/veriagent/smoke.py": "e64b01b3d25f75d80927989c8c93ce9e19904cedfa9e849d7b47083ec7697f1d",
+    "src/veriagent/trace.py": "7e3968e2220a6d1b07b30f1c31f056614c1075491c56540ad618c08731b69b7c",
+    "src/veriagent/verification.py": "c7c1e4093c9db89c3d9300c9a56386866aded9d834c843ded0c8916eda3f027c",
+    "src/veriagent/verification_admission_audit.py": "deaa0c7a37983a1fc452e0f4d15b193c1a3a42809309779c9ef3f370aca7fae7",
+    "src/veriagent/verification_budget.py": "a1da1b09df39d542e2e51b36fdd6ffd9a55088d3d139b5b5e958cb0ce15fbd33",
+    "src/veriagent/verification_work.py": "7ff7595dc4850cfe7bf3dd0317ca5de5a88a401175acb622c689878c7c0f4c8b",
+    "src/veriagent/worker.py": "80cc8420a3231d9861b171f16519d99b30ac7058868344a84d6aab1399660530"
+  },
+  "limitations": "Prospective mock-only mechanism comparison. Shared caps do not equalize information or actual work. No stochastic, causal, model-quality or dollar-cost claim; not an ablation completion."
+}

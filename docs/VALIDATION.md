@@ -1473,3 +1473,22 @@ execution plan rejects drift and the released 72-run/436-file ZIP still audits. 
 formatting, document links and diff checks passed. No comparison study or paid API call
 ran; the broad suite exercised mock/browser regressions. A metered LLM reflection arm,
 external review and a prospective common-corpus comparison remain pending.
+
+### Prospective reflection common-corpus specification — 2026-11-26
+
+Added REFLECTION_COMPARISON.md and a machine-readable plan for 96 assigned conditions:
+six tasks, four default fault scenarios and dynamic baseline/verify/recover plus the
+separate mock reflection prototype. One repetition per condition, shared 8-action/
+8-decision/2-admission caps and explicit unlimited trusted ledgers for dynamic arms do
+not imply equal information or cost. Reflection gets no trusted verifier or quota object.
+
+Verified all 96 unique keys, 24 complete blocks, fixed rotating arm positions (six per
+arm/position), budgets, mode/report mapping, quota shapes, source/corpus hashes and document
+links. Independent final audit, realized exposure, unknown partial outcomes, native report
+contracts and reflection-trace reconciliation are prospective evidence gates. Eventual
+runner/auditor hashes must be bound before the first trial.
+
+No code or tests changed, so suites were not rerun for this specification-only increment.
+No agents, oracle checks, comparison runs, browser trials or paid API calls were executed.
+Historical plans/results were not changed. Diff checks passed. This is not an equal-cost
+ablation, LLM reflection study, stochastic comparison or external approval.

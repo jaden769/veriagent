@@ -90,6 +90,8 @@ LLM reflection quality, broad recovery reliability or equal cost versus trusted 
 No comparator study or live API trial is claimed here. A prospective common-corpus plan
 must identify this prototype separately, account for its extra ordinary reads and finish
 decisions, preserve realized exposure and include a separate final-state oracle.
+The [common-corpus specification](REFLECTION_COMPARISON.md) now records those selections
+and gates; its 96 planned conditions have not been executed.
 
 Adding this source module deliberately changes the current source inventory. Historical
 plans and evidence hashes are preserved; their runners must reject silently rerunning

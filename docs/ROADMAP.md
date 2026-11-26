@@ -256,6 +256,10 @@ Completed mock-only reflection prototype: separate typed execution/corrective st
 report, original/final claims, fresh ordinary read-back, safe replay guards, shared caps and
 no trusted verifier access. Spoofed-read false claims are retained as a limitation.
 
-Next research increment: specify a prospective common-corpus mock comparison including
-the separate reflection prototype, ordinary-read costs and realized fault exposure.
+Completed prospective common-corpus specification: 96 mock conditions, four distinct
+report/policy arms, shared caps with explicit information differences, balanced fixed
+arm positions, separate resource vectors and exposure-aware analysis gates.
+
+Next research increment: implement offline reflection-trace reconciliation for phases,
+counters, claims and retry guards before executing the pinned common-corpus comparison.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

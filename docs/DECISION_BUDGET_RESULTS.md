@@ -77,8 +77,8 @@ The recorded attempt history preserves both identities and their separate denomi
 `analysis/decision_budget_results.py` performs the post-run read-only audit using the
 existing condition reconciler and final SQL checks. It lives outside the frozen research
 execution inventory; no bound runner/auditor/product code or plan/lock was changed.
-It does not execute a provider or policy. The raw evidence remains local; portable
-packaging of the complete and partial attempts is the next increment.
+It does not execute a provider or policy. The raw evidence is now included in
+[separate portable complete/partial packages](DECISION_BUDGET_PACKAGE.md).
 
 This is unsigned local consistency and fixed mock decision-cap sensitivity. Fault delivery
 is not independently reenacted. One observation per cell supplies no stochastic uncertainty,

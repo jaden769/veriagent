@@ -291,6 +291,10 @@ cap contrasts and prior-reference checks, with a separate retained 206-run inter
 attempt. Extra decisions left goal truth unchanged at 12 versus 8; four reflection
 achieved-goal action-cap stops remained.
 
-Next research increment: package the completed and partial decision-budget evidence for
-portable review with separate identities, manifest bindings and coverage claims.
+Completed portable decision-budget release: separate 288-run complete and 206-run partial
+archives, with bound execution sources/reference inputs and explicit prefix/unknown status.
+No attempt outcomes or coverage claims are pooled.
+
+Next research increment: specify a prospective action-cap sensitivity follow-up to the
+remaining achieved-goal action-budget stops, preserving information and decision policies.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

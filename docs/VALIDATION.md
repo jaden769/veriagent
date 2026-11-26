@@ -1647,3 +1647,25 @@ Ruff, formatting, links, result/auditor hashes, frozen bindings and diff checks 
 No product or frozen research execution source, plan, lock or historical result/archive
 changed. No paid calls or browser suite rerun occurred. Raw evidence remains local and
 unsigned; portable complete/partial-attempt packaging and external review remain pending.
+
+### Portable complete and partial decision-budget evidence — 2026-11-26
+
+Published separate audited ZIPs: 1,741 files/1,954,522 bytes for the completed 288-run
+attempt and 1,249 files/1,443,101 bytes for the interrupted 206-run prefix. Each includes
+its original manifest/plan/lock, native trial evidence, corpus, prior reference and all
+eight frozen execution source snapshots. Original attempt paths, identities, source pins,
+plans, locks and measured result records remain unchanged. No partial outcomes were pooled.
+
+The portable checker uses the external manifest binding and bundled relative inputs;
+it verifies complete versus partial-prefix coverage, active unknown identity, file/source
+hashes, native traces/resources/stopping flags and final SQL rows. Both released archives
+passed with original artifact/repository metadata reads blocked. The partial archive
+reports consistency passed but study_complete false; flipping that flag is rejected.
+
+269 focused tests passed, including 17 new complete/partial package, relocation, corruption,
+unsafe archive, wrong-attempt and overwrite checks. The remaining result/runner/reflection,
+admission/budget and earlier bounded-oracle regressions passed in the same run. Ruff,
+formatting, document links, both ZIP/checker hashes, frozen execution bindings and diff
+checks passed. Publication used an escalated staged hard-link operation, as required by
+the earlier Windows sandbox denial. No study rerun, paid call or browser suite execution
+occurred. The evidence remains unsigned; no authenticity or fault-reenactment claim is made.

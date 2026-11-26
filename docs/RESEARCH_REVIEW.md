@@ -15,10 +15,10 @@ and selected source hashes; later studies retain their own prospective bindings.
 | Live integration | Individual user-run static, dynamic and reviewed checks | Repeated, prospectively specified model comparisons |
 | Comparators | Completed 96-condition common-corpus comparison of four fixed mock policies | Live/metered reflection comparator and actual resource ablations |
 | Metrics | Pinned assigned denominators; independent SQL outcomes separate from claims and exposure | Stochastic estimand, analysis plan and dependence assumptions for any live study |
-| Transfer/review | Two portable study archives with relocated trace/SQL audits | External review; unsigned consistency does not establish authenticity or model reliability |
+| Transfer/review | Three portable study evidence sets, with the interrupted sensitivity attempt archived separately | External review; unsigned consistency does not establish authenticity or model reliability |
 
 The latest broad complete-suite record is 850 passing tests; the latest focused evidence
-regression run passed 252 tests. Subsequent additions were checked with focused suites,
+regression run passed 269 tests. Subsequent additions were checked with focused suites,
 not a new full run; see [validation history](VALIDATION.md). Test counts are software-validation evidence.
 They are not independent task samples or a reliability denominator.
 
@@ -29,7 +29,7 @@ They are not independent task samples or a reliability denominator.
 | Initial offline comparison | 144 static/dynamic mock runs | [Plan](OFFLINE_COMPARISON.md), [results](OFFLINE_COMPARISON_RESULTS.md), [verification-work ledger](VERIFICATION_WORK.md); historical execution pins remain unchanged |
 | Bounded trusted oracle | 72 dynamic mock conditions across three tasks, two scenarios, three modes and four quotas | [Results](BOUNDED_ORACLE_RESULTS.md), [portable package and audit instructions](BOUNDED_ORACLE_PACKAGE.md) |
 | Common-corpus reflection | 96 runs across six tasks, four scenarios and four fixed mock arms | [Results](REFLECTION_COMPARISON_RESULTS.md), [portable package and audit instructions](REFLECTION_PACKAGE.md) |
-| Decision-cap sensitivity | 288 completed mock conditions at caps 4/8/12, plus a separate retained interrupted attempt | [Results](DECISION_BUDGET_RESULTS.md); local evidence, portable packaging pending |
+| Decision-cap sensitivity | 288 completed mock conditions at caps 4/8/12, plus a separate retained interrupted attempt | [Results](DECISION_BUDGET_RESULTS.md), [separate portable complete/partial packages](DECISION_BUDGET_PACKAGE.md) |
 
 Start with each prospective plan, then its recorded results, external manifest binding
 and archive audit. Inspect representative raw reports, traces and final SQLite states
@@ -124,7 +124,7 @@ See [the benchmark protocol](BENCHMARK.md) for the implemented metric definition
 | Quota denials and unknown work | 72-run package, reservations and admission replay | Locally reconciled; external review pending |
 | Reflection phases and stopping rules | 96-run package, native reports and five achieved-goal budget failures | Locally reconciled; external review pending |
 | Counter/resource comparability | Per-condition vectors and separate trusted/ordinary reads | Shared caps only; equal-resource claims unsupported |
-| Artifact portability and provenance | Both archive hashes, external manifest bindings and relocated audits | Local consistency passed; unsigned provenance |
+| Artifact portability and provenance | Archive hashes, external manifest bindings and relocated audits | Local consistency passed; unsigned provenance |
 | Generalization and live model behavior | No prospective metered LLM comparison exists | Unsupported; future specification required |
 
 For any external disposition, record reviewer/date, exact plan/archive/checker hashes,
@@ -136,12 +136,12 @@ implementer summaries. No reviewer has been assigned or contacted.
 The [prospective decision-budget sensitivity study](DECISION_BUDGET_COMPARISON.md) now
 specifies 288 fresh conditions at caps 4/8/12. Its [runner](DECISION_BUDGET_RUNNER.md)
 and pretrial binding are implemented; [recorded results](DECISION_BUDGET_RESULTS.md)
-now retain the completed study and separate operational interruption. The
-five achieved-goal reflection stops motivate varying the decision cap while retaining
-original goals, fault profiles, action caps and arm information access. Predeclare the
-cap grid, assigned denominator, ordering, resource vectors and treatment of achieved-goal
-failures. Such a within-arm sensitivity check would not equalize oracle information or
-establish dollar-cost parity across arms. The [comparator design](COMPARATOR_DESIGN.md)
+now retain the completed study and separate operational interruption. At twelve versus
+eight decisions, goals were unchanged and four achieved-goal reflection stops retained
+exhausted action counters. Next, specify an action-cap follow-up before new execution,
+keeping decision and information policies explicit. Predeclare its grid, denominator,
+ordering and treatment of achieved-goal stops. Neither sensitivity check equalizes oracle
+information or establishes dollar-cost parity. The [comparator design](COMPARATOR_DESIGN.md)
 retains the broader ablation requirements.
 
 External review, metered LLM reflection, stochastic sample-size/analysis design and any

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "complete": {
+    "schema_version": 1,
+    "consistency_passed": true,
+    "study_complete": true,
+    "assigned_runs": 288,
+    "completed_runs": 288,
+    "active_outcome": null,
+    "files": 1741,
+    "manifest_sha256": "69c8aadd644bf5a6b79aec7d44dde6317f79c40abbd468a63fce2751f16a7d9f",
+    "false_successes": 26,
+    "limitations": "Unsigned portable consistency. Partial prefix is not complete study coverage. Embedded sources never executed; fault delivery not reenacted.",
+    "archive": "decision-budget-complete-2026-11-26.zip",
+    "archive_sha256": "d55e1a2d27a8b2ac3ebceb98929312a44d1caba2fb8a9a55d3c8237451bec9e8",
+    "archive_bytes": 1954522
+  },
+  "partial": {
+    "schema_version": 1,
+    "consistency_passed": true,
+    "study_complete": false,
+    "assigned_runs": 288,
+    "completed_runs": 206,
+    "active_outcome": "unknown",
+    "files": 1249,
+    "manifest_sha256": "b9969491867c05b606ec14acafa7c3629289918dcfa3359dfc01ca221a1c9a8f",
+    "false_successes": 20,
+    "limitations": "Unsigned portable consistency. Partial prefix is not complete study coverage. Embedded sources never executed; fault delivery not reenacted.",
+    "archive": "decision-budget-partial-2026-11-26.zip",
+    "archive_sha256": "ae3dbe20ee0c73d219177ad61a648461d88a179a85f729377c9eef1755a6f24a",
+    "archive_bytes": 1443101
+  },
+  "checker_sha256": "03e16f119c346030c4ab667f60753015ec2ed1973ca5b9b5b1d82d42403a472e"
+}

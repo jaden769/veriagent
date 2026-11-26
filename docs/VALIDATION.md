@@ -1669,3 +1669,24 @@ formatting, document links, both ZIP/checker hashes, frozen execution bindings a
 checks passed. Publication used an escalated staged hard-link operation, as required by
 the earlier Windows sandbox denial. No study rerun, paid call or browser suite execution
 occurred. The evidence remains unsigned; no authenticity or fault-reenactment claim is made.
+
+### Prospective action-budget sensitivity specification — 2026-11-26
+
+Added a prose protocol and machine-readable 288-condition plan varying ordinary actions
+at caps 8/10/12 while holding decisions at twelve, retry/corrective admissions at two,
+and provider information/stopping policies unchanged. The unchanged fault factory must
+receive a fixed ceiling of twelve across all cells, yielding thirteen persistent drops
+at every cap. This avoids co-varying the configured fault counter with action allowance.
+The historical eight-action reference used nine drops; that difference is disclosed.
+
+Verified all unique Cartesian assignments and flattened block order, 24 cells per arm/cap,
+balanced cap/arm positions, strict Budget shapes and identical configured faults across
+caps. Source/corpus/prior-result pins, document links and diff checks passed. Primary
+truth and achieved-goal budget outcomes remain separate; three matched cap contrasts and
+overlapping stop diagnostics are specified without predicted rankings or thresholds.
+
+This was specification-only: no source/tests changed and suites were not rerun. Only
+fault configuration objects were constructed for validation; no agents, tools, oracle
+checks, browser trials or paid calls ran. The new study remains unexecuted; its dedicated
+runner and pretrial binding are pending. Historical plans, locks, results and archives
+remain unchanged. No equal-information, stochastic, causal or LLM-quality claim is made.

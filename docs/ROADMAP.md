@@ -295,6 +295,10 @@ Completed portable decision-budget release: separate 288-run complete and 206-ru
 archives, with bound execution sources/reference inputs and explicit prefix/unknown status.
 No attempt outcomes or coverage claims are pooled.
 
-Next research increment: specify a prospective action-cap sensitivity follow-up to the
-remaining achieved-goal action-budget stops, preserving information and decision policies.
+Completed prospective action-cap sensitivity specification: 288 fresh conditions at
+action caps 8/10/12 with twelve decisions, unchanged information policies and a fixed
+fault-generation ceiling so persistent-drop counters do not vary with the intervention.
+
+Next research increment: implement the dedicated action-cap runner and pretrial binding,
+including fixed-fault, native trace/resource/stop and independent SQL checks.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

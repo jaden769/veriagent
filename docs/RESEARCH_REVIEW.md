@@ -138,9 +138,9 @@ specifies 288 fresh conditions at caps 4/8/12. Its [runner](DECISION_BUDGET_RUNN
 and pretrial binding are implemented; [recorded results](DECISION_BUDGET_RESULTS.md)
 now retain the completed study and separate operational interruption. At twelve versus
 eight decisions, goals were unchanged and four achieved-goal reflection stops retained
-exhausted action counters. Next, specify an action-cap follow-up before new execution,
-keeping decision and information policies explicit. Predeclare its grid, denominator,
-ordering and treatment of achieved-goal stops. Neither sensitivity check equalizes oracle
+exhausted action counters. The [action-cap follow-up](ACTION_BUDGET_COMPARISON.md) now
+specifies caps 8/10/12 with twelve decisions and fixed fault configuration; its dedicated
+runner and execution remain pending. Neither sensitivity check equalizes oracle
 information or establishes dollar-cost parity. The [comparator design](COMPARATOR_DESIGN.md)
 retains the broader ablation requirements.
 

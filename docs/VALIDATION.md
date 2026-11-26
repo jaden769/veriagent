@@ -1584,3 +1584,22 @@ suites and studies were not rerun. Historical plans, locks, source snapshots, ar
 and result records remain unchanged. No external reviewer was contacted or approval
 recorded; no paid execution occurred. Next work is a prospective mock decision-budget
 sensitivity specification, not a claim of equal information or dollar cost.
+
+### Prospective decision-budget sensitivity specification — 2026-11-26
+
+Added a prose protocol and machine-readable plan for 288 fresh fixed-mock conditions:
+six tasks, four scenarios, four arms and decision caps 4/8/12. Actions stay capped at eight,
+retry/corrective admissions at two, with unchanged information access and native reports.
+The design explicitly retains the two prior achieved-goal reflection stops that reached
+both action and decision caps; increased decisions are not assumed to resolve them.
+
+Verified all unique Cartesian cells and their flattened block order, 24 assigned cells
+per arm/cap, eight occurrences of each cap-group position and six occurrences of each
+arm position within each cap. Strict Budget validation, source/corpus/prior-result hashes,
+document links and diff checks passed. Cap-eight cells must execute anew in the future;
+prior outcomes are not substituted or pooled. Runner/auditor binding is a pretrial gate.
+
+This specification-only increment changed no source or tests, so suites were not rerun.
+No trials, oracle checks, browser runs or paid API calls occurred. Historical plans,
+execution locks, results and archives remain unchanged. The new study remains unexecuted;
+it is decision-cap sensitivity, not equal-resource or LLM-quality evidence.

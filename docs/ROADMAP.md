@@ -278,6 +278,10 @@ Published plan, execution lock, raw evidence and measured results remain unchang
 Completed research review packet refresh: both portable studies, measured findings,
 reviewer evidence routes and explicit pending external-review/LLM/ablation boundaries.
 
-Next research increment: specify a prospective mock decision-budget sensitivity study
-for achieved-goal budget stops, keeping information access and action caps explicit.
+Completed prospective mock decision-budget specification: 288 assigned fresh conditions
+at decision caps 4/8/12, fixed action/information policies, balanced ordering and explicit
+joint-cap diagnostics. No new trials executed.
+
+Next research increment: implement the mock decision-budget runner and pretrial binding
+with native trace/resource/stop reconciliation before executing the pinned study.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

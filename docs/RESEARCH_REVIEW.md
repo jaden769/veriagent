@@ -132,7 +132,8 @@ implementer summaries. No reviewer has been assigned or contacted.
 
 ## Next concrete work
 
-Specify a prospective mock decision-budget sensitivity study before executing it. The
+The [prospective decision-budget sensitivity study](DECISION_BUDGET_COMPARISON.md) now
+specifies 288 fresh conditions at caps 4/8/12; its runner and execution remain pending. The
 five achieved-goal reflection stops motivate varying the decision cap while retaining
 original goals, fault profiles, action caps and arm information access. Predeclare the
 cap grid, assigned denominator, ordering, resource vectors and treatment of achieved-goal

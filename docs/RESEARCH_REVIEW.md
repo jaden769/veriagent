@@ -152,8 +152,9 @@ information or establishes dollar-cost parity. The [comparator design](COMPARATO
 retains the broader ablation requirements.
 
 The [consolidated handoff](RESEARCH_FINDINGS.md) now captures these findings and review
-priorities. Next, specify the opt-in metered reflection-provider contract and offline
-validation gates; no billable trial or reviewer contact is part of this handoff.
+priorities. The [metered provider contract](METERED_REFLECTION_CONTRACT.md) now specifies
+the next offline implementation gates; no billable trial or reviewer contact is part
+of this handoff.
 
 External review, metered LLM reflection, stochastic sample-size/analysis design and any
 paid execution remain separate pending work. This updated packet authorizes none of them.

@@ -316,6 +316,10 @@ Completed consolidated mock findings and review handoff: four studies/five archi
 source/result/package bindings, distinct truth/claim/budget measurements and unassigned
 external-review priorities. No outcomes or denominators are pooled.
 
-Next research increment: specify an opt-in metered reflection-provider contract and
-offline validation gates, preserving the mock comparator and deferring paid trials.
+Completed prospective metered reflection contract: observation-only boundary, separate
+native report, shared attempt/usage accounting, failure/unknown/overshoot semantics and
+eighteen offline gates. No provider or paid trial was implemented.
+
+Next research increment: implement strict metered boundary and request-accounting types
+with offline tests before adapter, engine, live wiring or billable execution.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

@@ -1778,3 +1778,21 @@ record or archive, so suites and studies were not rerun. The latest software rec
 remain the 850-test broad suite and 318-test focused evidence run. No paid calls or
 external reviewer contact occurred. Next is an opt-in metered-provider contract with
 offline gates; billable trials and external review remain separate pending work.
+
+### Prospective metered reflection-provider contract — 2026-11-26
+
+Specified the opt-in observation-only provider boundary, distinct metered report and
+eighteen offline gates using the current reflection/provider/ledger source as baseline.
+Preserved the mock-only exact-type gate, zero-usage report and Mode identities. The
+contract separates per-decision usage snapshots, cumulative totals and charged dispatch
+attempts; unknown work is nullable and blocks further execution. Provider/planning failures
+retain precedence over secondary accounting stops; pure usage/limit stops are budget
+failures. Observed token/cost thresholds are not presented as hard spending guarantees.
+
+Verified gate uniqueness, allowed ReflectionState fields, existing ModelLimits fields,
+source hashes, proposed distinct report identity, unchanged mock/mode identities and
+document links. Diff checks passed. No executable source/tests changed, so suites were
+not rerun. No client, provider, tool/oracle, browser or paid call was constructed/executed.
+No live model, default fallback, new CLI or study was selected. Implementation begins with
+strict boundary/request-accounting types and fake-transport tests; metered adapter,
+engine/replay, live design and external review remain pending.

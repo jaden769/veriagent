@@ -80,7 +80,7 @@ resource vectors and are descriptive; they are not exact-input replication claim
 | 1 | Are stop/claim semantics and partial-attempt treatment represented honestly? | Native traces, action/decision/corrective flags, quota denials and both decision-cap attempts | Unassigned external review |
 | 2 | Are resource vectors adequate for the proposed comparison? | Ordinary/trusted work and phase counts; excludes setup/final evaluator and total database work | Unassigned external review |
 | 2 | What can generalize beyond this corpus and fixed policies? | One deterministic observation per cell; sequential follow-ups informed by prior findings | Unsupported beyond stated scope |
-| 2 | What is required for a metered LLM comparison? | Provider/observation contract, usage bounds, prospective sampling/analysis and failure accounting | Not specified or executed by this handoff |
+| 2 | What is required for a metered LLM comparison? | [Provider contract](METERED_REFLECTION_CONTRACT.md), usage bounds, prospective sampling/analysis and failure accounting | Contract specified; implementation and live study pending |
 
 For a disposition, record reviewer/date, exact plan/archive/checker bindings, reviewed
 items, disagreements, evidence references and follow-up decisions. The index deliberately
@@ -88,8 +88,9 @@ has no reviewer or approval entry. No external reviewer has been contacted.
 
 ## Remaining work
 
-Prepare an opt-in metered reflection-provider contract and offline validation gates before
-any live study. Preserve the mock comparator and existing native report distinction.
+The [opt-in metered reflection contract](METERED_REFLECTION_CONTRACT.md) now specifies
+offline gates; its implementation and live execution remain pending. Preserve the mock
+comparator and existing native report distinction.
 Specify usage/error/stopping accounting and a prospective live design separately; this
 handoff schedules or authorizes no billable trial. External review remains pending.
 

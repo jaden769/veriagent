@@ -123,6 +123,8 @@ No live study, sample size or billable execution is established by this design.
 
 The [mock-only reflection prototype](REFLECTION_PROTOTYPE.md) now exercises typed phases
 and shared limits. It does not establish an LLM comparator or an executed ablation study.
+The [metered reflection contract](METERED_REFLECTION_CONTRACT.md) now specifies the
+distinct provider/report and offline accounting gates; it implements no live arm.
 The [prospective common-corpus comparison](REFLECTION_COMPARISON.md) keeps actual tool,
 oracle and corrective work separate across the four assigned mock arms.
 

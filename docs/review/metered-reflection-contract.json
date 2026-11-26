@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-11-26",
+  "status": "prospective_contract_not_implemented",
+  "scope": "opt_in_metered_observation_only_reflection",
+  "activation": "No billable execution or live study authorized by this contract.",
+  "proposed_provider": {
+    "name": "MeteredReflectionProvider",
+    "methods": [
+      "begin_run",
+      "decide"
+    ],
+    "properties": [
+      "usage",
+      "budget_state",
+      "diagnostic"
+    ],
+    "signature": "decide(task: Task, state: ReflectionState, *, timeout: float) -> Decision",
+    "requests_per_decision_max": 1,
+    "remote_conversation": false,
+    "automatic_retries": 0,
+    "fallback_provider": null,
+    "usage_semantics": "usage is the current decide-call snapshot; budget_state.usage is cumulative per run; report consumes cumulative totals without re-adding snapshots"
+  },
+  "input_contract": {
+    "top_level_fields": [
+      "task",
+      "state"
+    ],
+    "state_fields": [
+      "phase",
+      "feedback",
+      "budget",
+      "actions",
+      "decisions",
+      "corrective_admissions"
+    ],
+    "feedback_max_entries": 16,
+    "phases": [
+      "execute",
+      "reflect"
+    ],
+    "strict_extra_fields": "forbid",
+    "forbidden_inputs": [
+      "trusted_verification",
+      "SQLite_connection_or_path",
+      "hidden_fault_configuration",
+      "eligibility",
+      "final_evaluator_result",
+      "private_event_log",
+      "credentials"
+    ]
+  },
+  "proposed_limits": {
+    "max_requests": "required finite exact integer >= 0; zero denies dispatch",
+    "per_request_max_output_tokens": "required finite exact integer >= local minimum_output_allowance",
+    "shared_existing_model_limits": [
+      "max_total_tokens",
+      "max_output_tokens",
+      "max_cost_usd"
+    ],
+    "timeout": "min(configured_request_timeout, positive_remaining_run_deadline)",
+    "unknown_token_usage": "halt",
+    "unknown_cost_with_active_cost_limit": "halt",
+    "hard_global_dollar_cap": false
+  },
+  "proposed_report": {
+    "name": "MeteredReflectionReport",
+    "schema_version": 1,
+    "comparator": "llm_self_reflection",
+    "mode": null,
+    "verified_success": null,
+    "required_fields": [
+      "run_id",
+      "original_claimed_success",
+      "claimed_success",
+      "actions",
+      "decisions",
+      "corrective_admissions",
+      "tool_writes",
+      "repeat_write_attempts",
+      "corrective_write_attempts",
+      "failure",
+      "elapsed_ms",
+      "request_attempts",
+      "model_usage",
+      "model_budget_state",
+      "provider_diagnostic"
+    ],
+    "missing_usage": "null; never fabricate zero",
+    "authentication": "unsigned local trace consistency only",
+    "usage_balance": "cumulative model_usage.calls equals charged request_attempts; token totals remain null if any constituent usage is unknown"
+  },
+  "offline_gates": [
+    {
+      "id": "context_whitelist",
+      "requirement": "Serialize only original Task and strict ReflectionState fields; reject oracle/private/canary extras."
+    },
+    {
+      "id": "frozen_mock_contract",
+      "requirement": "Keep exact mock provider gate, zero-usage ReflectionReport, Mode and historical runner defaults unchanged."
+    },
+    {
+      "id": "run_isolation",
+      "requirement": "Reset usage, request attempts, diagnostics and context at each new run; no remote conversation replay."
+    },
+    {
+      "id": "request_admission",
+      "requirement": "Finite exact-integer max_requests and positive remaining deadline/output allowance checked before dispatch."
+    },
+    {
+      "id": "dispatch_accounting",
+      "requirement": "Charge each dispatch-boundary attempt once, including transport errors/timeouts; no refunds or retries."
+    },
+    {
+      "id": "shared_phase_limits",
+      "requirement": "Execution and corrective calls share request/token/output/cost ledgers and action/decision/time caps."
+    },
+    {
+      "id": "normalized_decision",
+      "requirement": "Exactly one validated Decision; reject multiple/unknown calls, malformed or unauthorized targets/statuses."
+    },
+    {
+      "id": "usage_before_parse",
+      "requirement": "Record available usage once before status/structured-output parsing; no missing-usage zero substitution."
+    },
+    {
+      "id": "unknown_usage",
+      "requirement": "Missing token usage or unknown cost under active cost limit stops further dispatch and tool execution."
+    },
+    {
+      "id": "overshoot",
+      "requirement": "Known response overshoot retains usage and stops before acting on the returned decision."
+    },
+    {
+      "id": "provider_failure",
+      "requirement": "Refusal, incomplete response, invalid output and transport error preserve sanitized primary provider failure."
+    },
+    {
+      "id": "late_response",
+      "requirement": "After-call deadline check prevents a late action or finish claim."
+    },
+    {
+      "id": "authorization_retry",
+      "requirement": "Original-task authorization and fresh-read/idempotent repeated-write guards apply to every proposal."
+    },
+    {
+      "id": "safe_traces",
+      "requirement": "Persist bounded normalized context, phase/decision/request/usage events and report; no keys, raw SDK errors or private reasoning."
+    },
+    {
+      "id": "native_report",
+      "requirement": "Separate metered report preserves original/final claims, verified_success null and known/unknown usage."
+    },
+    {
+      "id": "offline_replay",
+      "requirement": "Reconcile dispatched requests/usage/phase/counters/claims without provider, tool or oracle execution."
+    },
+    {
+      "id": "offline_transport",
+      "requirement": "All contract tests inject fake transports; fail if a real client/network dispatch is constructed."
+    },
+    {
+      "id": "no_live_activation",
+      "requirement": "No CLI/live study wiring until offline contract, adapter, engine/replay and prospective execution gates pass."
+    }
+  ],
+  "implementation_sequence": [
+    "strict boundary and request-accounting types with offline tests",
+    "injected metered adapter with fake-transport tests",
+    "separate metered engine/report and saved-trace reconciler",
+    "prospective live study/configuration and spending/accounting review"
+  ],
+  "baseline_source_sha256": {
+    "src/veriagent/reflection.py": "4eb2b8109efe1e1b986cd36c786e8ca7a716896febcd4bb1b79235cd36b0ac41",
+    "src/veriagent/openai_provider.py": "b9e7d562feaca2fcef6b77508dd6f851209c953ebee6ea6e6e0bc44ac367224d",
+    "src/veriagent/budgeting.py": "35560977f139f2cda305d7537b04e860fe0151f318e38cc2e62c5cf1c1e271bd",
+    "src/veriagent/models.py": "28593e3e4747ddaacde8a4b542a094ebb24bb35b19e5aa6c4b78d06a68b41d15",
+    "src/veriagent/planner.py": "b8a35721f1d809b617bb4a668291d50cc8b104fbc7f2e6a0897aca8110fc1a57",
+    "src/veriagent/dynamic.py": "cff170b7fc3cb5ce6458ea252e258e2d6ccd4318fa371d60575309f452a151d7"
+  },
+  "limitations": [
+    "Contract only: no new provider, report, engine, CLI or study is implemented.",
+    "Observed token/cost limits can overshoot after a response; input work and billing may be unknown.",
+    "No LLM-quality, stochastic, causal, equal-information or dollar-parity result is established."
+  ]
+}

@@ -1504,3 +1504,22 @@ failing separate SQL truth; reconciliation invokes neither provider nor oracle.
 oracle runner/package regressions. Product sources and the prospective comparison plan
 remain unchanged. Ruff, formatting and diff checks passed. The full browser suite was
 not repeated for this isolated research auditor. No comparison study or paid API calls ran.
+
+### Pinned common-corpus runner — 2026-11-26
+
+Implemented a standalone mock-only runner with a separate pretrial execution lock binding
+the unchanged published plan, runner, reflection auditor and shared support source. It
+validates exact ordered coverage, product/corpus pins and lock hashes before creating
+outputs or providers. Per-condition native reports and trace replays precede the final
+SQL audit; fresh ledgers apply only to dynamic arms. Resources, false claims, collateral
+changes and realized/unused fault evidence remain separate.
+
+196 focused tests passed, including 40 new runner checks: all four arms across four fault
+scenarios, multi-target/satisfied reflection tasks, plan/source/lock drift rejection,
+interrupted partial-attempt retention and simulated complete/duplicate-ID orchestration.
+The simulated orchestration does not execute the 96-condition study. Existing reflection,
+admission/budget and bounded-oracle runner/package checks passed in the same run.
+
+Ruff, formatting, document links, execution bindings and diff checks passed. No product
+source or historical plan/results changed. No full browser rerun or paid API call was
+needed for this research-only change. The planned comparison remains unexecuted.

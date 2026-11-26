@@ -76,7 +76,7 @@ Unexpected outcomes and false claims are findings, not runs to delete or rerun s
 An explicit mock-only runner must validate the plan before constructing providers or
 output directories. It must reject source/corpus drift rather than rewrite the published
 plan. Bind the eventual runner and reflection-auditor source hashes to this plan before
-the first trial; those repository-local components are not implemented by this specification. Record exact assigned coverage, run identity, position, actual budgets and raw
+the first trial. Record exact assigned coverage, run identity, position, actual budgets and raw
 reports, states, SQLite/JSON traces and hashes. Preserve incomplete attempts and active
 conditions; no automatic resume or replacement is planned. Incomplete/harness-failed
 conditions keep their assigned identity with unknown outcomes; do not impute task success
@@ -86,8 +86,9 @@ Dynamic traces must pass admission replay and agree with live ledger counters.
 Reflection needs its own trace reconciler before this study runs: verify typed phases,
 shared counters, admissions and finish claims without expecting RunReport or inventing
 trusted verification. The existing verification-work ledger is not a reflection audit.
-The [reflection reconciler](REFLECTION_TRACE.md) is now implemented; the runner and its
-pretrial source binding remain pending. The published machine-readable plan is unchanged.
+The [reflection reconciler](REFLECTION_TRACE.md) and
+[mock runner with execution lock](REFLECTION_RUNNER.md) now implement those gates.
+The published machine-readable plan is unchanged; no study outcomes are added here.
 Both report families must reconcile with observed action/read/write counts and the same
 independent final-state audit. No new comparative outcomes are collected by this document.
 

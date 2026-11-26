@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "913babf753dcc1b58eb946deb62cc7cff77e5be02eb831cda9379916fcb69239",
+  "runner_sha256": "52e6369abfed0b87a1f0706053413243a3d3a54fe41fcd1df09d4638df0a2612",
+  "reflection_auditor_sha256": "ca10d3c17204f2f53c1c0c49001bc7aaa8267447a171464776b40080f888687e",
+  "support_sha256": "99d912795d25e02074c007f7dafdc48433e2c0099dc5a2ac70525d232f4b2018"
+}

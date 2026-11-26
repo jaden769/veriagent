@@ -263,6 +263,10 @@ arm positions, separate resource vectors and exposure-aware analysis gates.
 Completed offline reflection-trace reconciliation: typed phases, shared counters, claims,
 authorization and fresh-read/idempotence retry guards, with separate final-state truth.
 
-Next research increment: implement the mock-only common-corpus runner and bind plan,
-runner and reflection-auditor hashes before the first of the 96 assigned trials.
+Completed mock-only common-corpus runner and pretrial execution lock: exact ordered
+coverage, native reports, independent final SQL audit, separate resource vectors and
+partial-attempt retention. Published plan/source pins remain unchanged.
+
+Next research increment: execute the frozen 96-condition comparison, independently
+inspect coverage and evidence, and record findings without rewriting the specification.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

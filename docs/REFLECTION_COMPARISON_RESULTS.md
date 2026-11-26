@@ -69,7 +69,7 @@ provider, policy or embedded runner. All 96 rechecks passed. Fault records are b
 hash and eligibility labels are recomputed; fault delivery is not independently reenacted.
 This is a local evidence checker, not a hardened untrusted archive importer.
 
-The raw directory has not yet been packaged for portable review. Hashes and trace
+The [portable evidence package](REFLECTION_PACKAGE.md) now includes all raw runs. Hashes and trace
 consistency are unsigned and do not prove authenticity. The shared caps do not equalize
 information, actual work or cost. One deterministic observation per cell supports no
 stochastic confidence, significance, causal benefit, LLM reflection quality or general

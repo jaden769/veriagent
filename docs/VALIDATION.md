@@ -1546,3 +1546,25 @@ passed after adding saved per-run metadata. Ruff, formatting, links and diff che
 No product source, prospective plan, execution lock or bound runner changed; no paid API
 calls or browser suite rerun occurred. The raw evidence is local and unsigned; portable
 packaging, external review and LLM/equal-resource comparisons remain pending.
+
+### Portable common-corpus raw evidence — 2026-11-26
+
+Published a 634,689-byte/583-file ZIP containing all 96 original trials, manifest,
+plan/lock, corpus and bound runner/reflection-auditor/support source snapshots. Original
+plan, execution lock, runner, measured result record and raw directory remain unchanged.
+Archive SHA-256 is
+`34445c56c209d320141a0ce3d085d3ea411a6459e1980368cb6e5eb8d7e1620a`.
+
+The portable checker verifies bounded ZIP/tree inventory, external manifest binding,
+embedded metadata/source hashes, coverage, native reports, SQLite/JSON traces, admission
+or reflection replay, counters and final SQL states. It never executes embedded sources.
+Relocated audit passed with original artifact/repository metadata reads blocked. All 96
+outcomes and ten baseline false claims remain intact. Source snapshots and hashes are
+unsigned evidence; fault delivery is not independently reenacted.
+
+227 focused tests passed, including 17 new archive relocation/corruption/overwrite checks,
+alongside reflection result/runner/phase, admission/budget and earlier portable-evidence
+regressions. Ruff, formatting, links, package/checker hashes and diff checks passed.
+Windows denied staged hard-link publication inside the sandbox; rerunning the same
+audited publication outside the sandbox succeeded. No source fix or evidence replacement
+was needed. No comparison rerun, paid API call or browser suite execution occurred.

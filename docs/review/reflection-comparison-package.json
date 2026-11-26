@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "consistency_passed": true,
+  "runs": 96,
+  "files": 583,
+  "manifest_sha256": "b15d202a3f160e4f9968b287c7a6f4ce46fdcc1834d3c885ab5fb91fb770660c",
+  "false_successes": 10,
+  "limitations": "Unsigned portable consistency; embedded sources never executed. Fault delivery not reenacted.",
+  "archive_sha256": "34445c56c209d320141a0ce3d085d3ea411a6459e1980368cb6e5eb8d7e1620a",
+  "archive_bytes": 634689,
+  "archive": "docs/evidence/reflection-comparison-2026-11-26.zip",
+  "checker_sha256": "4c7d88bbeb6e3d6c513c9509d9975617080fafb9394d194cf93272254a37b940"
+}

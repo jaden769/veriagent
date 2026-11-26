@@ -271,6 +271,10 @@ Completed frozen common-corpus execution: 96 assigned runs and independent evide
 rechecks, with condition-level truth, claims, resources and exposure retained. Reflection
 and recover each reached 19/24 goals; reflection retained five achieved-goal budget stops.
 
-Next research increment: package the common-corpus raw evidence for portable independent
-review while preserving the published plan, execution lock and recorded manifest binding.
+Completed portable common-corpus evidence release: all 96 runs in a 583-file archive,
+with bound corpus/source snapshots, relocated replay/SQL checks and corruption rejection.
+Published plan, execution lock, raw evidence and measured results remain unchanged.
+
+Next research increment: update the research review packet with both portable studies,
+their findings and unresolved external-review, LLM and resource-ablation boundaries.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

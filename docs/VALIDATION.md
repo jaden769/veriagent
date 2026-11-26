@@ -1714,3 +1714,26 @@ No product or historically frozen execution source, plan, lock, result or archiv
 No full browser rerun or paid calls occurred. Selected fixtures are software checks; the
 288-condition action-budget study remains unexecuted. No live-quality or equal-cost
 claim follows from this increment.
+
+### Recorded fixed-fault action-budget sensitivity — 2026-11-26
+
+One frozen attempt outside the sandbox completed all 288 ordered action-cap assignments
+with unique IDs and no partial attempt. Its external manifest SHA-256 is
+`94a1e78000d637910db03370ba9f3bf5cb21a67600eb0b3472e15abd36e5ec45`.
+The post-run read-only auditor verified copied bindings, native traces, SQL states,
+configured faults, resources and stopping diagnostics for every cell. Recorded 288
+matched cap contrasts and a scoped historical eight-action reference check.
+
+Final goals were unchanged across action caps in every arm. Reflection's four
+achieved-goal budget failures disappeared at ten actions, raising claims from 15/24
+to 19/24 while goals stayed 19/24. Twelve actions added work without changing those
+outcomes. All persistent counters started at thirteen; the historical nine-drop
+reference difference is disclosed. No collateral status/version changes were observed.
+
+300 focused tests passed, including ten new native-audit, fixed-fault corruption,
+directional contrast, incomplete/duplicate/changed manifest and binding checks. The
+existing runner/result/reflection/admission/budget and bounded-oracle regressions passed
+in the same run. Ruff, formatting, links, saved summary/contrast consistency, auditor hash,
+frozen bindings and diff checks passed. No product/frozen execution source, plan, lock
+or historical result/archive changed. No paid calls or browser suite rerun occurred.
+Evidence remains local and unsigned; portable packaging and external review are pending.

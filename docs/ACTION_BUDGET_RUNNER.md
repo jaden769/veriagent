@@ -2,7 +2,8 @@
 
 `analysis/run_action_budget.py` implements the
 [prospective 288-condition action-cap plan](ACTION_BUDGET_COMPARISON.md). The study
-remains unexecuted. Selected unit fixtures and simulated full orchestration are software
+is now recorded in the separate [results](ACTION_BUDGET_RESULTS.md). Selected unit fixtures
+and simulated full orchestration are software
 checks, not comparison observations.
 
 The [pretrial execution lock](review/action-budget-execution-lock.json) binds the published

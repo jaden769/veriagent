@@ -1,10 +1,11 @@
 # Prospective mock action-budget sensitivity
 
-Prepared 2026-11-26. Status: **specified, not run**. The
+Prepared 2026-11-26 as a prospective specification. The subsequent
+[results](ACTION_BUDGET_RESULTS.md) record execution separately. The
 [plan JSON](review/action-budget-plan.json) pins 288 ordered fresh assignments, source/
 corpus hashes and the prior results motivating this follow-up. The
 [dedicated runner and execution lock](ACTION_BUDGET_RUNNER.md) now implement its gates;
-execution and outcomes remain pending. Historical plans, locks and evidence are unchanged.
+the original plan bytes remain unchanged. Historical plans, locks and evidence are unchanged.
 
 The [decision-cap study](DECISION_BUDGET_RESULTS.md) retained four reflection runs with
 achieved goals and budget failures at twelve decisions. All four exhausted eight actions;

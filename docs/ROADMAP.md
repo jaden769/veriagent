@@ -303,6 +303,11 @@ Completed dedicated action-cap runner and pretrial binding: fixed fault ceiling 
 caps, fresh native execution, trace/SQL/resource/fault/stop reconciliation and retained
 partial attempts. The planned study remains unexecuted.
 
-Next research increment: execute the frozen action-cap study and independently audit
-coverage, matched sensitivity, achieved-goal stops and resource/exposure findings.
+Completed frozen action-cap execution and audit: all 288 assignments passed independent
+checks. Reflection's four achieved-goal budget failures disappeared at ten actions;
+goal truth stayed unchanged across caps, while twelve actions added work without changing
+those outcomes.
+
+Next research increment: package the completed action-cap evidence for portable review,
+preserving fixed-fault bindings and the disclosed historical reference difference.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

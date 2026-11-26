@@ -91,7 +91,8 @@ No comparator study or live API trial is claimed here. A prospective common-corp
 must identify this prototype separately, account for its extra ordinary reads and finish
 decisions, preserve realized exposure and include a separate final-state oracle.
 The [common-corpus specification](REFLECTION_COMPARISON.md) now records those selections
-and gates; its 96 planned conditions have not been executed.
+and gates; its subsequent [96-condition execution](REFLECTION_COMPARISON_RESULTS.md)
+is recorded separately from prototype tests.
 
 The [offline trace checker](REFLECTION_TRACE.md) now reconciles native phase, claim,
 counter and retry evidence independently of the final-state oracle.

@@ -1523,3 +1523,26 @@ admission/budget and bounded-oracle runner/package checks passed in the same run
 Ruff, formatting, document links, execution bindings and diff checks passed. No product
 source or historical plan/results changed. No full browser rerun or paid API call was
 needed for this research-only change. The planned comparison remains unexecuted.
+
+### Frozen common-corpus execution and result audit — 2026-11-26
+
+Executed all 96 assigned mock conditions using the existing source pins and pretrial lock.
+All unique identities, fixed block positions, native reports and per-arm trace replays
+completed. A separate read-only result checker verified file hashes, SQLite/JSON trace
+agreement, original tasks, budgets, ledger/resource counters and independent final SQL
+states. All 96 independent rechecks passed against manifest SHA-256
+`b15d202a3f160e4f9968b287c7a6f4ce46fdcc1834d3c885ab5fb91fb770660c`.
+
+Recorded condition-level evidence and descriptive outcomes: baseline and verify reached
+9/24 goals each; recover and mock reflection reached 19/24 each. Baseline made ten false
+success claims; the other arms made none. Reflection retained five achieved-goal budget
+failures and five unsatisfied persistent-drop budget failures. No collateral status/version
+changes were observed. Resources and realized exposure remain separate from outcome truth.
+
+210 focused tests passed, including 14 new result-checker tests for all report arms,
+false-claim retention, corrupted hashes/resources/outcomes/SQL/report/task data, incomplete
+coverage, duplicate identities and changed bindings. The final 14 checker tests also
+passed after adding saved per-run metadata. Ruff, formatting, links and diff checks passed.
+No product source, prospective plan, execution lock or bound runner changed; no paid API
+calls or browser suite rerun occurred. The raw evidence is local and unsigned; portable
+packaging, external review and LLM/equal-resource comparisons remain pending.

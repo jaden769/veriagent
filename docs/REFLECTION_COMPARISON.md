@@ -1,6 +1,7 @@
 # Prospective common-corpus mock comparison
 
-Prepared 2026-11-26. Status: **specified, not run**. The
+Prepared 2026-11-26 as a prospective specification. Execution is now recorded separately
+in the [results](REFLECTION_COMPARISON_RESULTS.md); the original plan bytes are unchanged. The
 [plan JSON](review/reflection-comparison-plan.json) pins source/corpus hashes, arm contracts,
 budgets, all 24 task/scenario blocks and their 96 ordered conditions. This is a new plan
 for the changed source inventory; earlier plans and measured results stay unchanged.

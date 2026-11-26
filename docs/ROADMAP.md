@@ -267,6 +267,10 @@ Completed mock-only common-corpus runner and pretrial execution lock: exact orde
 coverage, native reports, independent final SQL audit, separate resource vectors and
 partial-attempt retention. Published plan/source pins remain unchanged.
 
-Next research increment: execute the frozen 96-condition comparison, independently
-inspect coverage and evidence, and record findings without rewriting the specification.
+Completed frozen common-corpus execution: 96 assigned runs and independent evidence
+rechecks, with condition-level truth, claims, resources and exposure retained. Reflection
+and recover each reached 19/24 goals; reflection retained five achieved-goal budget stops.
+
+Next research increment: package the common-corpus raw evidence for portable independent
+review while preserving the published plan, execution lock and recorded manifest binding.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

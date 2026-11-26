@@ -17,8 +17,9 @@ Explicit execution from the repository root is:
 .\.venv\Scripts\python.exe -m research.run_reflection_comparison --output artifacts/reflection-comparison
 ```
 
-This command has not been used to collect the planned study. Unit tests exercise selected
-conditions and simulate full orchestration; those fixtures are not comparative results.
+The frozen study has now been executed; see the separate
+[96-condition results](REFLECTION_COMPARISON_RESULTS.md). Unit-test fixtures and simulated
+orchestration remain separate from those comparative results.
 
 Each assigned condition receives a fresh state database, trace store, provider, executor
 and agent. Dynamic arms receive a fresh unlimited verification ledger. Reflection receives

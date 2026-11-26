@@ -35,4 +35,5 @@ denials, malformed frames, incomplete traces and elapsed-time limitations. They 
 spoofed-read false claim and forbid provider/oracle invocation during reconciliation.
 
 The [prospective comparison](REFLECTION_COMPARISON.md) must bind the eventual runner and
-this auditor's source hashes before its first trial. Its 96 conditions remain unexecuted.
+this auditor's source hashes before its first trial. The frozen 96-condition execution
+is now recorded in the separate [results](REFLECTION_COMPARISON_RESULTS.md).

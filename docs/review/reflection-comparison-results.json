@@ -1,0 +1,5523 @@
+{
+  "schema_version": 1,
+  "consistency_passed": true,
+  "completed_runs": 96,
+  "manifest_sha256": "b15d202a3f160e4f9968b287c7a6f4ce46fdcc1834d3c885ab5fb91fb770660c",
+  "conditions": [
+    {
+      "condition": {
+        "block": 1,
+        "position": 1,
+        "task_id": "single_done",
+        "scenario": "clean",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "afddfdb4951b4fe493cdd2ed7f1ee4bd",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 3,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 141.00000000325963,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "d9637c81737ac84f73eb6df3fb0cfd4f2e2d9076bd7a49837352a20ca7673c51",
+      "files_sha256": {
+        "agent-report.json": "86085a18e02723e9209661b6e429d4fb4d7ae03db83e1fff21193e5d5958a587",
+        "trace.json": "af28aedac1f71159f695ab1dbea176a53bc7b01ca4621974ee518dca98746132",
+        "trace-replay.json": "31b33e730509e25fc1a294ee77946f0cbc731ac74de0233debfa09c158b43473",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "5fdbde244ee449b29bf36baa47ba187606c6209520843eb2e6557369c03f418a"
+      }
+    },
+    {
+      "condition": {
+        "block": 1,
+        "position": 2,
+        "task_id": "single_done",
+        "scenario": "clean",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "ceae295e9bdb4df1a1f28f3d6fdc3d39",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 172.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "1da63188e49c10b0f6e5a7a4de7b7b8a226ed88a7211c1af39c645e19624055b",
+      "files_sha256": {
+        "agent-report.json": "dcefc52cc2fe0c8e2f69ce01674a9115e8a895e3ce438a9636567acb93dba86a",
+        "trace.json": "fa3ef4daae6cbdfb87483f6482998af91dfd1de2156dc88bf2995896e2b045b8",
+        "trace-replay.json": "7cf69675949218019d505b0d2866471160253f9427816c547487d05f5918afd2",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "0289e4097195c6cc58094e15b15f5661089c508c9c1e201f71fa04f59c34012f"
+      }
+    },
+    {
+      "condition": {
+        "block": 1,
+        "position": 3,
+        "task_id": "single_done",
+        "scenario": "clean",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "1cdb984c25cf4fa88215b537d5dff0de",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 172.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "ab2688c9db699bc20d36f6f9cb84efd5175b4d6349a817dbcdcd7fba5dfeddab",
+      "files_sha256": {
+        "agent-report.json": "52dc1408b925508d09d08690a1cec9fdcaa7e291c8f244950d46b80e67341cc9",
+        "trace.json": "edc5ecacf765ec653f6c2446a93bd34f74fdee098377bf3ed0319a17b0d39f5a",
+        "trace-replay.json": "9eb26bb91a2fa7d122d7517eec150a9b2d9ed367fc4135feca7a6f9115ed4bea",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "4a129489525cda115145b992cdd281d8ef059323e928b3bd8a76c6226a25f9cf"
+      }
+    },
+    {
+      "condition": {
+        "block": 1,
+        "position": 4,
+        "task_id": "single_done",
+        "scenario": "clean",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "44a051b0d2d6481887efeeadbb463b9e",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 3,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 218.99999998277053,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "2e342cd7523c6db6547a369fab2b0dc6ffc42529a6c5826c8f0294e5abdcd541",
+      "files_sha256": {
+        "agent-report.json": "b12002996a28857092a66e886dd1209fc31b39b1320bb7c41b6d9ed8eca66252",
+        "trace.json": "ad7f2543bc8e2f68e9e0f94c06a66cc241d96922ef660641e89624fa1bec7865",
+        "trace-replay.json": "6edc7ded120db9ba4210f114bfcee472231f648def526cd2beace0bb85a6f593",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "fcda1c615dc097edd4c496d1203ab2ded038240986fbc0a79d194347ea9ed730"
+      }
+    },
+    {
+      "condition": {
+        "block": 2,
+        "position": 1,
+        "task_id": "single_done",
+        "scenario": "silent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "3ef46faae5f54133a93d7b5d8be4227b",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 218.99999998277053,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "ff7818d544cefe0f6558e837351d2a8f4b12327e49164293bdf0c74def15e164",
+      "files_sha256": {
+        "agent-report.json": "7179f9d31c140444126b3bcc06b3c33ee56603f01d3f109e608c91ae6e4b9ea8",
+        "trace.json": "fda76c7e90b4f36f8e33bc1c3f87c7335737ba1fa162abed3eca294e49a2a29a",
+        "trace-replay.json": "68e7c0190a0dec65ae9549bacf116d9e6bde90b77242a7ca1f2abd0811bd3af9",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "04eee5437d24632c14fb5c42b929120735e983697e59e2560bee38b8a6334d3d"
+      }
+    },
+    {
+      "condition": {
+        "block": 2,
+        "position": 2,
+        "task_id": "single_done",
+        "scenario": "silent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "63fc87fb5c2f48029bb62f723ab737d4",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 3,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 375.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "d739ba43a6e4e47cb8da81bd3b2dad758b05ede838bbde1466e5c4a43315ef72",
+      "files_sha256": {
+        "agent-report.json": "f438139fa80545eb0491f0afd471debb9c587172f4cd32cbebd556e00a39d3d1",
+        "trace.json": "d072f09b152c6bdfa1b538afb24523e107754ed1de9674b059da71928087f17f",
+        "trace-replay.json": "e9af9b4b5628322349e8cd35065af8e7cb7af162c246649a8b8970f971093df8",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "1465b2041470bfa5fe41ef352a450275c6b87c20c0ce9ffadf2e11e4073c6c16"
+      }
+    },
+    {
+      "condition": {
+        "block": 2,
+        "position": 3,
+        "task_id": "single_done",
+        "scenario": "silent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "39084f613ab245c2b9bab93515be7ec6",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 5,
+        "decisions": 7,
+        "tool_reads": 3,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 282.00000000651926,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "e214295308806e9c46c783a09d2c03e2e8bd64dba3788b1e6ab155e39cd301ec",
+      "files_sha256": {
+        "agent-report.json": "9c2b6a7b4ae55e3af86f81be9f5e562bfef020ba64bfe945e646cc7b551379a1",
+        "trace.json": "59f82542b6e864eb849d7c5e48621315385baad807b1960cd47bca11fc36e10e",
+        "trace-replay.json": "b91ea5bfb42a2d722a2cd3b5152895f85e2942369c3a68d74e65a5c839dd51a1",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "8c849b68967e4f01601ca4e07454516fad6aaba8f2250e723f38c8d533e50d08"
+      }
+    },
+    {
+      "condition": {
+        "block": 2,
+        "position": 4,
+        "task_id": "single_done",
+        "scenario": "silent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "b96e589d48704800864220a6ba4b358a",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 3,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 141.00000000325963,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "cb38e1f7cb6db212d271196967ca23191a111b75abcbca0ee5263a49ab9e46e8",
+      "files_sha256": {
+        "agent-report.json": "1ed1445d6ce19c671538990a52c38ab00ce7d6280f72d111949a6bc4c1a0bd74",
+        "trace.json": "956fc6fff2a421f66d39669696fdc9ef5ce0f8e6a1a7d92f9cbfad28857cc06f",
+        "trace-replay.json": "92342b7985897902d584a7129e8051fb240cc65817dfbb6bc7f3bc04c950b41b",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "362138dc3ed6ecf519da3b23206664f531607a2de718864f86f106cfe8307cba"
+      }
+    },
+    {
+      "condition": {
+        "block": 3,
+        "position": 1,
+        "task_id": "single_done",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "001e617ee55b490eaa65ade504582a77",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 2,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 469.0000000409782,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "cd6f505aaf156cd28afb3633de87e7d94662e179fe1e911ade706b0daa617f4f",
+      "files_sha256": {
+        "agent-report.json": "efd3f9a8c17a9234a2d94f40394db3792c0d64a08b04eab6de09fdad194a8677",
+        "trace.json": "5f4203d1c75512345763d691605f8d558c671bbf92dc3219d00fc5706cf89cd5",
+        "trace-replay.json": "343e4fd8e81cacde2428bbd96640793acd8cd9db36253024e229d349c9ff2fa3",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "b77feec8a8e6152e41a6ed76ffdcffb9d2f166b8ce83dce4a7fb07b5ddc05037"
+      }
+    },
+    {
+      "condition": {
+        "block": 3,
+        "position": 2,
+        "task_id": "single_done",
+        "scenario": "persistent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "31a0e41832b449aca23266319164b4ac",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 358.99999999674037,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "a1056cd290639fb2404114b01075d2276f97d0a40e5a105a5d5993ff615048fd",
+      "files_sha256": {
+        "agent-report.json": "d0047634907657538df2ddcb67dfca7c6cf434d80de728c298bc2464efa73c5e",
+        "trace.json": "24fd14c9f168279dcbaa352bc95fcd115da49a4c6454700aa10b53283c7f273e",
+        "trace-replay.json": "23909a175237d5ed6616ec2a0e0b3933780dc93ecfd0be133b7128b57731e338",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "ffc656baf6ddb4b8a79ca1d4142b7af4087e6a06f3c9286fe51d80f46108f68f"
+      }
+    },
+    {
+      "condition": {
+        "block": 3,
+        "position": 3,
+        "task_id": "single_done",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "463896f4d5d6416489368afc5c5154e7",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 3,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 155.9999999590218,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "325bb9c0d5b9b037881c16d541505ba5e92453dab9d7d52787cd1e3978e5c64f",
+      "files_sha256": {
+        "agent-report.json": "26695e8793cc6de0f01d3b2f0153302180559fbfbcbfff2da1ba295cf04d0ba2",
+        "trace.json": "ee9ee218553bcd86ab05272aac8ab14c48d9ddce9ee6c5fe8ed2e3e38385e02d",
+        "trace-replay.json": "aceabfef52294720c1493dab515d71039cda9d074371dcac1a0a56caaa2cab71",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "103f3dab2edc5fddad7104597b5966ba72daed4ff3bc66c23aeb7ec060eb454b"
+      }
+    },
+    {
+      "condition": {
+        "block": 3,
+        "position": 4,
+        "task_id": "single_done",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "7ca5f440333c4a37b77155db1571920a",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 188.00000002374873,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "3926f29990ba1f99909a72270b0a62df18a33533f27c729dd992becb70417db4",
+      "files_sha256": {
+        "agent-report.json": "60103865c913cc3d2b1983b700b28d7310554e0abcfafa11c996333fcce5aed5",
+        "trace.json": "99c7907be23fb71ede334cd5f94e09155e7d6e45a2d8c0c5008910b45e30fa59",
+        "trace-replay.json": "8be60f6c0a93688d675fdb78bcb5f28d0de67e31629dfce626079576ad891041",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "45f526b63279701de23b44cefa79b598f885dac4a6d725725b4543c34f08ae89"
+      }
+    },
+    {
+      "condition": {
+        "block": 4,
+        "position": 1,
+        "task_id": "single_done",
+        "scenario": "transient",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "e1f72d8162964ca496cdc12fcfb1cf38",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 5,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": false,
+      "verified_success": null,
+      "elapsed_ms": 297.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "f7fdd3dad5454c70b5eb32e5f811a7821a7a7544c424502fcf763d773eb1c41d",
+      "files_sha256": {
+        "agent-report.json": "0f073344c24ac3f5daa191f769612b08d86e63f3eeb2d5fdbd553eda673a2093",
+        "trace.json": "c1a6896200afde8fa8b9b881c112c66eb043fc2c60910202b4aee197579a0e88",
+        "trace-replay.json": "2cd56d5132a1ffaad54884fc208a5cd6e750088813ed2fa0c54d8027bb7b9983",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "3f4eaa3f2e165d1c00bbb2826afbddb0d80b9d7b70eaecfa13f3e24f8e935408"
+      }
+    },
+    {
+      "condition": {
+        "block": 4,
+        "position": 2,
+        "task_id": "single_done",
+        "scenario": "transient",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "70ee21b8ae984c959448d76240e50e44",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 109.99999998603016,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "e1b578438c56983e8ebcb7447d29c5b8ec8a63689338c6fcdb55a0899e13de52",
+      "files_sha256": {
+        "agent-report.json": "f51e7339a5fb2df4b6efb6af07c0dd407b56cde8cf39075e67d0dccfc60da2ea",
+        "trace.json": "2e19113f866cf79680b0c41e5f866549ffbeb22c896002f1b9fda823e51ccaee",
+        "trace-replay.json": "60f6cd703eed3be9a9b5b179f377bd5f145a63fc34b4ecdb9229c9c1dba3a76f",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "f1c11afcaeacf4167cbc3a01ac9936757441dda5ff4557b28cc4dd3c2bf74c29"
+      }
+    },
+    {
+      "condition": {
+        "block": 4,
+        "position": 3,
+        "task_id": "single_done",
+        "scenario": "transient",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "b9cea4c1b15e448a90f7036641a928e9",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 218.99999998277053,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "9626da7eda03055809ecbbc362f2923dfcc764e23b1b20a91008b4b80856d572",
+      "files_sha256": {
+        "agent-report.json": "60d9c4f2fae25bdf0562967c13be006c0a19de9be3926e433520c53d6bccf7d3",
+        "trace.json": "4d32aa185ff790d98711352f0942dd7fc3218c85114cc0ae0783f72e66f636b6",
+        "trace-replay.json": "6c6e9a22fc926450d3dd335375ff9e68a942b37132cc2b6e4756ba24aa52ed50",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "a49ac5991d774a92e3cfe6eca75580d591c4c58f8533b57beb8ebbfc188ebbf9"
+      }
+    },
+    {
+      "condition": {
+        "block": 4,
+        "position": 4,
+        "task_id": "single_done",
+        "scenario": "transient",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "52677d72405647d48231dc1851fefd66",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 3,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 358.99999999674037,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "c5aae553234a24a71c722b8eaf582761a93ea7afd088d2e720805fa6bd5a8e79",
+      "files_sha256": {
+        "agent-report.json": "c0c207b8fd169aa7762fc2e6b157260ff7d1d6e6e2f9d998f7d88f8164c98f4a",
+        "trace.json": "94c34f8da58964300b7eaeac124e2052106de2e47c63befbb318c3a15e339c32",
+        "trace-replay.json": "2416cafe5b009574ed6be37335dc7865ef2c67cd1e811a157f634de167140dda",
+        "state.sqlite": "a22bee75598f1f232b93c7bec493f3cb8f22185bf8221f0cd80a0ae74047729d",
+        "traces.sqlite": "2e23c3601ce601f6a3223fefec7fb6c2294aaa418f339ed38d9c157624221845"
+      }
+    },
+    {
+      "condition": {
+        "block": 5,
+        "position": 1,
+        "task_id": "pair_done",
+        "scenario": "clean",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "5199aee675be41e7bd101ea3655373a6",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 312.00000003445894,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "f3a635ca6c29ce076db643527c867a2bde7d9f4ff282cf004dfe53fb7141c32f",
+      "files_sha256": {
+        "agent-report.json": "e5eddb96a325db3c79047ea7a8ae7444d53962bb10d66216b51a6f4b40a5d4f5",
+        "trace.json": "fb526cb6c518e9d0efd482cd0692469c595db293f92bfef2de2a5753cfd991d5",
+        "trace-replay.json": "c593ef63e44b381526db29f92b27ccc18c5c41433d5895cc0dfbb3d0993d84ac",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "fc36ce085c197ae54af0775725e830213820455bbae9a89ccccb2fda6d1fe9f9"
+      }
+    },
+    {
+      "condition": {
+        "block": 5,
+        "position": 2,
+        "task_id": "pair_done",
+        "scenario": "clean",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "bd5912666d28432aa4d4a28b742cdb77",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 6,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 311.9999999762513,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "0391e6f8c4471e5906c2b03d05d10dab8b02540e0871d194729fbd1a291ad52f",
+      "files_sha256": {
+        "agent-report.json": "51858a49c3e13f1304c3e67f22d13ae45b34f4da6d9a676a01a698055a0b7999",
+        "trace.json": "09a95138469ee5692c9db6584f570838a0288b2e1743cf274d76e6a8c46d15bc",
+        "trace-replay.json": "7e5c90846cc6c8ac9477d68a279fae5620c6cd27435fa0d2437df67046078fe4",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "fcf596b3aca192d3be43329186d11d74ad34fcca8e4590a29ff10d17bab6c902"
+      }
+    },
+    {
+      "condition": {
+        "block": 5,
+        "position": 3,
+        "task_id": "pair_done",
+        "scenario": "clean",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "e65a11a7a28a4eb795ec2dcafdcb2102",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 6,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 953.0000000377186,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "5b0da61dee9d0f7472273775a26d14651d29d5a52ce042f7ed5a662a454c0cc4",
+      "files_sha256": {
+        "agent-report.json": "a840618a0fb685bcba34c1ab83d3646feaca86b2bfeba17c6cd3e9dcf92e6265",
+        "trace.json": "a0558a204ec786505709a9877603dbe16d14f2b2f9855112b78391ba920f16ed",
+        "trace-replay.json": "2f427c3fbb542df2c6a07f5f638d1c1b7718dfa550073eb75afdb4483e9377b9",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "da6ea64389423eb3e3a8ac0bd796ea795446ecfae47cdc6d1a6271afc935f2ce"
+      }
+    },
+    {
+      "condition": {
+        "block": 5,
+        "position": 4,
+        "task_id": "pair_done",
+        "scenario": "clean",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "6e8fe78dba394bae932e11b256f1f59f",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 359.99999998603016,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "5cbe4195b59e99891be7fed9bb1da24bd920b8d1f1a92da3b7831cd0ee2a779b",
+      "files_sha256": {
+        "agent-report.json": "c6ecb90edcb4c012bc0eabc42e895e2ed50270312bd6f9da80d36732e25e762c",
+        "trace.json": "1f8080eef3a05431e8d0bb4f9b558776d72a215ca9d958ac75bdeb2cf18f89f4",
+        "trace-replay.json": "6beebee9ef5eba7599146d240e437115491b7e28c9bd3f7179763d7a07850b27",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "7e48bcb5dda36b5f2c6a384ad6ee4679de37137320093f668cce6a5aea93e299"
+      }
+    },
+    {
+      "condition": {
+        "block": 6,
+        "position": 1,
+        "task_id": "pair_done",
+        "scenario": "silent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "29171de9110040c29ecacc962f590447",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 202.9999999795109,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "332e98d591a441accdbe4a211dc9b82fdc1c555d77d1bfd28ff6a5d752520c14",
+      "files_sha256": {
+        "agent-report.json": "62a1601eb4b7269180318424dc9978217ff345c5c9a698f8e6f038efeb3b3fe4",
+        "trace.json": "4c1e5a7c5040a76799e387ba530d95b345d5071d612ca9af90828dc4b5d0e15a",
+        "trace-replay.json": "3b9697569a9056eb453241ad92aa23b4502e2d4ae59cc5c473d593f0dd5a1e32",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "a39fd8494d95ef0ba75ecac00601f431efccb212375b1de3218aefc6c382d952"
+      }
+    },
+    {
+      "condition": {
+        "block": 6,
+        "position": 2,
+        "task_id": "pair_done",
+        "scenario": "silent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "8b28823e980140699e51516929cc25da",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 8,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 515.0000000139698,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "29944d438128b6045a36e6abe1e0005978b7c4f31f19448906ba40c29a138671",
+      "files_sha256": {
+        "agent-report.json": "65232efbba32374e198aa29cf4bd4ca01c3bf585eb4cf87dec0644eeb28a5e62",
+        "trace.json": "7176a78b23cf4f8e57e2c9d77173b4e48b79aa061ac47e0afe554077f5f49044",
+        "trace-replay.json": "811dabd6961fa2e217b2abf2414a9d52a7101318b47b1b201a2dee5d69ba63be",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "876c492eccc2106076cc3574503891f6b14379cf812c96418a9b403f0bc3e478"
+      }
+    },
+    {
+      "condition": {
+        "block": 6,
+        "position": 3,
+        "task_id": "pair_done",
+        "scenario": "silent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "e8858a736a1c40618b201844f03f234c",
+      "ground_truth_success": true,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 452.9999999795109,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "696bd597d647cbd94cfdb086cb51416600b8197d06d24c5f798644ff52155b3b",
+      "files_sha256": {
+        "agent-report.json": "e878504f025cafe725eb9ae9e154f8510675b44ff41f98f3af70118cc72a55c2",
+        "trace.json": "5e93d79089924c860c85885534b98b41cd5cecb57cb3f20ceed1da1c5a389112",
+        "trace-replay.json": "80872904f415ea3b54ccd0bc65c64c859d5a3b7e4fe78fb32f257d4bba96469a",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "eca6fce268ad6a99f074a6e6fbe4d00b71c9780dda5b4df55544774a36a2a082"
+      }
+    },
+    {
+      "condition": {
+        "block": 6,
+        "position": 4,
+        "task_id": "pair_done",
+        "scenario": "silent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "8aa1618273dc4f2db997c9e3e6ed07ec",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 250.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "b74ee169b27c717ac3287372b7ca6f99687a5258eb50fcbbee388863b05154f9",
+      "files_sha256": {
+        "agent-report.json": "5690933fceab702b58fd4d1d6b9517d0754d68e4672029e8fe4a26c97747b335",
+        "trace.json": "ade92a8065b5b83da5a1aced7892cce59fb810bcd120628368de6c1a8cb7075f",
+        "trace-replay.json": "ac9df639219ea28f01754c4f6add2e9353097c7f52466f8d607f99d27b2ebefb",
+        "state.sqlite": "81ca8ca888a706819b85b61eb127717aea01fbcc0ee67cb0a59d4243f99631eb",
+        "traces.sqlite": "1f81ba2e6ab8df6538166f2e164ac85ef8465229a623ffbd23b9618c553cbc80"
+      }
+    },
+    {
+      "condition": {
+        "block": 7,
+        "position": 1,
+        "task_id": "pair_done",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "f7d1218540414ed488a0f7de9bdbac77",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 8,
+        "policy_admissions": 2,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 532.0000000065193,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "bd212deeae7a9ec73f3c83ef7f5273b7b649204c7bd84348d96375fac5301bfb",
+      "files_sha256": {
+        "agent-report.json": "8495b280495fef7cbcb8fbe974cbd56d99e2299a35fa3910e140887b9fd01404",
+        "trace.json": "b84d140e3522044fc9a55de8a523b0b150ab91296e3754c0f8a91d2d2e8d92db",
+        "trace-replay.json": "5b37d2ed468bfdb399fb1bc98224a131156e7a06416c0ebacaa7721e2ec83153",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "7be129e27d3d6f38c45a3c6514bc083e7437768ea84dbc7fd9989140ea623f2d"
+      }
+    },
+    {
+      "condition": {
+        "block": 7,
+        "position": 2,
+        "task_id": "pair_done",
+        "scenario": "persistent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "aac864fe67224a45ad9afe11ae13e771",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 327.9999999795109,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "d51e5dea4d4dbd49171ec71f13cb61c609eaf53caa68aba19a3891e79a027e2d",
+      "files_sha256": {
+        "agent-report.json": "14e9eab915b3e7d8dd6c1e6d2b0c9d8fcf826b74facbe89c54b4cb6ad2a8e162",
+        "trace.json": "eb4aa031d44d2651bf3d1fd54c3160a4bde4685901d327e6744a7e5105e3093a",
+        "trace-replay.json": "63c30a7c894bca925dfaf84e3ccb37ab599aa4fb70ca5ad242b66227a48afd09",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "7b7c7952c3374014877ef2fe45794f00954a875f06aebd499e3f1369f6bdf2bd"
+      }
+    },
+    {
+      "condition": {
+        "block": 7,
+        "position": 3,
+        "task_id": "pair_done",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "bd73795054f74ff2830c5a5853d85587",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 218.99999998277053,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 7,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "6307f71d22beed5f0fc54679e0d6aaa401735880f3aa2bcb1c107688f4467990",
+      "files_sha256": {
+        "agent-report.json": "8a1167b26685b23eb39ca523674e9e356ec399c51a07eee97b10421d4d06dd71",
+        "trace.json": "aec3f78c9bd9eddd3dfcd09951586b087bcfa26b098b3cb29e43ccb15d35ec6a",
+        "trace-replay.json": "8610ef02f4c2017bb95e06991c4d901c6417f64d3eaa256e9c6ae8ab148573c1",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "e477b39c748a4d6a6cf20a16efc5c03822094dc848ecb6c78468da52d87922e6"
+      }
+    },
+    {
+      "condition": {
+        "block": 7,
+        "position": 4,
+        "task_id": "pair_done",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "f02b3caa12ac4ce3947424740e919461",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 719.0000000409782,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "2df44e36985f469264f865308b25c031da4801fbf9b787db8a42b8465b5c8570",
+      "files_sha256": {
+        "agent-report.json": "91180f39b420b8a8a7b0c3310d5d85ac7dbaf592a0ace2e202705ab4b06f089e",
+        "trace.json": "6adc5a1c654215d5b1478742947f70457672292021bcdae4d70a70f87c01ace8",
+        "trace-replay.json": "d77991f5102d09fa2ac679c9e4f9932ff31a2c34eb51b8e2eb955064b300e4bb",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "880e5be2c4c8537628926e777bebffff08a96f0af36bb6d3492b2f9333ef452f"
+      }
+    },
+    {
+      "condition": {
+        "block": 8,
+        "position": 1,
+        "task_id": "pair_done",
+        "scenario": "transient",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "e22e510fe47547cfb0c201a058c0527a",
+      "ground_truth_success": true,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 8,
+        "decisions": 8,
+        "tool_reads": 5,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": false,
+      "verified_success": null,
+      "elapsed_ms": 438.0000000237487,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "7a86337d6380b223e869bfdd86d778bed5054d19f4409eaad2e3d1e2967e5938",
+      "files_sha256": {
+        "agent-report.json": "8c0f4dce693e648e4aed6c206c99e398d70adaff8682dc8b73249244656a3b7c",
+        "trace.json": "ef1169e50e8c3e1600f7307790931bf58f1d57aff7fad9ce28493e00d7d96a8e",
+        "trace-replay.json": "f64b9a2d10540c0b7e22efece22c6a143d3a2f40fb8ba8b3fcf198c80ad8d488",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "7d5f81285a9b8b5ad44c350a2f4a488c1fb64665f77bb42abd463c34c1b67c26"
+      }
+    },
+    {
+      "condition": {
+        "block": 8,
+        "position": 2,
+        "task_id": "pair_done",
+        "scenario": "transient",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "aafd1620995b4fff9bba48b70d478702",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 125.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "b1e46d97ada311cc26ae4bfa87049bee978620fcab0052295a8bb9f3b66c55ab",
+      "files_sha256": {
+        "agent-report.json": "bd4e83047acca97f3317dae03f703a4951d69323568a12be6e0316677de439eb",
+        "trace.json": "a739d1b4abe6f2a969eabc06f95cd8c7b34a54548bc33ecf582fdfdcee956210",
+        "trace-replay.json": "f480564a5f72b21e8d90c1ee76747017fb871176592b89b4a4cf43248c09e290",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "d3171bf96c2331f6f360e66e3d527cdfdc5113e714f5810cf9a0c16e73ff4ea2"
+      }
+    },
+    {
+      "condition": {
+        "block": 8,
+        "position": 3,
+        "task_id": "pair_done",
+        "scenario": "transient",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "ea22da1a9c7848cd86698376b03e6e70",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 217.99999999348074,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "24df4acbadb32339a2ff0682feeaed741b90fe17bc6499b348d606c06790c230",
+      "files_sha256": {
+        "agent-report.json": "b8dcfbb518b559d5e4fdd8908d632058245a1a2d6bcd6ea22732562bfd3240df",
+        "trace.json": "ff86f8d6550dbfbff3127c47ae5c3cbc16f6a91c0f7f52fab7ab3d12a36e3de0",
+        "trace-replay.json": "e2f83d3275c98998781f3ba8b8605cb2f10188b6c0afc119317ce52138e20e8c",
+        "state.sqlite": "f02386e85dac0eaccf252c1351abffe82a46b59ec64d708d945a53315309f396",
+        "traces.sqlite": "582f24da6047818039a02315067742e0d245a4af58176e47a122f58e8d10c967"
+      }
+    },
+    {
+      "condition": {
+        "block": 8,
+        "position": 4,
+        "task_id": "pair_done",
+        "scenario": "transient",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "93ae87b7468c402f81d1604df3aceaea",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 8,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 484.99999998603016,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "e3e96bb9c825b1ba18b6896900f6a01e8cea8ceffab4d7065b929e08a2500a52",
+      "files_sha256": {
+        "agent-report.json": "2540223fcdab218ea73c0ae9b54a3dee76b5320ee1e2a554d794c25223a17298",
+        "trace.json": "41888fbd54f7e18667fa06b6930318e27c87e9c5f59aaabbf7673904add1901f",
+        "trace-replay.json": "c66259be7929559197ef5469488801124074d7ce64ddc74353c1abe36c7a73a8",
+        "state.sqlite": "df438759e240a0007a739a8dc45a3ed38410e8a6edb742df09c7eccd3a1a4261",
+        "traces.sqlite": "7a5af3a9159152c5c19b0240c6ba9a58c88da5703462fe781a4fecdc4f23751c"
+      }
+    },
+    {
+      "condition": {
+        "block": 9,
+        "position": 1,
+        "task_id": "mixed_status",
+        "scenario": "clean",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "919c2b4e7a084a8ab1b0ea0b789351c3",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 250.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "730272da395f28cf9ea426f9b56caf7300d81601d02de93bd76858b75a11fec6",
+      "files_sha256": {
+        "agent-report.json": "8563133fd83d36852f1a536c7cef9de75681836ae9772a9ed4bf5f011254f47f",
+        "trace.json": "bc16bf611f9953a3f62765cf0c30cc6b9c2ceb689c16b8345e13fd55dd8a62a7",
+        "trace-replay.json": "7896120f73a65cf0340046c5f4b362aebbda8d49d1b30903046151985522734d",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "4ee23516cc16fbc2a32de8e8e6b4240957839c5f2208bc1fea3ce906bc05d336"
+      }
+    },
+    {
+      "condition": {
+        "block": 9,
+        "position": 2,
+        "task_id": "mixed_status",
+        "scenario": "clean",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "e63555f0c5c9481c9bcb488f4b273e0f",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 6,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 297.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "72b3b009f4a61335976c0ded749dbd707a528358664fc4646a91d521c3312829",
+      "files_sha256": {
+        "agent-report.json": "6c69d2baecb8e7db8588cf321fc541b306fbddc3224dfd3cf75d3ae56946fa6f",
+        "trace.json": "24ee344fa9064bfdc790830a65694e63e24bb5aa4da536a58c27bc63ecfcb100",
+        "trace-replay.json": "f6e38cd87c5e4b711e26a166a40739a7aae0655090e91652157363ea3abb967b",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "a196bcfa51390febbdbd535f3db47c154b79471af207306ee0186cf0adc05dd8"
+      }
+    },
+    {
+      "condition": {
+        "block": 9,
+        "position": 3,
+        "task_id": "mixed_status",
+        "scenario": "clean",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "df3687abc92e4592b7be69611c035d8f",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 6,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 297.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "b90db77d1d3b1957b24cca2a40df1912879dcafde851765f961f08ecc700cb36",
+      "files_sha256": {
+        "agent-report.json": "8f6ded631a8254ca9a92556e86b60e9aeba38892679f71f3ded1686bca0a1dba",
+        "trace.json": "f2f7708af5740f280feb8070dbc28bda09aa740c68f655d9bf80d3082fae470a",
+        "trace-replay.json": "fd59f33985c12c0d8e9dcc7803d2eeacca11370bcf1583887e616635ea2bbce2",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "c04ccc61053871c676acd5ec7ec596e0a7543625e84973f0fa0521956cee9656"
+      }
+    },
+    {
+      "condition": {
+        "block": 9,
+        "position": 4,
+        "task_id": "mixed_status",
+        "scenario": "clean",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "19cee53a8dd14c20a82ce2516853d069",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 375.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "cbe1cff02f06333ffd02b50117a8ccc574b58b236074362f8a6daee93ae5612b",
+      "files_sha256": {
+        "agent-report.json": "45c9a714fa27d08fb077bd25b63f9542e2bde8e28f3d0d31d0819f5d54ee8e9f",
+        "trace.json": "3f5914a07d6755caeff2e8baf3827f9ec6d38f1dcc3e2262ac103e89f7c38351",
+        "trace-replay.json": "ca526420bbcb8edf07d69a77a63dd503e60c6c85e593708f1b89ffe9500ee5ce",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "4bbdc4683e079b863d3bc9bfb7d8375e6c061734c6eed2d58c292e35468171fa"
+      }
+    },
+    {
+      "condition": {
+        "block": 10,
+        "position": 1,
+        "task_id": "mixed_status",
+        "scenario": "silent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "34fa757b36394ab29b2cf1974c0b79dc",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 202.9999999795109,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "3177d1e675b7f1e5bfd414873c8d6604912ad29f49e98f0f55f1184b3586a97d",
+      "files_sha256": {
+        "agent-report.json": "2b35f21268af583f1710a62c90e59bde82bda9970070a5a0941c5d44a0e5cf99",
+        "trace.json": "e4e1bb03a36d8bbc15ea4b1a54e4b2c94b3395c3ab4a1ca5b9072a4718138bbb",
+        "trace-replay.json": "80b1cb05c430662496f9711c7b72a96eec4d4df415f6fee3fa52382a555ef79b",
+        "state.sqlite": "600d95e28c4755ff286f8fdfa7994d17885ce82db19f0a341859b55c34ee0751",
+        "traces.sqlite": "38d7b712ddaacc28b7300a7374900fe8533a26c262a94279061fb0beb8fbd413"
+      }
+    },
+    {
+      "condition": {
+        "block": 10,
+        "position": 2,
+        "task_id": "mixed_status",
+        "scenario": "silent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "e7dbf09675f049dabd6a93d002980299",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 8,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 500.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "921b7566054749e9d3f1bacf44b711391f63c922d6dd03706e8536c9a0cea772",
+      "files_sha256": {
+        "agent-report.json": "81167a4650792c8bc79729474a90c296feced421d9ac0a6d0215355bda5e8da6",
+        "trace.json": "9259a90dd849f248e1e91c168234e3228729e2bf5af6ad4cec5e7c052e44bf3e",
+        "trace-replay.json": "be374f661cffc6043eb6e2e17ac25f13882e52a43bcdb47a204af7bbbe1b2761",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "72de5685451eda2638779d80f0761696e07975b21e8e45093578992759c9c4a6"
+      }
+    },
+    {
+      "condition": {
+        "block": 10,
+        "position": 3,
+        "task_id": "mixed_status",
+        "scenario": "silent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "320a3b131e8a4d90bb94cc33c1d259cd",
+      "ground_truth_success": true,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 1000.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "8d8e6b6e07af97c6869d0c57dc5d8ca1b85f90e7917a37aabce3ad30afefae6b",
+      "files_sha256": {
+        "agent-report.json": "e76b6333290f6ad3d904af5a5fe669225e8e4ecbda80aecd236f691e7219bd8c",
+        "trace.json": "480d0767ca63ae2658b5c74bfa271129817bb38d116cc67b98d433f8fff07c65",
+        "trace-replay.json": "5e4ae95299fbbc84bae6a23c0bbc32232710da610585210439174e293d717c0c",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "0c20c872f7ce7608b19984f8bd0adfd13c91262610f4148b83e70d3fc5089921"
+      }
+    },
+    {
+      "condition": {
+        "block": 10,
+        "position": 4,
+        "task_id": "mixed_status",
+        "scenario": "silent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "16012c806e244150bfc65d555ad9934e",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 296.99999996228144,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "67d20bf075f0a22ce54066eb105f8f652e1597550725bda1d008e8864760648d",
+      "files_sha256": {
+        "agent-report.json": "629596200984414bfe5818f97820075eca70f9c66ba7135b10ca07e47bcfa049",
+        "trace.json": "93058eae8cecda86ed00ac5cb6603b685663bc2aa0b88cd3ee8161a3413c09e4",
+        "trace-replay.json": "843fe000003da03f8d9ab4c14178542c3db7d3846faa4bffb9abe4ce081fbf81",
+        "state.sqlite": "2c7165a7dec544f55fd147fc6acc2399966c8a554bf949bd4774c2d862a24b4c",
+        "traces.sqlite": "93d3d1ca2864275fb2cd98027883fcd2382d5078abd231649727f96c5a0a4268"
+      }
+    },
+    {
+      "condition": {
+        "block": 11,
+        "position": 1,
+        "task_id": "mixed_status",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "c161ee00ae814bd292b8632bf77a89c7",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 8,
+        "policy_admissions": 2,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 561.9999999762513,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "4d6e20e9147d7bbae2e8be1723d5ce36a338fc5e01edba7e4e1f6539622ab8fb",
+      "files_sha256": {
+        "agent-report.json": "4bc59abd469d2464b71856b5576cd58e63e21f222b43d1fb6ac5c1d8f34e2e85",
+        "trace.json": "eaaee0e6b1400aa2ca2a57ee109068be4f0381532a62250716739a1481ebda0b",
+        "trace-replay.json": "92b6c2fae26328798e0e24a733fcf8c44fb09d4f730623794b19170de5cc5abd",
+        "state.sqlite": "600d95e28c4755ff286f8fdfa7994d17885ce82db19f0a341859b55c34ee0751",
+        "traces.sqlite": "5bce8914ffae2a293405de23d80115d4444019c8d202ab916f8309c6f4062689"
+      }
+    },
+    {
+      "condition": {
+        "block": 11,
+        "position": 2,
+        "task_id": "mixed_status",
+        "scenario": "persistent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "17ab5ae1d4094f0ca184338aeb243719",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 422.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "c642f868859365841ab0716ecdd0df584789a4c861e2d28070b3ae9e9d5f6c21",
+      "files_sha256": {
+        "agent-report.json": "bf5c2ce41be00ae19f0db9e22408085e84c38e54d988f7faf1e8390c97d3200f",
+        "trace.json": "ceb02e8142fb05227f566ed98c49ef77ec6cb50446be1b1b3f460f7927b804df",
+        "trace-replay.json": "f292021efeb42053e8b7bef71532d126336765781b9ce4e690439ed6edb5ed29",
+        "state.sqlite": "600d95e28c4755ff286f8fdfa7994d17885ce82db19f0a341859b55c34ee0751",
+        "traces.sqlite": "8fda2ab1c462045ed35bed12395c154be53b0c4dbe291d8c09624446f52437da"
+      }
+    },
+    {
+      "condition": {
+        "block": 11,
+        "position": 3,
+        "task_id": "mixed_status",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "c16205117b2f4f40b6e2a2cbdfcec272",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 295.99999997299165,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 7,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "5186f798d6ae1f6e4d3fe0e92afb9f1a877174c312d6a03e1b681958122f01ba",
+      "files_sha256": {
+        "agent-report.json": "9c1ee16a21de401515bada519f3fe31ad2f10ea94f87d39bc688cf6bfabdbc53",
+        "trace.json": "0458b0f3584d67ea08b99e86c4a3c899b5f8c4db74e626ed5f68f82e35281916",
+        "trace-replay.json": "090fc260b319e95f3e4c1cbc908bbd3b619da7c070b05c8ef2d9e0e24e6b03e6",
+        "state.sqlite": "600d95e28c4755ff286f8fdfa7994d17885ce82db19f0a341859b55c34ee0751",
+        "traces.sqlite": "49a989cbfbc3614b64416d9f58a8863b39fbc9950af47dafd6be00dffaa91f71"
+      }
+    },
+    {
+      "condition": {
+        "block": 11,
+        "position": 4,
+        "task_id": "mixed_status",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "9657eeaa71df411c9203f66de52ca901",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 233.99999999674037,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "86b8848aba1a0191764f6f389c608e39e4dd20dd4631590363bf41b27b39e019",
+      "files_sha256": {
+        "agent-report.json": "7c4ff3098afce9622dbceba397d4299f6c474dede175230cae6c0862bdf5e442",
+        "trace.json": "d62644e4177eba4892ae10d0878d90be5ea120d23d032f3b850296eba559f8ee",
+        "trace-replay.json": "75f3b511a2f65de636d86e980e8cbc410be92ed2ff1a06517d59a7069be6b25c",
+        "state.sqlite": "600d95e28c4755ff286f8fdfa7994d17885ce82db19f0a341859b55c34ee0751",
+        "traces.sqlite": "39721b78c301218ae599079c521aeaa2301a9fddfff52f51a19c9129262ea6fa"
+      }
+    },
+    {
+      "condition": {
+        "block": 12,
+        "position": 1,
+        "task_id": "mixed_status",
+        "scenario": "transient",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "ae8e29b6871a4c3982573ce70ee6f8b3",
+      "ground_truth_success": true,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 8,
+        "decisions": 8,
+        "tool_reads": 5,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": false,
+      "verified_success": null,
+      "elapsed_ms": 312.00000003445894,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "11521a6ca24a7c7f7f6c30fd416d2a71e2ab86a61e8cb7b71e9fba3c7fa92855",
+      "files_sha256": {
+        "agent-report.json": "7a7cff97239cbbb2bb8152defebb1555e1bae1f0ba4a4109504ad6b0e6c66f1b",
+        "trace.json": "3e9ee182b5d45da91d1df69c8ab8b02ccc5ecdc178eb80e0afae6600d8e9394b",
+        "trace-replay.json": "d4d9a6adeef638d6098a4ba84c21e4791489b6958bba5d13eb9033fc68050112",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "eaf45ecb759b37bdeebea5a20bc2c7e9a5e11f4081d320a694e58bd14822dff9"
+      }
+    },
+    {
+      "condition": {
+        "block": 12,
+        "position": 2,
+        "task_id": "mixed_status",
+        "scenario": "transient",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "70049ef3b34144c79d10185688eae8d0",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 92.99999999348074,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "f3dd2e24adb8cc70c22a25d0a79fe05676d253c87803f212ad075a03ff96a402",
+      "files_sha256": {
+        "agent-report.json": "8b37048bb5337dc870026cc210b48f5285276aa6d18f7ebff7894fc55383ac0c",
+        "trace.json": "cb34b0486d0c84c7ab3ced372325fed82b922751f8b8cfb849d5ab3eaff60762",
+        "trace-replay.json": "e19ca13e0e58df5be72a27130b9a71bef4b8dafb4777bd0bf08e56a2e933f5aa",
+        "state.sqlite": "600d95e28c4755ff286f8fdfa7994d17885ce82db19f0a341859b55c34ee0751",
+        "traces.sqlite": "cbe16ae643343b612704f25f21c7a1370e6a8f59f50859a38e8935d13ae741d6"
+      }
+    },
+    {
+      "condition": {
+        "block": 12,
+        "position": 3,
+        "task_id": "mixed_status",
+        "scenario": "transient",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "bd14181313c641dbb7ab5d63acb4e63f",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 172.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "cd852746796ccc9279c7e9f6560b2aace7339e961bf1f37b8441a314945b3181",
+      "files_sha256": {
+        "agent-report.json": "85ea5ede1ffdddf5ab92d0b25f5f0f4e39ea0f783fd4e76af3ddf9098844a61e",
+        "trace.json": "ad198c2d78c4bf8e5548a369bc2dcf984f56314fd8b524408728b7533bd483c3",
+        "trace-replay.json": "acca021ade94f9fc8980a9972848962151de47ac98cb7e6a5e5987c63abd8a5d",
+        "state.sqlite": "600d95e28c4755ff286f8fdfa7994d17885ce82db19f0a341859b55c34ee0751",
+        "traces.sqlite": "6d35560cee3aea1e3984f44b0478ad17a896aaa4ebb4ca0a237769f83b1ef6b0"
+      }
+    },
+    {
+      "condition": {
+        "block": 12,
+        "position": 4,
+        "task_id": "mixed_status",
+        "scenario": "transient",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "7b204f0c30304878bc4e5de73a0c8155",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 8,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 438.0000000237487,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-1",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "in_progress",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "e9bcad0c3a3d5ca00f3318e73ff126fd2d24473f8c0a09f910ca503518477091",
+      "files_sha256": {
+        "agent-report.json": "0e5b29a8c828b49b825e87f0bd3db92c887ee6ed47307a8900596e5539aba862",
+        "trace.json": "f8cecba7f2eeb53c53397de6c2ea5fad4bedf2cecbe228f1de1a301884e064f5",
+        "trace-replay.json": "48199e94443c25b4017031bc3930ff061764e77ce0c82d8f4cea5c7f10f8f0dc",
+        "state.sqlite": "3b19ffe5f81d3af25e8f145e7995b9bfb6cdb430d7b14ed97bba9b22eae59010",
+        "traces.sqlite": "e7c688924058223c098c4916d6b9ca410b880a9f6186597adcefc29953a58c10"
+      }
+    },
+    {
+      "condition": {
+        "block": 13,
+        "position": 1,
+        "task_id": "reopen",
+        "scenario": "clean",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "126a5c4a9ab842e68a676f495565e895",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 3,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 610.0000000442378,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "43e94f8b1b192933570dbda6c9f120af687496606618806b099c777700d14787",
+      "files_sha256": {
+        "agent-report.json": "33d573910b7f7fcbd4193f72e9805cd66cae86c392ab200827d1850227ef7007",
+        "trace.json": "3d70ecdab3fef1e205efbef8d725d2af9b45121a4edfb55373088fff0856feaf",
+        "trace-replay.json": "6aad623a68a8b09712498a10cf28afe28a6f891c45159cb82649a2256e49a830",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "fcbc1c277e8e1bf88696b397a8d43b5885c794493ba7516d3913e4b8663eb17d"
+      }
+    },
+    {
+      "condition": {
+        "block": 13,
+        "position": 2,
+        "task_id": "reopen",
+        "scenario": "clean",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "ab78fb1809814b2590b13b5ed6970ba6",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 218.99999998277053,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "d16aca43b052a35b86aca87ac70d2007e56b767f1d2a10276d3fc7ed9cb2c38f",
+      "files_sha256": {
+        "agent-report.json": "2a3966b2311b2ceed3fd480bc29dfaffda0d7666a7e6b04457a036d1656440b7",
+        "trace.json": "aacc471a9ad5219c3679bb2661946921152e18d701a9662077858a83ef8118ff",
+        "trace-replay.json": "316e33f1e44a2e96965140488f53be3b8f18f2f5c1dcff3cbd3f25ed21c8a720",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "0d83ecb33344dcbdafd2697da498a9fa6855e865e10cf0fc54da91e3886b3c34"
+      }
+    },
+    {
+      "condition": {
+        "block": 13,
+        "position": 3,
+        "task_id": "reopen",
+        "scenario": "clean",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "54d396393eed4e41a1876fa55c06c14d",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 188.00000002374873,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "840826ba7faf7fac04bb1028d61bdd153d801c1c789d184b3567992945b36d15",
+      "files_sha256": {
+        "agent-report.json": "16cb578a32b856176e1fdc1a894cb97bdb2bfa63974fe8725e9cc7ee0c2fabe6",
+        "trace.json": "3de0822cd1d9673b490e6409f9ca863e6553643b0fd366f681a585088f164b44",
+        "trace-replay.json": "a13f13df03f6d0acfd37d0dada7f0a5eb5a326e928334cb6ec04c1d54f4cf263",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "0c033a5e4155ea8740aa6c6270a869413d72f526fa04082d85893a7d02ae2a22"
+      }
+    },
+    {
+      "condition": {
+        "block": 13,
+        "position": 4,
+        "task_id": "reopen",
+        "scenario": "clean",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "f29dc7fd379c44638a4917b9d785f243",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 3,
+        "decisions": 5,
+        "tool_reads": 2,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 233.99999999674037,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "51ab56f446a8e2239356ed4adf4e59958275fb1617abb0f10a1405a181a33ec4",
+      "files_sha256": {
+        "agent-report.json": "7ab494e153e254b5137cb0a033cfbdf29a664e84bf6518cc8df0d8eebeaba4f8",
+        "trace.json": "d96ae12e4472dae24ea6b6dc5fb5305616fb5038e176445812b8af0525d58f43",
+        "trace-replay.json": "17ec23d05b8f6472da4221a8b90179f3cd286a7da79357d660a0dde96c27b6e8",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "f6b567a4fdee095a718295905554c86967fcf154c1b0a8d03c635334dabd4ca1"
+      }
+    },
+    {
+      "condition": {
+        "block": 14,
+        "position": 1,
+        "task_id": "reopen",
+        "scenario": "silent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "12db89d2bab344e1b8857209569f9d7a",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 219.0000000409782,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "d242d5efc59c67d350e7bab756de864b88d2cac71a1fe283bf36b670f79df678",
+      "files_sha256": {
+        "agent-report.json": "9afc4f3743dc45aea678b17703702302ddf7affae788afc345649dc39b0d3b30",
+        "trace.json": "28270bc816d04ac7e0734693e368ea6cc26d6bc087479973f2082ad5ac7a83e5",
+        "trace-replay.json": "623a28b1503870d8481c1e3415a02c5250708e93ab56aa9e813cc1d8622de539",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "88ec379afb698fb9503cad50221d920b21ff85085383398128d98437fb0afa81"
+      }
+    },
+    {
+      "condition": {
+        "block": 14,
+        "position": 2,
+        "task_id": "reopen",
+        "scenario": "silent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "b814b13c031240409b079b2feb5e59ac",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 3,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 343.99999998277053,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "2e5bdb4b21c25e905582bfa4de6f825887ceececf9753da6026067f2b41a71cf",
+      "files_sha256": {
+        "agent-report.json": "fa1a77c82d0f58bb1df223ec47ab5b257ff8dff6fee3361057522b53b0c2fbb2",
+        "trace.json": "785ab1cb38f6f6983dd1df571112619a44470d94af2021908361af1171d7f990",
+        "trace-replay.json": "92b42824216f3e9f59cadd747e4e913d10f5e1cdda81e7ee4e1d789f5c6d4e30",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "1364d744ea40cf6271661f4eaccb918c49d08e11eee32445532dadf0ffb0a621"
+      }
+    },
+    {
+      "condition": {
+        "block": 14,
+        "position": 3,
+        "task_id": "reopen",
+        "scenario": "silent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "c37d689f4b274a5c82985436e7ad91fd",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 5,
+        "decisions": 7,
+        "tool_reads": 3,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 327.9999999795109,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "9c7a2f6fbc258d576ca754912f5ed66ce3605f0bd4dc6eaa90fba7093aa77bb7",
+      "files_sha256": {
+        "agent-report.json": "e4f8067d5bda54e3327702bc3498d2ed891243a37ffb35d00e0db6ef1e0e5bd1",
+        "trace.json": "6fa90347ece9d8cfa0a2a36b836893bca2aea3536d021682f7531d65b51d3bf9",
+        "trace-replay.json": "c4716e88ee170d9b5c439f989f2ca0d066851eb46190636a24d742a610c8b15d",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "bd201cf52983712fdef581f37346b5de6e058e3e5d1cedec651b9802eb412e5b"
+      }
+    },
+    {
+      "condition": {
+        "block": 14,
+        "position": 4,
+        "task_id": "reopen",
+        "scenario": "silent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "b281361dac104a3ba5348031ee7f99e7",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 3,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 156.00000001722947,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "8a989cfcd3959f573f0a0a862c3f1c0e63d563ebc9b53df7fba9b630c409f8cc",
+      "files_sha256": {
+        "agent-report.json": "998e96cf627e3b6eefa78d7a8e7d04491f4a76bdba4f741aa5f6fee23db6c54e",
+        "trace.json": "f5f8874fec9d1fb22711b846eb9907cf13b61c696852e4cd82a0d67116ff38f0",
+        "trace-replay.json": "e85b78c972cfd23f7a6f37e3b13e94a030f03c19503bdc76434903f6a5804459",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "f73758667a6ed4c876505f9a849925474e61cc59dc5042f6dac32961d6681a9c"
+      }
+    },
+    {
+      "condition": {
+        "block": 15,
+        "position": 1,
+        "task_id": "reopen",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "6a8205d8ce994b0b84f5b43739ec3b7e",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 2,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 531.0000000172295,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "454acc1b006dff7dc507657540976990812d000b51504be7d58f2b4e4df7f4bb",
+      "files_sha256": {
+        "agent-report.json": "164c1d02839a7550c9efd36638ba67a2db9c585f1549549a996b4208dba9ddc1",
+        "trace.json": "0bd26de575c4366e70653db9f4269f20bb1968e32d5cb984a2fd8fc429b74387",
+        "trace-replay.json": "b3bb38ef899be4355d254728afcd19ca042251695df5e75799d96cf99adf3131",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "b5af90e35de9ccd2672cb3bed0b73f8a637b5a9000fd7a7d55b65385ececc7c8"
+      }
+    },
+    {
+      "condition": {
+        "block": 15,
+        "position": 2,
+        "task_id": "reopen",
+        "scenario": "persistent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "9518d9df512849c8af289f02c61ab59a",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 4,
+        "tool_writes": 3,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 375.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "bd328e6ad779400d70ce6a11a537c7ffcf4ca8d8e43b29a8b512c4b4b0cfaf76",
+      "files_sha256": {
+        "agent-report.json": "89fa0ac44554c425b918ae933a318976823a3c2039cf14c4512f49b2bf0fd730",
+        "trace.json": "45bc3dbcedb89fb5fdb604629c9433fcca8af95978332c9a22080d2c0539b82c",
+        "trace-replay.json": "22d5cd7efb977f7e4f7a90898027e798c5819af83cabc538789c5ab37051c55b",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "8e329426f8af9469c4422ddc541209fe044e191626a32f7e3e09fe1ee5839856"
+      }
+    },
+    {
+      "condition": {
+        "block": 15,
+        "position": 3,
+        "task_id": "reopen",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "9d38d97371504249a889c4bfb8dba090",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 3,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 171.99999996228144,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "0b0df3ed4e13e9bf8fa5f5f4e63fd094e6462708cd58f6a94d12e86e03fbacd9",
+      "files_sha256": {
+        "agent-report.json": "9667ad4865e8c25638618992ecf561ac6b82f837c0b013b72b4cc6fba658bbbd",
+        "trace.json": "7acebbe5a7d1d8cfbf3654b19e3ce44fe93c3d59723e39bafa03ac83da218ca4",
+        "trace-replay.json": "63abc903ff7655508af1e0a6d2cb0fd9af76f4b18dee48459555416898e8e7a4",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "2e8cfdf8c645c6798ea725b4344bc4568d021005ab6b40f6b092288bf48b6578"
+      }
+    },
+    {
+      "condition": {
+        "block": 15,
+        "position": 4,
+        "task_id": "reopen",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "ce382486321b472b8245f64710923b11",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 203.00000003771856,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "2bffd9045609128feb8d9aba258253909aa15539df43c506131317f182c8b2d4",
+      "files_sha256": {
+        "agent-report.json": "57972e8a8bad8e476fd1c802be005cc220e5ad8c678942a1e3821f0c46122b11",
+        "trace.json": "38323a58bad3b31e905a6835fa43b7c5460be9e017752096c35451ba374ec0a1",
+        "trace-replay.json": "9085a9d51514e2dfb4fe388fdb3446473f98519562c8f2b236d1b991d52ef033",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "49b8c86170873c64039d9643fab0b80d9d519559ed4edc7c89b6c2e8ac5ae0d8"
+      }
+    },
+    {
+      "condition": {
+        "block": 16,
+        "position": 1,
+        "task_id": "reopen",
+        "scenario": "transient",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "f731976fc2f9413da3bbadf6489df7c2",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 5,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": false,
+      "verified_success": null,
+      "elapsed_ms": 313.0000000237487,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "a58ee5085a96fd13f6afae6c81b9f0e99d44755ef1f3c952b51b5f894f209961",
+      "files_sha256": {
+        "agent-report.json": "763721b40cca080e273f59d23c88b5cdd601cfb9eb09fdf5f44f9f3bc0ef9e09",
+        "trace.json": "1b14cc7991067603ed6f5634ebe0cd17b897665482dd01c9a2881e89438dcbac",
+        "trace-replay.json": "9b83da78ddcd5a5b31fee7b15fd90a81da51ae2fb72c35d983d6bab19d77c3bb",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "26cef02a557ba1a200fcb25adeb40fb44a640a9ccf067a29d4a8f5b32431d5b1"
+      }
+    },
+    {
+      "condition": {
+        "block": 16,
+        "position": 2,
+        "task_id": "reopen",
+        "scenario": "transient",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "f77fe17232b441419bcc3af95faf091a",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 141.00000000325963,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "01652b5826d0cd45fc58151fa2af2dd0972612ccfee37e9ce869147fd4705ce4",
+      "files_sha256": {
+        "agent-report.json": "2bb789f6aa925e75ed3dbcf85bf33a9bf9696ed993be29ef2df68a851ac9c027",
+        "trace.json": "30221fc9bdf68e43a7343e0f40d7548b2bf504cb83f2411e3120a5dc8704ebc0",
+        "trace-replay.json": "73503fb6bd58ad88e5db33b1baf4fd9fd56a5c6c70068967b64c0f71c7e1dcd8",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "aa9226788037acf205f3a84c83ee87b578cfa960fb133fbb1b7f2caea441beef"
+      }
+    },
+    {
+      "condition": {
+        "block": 16,
+        "position": 3,
+        "task_id": "reopen",
+        "scenario": "transient",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "4a1860337e9747eb9bf6beadf20a58d7",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 2,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 217.99999999348074,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "done"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "804d257d57d86c4a2635d44d507c9bdf0e87f810de6baccc5b5ce21a0968cab7",
+      "files_sha256": {
+        "agent-report.json": "8bc680915e4e3542f9c3de0e152b19d0ba1a319c5bec3300c662b03738c2dfef",
+        "trace.json": "7e8684737da0ae2c6748ec1afedde74aade9a8427e2712bdc727066f8611dbf9",
+        "trace-replay.json": "7b5caf87bf62ba7dfb94959ba48006c345d78805c0ad3b0b19930976662529b0",
+        "state.sqlite": "2ae4c9093d36eff74beb09922f28b65eb17a8424758a34d08cd648cad504177c",
+        "traces.sqlite": "b98366f8616e8c4ab86cc2cae3bc8faf39e03d80a594104e84f3bb686dcaa2ea"
+      }
+    },
+    {
+      "condition": {
+        "block": 16,
+        "position": 4,
+        "task_id": "reopen",
+        "scenario": "transient",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "8cefa3ff8124415f83625a6d10d02b8f",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 3,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 390.00000001396984,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "done"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "open",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "cc57c36464d1939320e3a8d9ce5110276e16ff08c002315a9ec6bdca62525177",
+      "files_sha256": {
+        "agent-report.json": "81e7426326b6635fa39d4d3c8a7d816f318009fa3fac2ef2650d013768f72400",
+        "trace.json": "a2776fe331f26f7c1ea9c3c5a50991a041788b5edccffb0d679c662a8f108132",
+        "trace-replay.json": "6b6546ab05d6491eff3fdda8e21b6d8d0dbf6febed0f8ee88fbc162cc6f5794a",
+        "state.sqlite": "c45c3cd2d642f32480681d5cbc7ad3d25d5794e6f6f39bb817916ee3a38f547c",
+        "traces.sqlite": "783cdb3d572acffd04816a2710d2b68e09ee8ccf1afe1aa94576ef1027addf78"
+      }
+    },
+    {
+      "condition": {
+        "block": 17,
+        "position": 1,
+        "task_id": "already_satisfied",
+        "scenario": "clean",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "bb1a8220117b4b5f943700b68bd6bb81",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 1,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 108.99999999674037,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "b3890d0187e40b6b1f03de54394b782991f5b99995ae4d2e412a78c676202cf7",
+      "files_sha256": {
+        "agent-report.json": "3ccda382974e2703e768e5f47edb214d5dd91dfd373285753137338ef09617f4",
+        "trace.json": "10a00f134dcbf4cb369bc41bbc9f807104fc1c2251acfc55e3109090b826e6c4",
+        "trace-replay.json": "e00c8115d0b157ab67974f9dc3b746d317b599ebcbc1bce5b1c1b2cda0a89e77",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "ceba46bac742737ba4d8c583f73a90de0b9bd243881851f97cbd2707ab0ba822"
+      }
+    },
+    {
+      "condition": {
+        "block": 17,
+        "position": 2,
+        "task_id": "already_satisfied",
+        "scenario": "clean",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "6d6892ae309949cc87da97ff2eb23fa3",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 46.999999962281436,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "6043fb6c60b01030588e3c40acc80ba15e6a553927bd2af6dce861008e2adf8d",
+      "files_sha256": {
+        "agent-report.json": "f073b5d1273140ca73e88e23ada604caeb9f937204d3c6e36ae1a6e33009b7df",
+        "trace.json": "3f2db8c49e1df9573ab88e726abe9d8d99c3f8d8a4e23bf8987f3a58b9652316",
+        "trace-replay.json": "69079336cdd97d7a075ad9d0ee92fd448e4eed2db0a7ec3d60d5a5af170a2098",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "98692fa7254e577548caad147374b811a2e25822c01d3beacc5eae941450f780"
+      }
+    },
+    {
+      "condition": {
+        "block": 17,
+        "position": 3,
+        "task_id": "already_satisfied",
+        "scenario": "clean",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "c788ec4ffa994dfaaf163ed53b2d677c",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 45.999999972991645,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "02507b2e390e77939ba299f68c0ce248e3125339bf0d6560538a459aeb05c237",
+      "files_sha256": {
+        "agent-report.json": "61393866bd4276a2af1c1d986d775279f32f577b7c677e6b60377dc3021497f6",
+        "trace.json": "727417948e91a2adbab0e9188f75df559c6bf2cb385bb5e963ba09089cae523b",
+        "trace-replay.json": "972994b9629f2138b4549df00bc705aadc1a7d800cf6489753dc93a3c95c2439",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "a5fdd3dbe794a9adf374e20eb2f47c93a60dc0a4a9fc9e1ac20731c8cf1c3cdd"
+      }
+    },
+    {
+      "condition": {
+        "block": 17,
+        "position": 4,
+        "task_id": "already_satisfied",
+        "scenario": "clean",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "c34ec2a7e9d74edbadc17402e0c8605a",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 141.00000000325963,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "b2ff733a1d0859a6b5e0cafbef356962b3bc55e8d2df79e5801a090763116b6c",
+      "files_sha256": {
+        "agent-report.json": "5c360a00a6fcc49a01ca5f280a0eeac0aaf3953003af4d319cae8b69ee177756",
+        "trace.json": "d944339accd1aad966ae54f1bd03c8406d779ff112a143a61e106740ec84bf20",
+        "trace-replay.json": "f98c6cf8bb1f23a1a93ca85adaa1e0e6bbda0cd20495ef7eda75d10d579c64aa",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "415afd5d9c034717a56bffcd087a625cb5d32ad808c7974b61a76c83769bb6d5"
+      }
+    },
+    {
+      "condition": {
+        "block": 18,
+        "position": 1,
+        "task_id": "already_satisfied",
+        "scenario": "silent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "31918b7e2fa346948f157f3f86a3e006",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 47.0000000204891,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 1,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "8e0a1e814d36e0a7e04e202496534f7ff6bd527829bb5db4ae777d5196ce46d4",
+      "files_sha256": {
+        "agent-report.json": "5224100b0a47a2a0e4cbf729ebaeaf132011d095826a8fde50f6b23a3160d591",
+        "trace.json": "4ba044dd8d08dd5d80e249716a57469fe4aeb7104c3668b314ee52568dc27fbb",
+        "trace-replay.json": "780e40fc794e02cebd37d55f2ed269782cdef0b2c3c5b1db48917e0ab0b820fb",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "23e1dd794b1d11ddb61f4cfcee5a847eb83c75c09dcbfe99dd7fe5e207be2389"
+      }
+    },
+    {
+      "condition": {
+        "block": 18,
+        "position": 2,
+        "task_id": "already_satisfied",
+        "scenario": "silent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "bfce9c1864ab4e8799009e8a1ac7fd93",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 47.0000000204891,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 1,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "1d2db02622f8a0cf382de85be5bc4df6e9c72fcefb5768d53bb7b0a2993bd98c",
+      "files_sha256": {
+        "agent-report.json": "06437b52fd7078bd60ee2aa842416dcd76fc95b64dea5fba5c04a0ce97cf6b2f",
+        "trace.json": "66e89b660a23b8c30369b0b22c3926f12bf07c3fb848db27e2f427c063206e1f",
+        "trace-replay.json": "aea3f528247c1e5fd33a2696c4815fc2b3a6382eceb048b9a785d3077fef0ecd",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "47d8b399e1100a52f227dccedc7126403568014aa7e2a18e1c7d1cdcf6666a22"
+      }
+    },
+    {
+      "condition": {
+        "block": 18,
+        "position": 3,
+        "task_id": "already_satisfied",
+        "scenario": "silent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "fedab44a69ae4e329f1e9a37dca9dace",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 156.00000001722947,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 1,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "434c00919fd41ee8eb2b0b690a8ba1fbfb62bd91c5f5ff6efe18b965bee4e995",
+      "files_sha256": {
+        "agent-report.json": "0bb727bc01578c2650f62ae3c7179d1132f95d5a0203efd76c8b3b7bafe73b2b",
+        "trace.json": "90ee5ece89eeac527fa060df9e411a08360d79300f59b87444a5d0d3356c9d82",
+        "trace-replay.json": "a548da8328073752656d3fe4ea706ab62b5dc6c997acd57ee7292ce9f38bdd74",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "d509a7f4bf2f501d8fdc3d6a16ad09a08860e7dc2de1e1eee1e8ff31fe5c9a46"
+      }
+    },
+    {
+      "condition": {
+        "block": 18,
+        "position": 4,
+        "task_id": "already_satisfied",
+        "scenario": "silent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "c68ea72f2a704bc8b74d88bffdf69b29",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 1,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 108.99999999674037,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 1,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "a9f3a8aa133e5fa188527f75c283ce927b9be075ad5a05b277fa78b40edce61c",
+      "files_sha256": {
+        "agent-report.json": "29739fcab5a4171f1f039e85f8d623105516f8471aceb314465e13115bab9ed1",
+        "trace.json": "44442051ca3d712c4ba88e5291eff9358045c8825988eb47d5641bc344dbf04b",
+        "trace-replay.json": "f143152beebf06b8a47c5294409df57d384e60ae38860fa9c0b0bbfea8ff31ed",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "7da7982bd6bf12b299e212dd1522e64e8bbac7fdae173dd1bfd55007ab369c2a"
+      }
+    },
+    {
+      "condition": {
+        "block": 19,
+        "position": 1,
+        "task_id": "already_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "82e51f16347e40b5a6134cb373e6e23d",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 47.0000000204891,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 9,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "2f7674dd0feda62ed7f0fc39d6d45c76b5ac013d7db5f03f8e37dcf5e0c95759",
+      "files_sha256": {
+        "agent-report.json": "ff71f9b997a0bcd1f5c86c16ea7b1e93b8636ef1be05e40c34962e659a858fa2",
+        "trace.json": "609a82eec2bc81302a2ca6afb17bf001d2aff2d5f3fa54304eff4ac214e3ae53",
+        "trace-replay.json": "26c54a8a943e9aac581e9424c87b21b37baf9361e81fad6a757b44b26fe353de",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "bd840135a90f508e53529907c531bd1119ba715b30d7ad517c1a1e75ec46ed33"
+      }
+    },
+    {
+      "condition": {
+        "block": 19,
+        "position": 2,
+        "task_id": "already_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "8ccb9621c643421aa5a03942d4d0c509",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 171.99999996228144,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 9,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "addd9ff3e6f08161c34b8ec33cce3296b1e32cb5f58420f769c1c36b3ab5cb5a",
+      "files_sha256": {
+        "agent-report.json": "3a5d124997dd69d68a929ce68b8729e3bc742c6d0e00f99432699a32b787cbd1",
+        "trace.json": "2490e543b7a92176234cd859739e1f18abf75be601b69b23bc736e0a57022d0c",
+        "trace-replay.json": "9a0c9141a434bec85de3c435e430bc6714f7fe64c70fc836333eefae34881ee1",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "9c489426cce4d3338d83e9edb1646b781cf68fc763d6a78a7a8650cffedd7065"
+      }
+    },
+    {
+      "condition": {
+        "block": 19,
+        "position": 3,
+        "task_id": "already_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "b2189b3fc9ee49bdb711bf4d6e21f2c0",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 1,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 78.00000003771856,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 9,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "889cff8c9c63477b297b68e173cec752f196a3b4ba8bfb6f399bdae34e5b748f",
+      "files_sha256": {
+        "agent-report.json": "13507d7b685524577c92c9aa216807ed434241d4a3f7179604a8a1271ffdf98f",
+        "trace.json": "d8f156428c653e361b6ffb17e4e543729f6a43a47ba23cf53706967c201c1a79",
+        "trace-replay.json": "b3ff18bc8b2399e0f25d45617b6ab2607b21abff219116e06162223029f498ee",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "a5d0d02047f64063a3e3b5de5b01cb0da105df84319abc9ef5a6abaa7b38e187"
+      }
+    },
+    {
+      "condition": {
+        "block": 19,
+        "position": 4,
+        "task_id": "already_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "13c30b17c698410997556c60cb0185e5",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 31.000000017229468,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 9,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "123cd790649442799245523cf107f00697a24c875a302279c0a5ef6cc56d7364",
+      "files_sha256": {
+        "agent-report.json": "7d56ecc7c3ca70e12d69748e93ff2c5623dbd6d6403db400295c3c60f74e99ff",
+        "trace.json": "f4577bab9d4ce0dd8725c536db7e3e2a8dcf0f24d0d0020336575867353b9377",
+        "trace-replay.json": "a3db2e3d60161a3804b135736f50373cf4d0cc53cecc18b515487975aa1ece74",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "fb823e796d527ee1ae7d8f957e05c27dc3d9fa0e960f2f9a9d2b0715cd24abe4"
+      }
+    },
+    {
+      "condition": {
+        "block": 20,
+        "position": 1,
+        "task_id": "already_satisfied",
+        "scenario": "transient",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "e16d640c55944e8f8d4082233ee92a15",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 172.0000000204891,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 1,
+        "delay_seconds": 0
+      },
+      "result_sha256": "09108ad7616c4c124fdab4d37f1a1e1ada339a8600cdac86ae6ce9312fb5b800",
+      "files_sha256": {
+        "agent-report.json": "54a9ccf802c42ffe2b236bcb4fb973d580891af663754524bdd53ad9713fd07a",
+        "trace.json": "141a7ec5e2491e80308cc7459f686cae2ab700849a0bd2e01eefdfe9ca5dd7c7",
+        "trace-replay.json": "008a9b115afb688a526b66f4202d62686ffbf3f964150686dcbd6d3b29009eaf",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "b8e25097fa94017287d2d020c29b01056db83ce92de5603116be3b0001815626"
+      }
+    },
+    {
+      "condition": {
+        "block": 20,
+        "position": 2,
+        "task_id": "already_satisfied",
+        "scenario": "transient",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "4d7cb6f130f543648525a3c019f396aa",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 1,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 0,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 108.99999999674037,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 1,
+        "delay_seconds": 0
+      },
+      "result_sha256": "90accf77b1e544f04efb8569689ac1b46a203555f3a4c6e80402cec6c374561b",
+      "files_sha256": {
+        "agent-report.json": "a98b1f611be803ab3908ff4c21ddef131b08549967046fc35783ba443d360eae",
+        "trace.json": "c8015875518249b4b4d8f8617bc47568293b0bab81b42301474546dfa9db3f92",
+        "trace-replay.json": "cc932c31c7211cdf5aecb99c279dd571ead16ef27ccf8f438196c5c92b58acfd",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "93b2fec6c6720dcc2c27926078a00dce1b5d8f0c0df372848c0ab897ebb8274e"
+      }
+    },
+    {
+      "condition": {
+        "block": 20,
+        "position": 3,
+        "task_id": "already_satisfied",
+        "scenario": "transient",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "bea1497a6a1c467e95f90bc7350fa976",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 452.9999999795109,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 1,
+        "delay_seconds": 0
+      },
+      "result_sha256": "798e157cbfc65e78f24b8124d5c49dae090e4d65ed3ad047183204dcf5100b4e",
+      "files_sha256": {
+        "agent-report.json": "be302d666a9ce64f2d86d8b2ea3268b768e98a544f72f0f338a8326008975ac4",
+        "trace.json": "467f3bd874a7a72a682864b97ebc806c8e5138a538717253a445d6a39be2e737",
+        "trace-replay.json": "227b50a4d9cc884a72f67dfb768123b2c7c0b81a15182801d1392c1a3463511c",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "377da93447c2813f30656e403a3f946695fb3d1afee75025cd808de9974db900"
+      }
+    },
+    {
+      "condition": {
+        "block": 20,
+        "position": 4,
+        "task_id": "already_satisfied",
+        "scenario": "transient",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "667c045010a646d78d034391b65e9c21",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 0,
+        "decisions": 0,
+        "tool_reads": 0,
+        "tool_writes": 0,
+        "trusted_verification_calls": 1,
+        "known_verified_target_rows": 1,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 31.000000017229468,
+      "realized_faults": [],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 1,
+        "delay_seconds": 0
+      },
+      "result_sha256": "fbeda9f2099538cf5298d953f9f5fddc6bf96025edc3ed153d6415965e1e26ff",
+      "files_sha256": {
+        "agent-report.json": "c64a7322a732e558e4e52da9c490639aa2ca7a66f7d4ae3b17b395989e8fb8af",
+        "trace.json": "58439aa48da46ae9db6423f1a03249c041d896a3823edf2c7e38892cdd3dfa5d",
+        "trace-replay.json": "e0fdc4da958bb58b081b3e4bb4a418cb2ce1a445d7a8e0887e238011d111a669",
+        "state.sqlite": "b131acd0f9eb5d28221ed89f0fd802a2820284925a5c9ee8533de165ea751eb0",
+        "traces.sqlite": "5614b75cf37a4efbbf024cc84bd8f45d1e52e816e4dc08a42f670539116f9f15"
+      }
+    },
+    {
+      "condition": {
+        "block": 21,
+        "position": 1,
+        "task_id": "partial_satisfied",
+        "scenario": "clean",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "f838ea3f865447f38fd16091f57371b1",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 3,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 187.99999996554106,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "362781468dbc00585f14dbbec3da674605b2436d64abea749cca14a6c8271dc4",
+      "files_sha256": {
+        "agent-report.json": "a58cba5bc7439df01068875e61322db990ea30df4c85adfe3bf4287a781660d0",
+        "trace.json": "9b231a690c0b73703027c345450131ddd84d4238d77120b0ef2f58563ab256e1",
+        "trace-replay.json": "ba375b21e6acad6fc104026c344b34b298c70bd04db171d8a111b5776287a7ff",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "1a1f299e6bd5334590c0e91f948c1e5c5291fc1fb7477054641add26f96d904b"
+      }
+    },
+    {
+      "condition": {
+        "block": 21,
+        "position": 2,
+        "task_id": "partial_satisfied",
+        "scenario": "clean",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "110d98041e094fbca9e77298afb99930",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 202.9999999795109,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "1ed15b9d6da5a6634d0a105c4eff141057237dd3bc698861a715c61c9f93aa97",
+      "files_sha256": {
+        "agent-report.json": "da5514c06931a95fcb0a1d41772a8d5b52f9703d58381bfe2858afda99c556de",
+        "trace.json": "598806a9fcbef0895b0be6469863c31bf16eb1f3d170b436f6c15f517fd37aed",
+        "trace-replay.json": "5c2474a6b6eb547cea08f03faeab235db0d8a19a52f7075ae3d7eea8467ff56a",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "e266cd8ea6013066ee4e8f353a7c576164007c0e292e9c466f0af87412150a5e"
+      }
+    },
+    {
+      "condition": {
+        "block": 21,
+        "position": 3,
+        "task_id": "partial_satisfied",
+        "scenario": "clean",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "1026283c2cf84f199ff0e4bd538a8e13",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 187.00000003445894,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "af982434e33de208ed82073465f59cd114eba975d9590fed09d8492fe26067a1",
+      "files_sha256": {
+        "agent-report.json": "f0cec7397201ea3ecbbdc53c9d67d6a45134fe6989f751e41a80e495eebceedd",
+        "trace.json": "901a241ffa41f43b2d69df0bc8248f5e768b2af926ceda6045f042608a7fd115",
+        "trace-replay.json": "b7ff325305cf1a6c376b65e3886ac53894ff70fd00aab76f2b1b6e8c13547031",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "d2702adccf044a8d44a8a9888b972a21f51c6a2dd5274651ea217d051a16634e"
+      }
+    },
+    {
+      "condition": {
+        "block": 21,
+        "position": 4,
+        "task_id": "partial_satisfied",
+        "scenario": "clean",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "037da2f7389e446eaab3474ce62a7143",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 5,
+        "decisions": 7,
+        "tool_reads": 4,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": false,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 328.00000003771856,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "f1bbf40f955043518bf03b0e06ed5ba79fe8c7f9435000c20038cc1801717c24",
+      "files_sha256": {
+        "agent-report.json": "454f64148b0a063e926b82b95b19f4c639c21bb28286267f37d5daba12f909c5",
+        "trace.json": "ced0b41ab97df54253bc7d65ab2ac4d1c114df01fb7f74524a4b4c565204d7f0",
+        "trace-replay.json": "d9a0e4266c665b1ef2afb113307cbc8e9c85f29ddd808eb7cda171ac5cf07aed",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "be136988a1805be855206bff7ee6c3d3689f87de47579ce3efd6a60de02d23c7"
+      }
+    },
+    {
+      "condition": {
+        "block": 22,
+        "position": 1,
+        "task_id": "partial_satisfied",
+        "scenario": "silent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "48c000358c074ead99633af9513c8f88",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 219.0000000409782,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "8f15dfc73dc280c67b927d3c5106eb930d0f09048cba4cb791cbc72ac6a7ce57",
+      "files_sha256": {
+        "agent-report.json": "d7229b5533239a3bd7c3f16e67f35f11d6c60e4b9044f1a1eb0f585718ac054e",
+        "trace.json": "4e11084be4d6882575add9f5910fdd2ddaaade2a47bbf3587265c4be79707c35",
+        "trace-replay.json": "c26c195e3f65a99f7c5738638648d77e425452f7ababc2f73ddffa242f734386",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "05cac3f52dd6e2846afbb17b896beccca9ec60439fd1265d4eebfe37a038e70b"
+      }
+    },
+    {
+      "condition": {
+        "block": 22,
+        "position": 2,
+        "task_id": "partial_satisfied",
+        "scenario": "silent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "d10dc68b7d44443590df2900974fb30d",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 6,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 344.0000000409782,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "3239d42db41ba83e8b6eab826af74261abfebb76f9c2db36da958ec0ba5e3b29",
+      "files_sha256": {
+        "agent-report.json": "1463f9dbdaf293ec2466a9d265d53c0167557a1d828e8c9d1a1994bdd8a293e4",
+        "trace.json": "8e4f050fa1f798566624e06d51c9f1f3fb49d4acc2e92a7190be866fbeb3f394",
+        "trace-replay.json": "43594e3df7ee22178bd8b7775355701f2982bd8980859e67aa2d7632e22b286b",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "0ad5a6cb5a9ef50237c2558f8171ef8c38c9c27f010531b636e5380dcf3723c5"
+      }
+    },
+    {
+      "condition": {
+        "block": 22,
+        "position": 3,
+        "task_id": "partial_satisfied",
+        "scenario": "silent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "64f51c38c51f4385ac88de717cbfeef5",
+      "ground_truth_success": true,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 5,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 312.99999996554106,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "c7a24972d0a02b05441b92ccd5055abc747f4aabac5a70612fc714476ba98cca",
+      "files_sha256": {
+        "agent-report.json": "3433cd835eb5171ff71ae47018b954f6c8bd4b82164a75e7b8bbd70cb4bc29a0",
+        "trace.json": "e2aea411772e581819326b3315e277936a2f9e7c72f282b2df6c57e4f53db78c",
+        "trace-replay.json": "922c8622701e0564f3311f2672b08d1bb512c327bbef17c2cd05cd501baa153d",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "86eecaa98f0ff6b16379c0fa7131cd5e5f5651981facb2217b431f77b7f3fd18"
+      }
+    },
+    {
+      "condition": {
+        "block": 22,
+        "position": 4,
+        "task_id": "partial_satisfied",
+        "scenario": "silent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "bdba08e2322449759f4388c5bfb39e54",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 3,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 172.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "b65fda21834943f026762e9e1ad145ec78b874a3f738eccc794a73fab0baa6b7",
+      "files_sha256": {
+        "agent-report.json": "bf723a76840fb8060ab402218a096a2ce4e6a9365e409212015658b6fd434541",
+        "trace.json": "10ca9c885a3dab06286caf35b1e3440f781c3560bc791ac0ca5305f280917d59",
+        "trace-replay.json": "80569ec669d79481a7bbbfa1d10490c245bb544002640ca96ca38bde28ecbf59",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "c5943bc73705b80a1b06bd5cbdb507f1145f292b9daeb3605c9a304bee5d7eb4"
+      }
+    },
+    {
+      "condition": {
+        "block": 23,
+        "position": 1,
+        "task_id": "partial_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "f2b0487b6b6c4e8685eb1159abd62d46",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 6,
+        "decisions": 6,
+        "tool_reads": 3,
+        "tool_writes": 3,
+        "trusted_verification_calls": 4,
+        "known_verified_target_rows": 8,
+        "policy_admissions": 2,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 483.99999999674037,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 3,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 6,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "381b3efa4d4adb669297a4bf8bd5d9bd0871662c3faa6611dd18b25a1d38d684",
+      "files_sha256": {
+        "agent-report.json": "7a2d6702a08e4a574577f63d26cd3230032d3c8f313ddedc4ef11af43c33e0ef",
+        "trace.json": "c490100746cae69aeafe7932301302b276082e0472c2494c306b123c0b8bd0c5",
+        "trace-replay.json": "a47a15fa9de870604c775eb69faefd5f1a4d81ea91bc0f94841322e87c791f6d",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "be55dfabe5f6adf03c83d664b4c88db70d99275ad8f21be90f1395cb3e4d20f1"
+      }
+    },
+    {
+      "condition": {
+        "block": 23,
+        "position": 2,
+        "task_id": "partial_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "eed5da99e3ef41e2ad6ba89ac731fd23",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 5,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "budget",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": true,
+      "verified_success": null,
+      "elapsed_ms": 375.0,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 7,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "deb544797090a6bea21d2167c9cdf765aa477fbe6ae93f9d49623e1483593cf7",
+      "files_sha256": {
+        "agent-report.json": "7b3e0cb44fac1c23726e4c6c9fbe1ffe4b53910d2a8f439802fb0094dc2d28fa",
+        "trace.json": "3d0a310b427eaed5dfec6c89482486e03113ba0f69118b9dfdf74e388e69b8eb",
+        "trace-replay.json": "e432f692c9a424031977d3ee9282ece2f22af56a2852db22a67a5664ee7beed3",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "9139b07bb1559eaaa05db8535266baaa6273ed441120ecad1b3e68b859955b95"
+      }
+    },
+    {
+      "condition": {
+        "block": 23,
+        "position": 3,
+        "task_id": "partial_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "bce3fad8b1e4497daf9e1900325a3232",
+      "ground_truth_success": false,
+      "claimed_success": true,
+      "false_success": true,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 3,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 344.0000000409782,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "800f8d2a329aa923d6b8109d34fb9995a8f4b1e2f15b98b4ed7edaaa67e0a781",
+      "files_sha256": {
+        "agent-report.json": "c6f16c2a463ed118e7c6cc437495f12c5fed29bd8fa158a708f65fd7e34b5dd8",
+        "trace.json": "2dc22a9ee5f5debdcf19ca71cd059a96c1eb1908b8fcec4d7d78305e01479538",
+        "trace-replay.json": "e8e31c3d8af970187a745018dd75c31abe3c674751fd2b1c1963de34baefbe42",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "878729ce59af27c03245fd162715ae037d6cda06e6b9376c108fc8c2b22d4850"
+      }
+    },
+    {
+      "condition": {
+        "block": 23,
+        "position": 4,
+        "task_id": "partial_satisfied",
+        "scenario": "persistent_drop",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "cd6f2221e81b4433ad915571a36cd4d2",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "state_mismatch",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 219.0000000409782,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "silent_drop",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 8,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "6073245c1425cb16c0a8fe0e64a58807b696338d35abdc46ad5147a4b1f3e908",
+      "files_sha256": {
+        "agent-report.json": "51eba9931c9b92969373a6bc00850bb6789881648f90c18da56c2df9ee6edae4",
+        "trace.json": "0e8a6b8875f5dcabd8a20547d75e26948331bd3920a91a79b859adf09aaecc30",
+        "trace-replay.json": "5a04dd66e6bf2435ef8f2229278ea1fda24d8ac572edc840a7d99b337770d2d5",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "19e3ca83bb09f973c33e7d067f9b8d60e7518061071dce8ee8301a6f0b18be81"
+      }
+    },
+    {
+      "condition": {
+        "block": 24,
+        "position": 1,
+        "task_id": "partial_satisfied",
+        "scenario": "transient",
+        "arm": "mock_self_reflection",
+        "repetition": 1
+      },
+      "run_id": "0164ec94fc744c1d900f632f158b9999",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 7,
+        "decisions": 8,
+        "tool_reads": 5,
+        "tool_writes": 2,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": false,
+      "verified_success": null,
+      "elapsed_ms": 406.00000001722947,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "826fe3786d1f4c45578bf997fb91c369547a8ec5bf2a424a73a9cde70e4e7333",
+      "files_sha256": {
+        "agent-report.json": "81c635f7cb732f430430d10d492a92f6421192950ff66e80d38bc98a10fdef08",
+        "trace.json": "ffe36a971facb13cb9529646b86de6aa125cd4db863957ab58ca89171595f6aa",
+        "trace-replay.json": "e38ce1860fe0a93248f5c0a3001f72ca718de5010a0b63a0a529349007ea8b6f",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "56b1d617ae44430b959d38ae8c9d118e77905c628f14cdb5c71adf158e03a7df"
+      }
+    },
+    {
+      "condition": {
+        "block": 24,
+        "position": 2,
+        "task_id": "partial_satisfied",
+        "scenario": "transient",
+        "arm": "dynamic_baseline",
+        "repetition": 1
+      },
+      "run_id": "49e5ca709ff7491fa06d772fc60f2faf",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 3,
+        "decisions": 3,
+        "tool_reads": 2,
+        "tool_writes": 1,
+        "trusted_verification_calls": 0,
+        "known_verified_target_rows": 0,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": null,
+      "elapsed_ms": 171.99999996228144,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "f3dae317361b9df47614fdaba6f5edc6efd3b00d79aae30195b29a45590276a3",
+      "files_sha256": {
+        "agent-report.json": "a330e5fecfceda4971985282e25082345e0c1d57ff1a92ec1779b15823cfde94",
+        "trace.json": "29e853218516ba71cc316ce505717bcdc7cad5145041fa48ad3b1c04124f90f1",
+        "trace-replay.json": "0d7ad0453b1f1f4e1f28ad243321725ac3fa6f1bf3dcc0555ee659e3188f0c96",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "2328e189440bbb3de0fb81d43ac58f49d2a48f80c72e6e6afb33e91ef5a53cc6"
+      }
+    },
+    {
+      "condition": {
+        "block": 24,
+        "position": 3,
+        "task_id": "partial_satisfied",
+        "scenario": "transient",
+        "arm": "dynamic_verify",
+        "repetition": 1
+      },
+      "run_id": "6e3ac284b78c432fab6aab465429f549",
+      "ground_truth_success": false,
+      "claimed_success": false,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 2,
+        "decisions": 2,
+        "tool_reads": 1,
+        "tool_writes": 1,
+        "trusted_verification_calls": 2,
+        "known_verified_target_rows": 4,
+        "policy_admissions": 0,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": "transient",
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": false,
+      "elapsed_ms": 172.0000000204891,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "16125e5cf97fde64ba1d5337985c7671f19efcde66f0683c023d7d7ab3e57ebf",
+      "files_sha256": {
+        "agent-report.json": "7aad33b5dda08fa59b1160444b0af4297473d031dea470b893486cb6e43f22fd",
+        "trace.json": "1f9f35eb97e0db80fc0dd8828b963d1842099668307e5f1fe60b067228e0735f",
+        "trace-replay.json": "f54cdb15d81c3fb209ae769fbf257f0e7547626fd6219dc46cd2e65e991f812e",
+        "state.sqlite": "50c2bfd3a0f5662fa0dbaeab554cb8f64f2f803918397b6a873e05462a3d8931",
+        "traces.sqlite": "b5daecba5431da09910a9d2abdb6d24e4770d161702dd94a53dfedc19f232d1b"
+      }
+    },
+    {
+      "condition": {
+        "block": 24,
+        "position": 4,
+        "task_id": "partial_satisfied",
+        "scenario": "transient",
+        "arm": "dynamic_recover",
+        "repetition": 1
+      },
+      "run_id": "16197d2be6924824b849c8e79aa5f84d",
+      "ground_truth_success": true,
+      "claimed_success": true,
+      "false_success": false,
+      "untargeted_changed": false,
+      "resources": {
+        "actions": 4,
+        "decisions": 4,
+        "tool_reads": 2,
+        "tool_writes": 2,
+        "trusted_verification_calls": 3,
+        "known_verified_target_rows": 6,
+        "policy_admissions": 1,
+        "model_calls": 0,
+        "model_tokens": 0
+      },
+      "failure": null,
+      "fault_recovery_eligible": true,
+      "original_claimed_success": null,
+      "verified_success": true,
+      "elapsed_ms": 281.00000001722947,
+      "realized_faults": [
+        {
+          "attempt": 1,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": "transient",
+          "status_before_fault": "open"
+        },
+        {
+          "attempt": 2,
+          "issue_id": "ISSUE-2",
+          "status": "done",
+          "scheduled_fault": null,
+          "injected_fault": null,
+          "status_before_fault": null
+        }
+      ],
+      "unused_faults": {
+        "silent_drops": 0,
+        "transient_errors": 0,
+        "delay_seconds": 0
+      },
+      "result_sha256": "1235506a3a383a3a1f23789e94d122984b23dc04e551b7b692eddb92607d97c8",
+      "files_sha256": {
+        "agent-report.json": "c4a9e591d063408de7cbe82690609eb27678751c839de372a7e1e8be632ceeef",
+        "trace.json": "ca74e11dee4b0f89278006ff5781b81b50611abe683104fa8d62515434a2d7e4",
+        "trace-replay.json": "69dd653e2d04fdab0e133c9515052a768c9968dc809267f2b00a209a8aa7c6a6",
+        "state.sqlite": "3ccaca81a38d5d230a4d66583f2df13dc23edccaf65192854f9cc1ce7e882785",
+        "traces.sqlite": "b10821b605d296681dedcb0f39ba1086bf3c4462fa31f900b5b84b103c5bd4e9"
+      }
+    }
+  ],
+  "limitations": "Unsigned local evidence consistency; fault records are not independently reenacted. Fixed mock outcomes, not causal or stochastic evidence.",
+  "raw_directory": "C:\\Users\\SAMSUNG\\.codex\\visualizations\\2026\\11\\17\\01a1e7ea-e64f-7f61-b1e4-c299e01e75b8\\reflection-comparison\\62feb890e069465bae62ca45a0a3845c",
+  "auditor_sha256": "ef3a275640b5811f150c682b751d202ae104af6ad5520efd0a717b9601903502"
+}

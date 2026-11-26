@@ -38,7 +38,8 @@ Add `--require-contract` to control audit/review or suite review to reject unmat
 See the [offline evidence operator guide](docs/OFFLINE_EVIDENCE.md) for review, report
 validation, archive inspection and transfer commands, success criteria and exit codes.
 The [research review packet](docs/RESEARCH_REVIEW.md) records remaining validation gaps
-and a pinned corpus/matrix snapshot; external review and stochastic comparisons are pending.
+and links both portable mock studies, their findings and the historical corpus/matrix
+snapshot; external review, metered LLM comparisons and resource ablations are pending.
 An explicit [mock self-reflection prototype](docs/REFLECTION_PROTOTYPE.md) exercises
 observation-based corrective phases without a trusted oracle; it is separate from existing modes.
 This is a research prototype, not a general autonomous agent. The hypothesis

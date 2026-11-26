@@ -275,6 +275,9 @@ Completed portable common-corpus evidence release: all 96 runs in a 583-file arc
 with bound corpus/source snapshots, relocated replay/SQL checks and corruption rejection.
 Published plan, execution lock, raw evidence and measured results remain unchanged.
 
-Next research increment: update the research review packet with both portable studies,
-their findings and unresolved external-review, LLM and resource-ablation boundaries.
+Completed research review packet refresh: both portable studies, measured findings,
+reviewer evidence routes and explicit pending external-review/LLM/ablation boundaries.
+
+Next research increment: specify a prospective mock decision-budget sensitivity study
+for achieved-goal budget stops, keeping information access and action caps explicit.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

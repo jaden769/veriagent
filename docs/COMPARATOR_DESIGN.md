@@ -129,11 +129,17 @@ oracle and corrective work separate across the four assigned mock arms.
 The [prospective bounded-oracle check](BOUNDED_ORACLE_COMPARISON.md) now pins a small
 mock-only admission comparison. Its expected outcomes are not measured results.
 
-1. Reconcile the verification-work ledger against saved static and dynamic traces,
-   preserving missing/error information explicitly.
-2. Review self-reflection observations, typed phase transitions, accounting and admission
-   limits; add deterministic tests before implementing an arm.
-3. Pin approved comparator/profile identities, exact cap grid and primary analysis before
+The subsequently recorded [bounded-oracle results](BOUNDED_ORACLE_RESULTS.md) and
+[common-corpus results](REFLECTION_COMPARISON_RESULTS.md) now provide finite mock
+mechanism findings, each with a portable raw-evidence package. The
+[updated research packet](RESEARCH_REVIEW.md) routes review to both studies. Their
+completion does not complete the resource ablations or metered LLM comparator.
+
+1. Retain completed work/admission and reflection trace reconciliation alongside raw
+   evidence, preserving missing/error information explicitly.
+2. Obtain external review of the implemented reflection observations, typed transitions,
+   accounting and admission limits; local deterministic tests already cover these mechanisms.
+3. Pin reviewed comparator/profile identities, exact cap grid and primary analysis before
    collecting new comparison outcomes.
 4. Complete external corpus/fault review and a prospective study/spending plan before
    interpreting any future live comparison as reliability evidence.

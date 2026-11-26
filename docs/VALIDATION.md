@@ -1568,3 +1568,19 @@ regressions. Ruff, formatting, links, package/checker hashes and diff checks pas
 Windows denied staged hard-link publication inside the sandbox; rerunning the same
 audited publication outside the sandbox succeeded. No source fix or evidence replacement
 was needed. No comparison rerun, paid API call or browser suite execution occurred.
+
+### Updated research review packet — 2026-11-26
+
+Refreshed the implementer review packet with the historical 144-run comparison, portable
+72-condition bounded-oracle study and portable 96-condition common-corpus study. Added
+measured outcome/resource summaries, reviewer evidence routes and explicit dispositions
+for pending corpus/fault/oracle review, provenance, LLM comparison and resource ablations.
+Corrected the stale full-suite reference to the recorded 850-test run and distinguished
+the latest 227-test focused regression record. No new test count is claimed.
+
+Checked document links and summary numbers against committed machine-readable results,
+package metadata and validation history. Diff checks passed. Documentation only; test
+suites and studies were not rerun. Historical plans, locks, source snapshots, archives
+and result records remain unchanged. No external reviewer was contacted or approval
+recorded; no paid execution occurred. Next work is a prospective mock decision-budget
+sensitivity specification, not a claim of equal information or dollar cost.

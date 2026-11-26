@@ -1,9 +1,10 @@
 # Research validation review packet
 
-Prepared 2026-11-21 by the implementing assistant. External review remains pending.
-This packet records local implementation facts and review priorities, not experimental
-findings or independent approval. The [snapshot](review/offline-baseline.json) pins the
-corpus, implemented modes, matrix identities and selected source-file hashes.
+Prepared 2026-11-21; updated 2026-11-26 by the implementing assistant. External review
+remains pending. This packet connects local implementation facts, recorded fixed-mock
+findings and review priorities. It records no independent approval. The historical
+[snapshot](review/offline-baseline.json) pins its original corpus, modes, matrix identities
+and selected source hashes; later studies retain their own prospective bindings.
 
 ## Current evidence and open gaps
 
@@ -12,13 +13,46 @@ corpus, implemented modes, matrix identities and selected source-file hashes.
 | Execution mechanisms | Deterministic mock tasks, faults and independent final-state checks | Independent corpus/fault review and broader task coverage |
 | Browser controls | Six fixed matrices, 130 declared controls, sealed nested artifacts | External review of expectations; controls are finite mechanism checks |
 | Live integration | Individual user-run static, dynamic and reviewed checks | Repeated, prospectively specified model comparisons |
-| Comparators | Baseline, verify/recover modes and separate mock reflection prototype | Live/metered reflection comparator and budget-controlled ablations |
-| Metrics | Explicit denominators and descriptive Wilson intervals in sandbox benchmark | Study-specific estimand, analysis plan and dependence assumptions |
-| Transfer/review | Audits, report validation, archive round-trips and CLI smoke coverage | These establish workflow consistency, not model reliability |
+| Comparators | Completed 96-condition common-corpus comparison of four fixed mock policies | Live/metered reflection comparator and actual resource ablations |
+| Metrics | Pinned assigned denominators; independent SQL outcomes separate from claims and exposure | Stochastic estimand, analysis plan and dependence assumptions for any live study |
+| Transfer/review | Two portable study archives with relocated trace/SQL audits | External review; unsigned consistency does not establish authenticity or model reliability |
 
-The latest complete-suite record is 670 passing tests, followed by focused increments;
-see [validation history](VALIDATION.md). Test counts are software-validation evidence.
+The latest broad complete-suite record is 850 passing tests; the latest focused evidence
+regression run passed 227 tests. Subsequent additions were checked with focused suites,
+not a new full run; see [validation history](VALIDATION.md). Test counts are software-validation evidence.
 They are not independent task samples or a reliability denominator.
+
+## Recorded studies and evidence routes
+
+| Study | Assigned scope | Findings and review route |
+| --- | --- | --- |
+| Initial offline comparison | 144 static/dynamic mock runs | [Plan](OFFLINE_COMPARISON.md), [results](OFFLINE_COMPARISON_RESULTS.md), [verification-work ledger](VERIFICATION_WORK.md); historical execution pins remain unchanged |
+| Bounded trusted oracle | 72 dynamic mock conditions across three tasks, two scenarios, three modes and four quotas | [Results](BOUNDED_ORACLE_RESULTS.md), [portable package and audit instructions](BOUNDED_ORACLE_PACKAGE.md) |
+| Common-corpus reflection | 96 runs across six tasks, four scenarios and four fixed mock arms | [Results](REFLECTION_COMPARISON_RESULTS.md), [portable package and audit instructions](REFLECTION_PACKAGE.md) |
+
+Start with each prospective plan, then its recorded results, external manifest binding
+and archive audit. Inspect representative raw reports, traces and final SQLite states
+after the package passes. The embedded runner sources are never executed by the auditors.
+No fresh paid calls or study reruns are required to inspect these packages.
+
+In the bounded-oracle study, all 28 predicted denials occurred. Ten denied runs still
+ended with satisfied targets. The recorded 42 completed trusted checks and 55 known
+logical target rows exclude setup and final evaluator work. These quota-boundary results
+test admission semantics, not general recovery quality.
+
+In the common-corpus study, baseline and verify each reached 9/24 goals; recover and
+mock reflection each reached 19/24. Baseline made ten false success claims; the other
+arms made none. Reflection claimed success in 14/24, with five achieved-goal budget
+failures retained separately from its five unsatisfied persistent-drop budget failures.
+No untargeted status/version changes were observed. Status/version truth does not establish
+title preservation, which this oracle does not check.
+
+Shared caps did not equalize information or work: reflection used 85 ordinary reads and
+163 decisions, while recover used 46 ordinary reads, 92 decisions and 70 trusted checks
+covering 112 logical target rows. These are totals over 24 runs per arm, not interchangeable
+cost units. All model calls/tokens were zero. Equal 15-run fault eligibility counts per
+arm do not establish equal exposure. One deterministic observation per cell supports no
+stochastic interval, significance, causal effect or LLM-quality conclusion.
 
 ## Priority 1: review the fixed corpus and fault semantics
 
@@ -42,7 +76,7 @@ the visible acknowledgement can disagree with persisted state, how write attempt
 indexed, and when a scheduled fault remains unused. A shared scenario label does not
 guarantee equal realized exposure when policies choose different actions.
 
-Review all-target success, unrelated row/title/version checks, missed schedules, no-op
+Review all-target success, unrelated row/status/version checks, missed schedules, no-op
 writes and partial progress separately. Check that expected failures remain distinguishable
 from expectation mismatches. Agreement between two components sharing assumptions does
 not by itself establish oracle accuracy. Inspect raw states, events and traces as well.
@@ -80,16 +114,31 @@ effects. Repeated deterministic mock runs do not add stochastic reliability evid
 Nominal Wilson intervals do not establish independence or replace a paired study design.
 See [the benchmark protocol](BENCHMARK.md) for the implemented metric definitions.
 
+## Reviewer checklist and disposition
+
+| Review item | Evidence to inspect | Current disposition |
+| --- | --- | --- |
+| Original goals, fault timing and no-op exposure | Corpus, fault adapter and per-run realized attempts | Awaiting external review |
+| Oracle scope and collateral outcomes | Final SQL states versus original targets and untargeted versions | Locally reconciled; external review pending |
+| Quota denials and unknown work | 72-run package, reservations and admission replay | Locally reconciled; external review pending |
+| Reflection phases and stopping rules | 96-run package, native reports and five achieved-goal budget failures | Locally reconciled; external review pending |
+| Counter/resource comparability | Per-condition vectors and separate trusted/ordinary reads | Shared caps only; equal-resource claims unsupported |
+| Artifact portability and provenance | Both archive hashes, external manifest bindings and relocated audits | Local consistency passed; unsigned provenance |
+| Generalization and live model behavior | No prospective metered LLM comparison exists | Unsupported; future specification required |
+
+For any external disposition, record reviewer/date, exact plan/archive/checker hashes,
+per-item evidence, disagreements and follow-up decisions. All rows above remain unsigned
+implementer summaries. No reviewer has been assigned or contacted.
+
 ## Next concrete work
 
-The [comparator and ablation design](COMPARATOR_DESIGN.md) specifies information access,
-exposure diagnostics and resource-accounting prerequisites; it implements no new arm.
+Specify a prospective mock decision-budget sensitivity study before executing it. The
+five achieved-goal reflection stops motivate varying the decision cap while retaining
+original goals, fault profiles, action caps and arm information access. Predeclare the
+cap grid, assigned denominator, ordering, resource vectors and treatment of achieved-goal
+failures. Such a within-arm sensitivity check would not equalize oracle information or
+establish dollar-cost parity across arms. The [comparator design](COMPARATOR_DESIGN.md)
+retains the broader ablation requirements.
 
-The [prospective offline specification](OFFLINE_COMPARISON.md) now records the selected
-groups, exact arguments and missing comparators. Its preparation did not run the batches.
-
-The specified mock batches and bounded-oracle checks are now recorded separately from
-their plans. Next, specify a new common-corpus comparison that includes the separate
-reflection prototype and its ordinary-read costs, pinning the changed source inventory.
-Keep live execution and external approval pending. No live study or external sign-off is
-implied by this packet.
+External review, metered LLM reflection, stochastic sample-size/analysis design and any
+paid execution remain separate pending work. This updated packet authorizes none of them.

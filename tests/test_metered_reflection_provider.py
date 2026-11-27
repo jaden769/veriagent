@@ -276,3 +276,11 @@ def test_cancellation_while_reading_usage_settles_pending_request():
     assert not p.ledger.state["pending"]
     assert p.ledger.state["failed_requests"] == p.budget_state.usage.calls == 1
     assert p.budget_state.usage.total_tokens is None
+
+
+def test_transport_failure_does_not_invent_served_model_identity():
+    p = provider(Transport(error=TimeoutError()))
+    with pytest.raises(ProviderError):
+        p.decide(*context(), timeout=2)
+    assert p.model == "fixture-model"
+    assert p.usage.model is None and p.budget_state.usage.model is None

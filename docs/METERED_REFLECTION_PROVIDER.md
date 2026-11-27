@@ -37,6 +37,8 @@ validated and settled before response/decision validation. Missing usage fields 
 malformed numeric metadata cannot become free zero usage. Configured and available served
 model identities remain distinct. Cost estimates use explicit prices, not a price lookup
 or billing guarantee.
+Failed dispatches keep the requested model in configuration while usage leaves the served
+model null when no response identity is available, including cancellation during parsing.
 
 If accounting stops but the response is also refused, incomplete or invalid, preserve the
 provider/planning failure with its accounting stop as secondary state. The ledger's new
@@ -64,7 +66,7 @@ deadline/shared-cap denial, late finish, price requirements and sanitized HTTP e
 Ledger tests cover exactly-once reclassification and bounded caller stop reasons.
 
 The mock-only ReflectionAgent exact-type gate and its zero-usage ReflectionReport are
-unchanged: the new provider is not wired into that engine. Next is a separate metered
-controller/report and offline saved-trace reconciler, with fake-transport integration
-tests. No live study, default model, paid execution or broad LLM-quality result is enabled
+unchanged: the new provider is not wired into that engine. The separate
+[metered controller/report and replay](METERED_REFLECTION_AGENT.md) now provide offline
+integration. No live study, default model, paid execution or broad LLM-quality result is enabled
 or established by this increment.

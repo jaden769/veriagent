@@ -22,7 +22,7 @@ and unassigned external-review priorities.
 | Transfer/review | Four portable study evidence sets, with the interrupted sensitivity attempt archived separately | External review; unsigned consistency does not establish authenticity or model reliability |
 
 The broad complete-suite record remains 850 passing tests. The archive-release focused
-run passed 318 tests; the subsequent adapter/provider-accounting focused run passed 266.
+run passed 318 tests; the subsequent metered controller/provider-accounting run passed 300.
 These cover different subsets, not a new full run; see [validation history](VALIDATION.md).
 Test counts are software-validation evidence.
 They are not independent task samples or a reliability denominator.
@@ -158,8 +158,8 @@ the next offline implementation gates; no billable trial or reviewer contact is 
 of this handoff.
 The [strict boundary/request ledger](METERED_REFLECTION_BOUNDARY.md) now implements
 the first offline stage. The [injected adapter](METERED_REFLECTION_PROVIDER.md) is now
-tested with fake transports; metered engine/report, trace integration and live execution
-remain pending.
+tested with fake transports. The separate [metered controller/report and replay](METERED_REFLECTION_AGENT.md)
+now provide offline integration; evidence workflow and live execution remain pending.
 
 External review, metered LLM reflection, stochastic sample-size/analysis design and any
 paid execution remain separate pending work. This updated packet authorizes none of them.

@@ -328,6 +328,10 @@ Completed injected metered adapter: observation-only structured decisions, one c
 dispatch boundary, exactly-once failure reclassification, sanitized diagnostics and
 unknown/overshoot/late-response gates, tested only with fake transports.
 
-Next research increment: implement a separate metered controller/report and offline trace
-reconciler with fake-transport integration tests, preserving historical mock contracts.
+Completed separate metered controller/report and offline replay: native request/usage
+accounting plus existing phase/claim/retry reconciliation, fake-transport integration and
+corruption checks. Historical mock contracts remain unchanged.
+
+Next research increment: add a bounded fake-transport evidence smoke workflow exporting
+native reports/traces and independently replaying them before any live runner or study.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

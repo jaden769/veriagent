@@ -135,7 +135,17 @@ class MeteredReflectionProvider:
                 timeout=ticket.timeout_seconds,
             )
         except BaseException as exc:
-            self.ledger.fail(ticket)
+            self.ledger.fail(
+                ticket,
+                ModelUsage(
+                    provider="openai",
+                    model=None,
+                    calls=1,
+                    input_tokens=None,
+                    output_tokens=None,
+                    estimated_cost_usd=None,
+                ),
+            )
             self.diagnostic = self._diagnostic(exc)
             if not isinstance(exc, Exception):
                 raise
@@ -200,7 +210,17 @@ class MeteredReflectionProvider:
         except BaseException:
             # A cancellation while reading response fields must not leave work pending.
             try:
-                self.ledger.fail(ticket)
+                self.ledger.fail(
+                    ticket,
+                    ModelUsage(
+                        provider="openai",
+                        model=None,
+                        calls=1,
+                        input_tokens=None,
+                        output_tokens=None,
+                        estimated_cost_usd=None,
+                    ),
+                )
             except ValueError:
                 pass  # Already settled; never record a second request.
             raise

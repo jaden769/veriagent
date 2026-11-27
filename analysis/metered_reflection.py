@@ -200,6 +200,15 @@ class MeteredRequestLedger:
             self._stop_reason = "provider_failure"
 
     @property
+    def last_dispatch(self):
+        if self._last_settled is None:
+            return None
+        return dict(
+            timeout_seconds=self._last_settled.timeout_seconds,
+            output_allowance=self._last_settled.output_allowance,
+        )
+
+    @property
     def usage(self):
         return strict_model(ModelUsage, self._usage)
 

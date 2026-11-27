@@ -1848,3 +1848,31 @@ baseline changed. No paid calls or browser suite rerun occurred. A supplied tran
 must itself obey no-retry/timeout requirements; injection is not a network sandbox.
 Separate metered controller/report, saved-trace integration and live-study gates remain
 pending. The earlier 318-test archive release covers a different subset.
+
+### Separate metered controller/report and offline trace replay — 2026-11-27
+
+Implemented a distinct injected metered controller and native report, preserving the
+mock engine's exact-type gate and zero-usage report. Added per-decision before/after
+accounting events, dispatch allowances and sanitized diagnostics. Native request/usage
+balances, failure mapping and pending-work rejection remain separate from final SQL
+truth. Cancellation retains accounting in an incomplete trace without fabricating a report.
+
+The offline reconciler replays strict limits, attempts, usage, prices, failures and stops,
+then checks phases/claims/retry guards through a detached projection into the existing
+phase checker. Native budget/permission mapping is validated separately; projected zero
+usage is not a metered result. Supports sequential store reuse with positive starting
+sequence numbers. Invalid frames receive bounded generic errors; token types are checked
+before price arithmetic. No provider, tool or oracle is executed during replay.
+
+300 focused tests passed, including 33 new controller/report/replay integration and
+corruption cases plus an unavailable-served-model regression. Covered clean/drop/
+persistent/transient behavior, request denial, transport/unknown/permission failures,
+reused runs, optimistic false claims, overshoot, late replies, non-idempotent replay,
+cancellation, malformed snapshots and priced usage. Existing adapter/boundary/budget,
+mock reflection/trace and provider/diagnostic regressions passed in the same run.
+
+Ruff, formatting, links, contract baseline and historical execution bindings and diff
+checks passed. No product/frozen execution source, historical plan/lock/result/archive
+or baseline contract record changed. No paid calls or browser suite rerun occurred.
+Usage is fixture-reported, not measured billing. A bounded offline evidence workflow,
+live configuration/study design and external review remain pending.

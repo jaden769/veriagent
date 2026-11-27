@@ -86,6 +86,8 @@ class MeteredRequestLedger:
         self._known_cost = 0.0
         self._stop_reason = None
         self._provider_failed = False
+        self._last_settled = None
+        self._last_failed = False
         self._usage = ModelUsage(provider="openai", model=self.model)
 
     def begin_decision(self):
@@ -143,6 +145,25 @@ class MeteredRequestLedger:
             ticket, self._unknown_usage() if usage is None else usage, provider_failed=True
         )
 
+    def mark_provider_failure(self, ticket):
+        if (
+            self._last_settled is None
+            or self._pending is not None
+            or ticket is not self._last_settled
+            or self._last_failed
+        ):
+            raise ValueError("Require the latest settled, unclassified dispatch")
+        self._last_failed = True
+        self._failed += 1
+        self._provider_failed = True
+        if self._stop_reason is None:
+            self._stop_reason = "provider_failure"
+
+    def stop(self, reason):
+        if reason not in {"shared_budget_exhausted", "response_deadline_exhausted"}:
+            raise ValueError("Unknown caller stop reason")
+        self._halt(reason)
+
     def _settle(self, ticket, usage, *, provider_failed):
         self._check(ticket)
         current = strict_model(ModelUsage, usage)
@@ -151,6 +172,8 @@ class MeteredRequestLedger:
         self._ledger.record(current)
         self._usage = current
         self._pending = None
+        self._last_settled = ticket
+        self._last_failed = provider_failed
         self._settled += 1
         self._failed += int(provider_failed)
         self._provider_failed |= provider_failed

@@ -5,7 +5,9 @@ Prepared 2026-11-26. Status: **contract specified, not implemented**. The
 offline gates and baseline source hashes. No provider, report, engine, CLI or live study
 is added by this document. No billable call is authorized or executed here.
 The subsequent [offline boundary and request ledger](METERED_REFLECTION_BOUNDARY.md)
-implement the first stage; the adapter, engine/report and full contract remain pending.
+implement the first stage; the full contract remains pending.
+The subsequent [injected adapter](METERED_REFLECTION_PROVIDER.md) is now tested offline;
+the separate engine/report, trace integration and live-study gates remain pending.
 
 The [fixed-mock findings](RESEARCH_FINDINGS.md) motivate accounting and stopping contracts,
 not a prediction about LLM reflection quality. Current source inspection shows that

@@ -45,6 +45,9 @@ retains accounting stop state without raising a secondary budget error over the 
 provider failure. A known-usage provider failure also latches admission closed. The
 caller remains responsible for handling transport exceptions/cancellation and settling
 the ticket; these primitives execute no transport automatically.
+The injected adapter can now reclassify the latest settled ticket as a provider failure
+exactly once, preserving accounting stops without charging usage twice. Bounded caller
+stop codes also latch shared-cap and after-response deadline termination.
 
 usage is the current decision snapshot. begin_decision clears it before payload work;
 admit also clears it before admission checks. budget_state.usage is cumulative and its
@@ -60,8 +63,9 @@ identity and reset guards, unknown/partial usage, failed requests, output/token/
 overshoot, unknown cost and provider-error precedence. Network socket construction is
 blocked in the primitive smoke check. Existing mock provider/report behavior is retained.
 
-This does not complete the eighteen-gate contract. Next is an injected adapter with fake
-transport tests, including structured decisions, response validity, canary diagnostics,
-after-call deadline checks and exactly-once usage recording on all error paths. A separate
+This does not complete the eighteen-gate contract. The
+[injected adapter](METERED_REFLECTION_PROVIDER.md) now implements the next stage with
+fake-transport tests, structured decisions, response validity, canary diagnostics and
+after-call/usage checks. A separate
 engine/report and saved-trace reconciler follow later. No billable study or live CLI is
 enabled by these types.

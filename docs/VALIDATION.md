@@ -1819,3 +1819,32 @@ run. Ruff, formatting, links, contract baseline and historical execution binding
 diff checks passed. No full browser rerun or paid calls occurred. Existing regression
 fixtures use local mocks/fakes; the metered adapter and remaining contract gates are
 still pending. The archive release's earlier 318-test run has a different scope.
+
+### Injected metered reflection adapter — 2026-11-27
+
+Added a callable-transport adapter with strict observation-only payload, one dispatch
+boundary, shared request/usage ledger, local function schemas/parser and original-task
+authorization. No SDK factory, credential access, tool execution, live CLI or engine
+wiring was added. Instructions and finish descriptions reflect the absence of a trusted
+oracle. Usage is recorded before output validation; missing fields stay null and numeric
+metadata is strict. Caller-supplied prices are required for active estimated-cost limits.
+
+Extended the ledger with exactly-once failure reclassification of the latest settled
+ticket and bounded caller stop reasons. Refusal/incomplete/invalid responses retain their
+primary planning failure over secondary accounting stops without double charging. Valid
+unknown/overshooting accounting and late replies cannot return actions or finish claims.
+Transport and response-processing cancellation settle pending work before propagation.
+Diagnostics drop response excerpts and expose only sanitized allowlisted fields.
+
+266 focused tests passed, including 34 new fake-transport adapter checks and added
+ledger reclassification/stop guards, plus existing boundary, budgeting, mock reflection/
+trace and provider/diagnostic regressions. Covered malformed/multiple/duplicate/unknown
+output, missing/invalid usage, precedence, unauthorized proposals, preflight/late denial,
+error/cancellation charging and HTTP secret canaries. Ruff, formatting, links, contract
+baseline and historical execution bindings and diff checks passed.
+
+No product/frozen execution source, historical plan/lock/result/archive or contract
+baseline changed. No paid calls or browser suite rerun occurred. A supplied transport
+must itself obey no-retry/timeout requirements; injection is not a network sandbox.
+Separate metered controller/report, saved-trace integration and live-study gates remain
+pending. The earlier 318-test archive release covers a different subset.

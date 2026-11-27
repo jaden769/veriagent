@@ -318,3 +318,34 @@ def test_nested_payload_rejection(mutation):
         raw["state"]["feedback"] = [item] * 17
     with pytest.raises(ValidationError):
         ReflectionInput(**raw)
+
+
+def test_reclassifying_settlement_does_not_charge_twice():
+    ledger = MeteredRequestLedger(limits(), "fixture-model")
+    with pytest.raises(ValueError):
+        ledger.mark_provider_failure(None)
+    ticket = ledger.admit(remaining_seconds=1)
+    with pytest.raises(ModelBudgetExceeded):
+        ledger.complete(ticket, usage(input_tokens=None))
+    ledger.mark_provider_failure(ticket)
+    assert (
+        ledger.state["request_attempts"]
+        == ledger.state["settled_requests"]
+        == ledger.state["failed_requests"]
+        == 1
+    )
+    assert ledger.budget_state.usage.calls == 1
+    with pytest.raises(ValueError):
+        ledger.mark_provider_failure(ticket)
+    ledger.begin_run()
+    with pytest.raises(ValueError):
+        ledger.mark_provider_failure(ticket)
+
+
+def test_caller_stop_reasons_are_bounded():
+    ledger = MeteredRequestLedger(limits(), "fixture-model")
+    with pytest.raises(ValueError):
+        ledger.stop("private-canary")
+    assert ledger.state["stop_reason"] is None
+    with pytest.raises(ModelBudgetExceeded, match="shared_budget_exhausted"):
+        ledger.stop("shared_budget_exhausted")

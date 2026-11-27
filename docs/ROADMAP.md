@@ -324,6 +324,10 @@ Completed offline metered boundary/request primitives: strict observation-only p
 explicit limits, sequential charged tickets, nullable unknown/partial usage and preserved
 provider-failure precedence. No transport or engine was added.
 
-Next research increment: implement an injected metered adapter with fake-transport tests,
-structured decisions, sanitized diagnostics and after-call/usage failure gates.
+Completed injected metered adapter: observation-only structured decisions, one charged
+dispatch boundary, exactly-once failure reclassification, sanitized diagnostics and
+unknown/overshoot/late-response gates, tested only with fake transports.
+
+Next research increment: implement a separate metered controller/report and offline trace
+reconciler with fake-transport integration tests, preserving historical mock contracts.
 Benchmark external review and optional stochastic comparisons remain separate pending work.

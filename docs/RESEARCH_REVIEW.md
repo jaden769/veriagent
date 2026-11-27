@@ -21,9 +21,10 @@ and unassigned external-review priorities.
 | Metrics | Pinned assigned denominators; independent SQL outcomes separate from claims and exposure | Stochastic estimand, analysis plan and dependence assumptions for any live study |
 | Transfer/review | Four portable study evidence sets, with the interrupted sensitivity attempt archived separately | External review; unsigned consistency does not establish authenticity or model reliability |
 
-The latest broad complete-suite record is 850 passing tests; the latest focused evidence
-regression run passed 318 tests. Subsequent additions were checked with focused suites,
-not a new full run; see [validation history](VALIDATION.md). Test counts are software-validation evidence.
+The broad complete-suite record remains 850 passing tests. The archive-release focused
+run passed 318 tests; the subsequent boundary/provider-accounting focused run passed 230.
+These cover different subsets, not a new full run; see [validation history](VALIDATION.md).
+Test counts are software-validation evidence.
 They are not independent task samples or a reliability denominator.
 
 ## Recorded studies and evidence routes
@@ -155,6 +156,9 @@ The [consolidated handoff](RESEARCH_FINDINGS.md) now captures these findings and
 priorities. The [metered provider contract](METERED_REFLECTION_CONTRACT.md) now specifies
 the next offline implementation gates; no billable trial or reviewer contact is part
 of this handoff.
+The [strict boundary/request ledger](METERED_REFLECTION_BOUNDARY.md) now implements
+the first offline stage. Injected transport, metered engine/report and live execution
+remain pending.
 
 External review, metered LLM reflection, stochastic sample-size/analysis design and any
 paid execution remain separate pending work. This updated packet authorizes none of them.

@@ -1796,3 +1796,26 @@ not rerun. No client, provider, tool/oracle, browser or paid call was constructe
 No live model, default fallback, new CLI or study was selected. Implementation begins with
 strict boundary/request-accounting types and fake-transport tests; metered adapter,
 engine/replay, live design and external review remain pending.
+
+### Strict offline metered boundary and dispatch accounting — 2026-11-27
+
+Added experiment-only ReflectionInput, MeteredRequestLimits and MeteredRequestLedger in
+analysis/metered_reflection.py. Strict nested JSON validation rejects private extras,
+coercible counters/feedback/limits and shared-cap inconsistencies. Payload/state snapshots
+are detached. The sequential ledger charges dispatch-boundary attempts, rejects pending/
+foreign/stale ticket misuse and prevents reset before settlement. Known partial work is
+retained while unknown usage stays null; failed requests are not refunded.
+
+Response settlement checks per-request output and cumulative observed usage after charging.
+Unknown tokens, active-limit unknown cost and overshoot close admission. Fail preserves
+secondary accounting state without raising its budget error over a provider failure.
+No transport, adapter, engine/report or live CLI was added; historical execution code,
+plans, locks, result records and archives remain unchanged.
+
+230 focused tests passed, including 62 new strict payload/limit, dispatch/ticket/reset,
+unknown/partial usage, quota/output/token/cost, error-precedence and no-network checks.
+Existing budgeting, provider/diagnostic and reflection/trace regressions passed in that
+run. Ruff, formatting, links, contract baseline and historical execution bindings and
+diff checks passed. No full browser rerun or paid calls occurred. Existing regression
+fixtures use local mocks/fakes; the metered adapter and remaining contract gates are
+still pending. The archive release's earlier 318-test run has a different scope.

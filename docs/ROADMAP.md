@@ -320,6 +320,10 @@ Completed prospective metered reflection contract: observation-only boundary, se
 native report, shared attempt/usage accounting, failure/unknown/overshoot semantics and
 eighteen offline gates. No provider or paid trial was implemented.
 
-Next research increment: implement strict metered boundary and request-accounting types
-with offline tests before adapter, engine, live wiring or billable execution.
+Completed offline metered boundary/request primitives: strict observation-only payload,
+explicit limits, sequential charged tickets, nullable unknown/partial usage and preserved
+provider-failure precedence. No transport or engine was added.
+
+Next research increment: implement an injected metered adapter with fake-transport tests,
+structured decisions, sanitized diagnostics and after-call/usage failure gates.
 Benchmark external review and optional stochastic comparisons remain separate pending work.
